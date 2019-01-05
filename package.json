@@ -1,0 +1,12 @@
+{
+	"name": "zneixbot",
+	"version": "1.0.0",
+	"desc": "poland can't into space",
+	"main": "bot.js",
+	"autor": "zneix#6284",
+	"dependencies": {
+		"discord.js": "^11.4.2",
+		"ffmpeg-binaries": "^4.0.0",
+		"opusscript": "0.0.6"
+	}
+}
