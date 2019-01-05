@@ -84,14 +84,6 @@ bot.on('message', message => {
 	const amountGuilds = bot.guilds.size;
 	const amountUsers = bot.users.size;
 	const meslow = message.content.toLowerCase();
-	const GuildIntel = [
-		`Server name: ${message.guild.name}`,
-		`Server Owner: ${message.guild.ownerID}`,
-		`Server created at: ${message.guild.createdAt}`,
-		`Server icon: ${message.guild.iconURL}`,
-		`\`Members:${message.guild.memberCount}\``
-	];
-	const GuildUsers = [];
 	const serverIcon = message.guild.iconURL;
 
 	//listening 'n logging all messages
@@ -99,13 +91,7 @@ bot.on('message', message => {
 		console.log(`[${message.author.username}||***//${message.channel.id}]`+message.content
 		);}
 	//sending logs to 'logs' channel
-	/*
-	if (message.channel.id !== `510515460022992904`) {
-		bot.channels.get(`510515460022992904`).send(
-		`${message.author.username}||${message.guild.name}`
-		+`\n${message.content}`
-		);}
-	*/
+
 	if (!meslow.startsWith(prefix) || message.author.bot) return; //exit early if message don't start with pref or it's from a bot
 	const args = meslow.slice(prefix.length).split(/ +/); //spliting arguments into args[x]
 	const command = args.shift(); //shifting arguments to lowercase
