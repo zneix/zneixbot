@@ -67,7 +67,7 @@ bot.once('ready', () => {
 				// +`\n==================================`
 				// +`\n\nLogged on: ${datetime}`
 				);
-	bot.user.setPresence({ status: 'dnd', game: { name: 'zb help', url: 'https://www.twitch.tv/agis', type: 1 } });
+	bot.user.setPresence({ status: 'dnd', game: { name: '${prefix}help', url: 'https://www.twitch.tv/agis', type: 1 } });
 });
 
 //declarations
