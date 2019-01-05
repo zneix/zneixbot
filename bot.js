@@ -5,7 +5,7 @@ const bot = new discord.Client();
 
 bot.commands = new discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-bot.login(token);
+bot.login(process.env.token);
 
 //one-time console logger
 bot.once('ready', () => {
