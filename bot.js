@@ -62,6 +62,7 @@ bot.once('ready', () => {
 				}
 			bot.channels.get(`510515460022992904`).send(
 				{embed:loginEmbed}
+				);
 	bot.user.setPresence({ status: 'dnd', game: { name: `${prefix}help`, url: 'https://www.twitch.tv/agis', type: 1 } });
 });
 
