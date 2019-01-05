@@ -62,11 +62,6 @@ bot.once('ready', () => {
 				}
 			bot.channels.get(`510515460022992904`).send(
 				{embed:loginEmbed}
-				// `Connected, logged as ${bot.user.tag}`
-				// +`\nClient servers (${serverList.length}):${serverList}`
-				// +`\n==================================`
-				// +`\n\nLogged on: ${datetime}`
-				);
 	bot.user.setPresence({ status: 'dnd', game: { name: `${prefix}help`, url: 'https://www.twitch.tv/agis', type: 1 } });
 });
 
@@ -84,7 +79,7 @@ bot.on('message', message => {
 	const amountGuilds = bot.guilds.size;
 	const amountUsers = bot.users.size;
 	const meslow = message.content.toLowerCase();
-	const serverIcon = message.guild.iconURL;
+	//const serverIcon = message.guild.iconURL;
 
 	//listening 'n logging all messages
 	if (message.channel.id !== `510515460022992904`) {
