@@ -3,7 +3,7 @@ const discord = require('discord.js');
 const {prefix, botver, logsLogin, logsMsg} = require('./config.json');
 // const {prefix, botver, logsLogin, logsMsg, token} = require('./config-beta.json');
 const bot = new discord.Client();
-bot.login(token);
+bot.login(process.env.token);
 
 bot.commands = new discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
