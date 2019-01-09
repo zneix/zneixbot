@@ -11,9 +11,9 @@ module.exports = {
 					name: `Userinfo`,
 					// iconURL: message.author.avatarURL //(duplicated code)
 					},
-				title: `Your Profile`,
-				url: `https://discordapp.com/users/${message.author.id}`,
-				description: `desc`,
+				// title: `Your Profile`,
+				// url: `https://discordapp.com/users/${message.author.id}`,
+				// description: `desc`,
 				thumbnail: {
 					url: message.author.avatarURL
 				},
@@ -54,9 +54,9 @@ module.exports = {
 						name: `Userinfo`,
 						// iconURL: validUID.avatarURL //(duplicated code)
 						},
-					title: `Their profile`,
-					url: `https://discordapp.com/users/${validUID.id}`,
-					description: `desc`,
+					// title: `Their profile`,
+					// url: `https://discordapp.com/users/${validUID.id}`,
+					// description: `desc`,
 					thumbnail: {
 						url: validUID.avatarURL
 					},
@@ -92,9 +92,9 @@ module.exports = {
 					name: `Userinfo`,
 					// iconURL: taggedUser.avatarURL //(duplicated code)
 					},
-				title: `Their profile`,
-				url: `https://discordapp.com/users/${taggedUser.id}`,
-				description: `desc`,
+				// title: `Their profile`,
+				// url: `https://discordapp.com/users/${taggedUser.id}`,
+				// description: `desc`,
 				thumbnail: {
 					url: taggedUser.avatarURL
 				},

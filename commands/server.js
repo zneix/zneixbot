@@ -1,10 +1,9 @@
 module.exports = {
     name: `server`,
     description: `prints info about current server`,
-    execute(message, bot, GuildIntel, serverIcon, GuildUsers) {
+    execute(message, bot, serverIcon, GuildUsers) {
 		const list = bot.guilds.get(message.guild.id);
 		list.members.forEach(member => { GuildUsers.push(`${member.user.username}\n`) });
-    // message.channel.send(GuildIntel); //first form of non-embed message
         asembed = {
             color: 8584977,
 		author: {
@@ -35,7 +34,12 @@ module.exports = {
                     value: GuildUsers.length,
                     inline: true
                 }
-		    ],
+            ],
+            timestamp: new Date(),
+            footer: {
+                icon_url: bot.user.avatarURL,
+                text: `zneixbot by zneix#4433`
+            }
         }
 	message.channel.send({embed:asembed});
 	// message.channel.send(GuildUsers);
