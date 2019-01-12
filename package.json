@@ -1,6 +1,10 @@
 {
 	"name": "zneixbot",
 	"version": "0.5.2",
+	"engines": {
+    		"node": "v10.13.0",
+    		"npm": "6.5.0"
+  	},
 	"desc": "poland can't into space",
 	"main": "bot.js",
 	"autor": "zneix#6284",
