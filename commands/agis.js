@@ -6,7 +6,7 @@ module.exports = {
 			message.member.voiceChannel.join()
 			.then(connection => {
 				console.log(`playing agis!`);
-				const dispatcher = connection.playFile('D:/zneixbot/media/agis.mp3');
+				const dispatcher = connection.playFile('./media/agis.mp3');
 				message.channel.send('Playing agis!');
 			dispatcher.on('end', () => {
 			  // The song has finished
@@ -20,6 +20,6 @@ module.exports = {
 		.catch(console.error);
 		} else {
 			message.channel.send(`Join voice channel first **( ͡° ͜ʖ ͡°)**`);
-		}
+			}
     },
 }
