@@ -6,7 +6,7 @@ module.exports = {
 			message.member.voiceChannel.join()
 			.then(connection => {
 				console.log(`playing inaczej!`);
-				const dispatcher = connection.playFile('D:/zneixbot/media/intermajor.mp3');
+				const dispatcher = connection.playFile('./media/intermajor.mp3');
 				message.channel.send('Inaczej?');
 			dispatcher.on('end', () => {
 			  // The song has finished
