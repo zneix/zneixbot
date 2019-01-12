@@ -18,12 +18,12 @@ bot.once('ready', () => {
 		+`\nClient servers (${serverList.length}):${serverList}`
 		+`\n==================================`);
 			//logsLogin channel embed
-			var currentdate = new Date(); 
+			var currentdate = new Date();
 			var datetime = "" + currentdate.getDate() + "/"
-                + (currentdate.getMonth()+1)  + "/" 
-                + currentdate.getFullYear() + " @ "  
-                + currentdate.getHours() + ":"  
-                + currentdate.getMinutes() + ":" 
+                + (currentdate.getMonth()+1)  + "/"
+                + currentdate.getFullYear() + " @ "
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes() + ":"
 				+ currentdate.getSeconds();
 				const loginEmbed = {
 					color: 0x11ff11,
@@ -61,7 +61,7 @@ bot.once('ready', () => {
 						text: `zneixbot by zneix#4433`
 					}
 				}
-			bot.channels.get(logsLogin).send({embed:loginEmbed});
+	bot.channels.get(logsLogin).send({embed:loginEmbed});
 	bot.user.setPresence({ status: 'dnd', game: { name: `${prefix}help, ver: ${botver}`, url: 'https://www.twitch.tv/agis', type: 1 } });
 });
 
@@ -71,8 +71,8 @@ for (const file of commandFiles) {
 	bot.commands.set(command.name, command);
 }
 
-bot.on('message', async message => {
-	//zb server statements
+bot.on('message', message => {
+	//command server statements
 	const serverIcon = message.guild.iconURL;
 	const amountGuilds = bot.guilds.size;
 	const amountUsers = bot.users.size;
@@ -85,12 +85,23 @@ bot.on('message', async message => {
 		console.log(`[${message.author.username}||${message.channel.name}(${message.channel.id})]`+message.content
 		);}
 	//sending logs to 'logsMsg' channel
-	if (message.content.startsWith(prefix)) {
-		const msgCommandEmbed = {
-
-		}; bot.channels.get(logsMsg).send(msgCommandEmbed);
-	}
+	// if (message.content.startsWith(prefix)) {
+		// const msgCommandEmbed = {
+		// 	color: 0x000000,
+		// 	author: {name: `Recived a command`},
+		// 	thumbnail: {url: message.author.avatarURL},
+		// 	fields: [
+		// 		{
+		// 			name: `Name`,
+		// 			value: `${command}`
+		// 		}
+		// 	]
+		// };
+		// bot.channels.get(logsMsg).send(msgCommandEmbed);
+	// } 
 	if (message.channel.id !== logsLogin && message.channel.id !== logsMsg) {
+		if (!message.content) var msgContent = "'null message'"
+		else var msgContent = message.content
 		const msgDefaultEmbed = {
 			color: 0x6441A4,
 			author: {name: `${message.author.username} sent a message`},
@@ -101,11 +112,11 @@ bot.on('message', async message => {
 					value: `Server:\`${message.guild.name}\`\nChannel:\`${message.channel.name}\``,
 					inline: true
 				},
-				{
-					name: `Type`,
-					value: message.type,
-					inline: true
-				},
+				// {
+				// 	name: `Type`,
+				// 	value: message.type,
+				// 	inline: true
+				// },
 				{
 					name: `Sent At`,
 					value: message.createdAt,
@@ -117,11 +128,6 @@ bot.on('message', async message => {
 					inline: true
 				},
 				{
-					name: `TTS'ed?`,
-					value: message.tts,
-					inline: true
-				},
-				{
 					name: `URL to the message`,
 					value: message.url,
 					inline: true
@@ -130,12 +136,11 @@ bot.on('message', async message => {
 					name: `ID`,
 					value: message.id,
 					inline: true					
-				},
-				{
-					name: `Message content`,
-					value: message.content,
-					inline: false
 				}
+				// ,{
+				// 	name: `Message content`,
+				// 	value: msgContent
+				// }
 			],
 			timestamp: new Date(),
 			footer: {
@@ -179,8 +184,19 @@ bot.on('message', async message => {
 			}
 			message.channel.send(`First argument: ${args[0]}`);
 	}
-	// else if (command === `parent`) {
-	// 	message.channel.send(`my parent is '${message.channel.parentID}'`);
+	// else if (command === `base`) {
+	// 	if (!args.length) {
+	// 		return message.channel.send(`You have to specify an argument, ${message.author}!`);
+	// 	} else {
+	// 		const content = "boi!";
+	// 		fs.writeFile(`.thingy.txt`, content, (err) => {
+	// 			if (err) {
+	// 				console.error(err);
+	// 				return;
+	// 			};
+	// 			console.log(`created text file!`);
+	// 		});
+	// 	}
 	// }
 
 	// const swearWords = ["Dlaczego po polsku?", "Kiedy kamerka?", "go MC", "sr", "Nigger", "Celled"];
