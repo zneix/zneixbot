@@ -1,7 +1,7 @@
 module.exports = {
     name: 'stats',
     description: `provides bunch of info about the bot-user`,
-    execute(message, ferfg, amountGuilds, amountUsers, botver) {
+    execute(message, amountGuilds, amountUsers, botver) {
         // const amountGuilds = bot.guilds.size;
         // const amountUsers = bot.users.size;
         message.channel.send(

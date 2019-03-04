@@ -1,7 +1,7 @@
 module.exports = {
     name: `user`,
     description: `displays various information about user's account`,
-    execute(message, args, bot, _users) {
+    execute(message, args, bot) {
         const taggedUser = message.mentions.users.first();
 		var taggedID = 5;
 		if (!args.length) {
