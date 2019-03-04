@@ -4,206 +4,42 @@ const {prefix, botver, logsLogin, logsMsg} = require('./config.json');
 // const {prefix, botver, logsLogin, logsMsg, token} = require('./config-beta.json');
 const bot = new discord.Client();
 bot.login(process.env.token);
-
 bot.commands = new discord.Collection();
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-
-//one-time console logger
-bot.once('ready', () => {
-	let serverList = [];
+bot.orders = new discord.Collection();
+const commandFiles = fs.readdirSync('./commands').filter(cfile => cfile.endsWith('.js'));
+for (const cfile of commandFiles) {
+	const command = require(`./commands/${cfile}`);
+	bot.commands.set(command.name, command);}
+const orderFiles = fs.readdirSync('./orders').filter(ofile => ofile.endsWith('.js'));
+for (const ofile of orderFiles) { //orders handler
+	const order = require(`./orders/${ofile}`);
+	bot.orders.set(order.name, order);}
+bot.once('ready', () => { //one-time console logger
 	const botServers = bot.guilds;
-	botServers.forEach(guild => { serverList.push(`\n${guild.name} #${guild.id}`) });
-	console.log(
-		`Connected, logged as ${bot.user.tag}`
-		+`\nClient servers (${serverList.length}):${serverList}`
-		+`\n==================================`);
-			//logsLogin channel embed
-			var currentdate = new Date();
-			var datetime = "" + currentdate.getDate() + "/"
-                + (currentdate.getMonth()+1)  + "/"
-                + currentdate.getFullYear() + " @ "
-                + currentdate.getHours() + ":"
-                + currentdate.getMinutes() + ":"
-				+ currentdate.getSeconds();
-				const loginEmbed = {
-					color: 0x11ff11,
-					author: {
-						name: `Client logged in`
-					},
-					title: `Logged in as: ${bot.user.tag}`,
-					description: `info message`,
-					// thumbnail: {none},
-					fields: [
-						{
-							name: `Time logged in`,
-							value: `${datetime}`,
-							inline: true
-						},
-						{
-							name: `User count`,
-							value: bot.users.size,
-							inline: true
-						},
-						{
-							name: `Channel count`,
-							value: bot.channels.size,
-							inline: true
-						},
-						{
-							name: `Client servers (${serverList.length})`,
-							value: `${serverList}`,
-							inline: false
-						}
-					],
-					timestamp: new Date(),
-					footer: {
-						icon_url: bot.user.avatarURL,
-						text: `zneixbot by zneix#4433`
-					}
-				}
-	bot.channels.get(logsLogin).send({embed:loginEmbed});
-	bot.user.setPresence({ status: 'dnd', game: { name: `${prefix}help, ver: ${botver}`, url: 'https://www.twitch.tv/agis', type: 1 } });
-});
-
-//command handler
-for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
-	bot.commands.set(command.name, command);
-}
-
+	bot.orders.get(`login`).execute(bot, prefix, botver, botServers, logsLogin);});
 bot.on('message', message => {
-	//command server statements
+	const messAuthor = message.author.id;
 	const serverIcon = message.guild.iconURL;
-	const amountGuilds = bot.guilds.size;
-	const amountUsers = bot.users.size;
-	const GuildUsers = [];
-
-	//listening 'n logging all messages
-	const messType = message.type;
-	// if (messType === '')
-	if (message.channel.id !== logsLogin && message.channel.id !== logsMsg) {
-		console.log(`[${message.author.username}||${message.channel.name}(${message.channel.id})]`+message.content
-		);}
-	//sending logs to 'logsMsg' channel
-	// if (message.content.startsWith(prefix)) {
-		// const msgCommandEmbed = {
-		// 	color: 0x000000,
-		// 	author: {name: `Recived a command`},
-		// 	thumbnail: {url: message.author.avatarURL},
-		// 	fields: [
-		// 		{
-		// 			name: `Name`,
-		// 			value: `${command}`
-		// 		}
-		// 	]
-		// };
-		// bot.channels.get(logsMsg).send(msgCommandEmbed);
-	// } 
-	if (message.channel.id !== logsLogin && message.channel.id !== logsMsg) {
-		if (!message.content) var msgContent = "'null message'"
-		else var msgContent = message.content
-		const msgDefaultEmbed = {
-			color: 0x6441A4,
-			author: {name: `${message.author.username} sent a message`},
-			thumbnail: {url: message.author.avatarURL},
-			fields: [
-				{
-					name: `Location`,
-					value: `Server:\`${message.guild.name}\`\nChannel:\`${message.channel.name}\``,
-					inline: true
-				},
-				// {
-				// 	name: `Type`,
-				// 	value: message.type,
-				// 	inline: true
-				// },
-				{
-					name: `Sent At`,
-					value: message.createdAt,
-					inline: true
-				},
-				{
-					name: `Timestamp`,
-					value: message.createdTimestamp,
-					inline: true
-				},
-				{
-					name: `URL to the message`,
-					value: message.url,
-					inline: true
-				},
-				{
-					name: `ID`,
-					value: message.id,
-					inline: true					
-				}
-				// ,{
-				// 	name: `Message content`,
-				// 	value: msgContent
-				// }
-			],
-			timestamp: new Date(),
-			footer: {
-				icon_url: bot.user.avatarURL,
-				text: `zneixbot by zneix#4433`
-			}
-		}; bot.channels.get(logsMsg).send({embed:msgDefaultEmbed});
-		// bot.channels.get(logsMsg).send(
-		// `${message.author.username}||${message.guild.name}`
-		// +`\n${message.content}`
-		// );
-	}
-	
+	bot.orders.get(`msglog`).execute(message, bot, logsLogin, messAuthor, logsMsg);
 	const meslow = message.content.toLowerCase(); //shifting to lowercase
 	if (!meslow.startsWith(prefix)) return; //exit early if message don't start with pref or it's from a bot
 	if (message.author.bot) return; //exit early if message don't start with pref or it's from a bot
 	const args = meslow.slice(prefix.length).split(/ +/); //spliting arguments into args[x]
 	const command = args.shift(); //shifting arguments to lowercase
-	//content
-	if (command === `agis`) {bot.commands.get('agis').execute(message, args);}
-	else if (command === `help`) {bot.commands.get(`help`).execute(message, args);}
-	else if (command === `inaczej`) {bot.commands.get(`inaczej`).execute(message, args);}
-	else if (command === `leave`) {bot.commands.get(`leave`).execute(message, args);}
-	else if (command === `lenny`) {bot.commands.get(`lenny`).execute(message, args);}
-	else if (command === `nsfw`) {bot.commands.get(`nsfw`).execute(message, args);}
-	else if (command === `ping`) {bot.commands.get(`ping`).execute(message, args);}
-	else if (command === `server`) {bot.commands.get(`server`).execute(message, bot, serverIcon, GuildUsers);}
-	else if (command === `summon`) {bot.commands.get(`summon`).execute(message, args);}
-	else if (command === `tagme`) {bot.commands.get('tagme').execute(message, args);}
-	else if (command === `user`) {bot.commands.get(`user`).execute(message, args, bot);}
-	else if (command === `up`) {bot.commands.get(`up`).execute(message);}
-	else if (command === `stats`) {bot.commands.get(`stats`).execute(message, bot, amountGuilds, amountUsers, botver);}
-	else if (command === `vck`) {bot.commands.get(`vck`).execute(message);}
-
-	//argument test
-	else if (command === `args`) {
-		if (!args.length) {
-			return message.channel.send(`You didn't provide any arguments, ${message.author}!`);
-		} else if (args[0] === `play`) {
-			return message.channel.send(`played :ok_hand:`);
-			}
-			message.channel.send(`First argument: ${args[0]}`);
-	}
-	// else if (command === `base`) {
-	// 	if (!args.length) {
-	// 		return message.channel.send(`You have to specify an argument, ${message.author}!`);
-	// 	} else {
-	// 		const content = "boi!";
-	// 		fs.writeFile(`.thingy.txt`, content, (err) => {
-	// 			if (err) {
-	// 				console.error(err);
-	// 				return;
-	// 			};
-	// 			console.log(`created text file!`);
-	// 		});
-	// 	}
-	// }
-
-	// const swearWords = ["Dlaczego po polsku?", "Kiedy kamerka?", "go MC", "sr", "Nigger", "Celled"];
-	// if(swearWords.some(word => message.content.includes(word))) {
-	// message.reply(` Twoja mama, zamknij jape pajacu`);
-	// // or just message.delete();
-	// }
-
-	//eof
+	const amountGuilds = bot.guilds.size;
+	const amountUsers = bot.users.size;
+	if(!bot.commands.has(command)) return;
+	try {bot.commands.get(command).execute(message, amountGuilds, amountUsers, botver, args, bot, prefix, serverIcon, fs);}
+	catch (error) {console.error(error);message.channel.send(`An error occured!`);}});
+bot.on('guildMemberAdd', whojoined => {
+	bot.channels.get(logsMsg).send(`${whojoined} joined the chat ;D`);
+});
+bot.on('guildMemberRemove', wholeft => {
+	bot.channels.get(logsMsg).send(`${wholeft} fucking left D:`);
+});
+bot.on('guildMemberUpdate', whoupdated => {
+	console.log(`${whoupdated.user.tag} got an update ;v`);
+});
+bot.on('guildBanAdd', whobanned => {
+	bot.channels.get(logsMsg).send(`${whobanned} got a hit with banhammer :slight_smile:`);
 });

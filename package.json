@@ -1,13 +1,13 @@
 {
 	"name": "zneixbot",
-	"version": "0.5.2",
+	"version": "0.6.0-beta4",
 	"engines": {
-    		"node": "v10.13.0",
-    		"npm": "6.5.0"
-  	},
+		"node": "v10.13.0",
+		"npm": "6.5.0"
+	},
 	"desc": "poland can't into space",
 	"main": "bot.js",
-	"autor": "zneix#6284",
+	"autor": "zneix#4433 (6284)",
 	"dependencies": {
 		"discord.js": "^11.4.2",
 		"ffmpeg-binaries": "^4.0.0",
