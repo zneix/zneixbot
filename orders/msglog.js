@@ -1,11 +1,11 @@
 module.exports = {
     name: `msglog`,
-    execute(message, bot, messAuthor, logsLogin, logsMsg) {
+    execute(message, bot, config, messAuthorID) {
         //listening 'n logging all messages
-	    if (message.channel.id !== logsLogin && message.channel.id !== logsMsg) {
+	    if (message.channel.id !== config.logsLogin && message.channel.id !== config.logsLogin) {
 		console.log(`[${message.author.username}||${message.channel.name}(${message.channel.id})]`+message.content
 		);}
-        if (message.channel.id !== logsLogin && message.channel.id !== logsMsg) {
+        if (message.channel.id !== config.logsLogin && message.channel.id !== config.logsLogin) {
             // if (message.content.startsWith(prefix)) {
             // const msgCommandEmbed = {
             // 	color: 0x000000,
@@ -18,10 +18,10 @@ module.exports = {
             // 		}
             // 	]
             // };
-            // bot.channels.get(logsMsg).send(msgCommandEmbed);
+            // bot.channels.get(config.logsLogin).send(msgCommandEmbed);
             // }
 
-            if (messAuthor === bot.user.id) {
+            if (messAuthorID === bot.user.id) {
                 const msgClientEmbed = {
                     color: 0x0022ef,
                     author: {name: `I send a message`},
@@ -43,7 +43,7 @@ module.exports = {
                         icon_url: bot.user.avatarURL,
                         text: `zneixbot by zneix#4433`
                     }
-                }; bot.channels.get(logsMsg).send({embed:msgClientEmbed});
+                }; bot.channels.get(config.logsLogin).send({embed:msgClientEmbed});
             } else return null;
 
             // if (!message.content) var msgContent = "'null message'"
@@ -93,13 +93,13 @@ module.exports = {
                     icon_url: bot.user.avatarURL,
                     text: `zneixbot by zneix#4433`
                 }
-            }; bot.channels.get(logsMsg).send({embed:msgDefaultEmbed});
-            // bot.channels.get(logsMsg).send(
+            }; bot.channels.get(config.logsLogin).send({embed:msgDefaultEmbed});
+            // bot.channels.get(config.logsLogin).send(
             // `${message.author.username}||${message.guild.name}`
             // +`\n${message.content}`
             // );
             
-            //sending logs to 'logsMsg' channel
+            //sending logs to 'config.logsLogin' channel
         } else return null;
     },
 }

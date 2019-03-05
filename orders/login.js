@@ -1,7 +1,7 @@
 const serverList = [];
 module.exports = {
     name: `login`,
-    execute(bot, prefix, botver, botServers, logsLogin) {
+    execute(bot, config, botServers) {
         botServers.forEach(guild => { serverList.push(`\n${guild.name} #${guild.id}`) });
         console.log(
             `Connected, logged as ${bot.user.tag}`
@@ -50,7 +50,7 @@ module.exports = {
                     text: `zneixbot by zneix#4433`
                 }
             }
-        bot.channels.get(logsLogin).send({embed:loginEmbed});
-        bot.user.setPresence({ status: 'dnd', game: { name: `${prefix}help, ver: ${botver}`, url: 'https://www.twitch.tv/zneix', type: 1 } });
+        bot.channels.get(config.logsLogin).send({embed:loginEmbed});
+        bot.user.setPresence({ status: 'dnd', game: { name: `${config.prefix}help, ver: ${config.botver}`, url: 'https://www.twitch.tv/zneix', type: 1 } });
     },
 }
