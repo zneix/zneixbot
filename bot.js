@@ -1,6 +1,6 @@
 const fs = require('fs');
-const bot = new discord.Client();
 const discord = require('discord.js');
+const bot = new discord.Client();
 const config = require('./config.json');
 // const config = require('./config-beta.json');
 bot.login(process.env.token);
