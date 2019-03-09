@@ -1,4 +1,4 @@
-const GuildUsers = [];
+var GuildUsers = [];
 module.exports = {
     name: `server`,
     description: `prints info about current server`,
@@ -42,7 +42,8 @@ module.exports = {
                 text: `zneixbot by zneix#4433`
             }
         }
-	message.channel.send({embed:asembed});
+    message.channel.send({embed:asembed});
+    GuildUsers.length = 0;
 	// message.channel.send(GuildUsers);
     }, //execute end
 };
