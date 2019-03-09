@@ -2,8 +2,9 @@ const fs = require('fs');
 const discord = require('discord.js');
 const bot = new discord.Client();
 const config = require('./config.json');
-// const config = require('./config-beta.json');
 bot.login(process.env.token);
+// const config = require('./config-beta.json');
+// bot.login(config.token);
 
 bot.commands = new discord.Collection();
 bot.orders = new discord.Collection();
@@ -34,7 +35,6 @@ bot.on('message', message => {
 	const amountGuilds = bot.guilds.size;
 	const amountUsers = bot.users.size;
 	if(!bot.commands.has(command)) return;
-	// =============================================== MAINTANCE ======================================================
 	// try {bot.commands.get(command).execute(message, amountGuilds, amountUsers, config.botver, args, bot, config.prefix, serverIcon, fs);}
 	if (command === `agis`) {try {bot.commands.get(command).execute(message, bot);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
 	// if (command === `badguy`) {try {bot.commands.get(command).execute(message, args, fs);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
@@ -44,8 +44,9 @@ bot.on('message', message => {
 	if (command === `inaczej`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
 	if (command === `leave`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
 	if (command === `lenny`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
+	if (command === `mpurge`) {try {bot.commands.get(command).execute(message, args, config);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
 	if (command === `nsfw`) {try {bot.commands.get(command).execute(message, args);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
-	if (command === `ping`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
+	if (command === `ping`) {try {bot.commands.get(command).execute(message, bot);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
 	if (command === `server`) {try {bot.commands.get(command).execute(message, bot, serverIcon);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
 	if (command === `stats`) {try {bot.commands.get(command).execute(message, amountGuilds, amountUsers, config);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
 	if (command === `summon`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
@@ -53,7 +54,6 @@ bot.on('message', message => {
 	if (command === `up`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
 	if (command === `user`) {try {bot.commands.get(command).execute(message, args, bot);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
 	if (command === `vck`) {try {bot.commands.get(command).execute(message, bot);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
-	// =============================================== MAINTANCE ======================================================
 });
 bot.on('guildMemberAdd', whojoined => {
 	bot.channels.get(config.logsMsg).send(`'${whojoined}' joined the chat ;D`);
