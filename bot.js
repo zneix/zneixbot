@@ -4,6 +4,7 @@ const bot = new discord.Client();
 const config = require('./config.json');
 bot.login(process.env.token);
 // const config = require('./config-beta.json');
+// bot.login(config.tokenBETA); // ======================================================== CHANGE THE TOKEN ========================================================
 // bot.login(config.token);
 
 bot.commands = new discord.Collection();
@@ -23,8 +24,8 @@ bot.once('ready', () => { //one-time console logger
 	catch (error) {console.error(error);bot.users.get(config.devid).send(`zneixbot failed to log a client logon\`\`\`\n${error}\n\`\`\``);}
 });
 bot.on('message', message => {
+	if (message.channel.type === "dm") return null;
 	const messAuthorID = message.author.id;
-	const serverIcon = message.guild.iconURL;
 	try {bot.orders.get(`msglog`).execute(message, bot, config, messAuthorID);}
 	catch (error) {console.error(error);bot.users.get(config.devid).send(`zneixbot failed to log a message\`\`\`\n${error}\n\`\`\``);}
 	message.content.toLowerCase();
@@ -38,7 +39,7 @@ bot.on('message', message => {
 	// try {bot.commands.get(command).execute(message, amountGuilds, amountUsers, config.botver, args, bot, config.prefix, serverIcon, fs);}
 	if (command === `agis`) {try {bot.commands.get(command).execute(message, bot);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
 	// if (command === `badguy`) {try {bot.commands.get(command).execute(message, args, fs);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
-	if (command === `devtool`) {try {bot.commands.get(command).execute(message, config);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
+	if (command === `devtool`) {try {bot.commands.get(command).execute(message, args, bot, config);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
 	if (command === `fanfik`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
 	// if (command === `help`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
 	if (command === `inaczej`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
@@ -54,6 +55,20 @@ bot.on('message', message => {
 	if (command === `up`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
 	if (command === `user`) {try {bot.commands.get(command).execute(message, args, bot);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
 	if (command === `vck`) {try {bot.commands.get(command).execute(message, bot);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
+	// if (command === `devtool`) {
+	// if (message.author.id != config.devid) return message.channel.send(`This is a developer tool, you're not allowed to use it!`);
+    //     if (!args.length) return message.reply(`You're epic!`);
+    //     else if (args[0] === `66`) {
+    //         bot.guilds.get(smark).members.get(config.devid).addRole(bdayboi);
+    //         message.react('👌');
+    //         return null;
+    //     } else if (args[0] === `99`) {
+    //         bot.guilds.get(smark).members.get(config.devid).addRole(bdayboi);
+    //         message.react('🥚');
+    //         return null;
+    //     } else message.reply(`yes, sir!`);
+	// 	return null;
+	// }
 });
 bot.on('guildMemberAdd', whojoined => {
 	bot.channels.get(config.logsMsg).send(`'${whojoined}' joined the chat ;D`);
