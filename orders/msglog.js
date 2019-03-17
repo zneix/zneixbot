@@ -2,10 +2,14 @@ module.exports = {
     name: `msglog`,
     execute(message, bot, config, messAuthorID) {
         //listening 'n logging all messages
-	    if (message.channel.id !== config.logsLogin && message.channel.id !== config.logsLogin) {
-		console.log(`[${message.author.username}||${message.channel.name}(${message.channel.id})]`+message.content
-		);}
-        if (message.channel.id !== config.logsLogin && message.channel.id !== config.logsLogin) {
+	    if ((message.channel.id != config.logsLogin) && (message.channel.id != config.logsLogin)) {
+            // if (message.channel.type != "dm") console.log(`[${message.author.username}||${message.channel.name}(${message.channel.id})]`+message.content);
+            // else {
+                if (message.author.bot) console.log(`BOT SEND ME A MESSAGE!`);
+                else console.log(`[${message.author.username}||DM(${message.channel.id})]`+message.content);
+            // }
+		}
+        if ((message.channel.id != config.logsLogin) && (message.channel.id != config.logsLogin)) {
             // if (message.content.startsWith(prefix)) {
             // const msgCommandEmbed = {
             // 	color: 0x000000,
@@ -43,7 +47,7 @@ module.exports = {
                         icon_url: bot.user.avatarURL,
                         text: `zneixbot by zneix#4433`
                     }
-                }; bot.channels.get(config.logsLogin).send({embed:msgClientEmbed});
+                }; bot.channels.get(config.logsMsg).send({embed:msgClientEmbed});
             } else return null;
 
             // if (!message.content) var msgContent = "'null message'"
@@ -93,13 +97,13 @@ module.exports = {
                     icon_url: bot.user.avatarURL,
                     text: `zneixbot by zneix#4433`
                 }
-            }; bot.channels.get(config.logsLogin).send({embed:msgDefaultEmbed});
+            }; bot.channels.get(config.logsMsg).send({embed:msgDefaultEmbed});
             // bot.channels.get(config.logsLogin).send(
             // `${message.author.username}||${message.guild.name}`
             // +`\n${message.content}`
             // );
             
-            //sending logs to 'config.logsLogin' channel
+            // sending logs to 'config.logsLogin' channel
         } else return null;
     },
 }
