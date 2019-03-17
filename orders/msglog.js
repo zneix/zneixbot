@@ -3,9 +3,9 @@ module.exports = {
     execute(message, bot, config, messAuthorID) {
         //listening 'n logging all messages
 	    if (message.author.id != bot.user.id) {
-            console.log(`[${message.author.username}||${message.channel.name}(${message.channel.id})(MID:${message.id})]`+message.content);
+            console.log(`[${message.author.username}||${message.guild.name}||${message.channel.name}(CH:${message.channel.id})||(M:${message.id})]`+message.content);
 		}
-        if (message.channel.id != config.logsLogin && message.channel.id != config.logsLogin) {
+        if (message.channel.id != config.logsMsg) {
             // if (message.content.startsWith(prefix)) {
             // const msgCommandEmbed = {
             // 	color: 0x000000,
@@ -20,34 +20,30 @@ module.exports = {
             // };
             // bot.channels.get(config.logsLogin).send(msgCommandEmbed);
             // }
-
-            if (messAuthorID === bot.user.id) {
-                const msgClientEmbed = {
-                    color: 0x0022ef,
-                    author: {name: `I send a message`},
-                    thumbnail: null,
-                    fields: [
-                        {
-                            name: `Location`,
-                            value: `Server:\`${message.guild.name}\`\nChannel:\`${message.channel.name}\``,
-                            inline: true
-                        },
-                        {
-                            name: `ID`,
-                            value: message.id,
-                            inline: true					
-                        }
-                    ],
-                    timestamp: new Date(),
-                    footer: {
-                        icon_url: bot.user.avatarURL,
-                        text: `zneixbot by zneix#4433`
-                    }
-                }; bot.channels.get(config.logsMsg).send({embed:msgClientEmbed});
-            } else return null;
-
-            // if (!message.content) var msgContent = "'null message'"
-            // else var msgContent = message.content
+            // if (messAuthorID === bot.user.id) {
+            //     const msgClientEmbed = {
+            //         color: 0x0022ef,
+            //         author: {name: `I send a message`},
+            //         thumbnail: null,
+            //         fields: [
+            //             {
+            //                 name: `Location`,
+            //                 value: `Server:\`${message.guild.name}\`\nChannel:\`${message.channel.name}\``,
+            //                 inline: true
+            //             },
+            //             {
+            //                 name: `ID`,
+            //                 value: message.id,
+            //                 inline: true					
+            //             }
+            //         ],
+            //         timestamp: new Date(),
+            //         footer: {
+            //             icon_url: bot.user.avatarURL,
+            //             text: `zneixbot by zneix#4433`
+            //         }
+            //     }; bot.channels.get(config.logsMsg).send({embed:msgClientEmbed});
+            // } else return null;
             const msgDefaultEmbed = {
                 color: 0x6441A4,
                 author: {name: `${message.author.username} sent a message`},
