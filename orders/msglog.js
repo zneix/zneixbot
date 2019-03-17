@@ -2,14 +2,10 @@ module.exports = {
     name: `msglog`,
     execute(message, bot, config, messAuthorID) {
         //listening 'n logging all messages
-	    if ((message.channel.id != config.logsLogin) && (message.channel.id != config.logsLogin)) {
-            // if (message.channel.type != "dm") console.log(`[${message.author.username}||${message.channel.name}(${message.channel.id})]`+message.content);
-            // else {
-                if (message.author.bot) console.log(`BOT SEND ME A MESSAGE!`);
-                else console.log(`[${message.author.username}||DM(${message.channel.id})]`+message.content);
-            // }
+	    if (message.author.id != bot.user.id) {
+            console.log(`[${message.author.username}||${message.channel.name}(${message.channel.id})(MID:${message.id})]`+message.content);
 		}
-        if ((message.channel.id != config.logsLogin) && (message.channel.id != config.logsLogin)) {
+        if (message.channel.id != config.logsLogin && message.channel.id != config.logsLogin) {
             // if (message.content.startsWith(prefix)) {
             // const msgCommandEmbed = {
             // 	color: 0x000000,
