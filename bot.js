@@ -1,13 +1,13 @@
 const fs = require('fs');
 const discord = require('discord.js');
 const bot = new discord.Client();
-// bot.login(process.env.token);
-// const config = require('./config.json');
-const config = require('./config-beta.json');
-bot.login(config.tokenBETA); // ======================================================== CHANGE THE TOKEN ========================================================
+bot.login(process.env.token);
+const config = require('./config.json');
+// const config = require('./config-beta.json');
+// bot.login(config.tokenBETA); // ======================================================== CHANGE THE TOKEN ========================================================
 // bot.login(config.token);
 
-const database = require(config.dbpath);
+const database = require('./media/database.json');
 bot.commands = new discord.Collection();
 bot.orders = new discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(cfile => cfile.endsWith('.js'));
