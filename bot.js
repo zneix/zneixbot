@@ -63,7 +63,7 @@ bot.on('message', message => {
 		// database.guilds[message.guild.id].papiez = "false";
 		// database.guilds[message.guild.id].crefix = config.prefix;
 		// fs.writeFile('./media/database.json', JSON.stringify(database, null, 4), () => {console.log("DID IT BAJ!");});
-	}
+	// }
 	// if (command === `devtool`) {
 	// if (message.author.id != config.devid) return message.channel.send(`This is a developer tool, you're not allowed to use it!`);
     //     if (!args.length) return message.reply(`You're epic!`);
