@@ -7,7 +7,7 @@ const config = require('./config.json');
 // bot.login(config.tokenBETA); // ======================================================== CHANGE THE TOKEN ========================================================
 // bot.login(config.token);
 
-const database = require('./media/database.json');
+// const database = require('./media/database.json');
 bot.commands = new discord.Collection();
 bot.orders = new discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(cfile => cfile.endsWith('.js'));
@@ -37,7 +37,7 @@ bot.on('message', message => {
 	const amountGuilds = bot.guilds.size;
 	const amountUsers = bot.users.size;
 	const serverIcon = message.guild.iconURL;
-	// if(!bot.commands.has(command)) return;
+	if(!bot.commands.has(command)) return;
 	// try {bot.commands.get(command).execute(message, amountGuilds, amountUsers, config.botver, args, bot, config.prefix, serverIcon, fs);}
 	if (command === `agis`) {try {bot.commands.get(command).execute(message, bot);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	// if (command === `badguy`) {try {bot.commands.get(command).execute(message, args, fs);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
@@ -45,7 +45,7 @@ bot.on('message', message => {
 	if (command === `fanfik`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	if (command === `help`) {try {bot.commands.get(command).execute(message, config);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	if (command === `inaczej`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
-	if (command === `init`) {try {bot.commands.get(command).execute(message, database, config, fs);} catch (error) {console.error(error);message.channel.send(config.errmess);} 
+	// if (command === `init`) {try {bot.commands.get(command).execute(message, database, config, fs);} catch (error) {console.error(error);message.channel.send(config.errmess);} 
 	if (command === `leave`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	if (command === `lenny`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	if (command === `mpurge`) {try {bot.commands.get(command).execute(message, args, config);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
