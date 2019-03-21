@@ -1,12 +1,13 @@
 const fs = require('fs');
 const discord = require('discord.js');
 const bot = new discord.Client();
-const config = require('./config.json');
-bot.login(process.env.token);
-// const config = require('./config-beta.json');
-// bot.login(config.tokenBETA); // ======================================================== CHANGE THE TOKEN ========================================================
+// bot.login(process.env.token);
+// const config = require('./config.json');
+const config = require('./config-beta.json');
+bot.login(config.tokenBETA); // ======================================================== CHANGE THE TOKEN ========================================================
 // bot.login(config.token);
 
+const database = require(config.dbpath);
 bot.commands = new discord.Collection();
 bot.orders = new discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(cfile => cfile.endsWith('.js'));
@@ -35,26 +36,34 @@ bot.on('message', message => {
 	const command = args.shift(); //shifting arguments to lowercase
 	const amountGuilds = bot.guilds.size;
 	const amountUsers = bot.users.size;
-	if(!bot.commands.has(command)) return;
+	const serverIcon = message.guild.iconURL;
+	// if(!bot.commands.has(command)) return;
 	// try {bot.commands.get(command).execute(message, amountGuilds, amountUsers, config.botver, args, bot, config.prefix, serverIcon, fs);}
-	if (command === `agis`) {try {bot.commands.get(command).execute(message, bot);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
-	// if (command === `badguy`) {try {bot.commands.get(command).execute(message, args, fs);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
-	if (command === `devtool`) {try {bot.commands.get(command).execute(message, args, bot, config);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
-	if (command === `fanfik`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
-	if (command === `help`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
-	if (command === `inaczej`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
-	if (command === `leave`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
-	if (command === `lenny`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
-	if (command === `mpurge`) {try {bot.commands.get(command).execute(message, args, config);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
-	if (command === `nsfw`) {try {bot.commands.get(command).execute(message, args);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
-	if (command === `ping`) {try {bot.commands.get(command).execute(message, bot);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
-	if (command === `server`) {try {bot.commands.get(command).execute(message, bot, serverIcon);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
-	if (command === `stats`) {try {bot.commands.get(command).execute(message, amountGuilds, amountUsers, config);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
-	if (command === `summon`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
-	if (command === `tagme`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
-	if (command === `up`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
-	if (command === `user`) {try {bot.commands.get(command).execute(message, args, bot);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
-	if (command === `vck`) {try {bot.commands.get(command).execute(message, bot);} catch (error) {console.error(error);message.channel.send(`An error occured!`);}}
+	if (command === `agis`) {try {bot.commands.get(command).execute(message, bot);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
+	// if (command === `badguy`) {try {bot.commands.get(command).execute(message, args, fs);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
+	if (command === `devtool`) {try {bot.commands.get(command).execute(message, args, bot, config);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
+	if (command === `fanfik`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
+	if (command === `help`) {try {bot.commands.get(command).execute(message, config);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
+	if (command === `inaczej`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
+	if (command === `init`) {try {bot.commands.get(command).execute(message, database, config, fs);} catch (error) {console.error(error);message.channel.send(config.errmess);} 
+	if (command === `leave`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
+	if (command === `lenny`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
+	if (command === `mpurge`) {try {bot.commands.get(command).execute(message, args, config);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
+	if (command === `nsfw`) {try {bot.commands.get(command).execute(message, args);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
+	if (command === `ping`) {try {bot.commands.get(command).execute(message, bot);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
+	if (command === `server`) {try {bot.commands.get(command).execute(message, bot, serverIcon);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
+	if (command === `stats`) {try {bot.commands.get(command).execute(message, amountGuilds, amountUsers, config);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
+	if (command === `summon`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
+	if (command === `tagme`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
+	if (command === `up`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
+	if (command === `user`) {try {bot.commands.get(command).execute(message, args, bot);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
+	if (command === `vck`) {try {bot.commands.get(command).execute(message, bot);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
+		// fs.readFileSync('./media/database.json', (err, data) => {});
+		// database.guilds[message.guild.id] = {};
+		// database.guilds[message.guild.id].papiez = "false";
+		// database.guilds[message.guild.id].crefix = config.prefix;
+		// fs.writeFile('./media/database.json', JSON.stringify(database, null, 4), () => {console.log("DID IT BAJ!");});
+	}
 	// if (command === `devtool`) {
 	// if (message.author.id != config.devid) return message.channel.send(`This is a developer tool, you're not allowed to use it!`);
     //     if (!args.length) return message.reply(`You're epic!`);
@@ -71,14 +80,21 @@ bot.on('message', message => {
 	// }
 });
 bot.on('guildMemberAdd', whojoined => {
-	bot.channels.get(config.logsMsg).send(`'${whojoined}' joined the chat ;D`);
+	bot.channels.get(config.logsMsg).send(`'${whojoined}' joined the chat (${whojoined.guild.name}) ;D`);
+	console.log(`'${whojoined}' joined the chat (${whojoined.guild.name}) ;D`);
 });
 bot.on('guildMemberRemove', wholeft => {
-	bot.channels.get(config.logsMsg).send(`${wholeft} fucking left D:`);
+	bot.channels.get(config.logsMsg).send(`${wholeft} fucking left from '${wholeft.guild.name}' D;`);
+	console.log(`${wholeft} fucking left from '${wholeft.guild.name}' D;`);
 });
 bot.on('guildMemberUpdate', whoupdated => {
-	console.log(`'${whoupdated.user.tag}' got an update ;v`);
+	bot.channels.get(config.logsMsg).send(`'${whoupdated.user.tag}' got an update in '${whoupdated.guild.name}' ;v`);
+	console.log(`'${whoupdated.user.tag}' got an update in '${whoupdated.guild.name}' ;v`);
 });
 bot.on('guildBanAdd', (hisguild, wholeft) => {
-	bot.channels.get(config.logsMsg).send(`${wholeft} got a hit with banhammer from '${hisguild}' :slight_smile:`);
+	bot.channels.get(config.logsMsg).send(`${wholeft} got a hit with banhammer from '${hisguild.name}' :slight_smile:`);
+	console.log(`${wholeft} got a hit with banhammer from '${hisguild.name}' :slight_smile:`);
 });
+// bot.on('guildCreate', guildo => {
+// 	guildo.owner.user.send(`Hewwo ${guildo.owner.user.username}, I just joined your server!\nI'm ${bot.user.username} - discord bot coded by zneix (<@!${config.devid}>)\nIf you have any questions, you can always type \`${config.prefix}help\` in your server of DM my creator ;D`);
+// });

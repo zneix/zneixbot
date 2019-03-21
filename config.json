@@ -1,6 +1,13 @@
 {
+	"help": {
+        "dev": "🛑",
+        "perms": "✋",
+        "args": "📋"
+	},
+	"errmess": "An error occured!",
 	"prefix": "zb ",
-	"botver": "0.6.3",
+	"botver": "0.7.0",
+    "dbpath": "./media/database.json",
 	"logsLogin": "510515460022992904",
 	"logsMsg": "531997599163613204",
 	"devid": "288028423031357441"
