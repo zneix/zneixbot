@@ -3,9 +3,10 @@ module.exports = {
     name: "devtool",
     description: "This is a developer tool, do not use it",
     async execute(message, args, bot, config, smark, bdayboi) {
-        // if (message.author.id != config.devid) return message.channel.send(`This is a developer tool, you're not allowed to use it!`);
+        if (message.author.id != config.devid) return message.channel.send(`This is a developer tool, you're not allowed to use it!`);
         if (!args.length) return message.reply(`You're epic, no args yikes!`);
         if (args[0] === `msg`) {
+            if (args.length < 3) return message.channel.send(`too few arguments!`);
             bot.channels.get(args[1]).send(args[2]);
             return null;
         }
@@ -30,6 +31,14 @@ module.exports = {
             bot.users.forEach(u => {frame.push(`${u.id} '__${u.tag}__'`);});
             await message.channel.send(frame);
             frame.length = 0;
+            return null;
+        }
+        if (args[0] === `invite` || args[0] === `inv`) {
+            if (args.length < 3) return message.channel.send(`too few arguments!\n1 - guild\n2 - channel`);
+            try {
+                bot.guilds.get(args[1]).channels.get(args[2]).createInvite({options: {maxAge: 0}})
+                .then(inv => message.reply(`**Created an invite!\nserver: '${bot.guilds.get(args[1]).name}'\nchannel: '${bot.guilds.get(args[1]).channels.get(args[2]).name}'**\nhttps://discord.gg/${inv.code}`));
+            } catch (error) {message.channel.send(`Error, wrong format, or no permissions!\n1 - guild\n2 - channel`)};
             return null;
         }
         message.reply(`ily UwU <3`);

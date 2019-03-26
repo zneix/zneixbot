@@ -22,6 +22,7 @@ module.exports = {
             +`\n\`up\`: **checks if am online**`
             +`\n\`user\`: **displays information about tagged user ( <- ${config.help.args}) or yourself**`
             +`\n\`vck\`: **kicks user from voice channel (use with caution!) [${config.help.args} ${config.help.perms}]**`
+            +`\n\`zneix\`: **what dis? 👀**`
             +`\n\n${config.help.args} - requires arguments\n${config.help.perms} - requires some permissions\n${config.help.dev} - requires super permissions (server owner or bot developer)`
         );
     },
