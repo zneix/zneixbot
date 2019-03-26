@@ -52,7 +52,7 @@ module.exports = {
                     {
                         name: `Location`,
                         value: `Server:\`${message.guild.name}\`\nChannel:\`${message.channel.name}\``,
-                        inline: true
+                        inline: false
                     },
                     // {
                     // 	name: `Type`,
@@ -75,8 +75,8 @@ module.exports = {
                         inline: true
                     },
                     {
-                        name: `ID`,
-                        value: message.id,
+                        name: `IDs`,
+                        value: `Guild: ${message.guild.id}\nChannel: ${message.channel.id}\nUser: ${message.author.id}\nMessage: ${message.id}`,
                         inline: true					
                     }
                     // ,{
