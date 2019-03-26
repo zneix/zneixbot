@@ -25,19 +25,22 @@ bot.once('ready', () => { //one-time console logger
 	catch (error) {console.error(error);bot.users.get(config.devid).send(`zneixbot failed to log a client logon\`\`\`\n${error}\n\`\`\``);}
 });
 bot.on('message', message => {
-	if (message.channel.type === "dm") return null;
-	const messAuthorID = message.author.id;
-	try {bot.orders.get(`msglog`).execute(message, bot, config, messAuthorID);}
-	catch (error) {console.error(error);bot.users.get(config.devid).send(`zneixbot failed to log a message\`\`\`\n${error}\n\`\`\``);}
-	message.content.toLowerCase();
-	if (!message.content.startsWith(config.prefix)) return; //exit early if message don't start with pref or it's from a bot
-	if (message.author.bot) return; //exit early if message don't start with pref or it's from a bot
-	const args = message.content.slice(config.prefix.length).split(/ +/); //spliting arguments into args[x]
-	const command = args.shift(); //shifting arguments to lowercase
+	if (message.channel.type === "dm") return null; //disabling DMs totally!
+		try {bot.orders.get(`msglog`).execute(message, bot, config);} //logging message...
+		catch (error) {console.error(error);bot.users.get(config.devid).send(`zneixbot failed to log a message\`\`\`\n${error}\n\`\`\``);} //...and error if occures
+	// if (message.content.includes(`${bot.user.id}`)) message.react(config.emojis.peepoPing); //reacting with a peepoPing, while mentioned
+	if (message.mentions.members.get(bot.user.id)) message.react(config.emojis.peepoPing); //reacting with a peepoPing, while mentioned
+	message.content.toLowerCase(); //shifting message content to lowercase
+	if (!message.content.startsWith(config.prefix)) return null; //exit early if message don't start with pref or it's from a bot
+	if (message.author.bot) return null; //exit early if message don't start with pref or it's from a bot
+	const args = message.content.slice(config.prefix.length).split(/ +/); //spliting arguments into args array (args[x])
+	const command = args.shift(); //separating command itself from arguments array
 	const amountGuilds = bot.guilds.size;
 	const amountUsers = bot.users.size;
 	const serverIcon = message.guild.iconURL;
-	if(!bot.commands.has(command)) return;
+	// await bot.guilds.get(args[1]).channels.get(args[2]).createInvite({options: {maxAge: 0}})
+	// .then(inv => message.reply(`**created an invite to '${bot.guilds.get(args[1]).name}'**\n${inv.code}`));
+	if(!bot.commands.has(command)) return null;
 	// try {bot.commands.get(command).execute(message, amountGuilds, amountUsers, config.botver, args, bot, config.prefix, serverIcon, fs);}
 	if (command === `agis`) {try {bot.commands.get(command).execute(message, bot);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	// if (command === `badguy`) {try {bot.commands.get(command).execute(message, args, fs);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
@@ -58,6 +61,7 @@ bot.on('message', message => {
 	if (command === `up`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	if (command === `user`) {try {bot.commands.get(command).execute(message, args, bot);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	if (command === `vck`) {try {bot.commands.get(command).execute(message, bot);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
+	if (command === `zneix`) {try {bot.commands.get(command).execute(message, config);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 		// fs.readFileSync('./media/database.json', (err, data) => {});
 		// database.guilds[message.guild.id] = {};
 		// database.guilds[message.guild.id].papiez = "false";
@@ -80,19 +84,19 @@ bot.on('message', message => {
 	// }
 });
 bot.on('guildMemberAdd', whojoined => {
-	bot.channels.get(config.logsMsg).send(`'${whojoined}' joined the chat (${whojoined.guild.name}) ;D`);
+	bot.channels.get(config.logs.event).send(`'${whojoined}' joined the chat (${whojoined.guild.name}) ;D`);
 	console.log(`'${whojoined}' joined the chat (${whojoined.guild.name}) ;D`);
 });
 bot.on('guildMemberRemove', wholeft => {
-	bot.channels.get(config.logsMsg).send(`${wholeft} fucking left from '${wholeft.guild.name}' D;`);
+	bot.channels.get(config.logs.event).send(`${wholeft} fucking left from '${wholeft.guild.name}' D;`);
 	console.log(`${wholeft} fucking left from '${wholeft.guild.name}' D;`);
 });
 bot.on('guildMemberUpdate', whoupdated => {
-	bot.channels.get(config.logsMsg).send(`'${whoupdated.user.tag}' got an update in '${whoupdated.guild.name}' ;v`);
+	bot.channels.get(config.logs.event).send(`'${whoupdated.user.tag}' got an update in '${whoupdated.guild.name}' ;v`);
 	console.log(`'${whoupdated.user.tag}' got an update in '${whoupdated.guild.name}' ;v`);
 });
 bot.on('guildBanAdd', (hisguild, wholeft) => {
-	bot.channels.get(config.logsMsg).send(`${wholeft} got a hit with banhammer from '${hisguild.name}' :slight_smile:`);
+	bot.channels.get(config.logs.event).send(`<@!${wholeft}> got a hit with banhammer from '${hisguild.name}' :slight_smile:`);
 	console.log(`${wholeft} got a hit with banhammer from '${hisguild.name}' :slight_smile:`);
 });
 // bot.on('guildCreate', guildo => {
