@@ -12,7 +12,7 @@ module.exports = {
             +`\n\`inaczej\`: **plays _intermajor - płaska ziemia_**`
             +`\n\`leave\`: **disconnects me from your voice channel**`
             +`\n\`lenny\`: **( ͡° ͜ʖ ͡°)**`
-            +`\n\`mpurge\`: **deletes messages from text channel [${config.help.args} ${config.help.dev}]**`
+            +`\n\`mpurge\`: **deletes messages from text channel [${config.help.args} ${config.help.perms}]**`
             +`\n\`nsfw\`: **tags current text channel as nsfw/sfw [${config.help.args} ${config.help.perms}]**`
             +`\n\`ping\`: **displays your ping to me**`
             +`\n\`server\`: **displays information about current server**`
