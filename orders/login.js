@@ -50,7 +50,7 @@ module.exports = {
                     text: `zneixbot by zneix#4433`
                 }
             }
-        bot.channels.get(config.logsLogin).send({embed:loginEmbed});
+        bot.channels.get(config.logs.login).send({embed:loginEmbed});
         bot.user.setPresence({ status: 'dnd', game: { name: `${config.prefix}help, ver: ${config.botver}`, url: 'https://www.twitch.tv/zneix', type: 1 } });
     },
 }
