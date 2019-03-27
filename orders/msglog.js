@@ -4,9 +4,9 @@ module.exports = {
         let chnam = message.channel.name;
         if (chnam.startsWith('logs') && message.guild.id === config.devguild) return null;
         //listening 'n logging all messages
-	    if (/*message.author.id != bot.user.id*/1) {
-            console.log(`[${message.author.username}||${message.guild.name}||${message.channel.name}(CH:${message.channel.id})||(M:${message.id})]`+message.content);
-		}
+	    // if (message.author.id != bot.user.id) {
+            console.log(`[${message.author.username}||${message.guild.name}||${message.channel.name}(CH:${message.channel.id})]`+message.content);
+		// }
             // if (message.content.startsWith(prefix)) {
             // const msgCommandEmbed = {
             // 	color: 0x000000,
@@ -44,8 +44,9 @@ module.exports = {
             //             text: `zneixbot by zneix#4433`
             //         }
             //     }; bot.channels.get(config.logs.msg).send({embed:msgClientEmbed});
-            // } else return null;
-            const msgDefaultEmbed = {
+            //     return null;
+            // }
+            const msgDefaultEmbed = { //default
                 color: 0x6441A4,
                 author: {name: `${message.author.username} sent a message`},
                 thumbnail: {url: message.author.avatarURL},
@@ -91,6 +92,5 @@ module.exports = {
                     text: `zneixbot by zneix#4433`
                 }
             }; bot.channels.get(config.logs.msg).send({embed:msgDefaultEmbed});
-            // sending logs to 'config.logs.login' channel
-    },
+    }, //end
 }
