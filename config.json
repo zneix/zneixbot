@@ -6,7 +6,8 @@
     },
     "emojis": {
         "peepoPing": "560171729255923753",
-        "PepeLaugh": "560205746466324480"
+        "PepeLaugh": "560205746466324480",
+        "fourHEad": "560500533530591303"
     },
 	"logs": {
         "login": "510515460022992904",
@@ -15,7 +16,7 @@
     },
 	"errmess": "An error occured!",
 	"prefix": "zb ",
-	"botver": "0.7.2",
+	"botver": "0.7.3",
     "dbpath": "./media/database.json",
     "devid": "288028423031357441",
     "devguild": "488443056799088640"
