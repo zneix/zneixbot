@@ -6,10 +6,12 @@ module.exports = {
             `avalibe commands (use prefix '${config.prefix}'):`
             // +`\n\`\`: ****`
             +`\n\`agis\`: '**good stuff m8**'`
+            +`\n\`ban\`: '**bans a user from server [${config.help.args} ${config.help.perms}]**'`
             +`\n\`devtool\`: **developer tool [${config.help.dev}]**`
             +`\n\`fanfik\`: **link to Wit's fanfik**`
             +`\n\`help\`: **dislpays this message**`
             +`\n\`inaczej\`: **plays _intermajor - płaska ziemia_**`
+            +`\n\`kick\`: '**kicks a user from server [${config.help.args} ${config.help.perms}]**'`
             +`\n\`leave\`: **disconnects me from your voice channel**`
             +`\n\`lenny\`: **( ͡° ͜ʖ ͡°)**`
             +`\n\`mpurge\`: **deletes messages from text channel [${config.help.args} ${config.help.perms}]**`

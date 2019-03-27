@@ -5,9 +5,12 @@ module.exports = {
     async execute(message, args, bot, config, smark, bdayboi) {
         if (message.author.id != config.devid) return message.channel.send(`This is a developer tool, you're not allowed to use it!`);
         if (!args.length) return message.reply(`You're epic, no args yikes!`);
-        if (args[0] === `msg`) {
+        if (args[0] === `message` || args[0] === `msg`) {
             if (args.length < 3) return message.channel.send(`too few arguments!`);
-            bot.channels.get(args[1]).send(args[2]);
+            let destination = args[1];
+            args.splice(0,2);
+            let content = args.join(" ");
+            bot.channels.get(destination).send(content);
             return null;
         }
         if (args[0] === `channels` || args[0] === `chs`) {

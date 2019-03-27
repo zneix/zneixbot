@@ -44,10 +44,8 @@ module.exports = {
 		else if (!taggedUser) {
 			let ID = args[0];
 			let validUID = bot.users.get(ID);
-			if (!validUID) { //executing invalid User ID
-				message.author.send(`ID you provided is invalid`);
-				return(null);
-			} else { //executing valid User ID
+			if (!validUID) return message.author.send(`ID you provided is invalid`);
+			else { //executing valid User ID
 				const testEmbed = {
 					color: 8584977,
 					author: {
