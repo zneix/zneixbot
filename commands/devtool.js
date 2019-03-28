@@ -7,10 +7,11 @@ module.exports = {
         if (!args.length) return message.reply(`You're epic, no args yikes!`);
         if (args[0] === `message` || args[0] === `msg`) {
             if (args.length < 3) return message.channel.send(`too few arguments!`);
-            let destination = args[1];
+            let destination = bot.channels.get(args[1]);
+            if (!destination) return message.channel.send(`sowwy, but ID \`${args[1]}\` is not valid`);
             args.splice(0,2);
             let content = args.join(" ");
-            bot.channels.get(destination).send(content);
+            destination.send(content);
             return null;
         }
         if (args[0] === `channels` || args[0] === `chs`) {

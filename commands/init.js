@@ -5,10 +5,10 @@ module.exports = {
         database.guilds[message.guild.id] = {};
 		database.guilds[message.guild.id].papiez = "false";
 		database.guilds[message.guild.id].crefix = config.prefix;
-		fs.writeFile('./media/database.json', JSON.stringify(database, null, 4), (err, data) => {
+		fs.writeFile(config.dbpath, JSON.stringify(database, null, 4), (err, data) => {
             if (err) {
                 console.error(err);
-                return null;
+                return message.channel.send(`A wild error appeared!\ncontact <@!${config.devid}> for more help`);
             }
             console.log("DID IT BAJ!");
             message.react('😎');
