@@ -60,7 +60,6 @@ bot.on('message', message => {
 	if (command === `up`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	if (command === `user`) {try {bot.commands.get(command).execute(message, args, bot);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	if (command === `vck`) {try {bot.commands.get(command).execute(message, bot);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
-	if (command === `zneix`) {try {bot.commands.get(command).execute(message, config);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	// args.join(/ +/);
 	// if (message.guild.members.get(message.author.id).hasPermission(['KICK_MEMBERS'])) return message.channel.send(`why are you gay?\nStop using commands you can't use <:${bot.emojis.get(config.emojis.fourHEad).name}:${config.emojis.fourHEad}>`);
 		// fs.readFileSync('./media/database.json', (err, data) => {});
