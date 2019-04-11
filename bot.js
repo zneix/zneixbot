@@ -4,8 +4,8 @@ const bot = new discord.Client();
 bot.login(process.env.token);
 const config = require('./config.json');
 // const config = require('./config-beta.json');
-bot.login(config.tokenBETA);
-// bot.login(config.token);
+// bot.login(config.tokenBETA);
+bot.login(config.token);
 // ======================================================== CHANGE THE TOKEN ========================================================
 const database = require(config.dbpath);
 bot.commands = new discord.Collection();
