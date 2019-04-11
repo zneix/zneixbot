@@ -4,48 +4,7 @@ module.exports = {
         let chnam = message.channel.name;
         if (chnam.startsWith('logs') && message.guild.id === config.devguild) return null;
         //listening 'n logging all messages
-	    // if (message.author.id != bot.user.id) {
             console.log(`[${message.author.username}||${message.guild.name}||${message.channel.name}(CH:${message.channel.id})]`+message.content);
-		// }
-            // if (message.content.startsWith(prefix)) {
-            // const msgCommandEmbed = {
-            // 	color: 0x000000,
-            // 	author: {name: `Recived a command`},
-            // 	thumbnail: {url: message.author.avatarURL},
-            // 	fields: [
-            // 		{
-            // 			name: `Name`,
-            // 			value: `${command}`
-            // 		}
-            // 	]
-            // };
-            // bot.channels.get(config.logs.login).send(msgCommandEmbed);
-            // }
-            // if (message.author.id === bot.user.id) {
-            //     const msgClientEmbed = {
-            //         color: 0x0022ef,
-            //         author: {name: `I send a message`},
-            //         thumbnail: null,
-            //         fields: [
-            //             {
-            //                 name: `Location`,
-            //                 value: `Server:\`${message.guild.name}\`\nChannel:\`${message.channel.name}\``,
-            //                 inline: true
-            //             },
-            //             {
-            //                 name: `ID`,
-            //                 value: message.id,
-            //                 inline: true					
-            //             }
-            //         ],
-            //         timestamp: new Date(),
-            //         footer: {
-            //             icon_url: bot.user.avatarURL,
-            //             text: `zneixbot by zneix#4433`
-            //         }
-            //     }; bot.channels.get(config.logs.msg).send({embed:msgClientEmbed});
-            //     return null;
-            // }
             const msgDefaultEmbed = { //default
                 color: 0x6441A4,
                 author: {name: `${message.author.username} sent a message`},
