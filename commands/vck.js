@@ -7,6 +7,7 @@ module.exports = {
 		const taggedUser = message.mentions.members.first();
 		if (!taggedUser) return message.channel.send(`You need to tag a fag`);
 		if (!taggedUser.voiceChannel) return message.channel.send(`He's not in a vc`);
+		if (taggedUser.highestRole.calculatedPosition > message.member.highestRole.calculatedPosition || taggedUser.highestRole.calculatedPosition === message.member.highestRole.calculatedPosition) return message.reply(`this guy has higher or equal role as yours\n403 forbidden!`);
 
 		const tempVC = await message.guild.createChannel('tempkick', 'voice', [
 			{

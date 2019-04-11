@@ -2,7 +2,7 @@ var GuildUsers = [];
 module.exports = {
     name: `server`,
     description: `prints info about current server`,
-    execute(message, bot) {
+    execute(message, bot, serverIcon) {
 		const list = bot.guilds.get(message.guild.id);
 		list.members.forEach(member => { GuildUsers.push(`${member.user.username}\n`) });
         asembed = {

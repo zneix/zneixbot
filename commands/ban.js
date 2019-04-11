@@ -13,6 +13,7 @@ module.exports = {
             let validUID = message.guild.members.get(args[0]);
             if (!validUID) return message.reply(`this user is not in this server, or ID is wrong`);
             if (!message.guild.members.get(validUID).bannable) return message.channel.send(`I can't ban this user\nMaybe he has a higher role?`);
+            if (validUID.highestRole.calculatedPosition > message.member.highestRole.calculatedPosition || validUID.highestRole.calculatedPosition === message.member.highestRole.calculatedPosition) return message.reply(`this guy has higher or equal role as yours\nwhy are you gay?`);
             //banning user by ID...
             try {
                 if (!args[1]) rezon = "no reason specified";
@@ -27,6 +28,7 @@ module.exports = {
             if (taggedUser.id === config.devid) return message.channel.send(`Why are you trying to ban zneix? ;_;\nI wouldn't kick my father ;(`);
             if (taggedUser.id === bot.user.id) return message.channel.send(`Oh, you bastard ${bot.emojis.get(config.emojis.fourHEad)}`);
             if (!message.guild.members.get(taggedUser.id).bannable) return message.channel.send(`I can't ban this user\nMaybe he has a higher role?`);
+            if (taggedUser.highestRole.calculatedPosition > message.member.highestRole.calculatedPosition || taggedUser.highestRole.calculatedPosition === message.member.highestRole.calculatedPosition) return message.reply(`this guy has higher or equal role as yours\nwhy are you gay?`);
             //banning mentioned user...
             try {
                 if (!args[1]) rezon = "no reason specified";
