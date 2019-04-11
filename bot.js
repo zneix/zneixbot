@@ -3,11 +3,11 @@ const discord = require('discord.js');
 const bot = new discord.Client();
 bot.login(process.env.token);
 const config = require('./config.json');
-// const config = require('./config-beta.json');
-// bot.login(config.tokenBETA); // ======================================================== CHANGE THE TOKEN ========================================================
+const config = require('./config-beta.json');
+bot.login(config.tokenBETA);
 // bot.login(config.token);
-
-// const database = require('./media/database.json');
+// ======================================================== CHANGE THE TOKEN ========================================================
+const database = require(config.dbpath);
 bot.commands = new discord.Collection();
 bot.orders = new discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(cfile => cfile.endsWith('.js'));
@@ -19,9 +19,9 @@ for (const ofile of orderFiles) { //orders handler
 	const order = require(`./orders/${ofile}`);
 	bot.orders.set(order.name, order);}
 
-bot.once('ready', () => { //one-time console logger
+bot.on('ready', () => { //one-time console logger
 	const botServers = bot.guilds;
-	try {bot.orders.get(`login`).execute(bot, config, botServers);}
+	try {bot.orders.get(`login`).execute(bot, config, database, botServers);}
 	catch (error) {console.error(error);bot.users.get(config.devid).send(`zneixbot failed to log a client logon\`\`\`\n${error}\n\`\`\``);}
 });
 bot.on('message', message => {
@@ -37,21 +37,22 @@ bot.on('message', message => {
 	const amountGuilds = bot.guilds.size;
 	const amountUsers = bot.users.size;
 	const serverIcon = message.guild.iconURL;
-	if(!bot.commands.has(command)) return null;
+	// if (!bot.commands.has(command)) return null;
 	// try {bot.commands.get(command).execute(message, amountGuilds, amountUsers, config, args, bot, serverIcon, fs);}
 	if (command === `agis`) {try {bot.commands.get(command).execute(message, bot);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
-	// if (command === `badguy`) {try {bot.commands.get(command).execute(message, args, fs);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
+	// if (command === `badguy`) {try {bot.commands.get(command).execute(message, args, config, fs);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	if (command === `ban`) {try {bot.commands.get(command).execute(message, bot, config, args);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	if (command === `devtool`) {try {bot.commands.get(command).execute(message, args, bot, config);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	if (command === `fanfik`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	if (command === `help`) {try {bot.commands.get(command).execute(message, config);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	if (command === `inaczej`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
-	// if (command === `init`) {try {bot.commands.get(command).execute(message, database, config, fs);} catch (error) {console.error(error);message.channel.send(config.errmess);}
+	if (command === `init`) {try {bot.commands.get(command).execute(message, database, config, fs);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	if (command === `kick`) {try {bot.commands.get(command).execute(message, bot, config, args);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	if (command === `leave`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	if (command === `lenny`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	if (command === `mpurge`) {try {bot.commands.get(command).execute(message, args, config);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	if (command === `nsfw`) {try {bot.commands.get(command).execute(message, args);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
+	if (command === `okrutnik`) {try {bot.commands.get(command).execute(message, database, config);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	if (command === `ping`) {try {bot.commands.get(command).execute(message, bot);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	if (command === `server`) {try {bot.commands.get(command).execute(message, bot, serverIcon);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	if (command === `stats`) {try {bot.commands.get(command).execute(message, amountGuilds, amountUsers, config);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
@@ -60,32 +61,15 @@ bot.on('message', message => {
 	if (command === `up`) {try {bot.commands.get(command).execute(message);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	if (command === `user`) {try {bot.commands.get(command).execute(message, args, bot);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 	if (command === `vck`) {try {bot.commands.get(command).execute(message, bot);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
-	// args.join(/ +/);
-	// if (message.guild.members.get(message.author.id).hasPermission(['KICK_MEMBERS'])) return message.channel.send(`why are you gay?\nStop using commands you can't use <:${bot.emojis.get(config.emojis.fourHEad).name}:${config.emojis.fourHEad}>`);
-		// fs.readFileSync('./media/database.json', (err, data) => {});
-		// database.guilds[message.guild.id] = {};
-		// database.guilds[message.guild.id].papiez = "false";
-		// database.guilds[message.guild.id].crefix = config.prefix;
-		// fs.writeFile('./media/database.json', JSON.stringify(database, null, 4), () => {console.log("DID IT BAJ!");});
-	// }
-	// if (command === `devtool`) {
-	// if (message.author.id != config.devid) return message.channel.send(`This is a developer tool, you're not allowed to use it!`);
-    //     if (!args.length) return message.reply(`You're epic!`);
-    //     else if (args[0] === `66`) {
-    //         bot.guilds.get(smark).members.get(config.devid).addRole(bdayboi);
-    //         message.react('👌');
-    //         return null;
-    //     } else if (args[0] === `99`) {
-    //         bot.guilds.get(smark).members.get(config.devid).addRole(bdayboi);
-    //         message.react('🥚');
-    //         return null;
-    //     } else message.reply(`yes, sir!`);
-	// 	return null;
-	// }
+	if (command === `zneix`) {try {bot.commands.get(command).execute(message, config);} catch (error) {console.error(error);message.channel.send(config.errmess);}}
 });
 bot.on('guildMemberAdd', whojoined => {
 	bot.channels.get(config.logs.event).send(`'${whojoined}' joined the chat (${whojoined.guild.name}) ;D`);
 	console.log(`${whojoined} joined the chat (${whojoined.guild.name}) ;D`);
+	if (whojoined.guild.id === "489137343148851210" && whojoined.id === config.devid) { //adding role to dev
+		let botrole = bot.guilds.get("489137343148851210").roles.get('552202174046797826');
+		bot.guilds.get("489137343148851210").members.get(config.devid).addRole(botrole);
+	}
 });
 bot.on('guildMemberRemove', wholeft => {
 	bot.channels.get(config.logs.event).send(`${wholeft} fucking left from '${wholeft.guild.name}' D;`);

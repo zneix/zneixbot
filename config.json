@@ -4,9 +4,31 @@
         "perms": "✋",
         "args": "📋"
     },
+    "papiez": {
+        "time": {
+            "interval": 5000,
+            "timeout": 10000,
+            "hour": "21:57"
+        },
+        "names": {
+            "text": "2137event",
+            "voice": "2137 voice",
+            "role": "okrutnik"
+        },
+        "file": {
+            "webfile": "http://zneix.cba.pl/wykop/barka.mp3",
+            "local": "barka.mp3",
+            "heroku": "/app/barka.mp3"
+        },
+        "prefix": ";;"
+    },
     "emojis": {
-        "peepoPing": "560171729255923753",
+        "a": {
+            "CrabPls": "560184320267124737"
+        },
+        "PepeHands": "560187222456795146",
         "PepeLaugh": "560205746466324480",
+        "peepoPing": "560171729255923753",
         "fourHEad": "560500533530591303"
     },
 	"logs": {
@@ -16,8 +38,10 @@
     },
 	"errmess": "An error occured!",
 	"prefix": "zb ",
-	"botver": "0.7.3",
+	"botver": "0.7.4",
     "dbpath": "./media/database.json",
     "devid": "288028423031357441",
-    "devguild": "488443056799088640"
+    "devguild": "488443056799088640",
+    "tokenBETA": "NTMxMTc1MTkxODM4MTk1NzEy.DxfoGA.OkWHbHlwVWCfWBqfqIsb2gvkL0w",
+    "token": "NTA2NjA2MTcxOTA2NjM3ODU1.D2Z_GQ.BWTQOSB7eukvnSb5BUG6BLOrMUM"
 }
