@@ -38,10 +38,8 @@
     },
 	"errmess": "An error occured!",
 	"prefix": "zb ",
-	"botver": "0.7.4",
+	"botver": "pre-release 0.7.5",
     "dbpath": "./media/database.json",
     "devid": "288028423031357441",
-    "devguild": "488443056799088640",
-    "tokenBETA": "NTMxMTc1MTkxODM4MTk1NzEy.DxfoGA.OkWHbHlwVWCfWBqfqIsb2gvkL0w",
-    "token": "NTA2NjA2MTcxOTA2NjM3ODU1.D2Z_GQ.BWTQOSB7eukvnSb5BUG6BLOrMUM"
+    "devguild": "488443056799088640"
 }
