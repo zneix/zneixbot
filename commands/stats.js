@@ -8,7 +8,7 @@ module.exports = {
             `I'm currently helping in ${amountGuilds} Servers`
             +` and working with ${amountUsers} Users`
             +` :slight_smile:`
-            +`\nZneixbot by zneix#4433, version: ${config.botver}`
+            +`\nzneixbot by zneix#4433, version: ${config.botver}`
             );
     },
 };

@@ -13,14 +13,14 @@ module.exports = {
             let validUID = message.guild.members.get(args[0]);
             if (!validUID) return message.reply(`this user is not in this server, or ID is wrong`);
             if (!message.guild.members.get(validUID).kickable) return message.channel.send(`I can't kick this user\nMaybe he has a higher role?`);
-            if (validUID.highestRole.calculatedPosition > message.member.highestRole.calculatedPosition || validUID.highestRole.calculatedPosition === message.member.highestRole.calculatedPosition) return message.reply(`this guy has higher or equal role as yours\nwhy are you gay?`);
+            if (!validUID.roles.length) {if (validUID.highestRole.calculatedPosition > message.member.highestRole.calculatedPosition || validUID.highestRole.calculatedPosition === message.member.highestRole.calculatedPosition) return message.reply(`this guy has higher or equal role as yours\nwhy are you gay?`);}
             //kicking user by ID...
             try {
                 if (!args[1]) rezon = "no reason specified";
                 args.splice(0,1);
                 if (!rezon) var rezon = args.join(" ");
                 message.guild.members.get(validUID.id).kick(rezon)
-                .then(() => message.channel.send(`${bot.emojis.get(config.emojis.a.CrabPls)} Kicked ${validUID} ${bot.emojis.get(config.emojis.a.CrabPls)}\n\`reason: ${rezon}\``))
+                message.channel.send(`${bot.emojis.get(config.emojis.a.CrabPls)} Kicked ${validUID} (roles length: ${validUID.roles.length}) ${bot.emojis.get(config.emojis.a.CrabPls)}\n\`reason: ${rezon}\``)
                 .then(() => console.log(`Kicked ${validUID.tag} \`reason: ${rezon}\``));
                 return null;
             } catch (error) {return message.channel.send(`I was unable to kick user with this ID!\nMaybe he has a higher role or something...`);}
@@ -28,14 +28,14 @@ module.exports = {
             if (taggedUser.id === config.devid) return message.channel.send(`Why are you trying to kick zneix? ;_;\nI wouldn't kick my father ;(`);
             if (taggedUser.id === bot.user.id) return message.channel.send(`Oh, you bastard ${bot.emojis.get(config.emojis.fourHEad)}`);
             if (!message.guild.members.get(taggedUser.id).kickable) return message.channel.send(`I can't kick this user\nMaybe he has a higher role?`);
-            if (taggedUser.highestRole.calculatedPosition > message.member.highestRole.calculatedPosition || taggedUser.highestRole.calculatedPosition === message.member.highestRole.calculatedPosition) return message.reply(`this guy has higher or equal role as yours\nwhy are you gay?`);
+            if (!taggedUser.roles) {if (taggedUser.highestRole.calculatedPosition > message.member.highestRole.calculatedPosition || taggedUser.highestRole.calculatedPosition === message.member.highestRole.calculatedPosition) return message.reply(`this guy has higher or equal role as yours\nwhy are you gay?`);}
             //kicking mentioned user...
             try {
                 if (!args[1]) rezon = "no reason specified";
                 args.splice(0,1);
                 if (!rezon) var rezon = args.join(" ");
                 message.guild.members.get(taggedUser.id).kick(rezon)
-                .then(() => message.channel.send(`${bot.emojis.get(config.emojis.a.CrabPls)} Kicked ${taggedUser} ${bot.emojis.get(config.emojis.a.CrabPls)}\n\`reason: ${rezon}\``))
+                message.channel.send(`${bot.emojis.get(config.emojis.a.CrabPls)} Kicked ${taggedUser} (roles length: ${taggedUser.roles}) ${bot.emojis.get(config.emojis.a.CrabPls)}\n\`reason: ${rezon}\``)
                 .then(() => console.log(`Kicked ${taggedUser.tag} \`reason: ${rezon}\``));
                 return null;
         } catch (error) {return message.channel.send(`I was unable to kick this user!\nMaybe he has a higher role or something...`);}}

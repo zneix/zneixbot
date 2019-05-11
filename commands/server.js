@@ -34,6 +34,11 @@ module.exports = {
                     name: `User Count`,
                     value: GuildUsers.length,
                     inline: true
+                },
+                {
+                    name: `Server region`,
+                    value: message.guild.region,
+                    inline: false
                 }
             ],
             timestamp: new Date(),
