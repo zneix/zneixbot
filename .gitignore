@@ -1,2 +1,3 @@
 node_modules/*
 src/json/auth.json
+commands/template
