@@ -2,13 +2,15 @@ module.exports = (client, message) => {
     if (message.author.bot || message.channel.type === "dm") return;
     try {
         message.args = message.content.split(' ');
-        let prefix = client.config.prefix.toString().toLowerCase();
-        if (message.content.startsWith(prefix)) {
-            if (prefix.endsWith(" ")) var command = message.args[1].toLowerCase();
-            else var command = message.content.split(/ +/g)[0].slice(prefix.length).toLowerCase();
+        let prefix = function(){return message.content.substr(0, client.config.prefix.length).toLowerCase();}
+        if (prefix() == client.config.prefix) {
+            let command = function(){
+                if (prefix().endsWith(" ")) return message.args[1].toLowerCase();
+                return message.content.split(/ +/g).shift(1).slice(prefix().length).toLowerCase();
+            }
             //command handling
-            let cmd = client.commands.get(command);
-            if (!cmd) throw `"${command}" is not a command!`;
+            let cmd = client.commands.get(command());
+            if (!cmd) throw `"${command()}" is not a command!`;
             //permission handler
             let perms = client.perms;
             let id = message.author.id;
