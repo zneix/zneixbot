@@ -1,0 +1,8 @@
+{
+    "prefix": "zb ",
+    "delete": {
+        "error": true,
+        "command": false,
+        "time": 5000
+    }
+}
