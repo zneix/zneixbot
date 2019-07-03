@@ -1,13 +1,18 @@
 module.exports = (client, message) => {
     if (message.author.bot || message.channel.type === "dm") return;
     try {
-        message.args = message.content.split(' ');
         let prefix = function(){return message.content.substr(0, client.config.prefix.length).toLowerCase();}
         if (prefix() == client.config.prefix) {
             let command = function(){
-                if (prefix().endsWith(" ")) return message.args[1].toLowerCase();
+                if (prefix().endsWith(" ")) return message.content.split(/ +/g)[1].toLowerCase();
                 return message.content.split(/ +/g).shift(1).slice(prefix().length).toLowerCase();
             }
+            if (prefix().endsWith(" ")) {
+                message.args = message.content.split(' ');
+                message.args.splice(0, 1);
+            }
+            else message.args = message.content.slice(prefix().length).split(' ');
+            console.log(message.args)
             //command handling
             let cmd = client.commands.get(command());
             if (!cmd) throw `"${command()}" is not a command!`;
