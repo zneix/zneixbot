@@ -22,6 +22,7 @@ client.database = database; //global database
 client.perms = perms; //global permissions sets
 client.commands = new enmap(); //declaring new enmap object for command handler
 client.version = process.env.npm_package_version; //global version
+client.fs = fs; //global filesystem module usage
 client.schedule = schedule; //yet useless
 client.saveConfig = require(`./src/functions/saveConfig`); //function for saving src/json/config.json
 client.saveDB = require(`./src/functions/saveDB`); //function for saving src/json/database.json
