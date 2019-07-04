@@ -4,7 +4,7 @@ exports.usage = `**{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}** ***(
 exports.perms = `owner`
 
 exports.run = async (client, message) => {
-    message.command(2, async () => {
+    message.command(1, async () => {
         let cmd = message.args[0].toLowerCase();
         //throwing an error if command does not exist
         if (!client.commands.has(cmd)) {throw `Command \`${cmd}\` not found! Try **${client.config.prefix}load** instead.`}
@@ -14,21 +14,15 @@ exports.run = async (client, message) => {
         //re-initialization of the command
         let props = require(`./${cmd}.js`);
         client.commands.set(cmd, props);
-        var embed = {
-            color: 0x99ff66,
-            author: {
-                name:`${client.user.tag} ${client.version}`,
-                icon_url:client.user.avatarURL
-            }, 
-            description:`Command **${client.config.prefix}${cmd}** has been reloaded! Description:
-            ${client.commands.get(cmd).description.replace(/{PREFIX}/g, client.config.prefix)}`,
-            fields:[
-                {
-                    name:`**${client.config.prefix}${cmd}** usage:`,
-                    value:`${client.commands.get(cmd).usage.replace(/{PREFIX}/g, client.config.prefix)}`
-                },
-            ]
-        }
-        message.channel.send({embed:embed}).then(msg => {if (client.config.delete.command) msg.delete(client.config.delete.time);});
+        //embed message to user
+        let desc = `Command **${client.config.prefix}${cmd}** has been reloaded! Description:
+        ${client.commands.get(cmd).description.replace(/{PREFIX}/g, client.config.prefix)}`;
+        let fds = [
+            {
+                name:`**${client.config.prefix}${cmd}** usage:`,
+                value:`${client.commands.get(cmd).usage.replace(/{PREFIX}/g, client.config.prefix)}`
+            },
+        ];
+        require(`./../src/embeds/okayInfoEmbed`)(client, message, desc, fds)
     });
 }
