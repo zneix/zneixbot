@@ -6,7 +6,7 @@ module.exports = (client, message, desc, fds) => {
         },
         timestamp: new Date(),
         footer: {
-            text: mesasge.author.tag+" @ ",
+            text: message.author.tag,
             icon_url: message.author.avatarURL
         },
         description: desc,
