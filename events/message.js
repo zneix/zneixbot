@@ -1,6 +1,8 @@
 module.exports = (client, message) => {
     if (message.author.bot || message.channel.type === "dm") return;
     try {
+        //funny thing to react on mention
+        if (message.mentions.members.get(client.user.id)) message.react(client.config.emojis.peepoPinged);
         let prefix = function(){return message.content.substr(0, client.config.prefix.length).toLowerCase();}
         if (prefix() == client.config.prefix) {
             let command = function(){
