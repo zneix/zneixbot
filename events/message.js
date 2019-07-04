@@ -9,10 +9,12 @@ module.exports = (client, message) => {
             }
             if (prefix().endsWith(" ")) {
                 message.args = message.content.split(' ');
+                message.args.splice(0, 2);
+            }
+            else {
+                message.args = message.content.slice(prefix().length).split(' ');
                 message.args.splice(0, 1);
             }
-            else message.args = message.content.slice(prefix().length).split(' ');
-            console.log(message.args)
             //command handling
             let cmd = client.commands.get(command());
             if (!cmd) throw `"${command()}" is not a command!`;
