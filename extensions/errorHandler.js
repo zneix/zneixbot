@@ -12,7 +12,7 @@ Discord.Message.prototype.command = async function(num, func){
             }
         if (num) {
             // if (num <= args.length) throw "Too many arguments!" //I guess this one is useless for now, so I've disabled it
-            if (num >= args.length) throw `Too few (${args.length}) arguments!`
+            if (num > args.length) throw `Too few (${args.length}) arguments!`
         }
         func().catch(async err => {
             console.log(err);
