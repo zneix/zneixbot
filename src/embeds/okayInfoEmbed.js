@@ -1,13 +1,13 @@
 module.exports = (client, message, desc, fds) => {
     var embed = {
         color: 0x99ff66,
-        author: {
-            name:`Success!`
-        },
         timestamp: new Date(),
         footer: {
             text: message.author.tag,
             icon_url: message.author.avatarURL
+        },
+        author: {
+            name:`Success!`
         },
         description: desc,
         fields: fds
