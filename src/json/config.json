@@ -4,5 +4,8 @@
         "error": true,
         "command": false,
         "time": 5000
+    },
+    "emojis": {
+        "peepoPinged": "560171729255923753"
     }
 }
