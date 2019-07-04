@@ -1,10 +1,18 @@
 const Discord = require('discord.js');
 Discord.Message.prototype.command = async function(num, func){
     try {
-        var args = this.content.split(/ +/g);
+        //argument declaration
+        if (this.client.config.prefix.endsWith(" ")) {
+                args = this.content.split(/ +/g);
+                args.splice(0, 2);
+            }
+            else {
+                args = this.content.slice(this.client.config.prefix.length).split(/ +/g);
+                args.splice(0, 1);
+            }
         if (num) {
             // if (num <= args.length) throw "Too many arguments!" //I guess this one is useless for now, so I've disabled it
-            if (num >= args.length) throw "Too few arguments!"
+            if (num >= args.length) throw `Too few (${args.length}) arguments!`
         }
         func().catch(async err => {
             console.log(err);
