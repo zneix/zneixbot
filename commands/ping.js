@@ -20,8 +20,9 @@ exports.run = async (client, message) => {
         const m = await message.channel.send(`Pong?`);
         let ping = {
             color: 0x00ff00,
-            author: {
-                name: message.author.tag,
+            timestamp: new Date(),
+            footer: {
+                text: message.author.tag,
                 icon_url: message.author.avatarURL
             },
             fields: [
