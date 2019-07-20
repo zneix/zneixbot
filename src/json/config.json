@@ -1,0 +1,11 @@
+{
+    "prefix": "zb ",
+    "delete": {
+        "error": true,
+        "command": false,
+        "time": 7500
+    },
+    "emojis": {
+        "peepoPinged": "560171729255923753"
+    }
+}

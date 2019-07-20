@@ -1,34 +1,49 @@
-module.exports = {
-    name: `help`,
-    description: `displays a help message`,
-    execute(message, config) {
-        message.channel.send(
-            `available commands (use prefix '${config.prefix}'):`
-            // +`\n\`\`: ****`
-            +`\n\`agis\`: '**good stuff m8**'`
-            +`\n\`doot\`: **plays DOOT theme**`
-            // +`\n\`ban\`: '**bans a user from server [${config.help.args} ${config.help.perms}]**'`
-            +`\n\`devtool\`: **developer tool [${config.help.dev}]**`
-            +`\n\`fanfik\`: **link to Wit's fanfik**`
-            +`\n\`forsan\`: **plays forsan meme-song**`
-            +`\n\`gachi\`: **plays haru yo koi ♂ right version ♂ (gachimuchi theme)**`
-            +`\n\`help\`: **dislpays this message**`
-            +`\n\`inaczej\`: **plays _intermajor - płaska ziemia_**`
-            +`\n\`invite\`: **invite zneixbot to your Discord server!**`
-            // +`\n\`kick\`: '**kicks a user from server [${config.help.args} ${config.help.perms}]**'`
-            +`\n\`leave\`: **disconnects me from your voice channel**`
-            +`\n\`lenny\`: **( ͡° ͜ʖ ͡°)**`
-            +`\n\`mpurge\`: **deletes messages from text channel [${config.help.args} ${config.help.perms}]**`
-            +`\n\`nsfw\`: **tags current text channel as nsfw/sfw [${config.help.args} ${config.help.perms}]**`
-            +`\n\`ping\`: **displays your ping to me**`
-            +`\n\`server\`: **displays information about current server**`
-            +`\n\`stats\`: **displays my statistics**`
-            +`\n\`summon\`: **makes me join voice channel you're already in**`
-            +`\n\`tagme\`: **tags user**`
-            +`\n\`up\`: **checks if am online**`
-            +`\n\`user\`: **displays information about tagged user ( <- ${config.help.args}) or yourself**`
-            +`\n\`vck\`: **kicks user from voice channel (use with caution!) [${config.help.args} ${config.help.perms}]**`
-            +`\n\n${config.help.args} - requires arguments\n${config.help.perms} - requires some permissions\n${config.help.dev} - requires super permissions (server owner or bot developer)`
-        );
-    },
-};
+exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
+exports.description = `The command for getting help information on other commands.`;
+exports.usage = `Running **{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}** without any arguments will result in this message and Command List.\n\nRunning: **{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}** ***(command)*** gets you information about specific commands and their usage.`
+exports.perms = `user`
+
+exports.run = (client, message) => {
+    message.command(false, async () => {
+        var prefix = client.config.prefix;
+        if (message.args.length) cmd = client.commands.get(message.args[0].toLowerCase());
+        if (!message.args.length || !cmd) {
+            let commandList = "";
+            client.commands.forEach((object, key, map) => commandList = commandList.concat(`\`${key}\`\n`));
+            var cmd = client.commands.get("help");
+            embed = { //send general help with command list
+                color: parseInt("0x99ff66"),
+                author: {
+                    name:`${client.user.tag} ${client.version}`,
+                    icon_url: client.user.avatarURL
+                },
+                fields:[
+                    {
+                        name:"**Help**",
+                        value:`${cmd.usage.replace(/{PREFIX}/g, prefix)}`
+                    },
+                    {
+                        name: "List of all commands:",
+                        value: commandList
+                    }
+                ],
+            }
+            return message.channel.send({embed:embed}).then(msg => msg.delete(90000));
+        }
+        embed = { //send dynamic help
+            color: 0x99ff66,
+            author: {
+                name:`${cmd.name.replace(/{PREFIX}/g, prefix)}`,
+                icon_url: client.user.avatarURL
+            }, 
+            description:cmd.description.replace(/{PREFIX}/g, prefix),
+            fields:[
+                {
+                    name:"**Usage:**",
+                    value:cmd.usage.replace(/{PREFIX}/g, prefix)
+                },
+            ],
+        }
+        return message.channel.send({embed:embed}).then(msg => msg.delete(90000));
+    });
+}

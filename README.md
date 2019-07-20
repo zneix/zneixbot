@@ -1,2 +1,0 @@
-# zneixbot
-zneix' own bot
