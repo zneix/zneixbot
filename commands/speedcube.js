@@ -20,10 +20,8 @@ exports.run = async (client, message) => {
                     return ""+oneOfSix()+"2";
             };
         };
-        // console.log(random())
         do {
             let ver = random();
-            // console.log(`${arr[arr.length-1]} === ${ver}`); //debug
             if (arr.length) if (arr[arr.length-1].startsWith(ver.slice(0, 1))) continue;
             arr.push(ver);
         } while(arr.length < 20);
