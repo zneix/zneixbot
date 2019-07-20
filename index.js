@@ -10,7 +10,8 @@ var Promise = require('bluebird'); //module for error handler and rejections whi
 Promise.config({longStackTraces:true}); //enabling long stack trees
 
 //JSON data
-const auth = require(`./src/json/auth.json`); //token and module authentication
+const auth = require(`./src/json/auth.js`)(Promise); //token and module authentication
+console.log(auth)
 const config = require(`./src/json/config.json`); //global client settings
 const database = require(`./src/json/database.json`); //general database for local config data
 const perms = require(`./src/json/perms.json`); //permission database
