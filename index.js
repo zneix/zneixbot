@@ -24,13 +24,17 @@ client.commands = new enmap(); //declaring new enmap object for command handler
 client.version = process.env.npm_package_version; //global version
 client.fs = fs; //global filesystem module usage
 client.schedule = schedule; //yet useless
-client.saveConfig = require(`./src/functions/saveConfig`); //function for saving src/json/config.json
-client.saveDB = require(`./src/functions/saveDB`); //function for saving src/json/database.json
-client.savePerms = require(`./src/functions/savePerms`); //function for saving src/json/perms.json
+client.Promise = Promise;
+client.saveConfig = require(`./utils/saveConfig`); //function for saving src/json/config.json
+client.saveDB = require(`./utils/saveDB`); //function for saving src/json/database.json
+client.savePerms = require(`./utils/savePerms`); //function for saving src/json/perms.json
 
+//utils
+let save = require(`./utils/save`);
+client.save = save;
 //handlers
-require(`./src/functions/loadEvents`)(client); //event handler
-require(`./src/functions/loadCommands`)(client); //command handler
+require(`./src/handlers/loadEvents`)(client); //event handler
+require(`./src/handlers/loadCommands`)(client); //command handler
 
 //discord authentication
 client.login(auth.token); //logging to WebSocket with specified client token
