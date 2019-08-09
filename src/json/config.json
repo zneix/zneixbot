@@ -5,6 +5,9 @@
         "command": false,
         "time": 7500
     },
+    "channels": {
+        "logs": "596469658169770034"
+    },
     "emojis": {
         "peepoPinged": "560171729255923753"
     }
