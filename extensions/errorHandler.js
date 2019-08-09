@@ -55,5 +55,5 @@ Discord.Message.prototype.command = async function(num, func){
         }
         this.channel.send({embed:embed}).then(msg => {if (this.client.config.delete.error) msg.delete(this.client.config.delete.time)});
     }
-    this.delete(0);
+    // this.delete(0); //removed due to confusion sometimes
 }
