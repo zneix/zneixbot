@@ -27,7 +27,7 @@ module.exports = client => {
             },
             {
                 name: "Size",
-                value: `Users: **${client.users.size}**\nGuilds: **${client.guilds.size}**\nChannels: **${client.channels.size}**`,
+                value: `Users: **${client.users.size}**\nGuilds: **${client.guilds.size}**\nChannels: **${client.channels.size}**\nEmotes: **${client.emojis.size}**`,
                 inline: false
             }
         ]
