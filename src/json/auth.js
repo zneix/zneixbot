@@ -1,7 +1,6 @@
-module.exports = Promise => {
+module.exports = () => {
     var obj = {
         token: process.env.token
     }
-    Promise;
     return obj;
 }

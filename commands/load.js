@@ -12,15 +12,6 @@ exports.run = async (client, message) => {
         //assigning command
         let props = require(`./${cmd}.js`);
         client.commands.set(cmd, props);
-        //message to user
-        let desc = `Command **${client.config.prefix}${cmd}** has been loaded! Description:
-        ${client.commands.get(cmd).description.replace(/{PREFIX}/g, client.config.prefix)}`;
-        let fds = [
-            {
-                name:`**${client.config.prefix}${cmd}**`,
-                value:`${client.commands.get(cmd).usage.replace(/{PREFIX}/g, client.config.prefix)}`
-            },
-        ];
-        require(`./../src/embeds/okayInfoEmbed`)(client, message, desc, fds)
+        require(`./../src/embeds/commandLoaded`)(client, message, false, cmd);
     });
 }
