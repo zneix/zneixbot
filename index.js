@@ -25,16 +25,16 @@ client.version = process.env.npm_package_version; //global version
 client.fs = fs; //global filesystem module usage
 client.schedule = schedule; //yet useless
 client.Promise = Promise;
+
+//utils
 client.saveConfig = require(`./utils/saveConfig`); //function for saving src/json/config.json
 client.saveDB = require(`./utils/saveDB`); //function for saving src/json/database.json
 client.savePerms = require(`./utils/savePerms`); //function for saving src/json/perms.json
-
-//utils
 let save = require(`./utils/save`);
 client.save = save;
 //handlers
-require(`./src/handlers/loadEvents`)(client); //event handler
-require(`./src/handlers/loadCommands`)(client); //command handler
+require(`./extensions/loadEvents`)(client); //event handler
+require(`./extensions/loadCommands`)(client); //command handler
 
 //discord authentication
 client.login(auth.token); //logging to WebSocket with specified client token
