@@ -4,7 +4,7 @@ module.exports = client => {
         status: 'dnd',
         game: {
             // name: client.config.prefix+`help, ver: `+client.version,
-            name: `🦀G🦀R🦀I🦀X🦀\n🦀G🦀O🦀N🦀E🦀`,
+            name: `${client.config.prefix}help, v${client.version}`,
             url: `https://www.twitch.tv/zneix`,
             type: 1
         }
