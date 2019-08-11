@@ -34,5 +34,5 @@ module.exports = client => {
     }
     let logs = client.channels.get(client.config.channels.logs);
     if (logs) logs.send({embed:embed});
-    else console.log(`[!ready] logs channel not found`); //code executed as an error message
+    else console.log(`[!ready] logs channel not found!`); //code executed as an error message
 }
