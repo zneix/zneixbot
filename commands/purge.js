@@ -8,6 +8,7 @@ exports.run = async (client, message) => {
         if (isNaN(message.args[0]) || message.args[0] < 1) throw "This is not a valid positive number!"
         if (message.args[0] > 100) throw "Deleting more than **100** messages at once is impossible."
         if (!message.guild.me.hasPermission('MANAGE_MESSAGES')) throw "I don't have **MANAGE_MESSAGES** persmission here!"
+        //beginning of deletion process
         message.delete();
         await message.channel.fetchMessages();
         await message.channel.bulkDelete(message.args[0])
