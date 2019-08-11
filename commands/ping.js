@@ -5,8 +5,8 @@ exports.perms = `user`
 
 exports.run = async (client, message) => {
     message.command(false, async () => {
-        let time = require(`../utils/timeUtil`);
-        const m = await message.channel.send(`Pong?`);
+        const time = require(`../utils/timeUtil`);
+        let m = await message.channel.send(`Pong?`);
         let ping = {
             color: 0x00ff00,
             timestamp: new Date(),

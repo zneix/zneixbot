@@ -5,7 +5,7 @@ exports.perms = `user`
 
 exports.run = async (client, message) => {
     message.command(false, async () => {
-        let time = require('../utils/timeUtil');
+        const time = require('../utils/timeUtil');
         if (!message.args.length) return result(message.author);
         let taggedUser = message.mentions.users.first();
         if (!taggedUser) {

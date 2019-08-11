@@ -5,7 +5,7 @@ exports.perms = `user`
 
 exports.run = async (client, message) => {
     message.command(false, async () => {
-        let time = require('../utils/timeUtil');
+        const time = require('../utils/timeUtil');
         var embed = {
             color: 0xcc44ff,
             timestamp: new Date(),
