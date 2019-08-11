@@ -6,7 +6,15 @@ exports.perms = `user`
 exports.run = async (client, message) => {
     message.command(false, async () => {
         let time = require('../utils/timeUtil');
-        let result = function(user){
+        if (!message.args.length) return result(message.author);
+        let taggedUser = message.mentions.users.first();
+        if (!taggedUser) {
+            let validUser = client.users.get(message.args[0]);
+            if (validUser) return result(validUser);
+            else return result(message.author);
+        }
+        else return result(taggedUser);
+        function result(user){
             let member = message.guild.members.get(user.id);
             let arr = [];
             member?member.roles.forEach(r => {if (r.id !== message.guild.id) arr.push(r.toString())}):null //roles thingy
@@ -52,13 +60,5 @@ exports.run = async (client, message) => {
             }
             return message.channel.send({embed:embed});
         }
-        if (!message.args.length) return result(message.author);
-        let taggedUser = message.mentions.users.first();
-        if (!taggedUser) {
-            let validUser = client.users.get(message.args[0]);
-            if (validUser) return result(validUser);
-            else return result(message.author);
-        }
-        else return result(taggedUser);
     });
 }
