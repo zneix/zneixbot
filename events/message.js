@@ -5,6 +5,8 @@ module.exports = (client, message) => {
         //funny thing to react on mention
         let prefix = function(){return message.content.substr(0, client.config.prefix.length).toLowerCase();}
         if (prefix() == client.config.prefix) {
+            const perms = require(`../utils/permissionUtil`)(client, message);
+            perms.isBanned(); //ban check
             let command = function(){
                 if (prefix().endsWith(" ")) return message.content.split(/ +/g)[1].toLowerCase();
                 return message.content.split(/ +/g).shift(1).slice(prefix().length).toLowerCase();
@@ -22,28 +24,17 @@ module.exports = (client, message) => {
             let cmd = client.commands.get(command());
             if (!cmd) throw `"${command()}" is not a command!`;
             //permission handler
-            let perms = client.perms;
-            let id = message.author.id;
-            switch(cmd.perms){
-                case "owner":
-                    if (!perms.owner.includes(id)) throw "This command requires **bot owner** prvileges to run!"
-                    console.log(`owner command called!`);
-                    break;
-                case "admin":
-                    if (!perms.owner.includes(id) && !perms.admin.includes(id)) throw "This command requires **bot administrator** prvileges to run!"
-                    console.log(`admin command called!`);
-                    break;
-                case "mod":
-                    if (!perms.owner.includes(id) && !perms.admin.includes(id) && !perms.mod.includes(id)) throw "This command requires **bot moderator** prvileges to run!"
-                    console.log(`mod command called!`);
-                    break;
-                case "user":
-                    console.log(`user command called!`);
-                    break;
-                default:
-                    throw `Command ${cmd.name.substr(8)} missing export.permission definition or has non-standard/unusual permission definition. Check Permissions Handler SwitchCase for available permissions or add a new one if needed. Consult with others before hand.`
+            if (!perms.isOwner()) {
+                if (typeof cmd.perms !== "string") perms.check(cmd.perms);
+                else switch(cmd.perms){
+                    case "owner":throw "This command requires **bot owner** prvileges to run!";break;
+                    case "admin":perms.isAdmin();break;
+                    case "mod":perms.isMod();break;
+                    case "user":console.log(`user command called!`);break;
+                    default:throw `Command ${cmd.name.substr(8)} missing export.permission definition or has non-standard/unusual permission definition. Check Permissions Handler SwitchCase for available permissions or add a new one if needed. Consult with others before hand.`;
+                }
             }
-            if (perms.ban.includes(id)) throw "You are banned from the bot!"
+            else console.log((typeof cmd.perms !== "string"?"guild-perm":cmd.perms)+" command called!");
             cmd.run(client, message);
         }
         else {
