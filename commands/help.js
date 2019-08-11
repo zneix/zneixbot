@@ -14,13 +14,13 @@ exports.run = (client, message) => {
             embed = { //send general help with command list
                 color: parseInt("0x99ff66"),
                 author: {
-                    name:`${client.user.tag} ${client.version}`,
+                    name: client.user.tag+" "+client.version,
                     icon_url: client.user.avatarURL
                 },
-                fields:[
+                fields: [
                     {
-                        name:"**Help**",
-                        value:`${cmd.usage.replace(/{PREFIX}/g, prefix)}`
+                        name: "**Help**",
+                        value: `${cmd.usage.replace(/{PREFIX}/g, prefix)}`
                     },
                     {
                         name: "List of all commands:",
@@ -33,14 +33,14 @@ exports.run = (client, message) => {
         embed = { //send dynamic help
             color: 0x99ff66,
             author: {
-                name:`${cmd.name.replace(/{PREFIX}/g, prefix)}`,
+                name: `${cmd.name.replace(/{PREFIX}/g, prefix)}`,
                 icon_url: client.user.avatarURL
             }, 
-            description:cmd.description.replace(/{PREFIX}/g, prefix),
-            fields:[
+            description: cmd.description.replace(/{PREFIX}/g, prefix),
+            fields: [
                 {
-                    name:"**Usage:**",
-                    value:cmd.usage.replace(/{PREFIX}/g, prefix)
+                    name: "**Usage:**",
+                    value: cmd.usage.replace(/{PREFIX}/g, prefix)
                 },
             ],
         }
