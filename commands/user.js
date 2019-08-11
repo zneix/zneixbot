@@ -38,6 +38,11 @@ exports.run = async (client, message) => {
                         inline: true
                     },
                     {
+                        name: "Bot?",
+                        value: user.bot,
+                        inline: true
+                    },
+                    {
                         name: "Status",
                         value: user.presence.status==="offline"?"offline":user.presence.status==="online"?"online":`online (${user.presence.status})`
                     },
