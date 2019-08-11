@@ -4,7 +4,6 @@ const enmap = require('enmap'); //enmap object for command handler
 const fs = require('fs');
 const schedule = require('node-schedule'); //yet useless
 require('npm-package-to-env').config(); //importing version value from package.json
-
 require(`./utils/errorHandler`); //handling thrown errors
 var Promise = require('bluebird'); //module for error handler and rejections while using fs.writeFile
 Promise.config({longStackTraces:true}); //enabling long stack trees
@@ -26,12 +25,13 @@ client.fs = fs; //global filesystem module usage
 client.schedule = schedule; //yet useless
 client.Promise = Promise;
 
-//utils
+//utils load
 client.saveConfig = require(`./utils/saveConfig`); //function for saving src/json/config.json
 client.saveDB = require(`./utils/saveDB`); //function for saving src/json/database.json
 client.savePerms = require(`./utils/savePerms`); //function for saving src/json/perms.json
-let save = require(`./utils/save`);
-client.save = save;
+let save = require(`./utils/save`); //combined saving
+client.save = save; //declaring combined saving
+
 //handlers
 require(`./utils/loadEvents`)(client); //event handler
 require(`./utils/loadCommands`)(client); //command handler
