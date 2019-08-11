@@ -4,8 +4,8 @@ const enmap = require('enmap'); //enmap object for command handler
 const fs = require('fs');
 const schedule = require('node-schedule'); //yet useless
 require('npm-package-to-env').config(); //importing version value from package.json
-require(`./extensions/errorHandler`); //handling thrown errors
 
+require(`./utils/errorHandler`); //handling thrown errors
 var Promise = require('bluebird'); //module for error handler and rejections while using fs.writeFile
 Promise.config({longStackTraces:true}); //enabling long stack trees
 
@@ -33,8 +33,8 @@ client.savePerms = require(`./utils/savePerms`); //function for saving src/json/
 let save = require(`./utils/save`);
 client.save = save;
 //handlers
-require(`./extensions/loadEvents`)(client); //event handler
-require(`./extensions/loadCommands`)(client); //command handler
+require(`./utils/loadEvents`)(client); //event handler
+require(`./utils/loadCommands`)(client); //command handler
 
 //discord authentication
 client.login(auth.token); //logging to WebSocket with specified client token
