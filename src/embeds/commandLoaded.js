@@ -7,13 +7,12 @@ module.exports = (client, message, wascmd, cmd) => {
             icon_url: message.author.avatarURL
         },
         author: {
-            name:`Success!`
+            name: `${wascmd?"reloaded":"loaded"} ${client.config.prefix}${cmd}!`
         },
-        description: `Command **${client.config.prefix}${cmd}** has been ${wascmd?"reloaded":"loaded"}! Description:
-        ${client.commands.get(cmd).description.replace(/{PREFIX}/g, client.config.prefix)}`,
+        description: `Description: ${client.commands.get(cmd).description.replace(/{PREFIX}/g, client.config.prefix)}`,
         fields: [
             {
-                name:`**${client.config.prefix}${cmd}**${wascmd?" usage:":""}`,
+                name: "Usage",
                 value:`${client.commands.get(cmd).usage.replace(/{PREFIX}/g, client.config.prefix)}`
             },
         ]
