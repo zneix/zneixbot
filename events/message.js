@@ -24,17 +24,17 @@ module.exports = (client, message) => {
             let cmd = client.commands.get(command());
             if (!cmd) throw `"${command()}" is not a command!`;
             //permission handler
-            if (!perms.isOwner()) {
+            if (!perms.isOwner()) { //disabling handler for users with owner perms aka bot's gods
                 if (typeof cmd.perms !== "string") perms.check(cmd.perms);
                 else switch(cmd.perms){
                     case "owner":throw "This command requires **bot owner** prvileges to run!";break;
-                    case "admin":perms.isAdmin(cmd);break;
-                    case "mod":perms.isMod(cmd);break;
-                    case "user":perms.cmdLog(cmd, "user");break;
+                    case "admin":perms.isAdmin(/*cmd*/);break;
+                    case "mod":perms.isMod(/*cmd*/);break;
+                    case "user":perms.cmdLog(/*cmd, "user"*/);break;
                     default:throw `Command ${cmd.name.substr(8)} missing export.permission definition or has non-standard/unusual permission definition. Check Permissions Handler SwitchCase for available permissions or add a new one if needed. Consult with others before hand.`;
                 }
             }
-            else perms.cmdLog(cmd, typeof cmd.perms !== "string"?"guild-perm":cmd.perms);
+            // else perms.cmdLog(cmd, typeof cmd.perms !== "string"?"guild-perm":cmd.perms);
             cmd.run(client, message);
         }
         else {

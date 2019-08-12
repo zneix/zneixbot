@@ -6,13 +6,13 @@ module.exports = (client, message) => {
         if (!perms.owner.includes(id)) return false;
         return true;
     }
-    let admin = function(cmd){
+    let admin = function(/*cmd*/){
         if (!perms.owner.includes(id) && !perms.admin.includes(id)) throw "This command requires **bot administrator** prvileges to run!"
-        return cmdLog(cmd, "admin");
+        // return cmdLog(cmd, "admin");
     }
-    let mod = function(cmd){
+    let mod = function(/*cmd*/){
         if (!perms.owner.includes(id) && !perms.admin.includes(id) && !perms.mod.includes(id)) throw "This command requires **bot moderator** prvileges to run!"
-        return cmdLog(cmd, "mod");
+        // return cmdLog(cmd, "mod");
     }
     let banned = function(){
         if (perms.ban.includes(id)) throw "You are banned from the bot!"
