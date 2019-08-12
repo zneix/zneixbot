@@ -14,7 +14,10 @@ Discord.Message.prototype.command = async function(num, func){
             // if (num <= args.length) throw "Too many arguments!" //I guess this one is useless for now, so I've disabled it
             if (num > args.length) throw `Too few (${args.length}) arguments!`
         }
-        func().catch(async err => {
+        try {
+            await func();
+        }
+        catch (err) {
             console.log(err);
             console.trace("Async/Promise rejection command error: "+err);
             var embed = {
@@ -33,8 +36,7 @@ Discord.Message.prototype.command = async function(num, func){
                     timestamp: new Date()
             }
             this.channel.send({embed:embed}).then(msg => {if (this.client.config.delete.error) msg.delete(this.client.config.delete.time)});
-            
-        });
+        };
     }
     catch (error) {
         console.trace("Sync command error: "+error);
