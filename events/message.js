@@ -28,13 +28,13 @@ module.exports = (client, message) => {
                 if (typeof cmd.perms !== "string") perms.check(cmd.perms);
                 else switch(cmd.perms){
                     case "owner":throw "This command requires **bot owner** prvileges to run!";break;
-                    case "user":console.log(`user command called!`);break;
                     case "admin":perms.isAdmin(cmd);break;
                     case "mod":perms.isMod(cmd);break;
+                    case "user":perms.cmdLog(cmd, "user");break;
                     default:throw `Command ${cmd.name.substr(8)} missing export.permission definition or has non-standard/unusual permission definition. Check Permissions Handler SwitchCase for available permissions or add a new one if needed. Consult with others before hand.`;
                 }
             }
-            else console.log((typeof cmd.perms !== "string"?"guild-perm":cmd.perms)+" command called!");
+            else perms.cmdLog(cmd, typeof cmd.perms !== "string"?"guild-perm":cmd.perms);
             cmd.run(client, message);
         }
         else {
