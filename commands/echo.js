@@ -15,9 +15,8 @@ exports.run = async (client, message) => {
         else return result(taggedChannel);
         function result(channel){
             message.delete();
-            if (!channel) channel=message.channel;
-            else message.args.splice(0, 1);
-            channel.send(message.args.join(" "));
+            if (!channel) message.channel.send(message.args.join(" "));
+            else channel.send(message.args.slice(1).join(" "));
         }
     });
 }
