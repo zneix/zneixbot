@@ -20,32 +20,32 @@ module.exports = (client, message) => {
     let check = function(perms){
         if (!message.member.hasPermission(perms)) throw `This command requires ${perms.length === 1?`**${perms}** permission`:`**${perms.join(", ")}** permissions`} to run!`
     }
-    function cmdLog(cmd, level){
-        console.log(`(cmd; level ${level}) ${cmd.name.replace(/{PREFIX}/, "")}`);
-        let logs = client.channels.get(client.config.channels.logs);
-        if (logs) {
-            var embed = {
-                color: 0x0008ff,
-                timestamp: new Date(),
-                footer: {
-                    text: message.author.tag,
-                    icon_url: message.author.avatarURL
-                },
-                author: {
-                    name: "Command successfully executed"
-                },
-                description: `${message.author} in ${message.channel} \n**Command**: ${cmd.name.replace(/{PREFIX}/, "")}\n**Arguments**: ${message.args.length?message.args.join(" "):"N/A"}`
-            }
-            logs.send({embed:embed});
-        }
-        else console.log(`(!cmd) logs channel not found!`);
-    }
+    // function cmdLog(cmd, level){
+    //     console.log(`(cmd; level ${level}) ${cmd.name.replace(/{PREFIX}/, "")}`);
+    //     let logs = client.channels.get(client.config.channels.logs);
+    //     if (logs) {
+    //         var embed = {
+    //             color: 0x0008ff,
+    //             timestamp: new Date(),
+    //             footer: {
+    //                 text: message.author.tag,
+    //                 icon_url: message.author.avatarURL
+    //             },
+    //             author: {
+    //                 name: "Command successfully executed"
+    //             },
+    //             description: `${message.author} in ${message.channel} \n**Command**: ${cmd.name.replace(/{PREFIX}/, "")}\n**Arguments**: ${message.args.length?message.args.join(" "):"N/A"}`
+    //         }
+    //         logs.send({embed:embed});
+    //     }
+    //     else console.log(`(!cmd) logs channel not found!`);
+    // }
     return {
         check: check,
         isOwner: owner,
         isAdmin: admin,
         isMod: mod,
-        isBanned: banned,
-        cmdLog: cmdLog
+        isBanned: banned
+        // cmdLog: cmdLog
     }
 }
