@@ -5,7 +5,7 @@ module.exports = (client, message) => {
         //funny thing to react on mention
         let prefix = function(){return message.content.substr(0, client.config.prefix.length).toLowerCase();}
         if (prefix() == client.config.prefix) {
-            const perms = require(`../utils/permissionUtil`)(client, message);
+            const perms = require(`../utils/permsHandler`)(client, message);
             perms.isBanned(); //ban check
             let command = function(){
                 if (prefix().endsWith(" ")) return message.content.split(/ +/g)[1].toLowerCase();
