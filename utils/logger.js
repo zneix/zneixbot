@@ -1,5 +1,5 @@
 module.exports = client => {
-    let ready = function(client){
+    let ready = function(){
         console.log(`[ready] Connected as: '${client.user.tag}'`);
         let logs = client.channels.get(client.config.channels.logs);
         if (logs) {
