@@ -30,17 +30,14 @@ exports.run = async (client, message) => {
                     name: user.tag,
                     icon_url: user.avatarURL
                 },
-                thumbnail: user.avatarURL,
+                thumbnail: {
+                    url: user.avatarURL
+                },
                 description: user.toString(),
                 fields: [
                     {
                         name: "User ID",
                         value: user.id,
-                        inline: true
-                    },
-                    {
-                        name: "Bot?",
-                        value: user.bot,
                         inline: true
                     },
                     {
