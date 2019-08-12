@@ -4,6 +4,7 @@ exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} (number 
 exports.perms = ['MANAGE_MESSAGES']
 
 exports.run = async (client, message) => {
+    message.cmd = this;
     message.command(1, async () => {
         if (isNaN(message.args[0]) || message.args[0] < 1) throw "This is not a valid positive number!"
         if (message.args[0] > 100) throw "Deleting more than **100** messages at once is impossible."

@@ -4,6 +4,7 @@ exports.usage = `Running **{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)
 exports.perms = `user`
 
 exports.run = (client, message) => {
+    message.cmd = this;
     message.command(false, async () => {
         var prefix = client.config.prefix;
         if (message.args.length) cmd = client.commands.get(message.args[0].toLowerCase());

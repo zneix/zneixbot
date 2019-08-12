@@ -16,6 +16,8 @@ Discord.Message.prototype.command = async function(num, func){
         }
         try {
             await func();
+            const logger = require('./logger')(this.client);
+            logger.command(this, this.cmd, typeof this.cmd.perms !== "string"?"guild-perm":this.cmd.perms);
         }
         catch (err) {
             console.log(err);

@@ -4,6 +4,7 @@ exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} [user ID
 exports.perms = `user`
 
 exports.run = async (client, message) => {
+    message.cmd = this;
     message.command(false, async () => {
         const time = require('../utils/timeUtil');
         if (!message.args.length) return result(message.author);

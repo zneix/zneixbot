@@ -4,6 +4,7 @@ exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`
 exports.perms = `user`
 
 exports.run = async (client, message) => {
+    message.cmd = this;
     message.command(false, async () => {
         let arr = [];
         let mainMoves = ["U", "F", "R", "D", "B", "L"];

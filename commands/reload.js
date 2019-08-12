@@ -4,6 +4,7 @@ exports.usage = `**{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}** **(c
 exports.perms = `owner`
 
 exports.run = async (client, message) => {
+    message.cmd = this;
     message.command(1, async () => {
         let cmd = message.args[0].toLowerCase();
         //throwing an error if command does not exist

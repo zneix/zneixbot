@@ -4,6 +4,7 @@ exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} [code]`
 exports.perms = `owner`
 
 exports.run = async (client, message) => {
+    message.cmd = this;
     message.command(false, async () => {
         function clean(text) {
             if (typeof(text) === "string") return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
