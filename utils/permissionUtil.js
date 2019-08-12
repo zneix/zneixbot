@@ -6,11 +6,11 @@ module.exports = (client, message) => {
         if (!perms.owner.includes(id)) return false;
         return true;
     }
-    let admin = function(){
+    let admin = function(cmd){
         if (!perms.owner.includes(id) && !perms.admin.includes(id)) throw "This command requires **bot administrator** prvileges to run!"
         return console.log("admin command called!");
     }
-    let mod = function(){
+    let mod = function(cmd){
         if (!perms.owner.includes(id) && !perms.admin.includes(id) && !perms.mod.includes(id)) throw "This command requires **bot moderator** prvileges to run!"
         return console.log("mod command called!");
     }
