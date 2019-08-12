@@ -31,6 +31,7 @@ client.saveDB = require(`./utils/saveDB`); //function for saving src/json/databa
 client.savePerms = require(`./utils/savePerms`); //function for saving src/json/perms.json
 let save = require(`./utils/save`); //combined saving
 client.save = save; //declaring combined saving
+client.logger = require('./utils/logger')(client);
 
 //handlers
 require(`./utils/loadEvents`)(client); //event handler
