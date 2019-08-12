@@ -8,6 +8,5 @@ module.exports = client => {
             type: 1
         }
     });
-    const logger = require('../utils/logger')(client);
-    logger.ready(client);
+    client.logger.ready();
 }

@@ -17,8 +17,7 @@ Discord.Message.prototype.command = async function(num, func){
         try {
             await func();
             //this executes after command returns no issues (tl;dr when error flag === 0)
-            const logger = require('./logger')(this.client);
-            logger.command(this, this.cmd, typeof this.cmd.perms !== "string"?"guild-perm":this.cmd.perms);
+            this.client.logger.command(this, this.cmd, typeof this.cmd.perms !== "string"?"guild-perm":this.cmd.perms);
         }
         catch (err) {
             console.log(err);
