@@ -13,11 +13,9 @@ exports.run = async (client, message) => {
         }
         //TODO: Finish this later ;)
         // else if (/^\d+$/.test(message.args[0])) {
-        //     try {
-        //         let url = `https://cdn.discordapp.com/emojis/${message.args[0]}`;
-        //         message.channel.send(`<${url}>`, {file:url});
-        //     }
-        //     catch (err) {message.reply("tyś kurwa złe ID podał")}
+        //     let url = `https://cdn.discordapp.com/emojis/${message.args[0]}`;
+        //     try {message.channel.send(`<${url}>`, {file:url});}
+        //     catch (issue) {throw "coś poszło nie tak ;c\n"+issue}
         // }
         else {message.channel.send("that's not an emote nor it's ID NaM");}
     });
