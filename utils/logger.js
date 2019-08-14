@@ -70,7 +70,7 @@ module.exports = client => {
                     name: message.guild.name+" — \""+message.channel.name+"\"",
                     icon_url: message.author.avatarURL
                 },
-                description: type==="message"?"`There was an error in the message event:":"**"+message.author.username+"#"+message.author.discriminator+":"+message.author.id+"** failed to call: ***"+message.content+"***",
+                description: type==="message"?"There was an error in the message event:":"**"+message.author.username+"#"+message.author.discriminator+":"+message.author.id+"** failed to call: ***"+message.content+"***",
                 fields:[
                     {
                         name: "Reason:",
