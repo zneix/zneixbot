@@ -16,7 +16,7 @@ Discord.Message.prototype.command = async function(num, func){
         }
         try {
             await func();
-            //this executes after command returns no issues (tl;dr when error flag === 0)
+            //executes after command returns no issues (tl;dr when error flag === 0)
             this.client.logger.command(this, this.cmd, typeof this.cmd.perms !== "string"?"guild-perm":this.cmd.perms);
         }
         catch (err) {
@@ -58,6 +58,8 @@ Discord.Message.prototype.command = async function(num, func){
                 timestamp: new Date()
         }
         this.channel.send({embed:embed}).then(msg => {if (this.client.config.delete.error) msg.delete(this.client.config.delete.time)});
+    //executes whether promise was resolved or not
+    finally {
+        // this.delete(0); //removed due to confusion sometimes
     }
-    // this.delete(0); //removed due to confusion sometimes
 }
