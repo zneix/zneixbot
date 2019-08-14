@@ -50,8 +50,40 @@ module.exports = client => {
         }
         else console.log(`(!cmd) logs channel not found!`);
     }
+    let caughtError = function(message, err, type){
+        switch(type){
+            case "message":
+                if (typeof err !== "string") err.stack = err;
+                break;
+            case "reject":
+                console.trace("Async/Promise rejection command error: "+err);
+                break;
+            case "sync":
+                console.trace("Sync command error: "+err);
+                break;
+            default:console.trace("Sync command error: "+err);
+        }
+        console.log(err);
+        var embed = {
+            color: 0xff5050,
+            author: {
+                    name: message.guild.name+" — \""+message.channel.name+"\"",
+                    icon_url: message.author.avatarURL
+                },
+                description: type==="message"?"`There was an error in the message event:":"**"+message.author.username+"#"+message.author.discriminator+":"+message.author.id+"** failed to call: ***"+message.content+"***",
+                fields:[
+                    {
+                        name: "Reason:",
+                        value: err.substring(0,1023),
+                    }
+                ],
+                timestamp: new Date()
+        }
+        message.channel.send({embed:embed}).then(msg => {if (message.client.config.delete.error) msg.delete(message.client.config.delete.time)});
+    }
     return {
         ready: ready,
-        command: command
+        command: command,
+        caughtError: caughtError
     }
 }
