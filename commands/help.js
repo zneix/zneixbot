@@ -10,9 +10,9 @@ exports.run = (client, message) => {
         if (message.args.length) cmd = client.commands.get(message.args[0].toLowerCase());
         if (!message.args.length || !cmd) {
             let commandList = "";
-            client.commands.forEach((object, key, map) => commandList = commandList.concat(`\`${key}\`\n`));
+            client.commands.filter(cmd => cmd.perms === "user").forEach((object, key, map) => commandList = commandList.concat(`\`${key}\`\n`));
             var cmd = client.commands.get("help");
-            embed = { //send general help with command list
+            let embed = { //send general help with command list
                 color: parseInt("0x99ff66"),
                 author: {
                     name: client.user.tag+" "+client.version,
@@ -24,12 +24,42 @@ exports.run = (client, message) => {
                         value: `${cmd.usage.replace(/{PREFIX}/g, prefix)}`
                     },
                     {
-                        name: "List of all commands:",
+                        name: "List of all commands",
                         value: commandList
                     }
                 ],
             }
-            return message.channel.send({embed:embed}).then(msg => msg.delete(90000));
+            //showing extra commands
+            switch(message.perms.levelCheck()){
+                // append owner commands
+                case "owner":
+                    let modList = "";
+                    client.commands.filter(cmd => cmd.perms === 'mod').forEach((object, key, map) => modList = modList.concat(`\`${key}\`\n`))
+                    embed.fields.push({
+                        name: "Moderator commands",
+                        value: modList
+                    });
+                // append admin commands
+                case "admin":
+                    let adminList = "";
+                    client.commands.filter(cmd => cmd.perms === 'admin').forEach((object, key, map) => adminList = adminList.concat(`\`${key}\`\n`))
+                    await embed.fields.push({
+                        name: "Administrator commands",
+                        value: adminList
+                    });
+                // append mod commands
+                case "mod":
+                    let ownerList = "";
+                    client.commands.filter(cmd => cmd.perms === 'owner').forEach((object, key, map) => ownerList = ownerList.concat(`\`${key}\`\n`))
+                    await embed.fields.push({
+                        name: "Owner commands",
+                        value: ownerList
+                    });
+                case "user":
+                    break;
+                default:break;
+            }
+            return message.channel.send({embed:embed});
         }
         embed = { //send dynamic help
             color: 0x99ff66,
