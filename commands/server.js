@@ -18,6 +18,9 @@ exports.run = async (client, message) => {
                 name: message.guild.name,
                 icon_url: message.guild.iconURL
             },
+            thumbnail: {
+                url: message.guild.iconURL
+            },
             fields: [
                 {
                     name: "Time created",
