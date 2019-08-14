@@ -56,7 +56,14 @@ exports.run = async (client, message) => {
                     },
                     {
                         name: `Roles${member?` [${arr.length}]`:""}`,
-                        value: member?arr.length?arr.join(" "):"None.":"The user is not in this guild.",
+                        value: 
+                        member?
+                            arr.length?
+                                arr.join(" ").length<1023?
+                                    arr.join(" ")
+                                    :arr.join(" ").substr(0, 1012)+"\n[truncated]"
+                                :"None."
+                            :"The user is not in this guild.",
                         inline: false
                     }
                 ]
