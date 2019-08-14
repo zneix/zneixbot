@@ -20,44 +20,12 @@ Discord.Message.prototype.command = async function(num, func){
             this.client.logger.command(this, this.cmd, typeof this.cmd.perms !== "string"?"guild-perm":this.cmd.perms);
         }
         catch (err) {
-            console.log(err);
-            console.trace("Async/Promise rejection command error: "+err);
-            var embed = {
-                color: 0xff5050,
-                author: {
-                        name:this.guild.name+" — \""+this.channel.name+"\"",
-                        icon_url: this.author.avatarURL
-                    },
-                    description: "**"+this.author.username+"#"+this.author.discriminator+":"+this.author.id+"** failed to call: ***"+this.content+"***",
-                    fields:[
-                        {
-                            name: "Reason:",
-                            value: err.substring(0,1023),
-                        }
-                    ],
-                    timestamp: new Date()
-            }
-            this.channel.send({embed:embed}).then(msg => {if (this.client.config.delete.error) msg.delete(this.client.config.delete.time)});
-        };
+            this.client.logger.caughtError(this, err, "reject");
+        }
     }
     catch (error) {
-        console.trace("Sync command error: "+error);
-        var embed = {
-            color: 0xff5050,
-            author: {
-                    name:this.guild.name+" — \""+this.channel.name+"\"",
-                    icon_url: this.author.avatarURL
-                },
-                description: "**"+this.author.username+"#"+this.author.discriminator+":"+this.author.id+"** failed to call: ***"+this.content+"***",
-                fields:[
-                    {
-                        name: "Reason:",
-                        value: error.substring(0,1023),
-                    }
-                ],
-                timestamp: new Date()
-        }
-        this.channel.send({embed:embed}).then(msg => {if (this.client.config.delete.error) msg.delete(this.client.config.delete.time)});
+        this.client.logger.caughtError(this, error, "sync");
+    }
     //executes whether promise was resolved or not
     finally {
         // this.delete(0); //removed due to confusion sometimes
