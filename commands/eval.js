@@ -1,7 +1,7 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
 exports.description = `Executes provided code.`;
-exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} [code]`
-exports.perms = `owner`
+exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} [code]`;
+exports.perms = 'owner';
 
 exports.run = async (client, message) => {
     message.cmd = this;

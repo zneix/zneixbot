@@ -1,7 +1,7 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
 exports.description = `Emote showcaser - under developement.`;
-exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} :emote:`
-exports.perms = `user`
+exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} :emote:`;
+exports.perms = 'user';
 
 exports.run = async (client, message) => {
     message.cmd = this;

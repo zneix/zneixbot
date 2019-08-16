@@ -1,7 +1,7 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
 exports.description = `Reloads command with latest code.`;
-exports.usage = `**{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}** **(command)**`
-exports.perms = `admin`
+exports.usage = `**{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} (command)**`;
+exports.perms = 'admin';
 
 exports.run = async (client, message) => {
     message.cmd = this;
