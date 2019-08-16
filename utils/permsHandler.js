@@ -70,10 +70,10 @@ module.exports = (client, message) => {
         function locexit(){throw `This command requires ${given.length === 1?`**${given}** permission`:`**${given.join(", ")}** permissions`} to run!`}
     }
     let levelCheck = function(){
-        if (perms.owner.includes(id)) return "owner";
-        if (perms.admin.includes(id)) return "admin";
-        if (perms.mod.includes(id)) return "mod";
-        return "user";
+        if (perms.owner.includes(id)) return 3;
+        if (perms.admin.includes(id)) return 2;
+        if (perms.mod.includes(id)) return 1;
+        return 0;
     }
     return {
         guildperm: guildperm,
