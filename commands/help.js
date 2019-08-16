@@ -24,40 +24,42 @@ exports.run = (client, message) => {
                         value: `${cmd.usage.replace(/{PREFIX}/g, prefix)}`
                     },
                     {
-                        name: "List of all commands",
+                        name: "User commands",
                         value: commandList
                     }
                 ],
             }
             //showing extra commands
-            switch(message.perms.levelCheck()){
-                // append owner commands
-                case "owner":
-                    let ownerList = "";
-                    client.commands.filter(cmd => cmd.perms === 'owner').forEach((object, key, map) => ownerList = ownerList.concat(`\`${key}\`\n`))
-                    await embed.fields.push({
-                        name: "Owner commands",
-                        value: ownerList
-                    });
-                // append admin commands
-                case "admin":
-                    let adminList = "";
-                    client.commands.filter(cmd => cmd.perms === 'admin').forEach((object, key, map) => adminList = adminList.concat(`\`${key}\`\n`))
-                    await embed.fields.push({
-                        name: "Administrator commands",
-                        value: adminList
-                    });
-                // append mod commands
-                case "mod":
-                    let modList = "";
-                    client.commands.filter(cmd => cmd.perms === 'mod').forEach((object, key, map) => modList = modList.concat(`\`${key}\`\n`))
-                    embed.fields.push({
-                        name: "Moderator commands",
-                        value: modList
-                    });
-                case "user":
-                    break;
-                default:break;
+            function emote(emoteName){
+                let assets = client.guilds.get(client.config.guilds.asset);
+                return assets.emojis.find(e => e.name === emoteName);
+            }
+            // append mod commands
+            if (message.perms.levelCheck() > 0) {
+                let modList = "";
+                client.commands.filter(cmd => cmd.perms === 'mod').forEach((object, key, map) => modList = modList.concat(`\`${key}\`\n`))
+                embed.fields.push({
+                    name: emote("mod")+" Moderator commands "+emote("mod"),
+                    value: modList
+                });
+            }
+            // append admin commands
+            if (message.perms.levelCheck() > 1) {
+                let adminList = "";
+                client.commands.filter(cmd => cmd.perms === 'admin').forEach((object, key, map) => adminList = adminList.concat(`\`${key}\`\n`))
+                await embed.fields.push({
+                    name: emote("staff")+" Administrator commands "+emote("staff"),
+                    value: adminList
+                });
+            }
+            // append owner commands
+            if (message.perms.levelCheck() > 2) {
+                let ownerList = "";
+                client.commands.filter(cmd => cmd.perms === 'owner').forEach((object, key, map) => ownerList = ownerList.concat(`\`${key}\`\n`))
+                await embed.fields.push({
+                    name: emote("owner")+" Owner commands "+emote("owner"),
+                    value: ownerList
+                });
             }
             return message.channel.send({embed:embed});
         }
@@ -75,6 +77,6 @@ exports.run = (client, message) => {
                 },
             ],
         }
-        return message.channel.send({embed:embed}).then(msg => msg.delete(90000));
+        return message.channel.send({embed:embed});
     });
 }
