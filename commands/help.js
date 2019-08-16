@@ -33,11 +33,11 @@ exports.run = (client, message) => {
             switch(message.perms.levelCheck()){
                 // append owner commands
                 case "owner":
-                    let modList = "";
-                    client.commands.filter(cmd => cmd.perms === 'mod').forEach((object, key, map) => modList = modList.concat(`\`${key}\`\n`))
-                    embed.fields.push({
-                        name: "Moderator commands",
-                        value: modList
+                    let ownerList = "";
+                    client.commands.filter(cmd => cmd.perms === 'owner').forEach((object, key, map) => ownerList = ownerList.concat(`\`${key}\`\n`))
+                    await embed.fields.push({
+                        name: "Owner commands",
+                        value: ownerList
                     });
                 // append admin commands
                 case "admin":
@@ -49,11 +49,11 @@ exports.run = (client, message) => {
                     });
                 // append mod commands
                 case "mod":
-                    let ownerList = "";
-                    client.commands.filter(cmd => cmd.perms === 'owner').forEach((object, key, map) => ownerList = ownerList.concat(`\`${key}\`\n`))
-                    await embed.fields.push({
-                        name: "Owner commands",
-                        value: ownerList
+                    let modList = "";
+                    client.commands.filter(cmd => cmd.perms === 'mod').forEach((object, key, map) => modList = modList.concat(`\`${key}\`\n`))
+                    embed.fields.push({
+                        name: "Moderator commands",
+                        value: modList
                     });
                 case "user":
                     break;
