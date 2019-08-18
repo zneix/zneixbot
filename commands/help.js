@@ -35,35 +35,36 @@ exports.run = (client, message) => {
                 return assets.emojis.find(e => e.name === emoteName);
             }
             // append mod commands
-            if (message.perms.levelCheck() > 0) {
+            if (message.perms.levelCheck().number > 0) {
                 let modList = "";
                 client.commands.filter(cmd => cmd.perms === 'mod').forEach((object, key, map) => modList = modList.concat(`\`${key}\`\n`))
                 embed.fields.push({
-                    name: emote("mod")+" Moderator commands "+emote("mod"),
+                    name: emote("mod")+" Moderator commands",
                     value: modList
                 });
             }
             // append admin commands
-            if (message.perms.levelCheck() > 1) {
+            if (message.perms.levelCheck().number > 1) {
                 let adminList = "";
                 client.commands.filter(cmd => cmd.perms === 'admin').forEach((object, key, map) => adminList = adminList.concat(`\`${key}\`\n`))
                 await embed.fields.push({
-                    name: emote("staff")+" Administrator commands "+emote("staff"),
+                    name: emote("staff")+" Administrator commands",
                     value: adminList
                 });
             }
             // append owner commands
-            if (message.perms.levelCheck() > 2) {
+            if (message.perms.levelCheck().number > 2) {
                 let ownerList = "";
                 client.commands.filter(cmd => cmd.perms === 'owner').forEach((object, key, map) => ownerList = ownerList.concat(`\`${key}\`\n`))
                 await embed.fields.push({
-                    name: emote("owner")+" Owner commands "+emote("owner"),
+                    name: emote("broadcaster")+" Owner commands",
                     value: ownerList
                 });
             }
             return message.channel.send({embed:embed});
         }
-        embed = { //send dynamic help
+        //send dynamic help
+        embed = {
             color: 0x99ff66,
             author: {
                 name: `${cmd.name.replace(/{PREFIX}/g, prefix)}`,

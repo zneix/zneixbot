@@ -25,7 +25,7 @@ module.exports = (client, message) => {
             if (!cmd) throw `"${command()}" is not a command!`;
             //permission handler
             if (!message.perms.isOwner()) { //disabling handler for users with owner perms aka bot's gods
-                if (typeof cmd.perms !== "string") message.perms.guildperm(cmd.perms); //checking guild-perms (with some overrides on admin-level)
+                if (typeof cmd.perms !== "string") message.perms.guildperm(cmd.perms, false); //checking guild-perms (with some overrides on admin-level)
                 else switch(cmd.perms){
                     case "owner":throw "This command requires **bot owner** prvileges to run!";break;
                     case "admin":message.perms.isAdmin();break;
