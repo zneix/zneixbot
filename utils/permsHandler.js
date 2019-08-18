@@ -37,50 +37,86 @@ module.exports = (client, message) => {
 		'MANAGE_EMOJIS'
     ];
 
-    let owner = function(){
+    function isOwner(){
         if (!perms.owner.includes(id)) return false;
         return true;
     }
-    let admin = function(){
+    function isAdmin(bool){
+        if (bool) {
+            if (!perms.owner.includes(id) && !perms.admin.includes(id)) return false;
+            return true;
+        }
         if (!perms.owner.includes(id) && !perms.admin.includes(id)) throw "This command requires **bot administrator** prvileges to run!"
     }
-    let mod = function(){
+    function isMod(bool){
+        if (bool) {
+            if (!perms.owner.includes(id) && !perms.admin.includes(id) && !perms.mod.includes(id)) return false;
+            return true;
+        }
         if (!perms.owner.includes(id) && !perms.admin.includes(id) && !perms.mod.includes(id)) throw "This command requires **bot moderator** prvileges to run!"
     }
-    let banned = function(){
+    function isBanned(){
         if (perms.ban.includes(id)) throw "You are banned from the bot!"
     }
-    let guildperm = function(given){
-        if (!owner() && !perms.admin.includes(id)) {
-            if (!message.member.hasPermission(given)) locexit();
+    function guildperm(given, bool){
+        if (!isOwner() && !perms.admin.includes(id)) {
+            if (!message.member.hasPermission(given)) return locexit();
         }
-        //TODO: Finish this clearance later
-        let permLack;
-        let ovrLack
-        given.forEach(perm => {
-            console.log(given)
-            console.log(perm)
-            console.log(!message.member.hasPermission(perm))
-            console.log(!adminOverrides.includes(perm))
-            if (!message.member.hasPermission(perm)) permLack = true;
-            if (!adminOverrides.includes(perm)) ovrLack = true;
-        });
-        if (permLack && ovrLack) locexit();
-        // throw "You have perms FeelsOkayMan";
-        function locexit(){throw `This command requires ${given.length === 1?`**${given}** permission`:`**${given.join(", ")}** permissions`} to run!`}
+        else {
+            let permLack;
+            let ovrLack
+            given.forEach(perm => {
+                // console.log(given)
+                // console.log(perm)
+                // console.log(!message.member.hasPermission(perm))
+                // console.log(!adminOverrides.includes(perm))
+                if (!message.member.hasPermission(perm)) permLack = true;
+                if (!adminOverrides.includes(perm)) ovrLack = true;
+            });
+            if (permLack && ovrLack) return locexit();
+        }
+        if (bool) return true;
+        function locexit(){
+            if (bool) return false;
+            throw `This command requires ${given.length === 1?`**${given}** permission`:`**${given.join(", ")}** permissions`} to run!`
+        }
     }
-    let levelCheck = function(){
-        if (perms.owner.includes(id)) return 3;
-        if (perms.admin.includes(id)) return 2;
-        if (perms.mod.includes(id)) return 1;
-        return 0;
+    function levelCheck(cmdPerms){
+        if (cmdPerms) { //when cmd.perms is given
+            if (typeof cmdPerms === "string") switch(cmdPerms){
+                case "owner": return 3;
+                case "admin": return 2;
+                case "mod": return 1;
+                case "user": return 0;
+            }
+            else return cmdPerms;
+        }
+        else { //when function runs without parameters
+            if (perms.owner.includes(id)) return {string:"owner",number:3}
+            if (perms.admin.includes(id)) return {string:"admin",number:2}
+            if (perms.mod.includes(id)) return {string:"mod",number:1}
+            return {string:"user",number:0}
+        }
+    }
+    function isAllowed(cmd){
+        if (!isOwner()) { //disabling handler for users with owner perms aka bot's gods
+            if (typeof cmd.perms !== "string") return guildperm(cmd.perms, true); //checking guild-perms (with some overrides on admin-level)
+            else switch(cmd.perms){
+                case "owner":return false;
+                case "admin":return isAdmin(true);
+                case "mod":return isMod(true);
+                case "user":return true;
+            }
+        }
+        else return true;
     }
     return {
+        isOwner: isOwner,
+        isAdmin: isAdmin,
+        isMod: isMod,
+        isBanned: isBanned,
         guildperm: guildperm,
         levelCheck: levelCheck,
-        isOwner: owner,
-        isAdmin: admin,
-        isMod: mod,
-        isBanned: banned
+        isAllowed: isAllowed
     }
 }
