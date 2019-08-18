@@ -66,10 +66,6 @@ module.exports = (client, message) => {
             let permLack;
             let ovrLack
             given.forEach(perm => {
-                // console.log(given)
-                // console.log(perm)
-                // console.log(!message.member.hasPermission(perm))
-                // console.log(!adminOverrides.includes(perm))
                 if (!message.member.hasPermission(perm)) permLack = true;
                 if (!adminOverrides.includes(perm)) ovrLack = true;
             });
@@ -78,7 +74,7 @@ module.exports = (client, message) => {
         if (bool) return true;
         function locexit(){
             if (bool) return false;
-            throw `This command requires ${given.length === 1?`**${given}** permission`:`**${given.join(", ")}** permissions`} to run!`
+            throw `This command requires ${given.length === 1?`**${given}** permission`:`**${given.join(", ")}** permissions`} to run!`;
         }
     }
     function levelCheck(cmdPerms){
@@ -98,17 +94,19 @@ module.exports = (client, message) => {
             return {string:"user",number:0}
         }
     }
-    function isAllowed(cmd){
+    function isAllowed(cmd, beSilent){
         if (!isOwner()) { //disabling handler for users with owner perms aka bot's gods
-            if (typeof cmd.perms !== "string") return guildperm(cmd.perms, true); //checking guild-perms (with some overrides on admin-level)
+            if (typeof cmd.perms !== "string") return guildperm(cmd.perms, beSilent); //checking guild-perms (with some overrides on admin-level)
             else switch(cmd.perms){
-                case "owner":return false;
-                case "admin":return isAdmin(true);
-                case "mod":return isMod(true);
-                case "user":return true;
+                case "owner":
+                    if (beSilent) return false;
+                    else throw "This command requires **bot owner** prvileges to run!";
+                case "admin":return isAdmin(beSilent);
+                case "mod":return isMod(beSilent);
+                case "user":if (beSilent) return true;
             }
         }
-        else return true;
+        else if (beSilent) return true;
     }
     return {
         isOwner: isOwner,
