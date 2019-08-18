@@ -8,7 +8,7 @@ exports.run = (client, message) => {
     message.command(false, async () => {
         var prefix = client.config.prefix;
         if (message.args.length) cmd = client.commands.get(message.args[0].toLowerCase());
-        if (!message.args.length || !cmd) {
+        if (!message.args.length || !cmd || !message.perms.isAllowed(cmd)) {
             let commandList = "";
             client.commands.filter(cmd => cmd.perms === "user").forEach((object, key, map) => commandList = commandList.concat(`\`${key}\`\n`));
             var cmd = client.commands.get("help");
