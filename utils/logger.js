@@ -1,5 +1,5 @@
 module.exports = client => {
-    let ready = function(){
+    function ready(){
         console.log(`[ready] Connected as: '${client.user.tag}'`);
         let logs = client.channels.get(client.config.channels.logs);
         if (logs) {
@@ -30,7 +30,7 @@ module.exports = client => {
         }
         else console.log(`[!ready] logs channel not found!`); //code executed as an error message
     }
-    let command = function(message, cmd, level){
+    function command(message, cmd, level){
         console.log(`(cmd; level ${level}) ${cmd.name.replace(/{PREFIX}/, "")}`);
         let logs = client.channels.get(client.config.channels.logs);
         if (logs) {
@@ -50,7 +50,7 @@ module.exports = client => {
         }
         else console.log(`(!cmd) logs channel not found!`);
     }
-    let caughtError = function(message, err, type){
+    function caughtError(message, err, type){
         switch(type){
             case "message":
                 if (typeof err !== "string") err.stack = err;
@@ -79,7 +79,7 @@ module.exports = client => {
                 ],
                 timestamp: new Date()
         }
-        message.channel.send({embed:embed}).then(msg => {if (message.client.config.delete.error) msg.delete(message.client.config.delete.time)});
+        message.channel.send({embed:embed}).then(msg => {if (client.config.delete.error) msg.delete(client.config.delete.time)});
     }
     return {
         ready: ready,
