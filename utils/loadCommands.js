@@ -1,6 +1,7 @@
+let fs = require('fs');
 module.exports = client => {
     loadCommands = function(){
-        client.fs.readdir(`./commands`, (err, files) => {
+        fs.readdir(`./commands`, (err, files) => {
             if (err) return console.error(err);
             files.forEach(file => {
                 if (!file.endsWith(".js")) return;

@@ -1,6 +1,7 @@
+let fs = require('fs');
 module.exports = client => {
     loadEvents = function(){
-        client.fs.readdir(`./events`, (err, files) => {
+        fs.readdir(`./events`, (err, files) => {
             if (err) return console.error(err);
             files.forEach(file => {
                 let event = require(`../events/${file}`);
