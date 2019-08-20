@@ -34,12 +34,21 @@ exports.run = (client, message) => {
                 let assets = client.guilds.get(client.config.guilds.asset);
                 return assets.emojis.find(e => e.name === emoteName);
             }
+            //append guild mod commands
+            let guildModList = "";
+            client.commands.filter((object, key, map) => typeof object.perms === "object" && message.perms.guildperm(object.perms, true)).forEach((object, key, map) => guildModList = guildModList.concat(`\`${key}\`\n`));
+            if (guildModList.length) {
+                embed.fields.push({
+                    name: emote("mod")+" Server Moderator commands",
+                    value: guildModList
+                });
+            }
             // append mod commands
             if (message.perms.levelCheck().number > 0) {
                 let modList = "";
                 client.commands.filter(cmd => cmd.perms === 'mod').forEach((object, key, map) => modList = modList.concat(`\`${key}\`\n`))
                 embed.fields.push({
-                    name: emote("mod")+" Moderator commands",
+                    name: emote("supermod")+" Bot Moderator commands",
                     value: modList
                 });
             }
@@ -48,7 +57,7 @@ exports.run = (client, message) => {
                 let adminList = "";
                 client.commands.filter(cmd => cmd.perms === 'admin').forEach((object, key, map) => adminList = adminList.concat(`\`${key}\`\n`))
                 await embed.fields.push({
-                    name: emote("staff")+" Administrator commands",
+                    name: emote("staff")+" Bot Administrator commands",
                     value: adminList
                 });
             }
@@ -57,7 +66,7 @@ exports.run = (client, message) => {
                 let ownerList = "";
                 client.commands.filter(cmd => cmd.perms === 'owner').forEach((object, key, map) => ownerList = ownerList.concat(`\`${key}\`\n`))
                 await embed.fields.push({
-                    name: emote("broadcaster")+" Owner commands",
+                    name: emote("broadcaster")+" Bot Owner commands",
                     value: ownerList
                 });
             }
