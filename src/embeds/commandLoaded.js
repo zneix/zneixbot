@@ -1,5 +1,5 @@
 module.exports = (client, message, wascmd, cmd) => {
-    var embed = {
+    let embed = {
         color: 0x99ff66,
         timestamp: new Date(),
         footer: {
@@ -17,5 +17,5 @@ module.exports = (client, message, wascmd, cmd) => {
             },
         ]
     }
-    return message.channel.send({embed:embed}).then(msg => {if (client.config.delete.command) msg.delete(client.config.delete.time);});
+    return message.channel.send({embed:embed});
 }
