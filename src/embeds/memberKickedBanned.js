@@ -9,7 +9,7 @@ module.exports = (message, member, reason, boolBanned) => {
         author: {
             name: "Successfully "+(boolBanned?"Banned":"Kicked")
         },
-        description: `${member} ${reason==="No reason given."?" without a reason.":` with reason: ${reason}`}`
+        description: `${typeof member === "object"?member:`<@${member}>`} ${reason==="No reason given."?" without a reason.":` with reason: ${reason}`}`
     }
     return message.channel.send({embed:embed});
 }
