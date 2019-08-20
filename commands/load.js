@@ -9,7 +9,7 @@ exports.run = async (client, message) => {
         let cmd = message.args[0].toLowerCase();
         //checking if command already exists
         if (client.commands.has(cmd)) throw `Command \`${cmd}\` is already loaded! Try **${client.config.prefix}reload** instead.`
-        if (!client.fs.existsSync(__dirname+`\\${cmd}.js`)) throw `File \`${cmd}.js\` does not exist in command folder!`
+        if (!require('fs').existsSync(__dirname+`\\${cmd}.js`)) throw `File \`${cmd}.js\` does not exist in command folder!`
         //assigning command
         let props = require(`./${cmd}.js`);
         client.commands.set(cmd, props);
