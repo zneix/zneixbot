@@ -64,12 +64,12 @@ module.exports = (client, message) => {
         }
         else {
             let permLack;
-            let ovrLack
+            let ovrLack;
             given.forEach(perm => {
                 if (!message.member.hasPermission(perm)) permLack = true;
                 if (!adminOverrides.includes(perm)) ovrLack = true;
             });
-            if (permLack && ovrLack) return locexit();
+            if (permLack && ovrLack && !isOwner()) return locexit();
         }
         if (bool) return true;
         function locexit(){
