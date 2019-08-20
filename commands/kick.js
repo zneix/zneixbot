@@ -15,7 +15,7 @@ exports.run = async (client, message) => {
         }
         else return execute(taggedMember);
 
-        function execute(member){
+        async function execute(member){
             if (!member.kickable) throw `I can't kick ${member}!\nThey may have higher role.`;
             //skipping clearance if commander is a bot owner
             if (!message.perms.isOwner()) {
@@ -27,7 +27,7 @@ exports.run = async (client, message) => {
             if (message.args.length > 1) reason = message.args.slice(1).join(" ");
 
             //actual kick
-            member.kick(reason+"\nResponsible moderator: "+message.author.tag);
+            await member.kick(reason+"\nResponsible moderator: "+message.author.tag);
             require('../src/embeds/memberKickedBanned')(message, member, reason, false);
         }
     });
