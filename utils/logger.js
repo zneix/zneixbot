@@ -71,10 +71,10 @@ module.exports = client => {
                     icon_url: message.author.avatarURL
                 },
                 description: type==="message"?"There was an error in the message event:":"**"+message.author.username+"#"+message.author.discriminator+":"+message.author.id+"** failed to call: ***"+message.content+"***",
-                fields:[
+                fields: [
                     {
                         name: "Reason:",
-                        value: err.substring(0,1023),
+                        value: err.toString().substring(0,1023),
                     }
                 ],
                 timestamp: new Date()
