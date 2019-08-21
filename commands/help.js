@@ -30,16 +30,13 @@ exports.run = (client, message) => {
                 ],
             }
             //showing extra commands
-            function emote(emoteName){
-                let assets = client.guilds.get(client.config.guilds.asset);
-                return assets.emojis.find(e => e.name === emoteName);
-            }
+            let emote = require('../utils/emoteHandler')(client);
             //append guild mod commands
             let guildModList = "";
             client.commands.filter((object, key, map) => typeof object.perms === "object" && message.perms.guildperm(object.perms, true)).forEach((object, key, map) => guildModList = guildModList.concat(`\`${key}\`\n`));
             if (guildModList.length) {
                 embed.fields.push({
-                    name: emote("mod")+" Server Moderator commands",
+                    name: emote.asset("mod")+" Server Moderator commands",
                     value: guildModList
                 });
             }
@@ -48,7 +45,7 @@ exports.run = (client, message) => {
                 let modList = "";
                 client.commands.filter(cmd => cmd.perms === 'mod').forEach((object, key, map) => modList = modList.concat(`\`${key}\`\n`))
                 embed.fields.push({
-                    name: emote("supermod")+" Bot Moderator commands",
+                    name: emote.asset("supermod")+" Bot Moderator commands",
                     value: modList
                 });
             }
@@ -57,7 +54,7 @@ exports.run = (client, message) => {
                 let adminList = "";
                 client.commands.filter(cmd => cmd.perms === 'admin').forEach((object, key, map) => adminList = adminList.concat(`\`${key}\`\n`))
                 await embed.fields.push({
-                    name: emote("staff")+" Bot Administrator commands",
+                    name: emote.asset("staff")+" Bot Administrator commands",
                     value: adminList
                 });
             }
@@ -66,7 +63,7 @@ exports.run = (client, message) => {
                 let ownerList = "";
                 client.commands.filter(cmd => cmd.perms === 'owner').forEach((object, key, map) => ownerList = ownerList.concat(`\`${key}\`\n`))
                 await embed.fields.push({
-                    name: emote("broadcaster")+" Bot Owner commands",
+                    name: emote.asset("broadcaster")+" Bot Owner commands",
                     value: ownerList
                 });
             }
