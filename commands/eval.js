@@ -23,9 +23,9 @@ exports.run = async (client, message) => {
         async function deletion(msg){
             await msg.react('❌');
             let filter = (reaction, user) => reaction.emoji.name === '❌' && client.perms.owner.includes(user.id)
-            let collector = msg.createReactionCollector(filter, {time:15000});
+            let collector = msg.createReactionCollector(filter, {time:10000});
             collector.on('collect', () => msg.delete());
-            collector.on('end', () => msg.clearReactions());
+            collector.on('end', () => msg.reactions.get('❌').remove());
         }
     });
 }
