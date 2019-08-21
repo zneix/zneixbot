@@ -15,10 +15,17 @@ exports.run = async (client, message) => {
             let evaled = await eval(code);
 
             if (typeof evaled !== "string") evaled = require('util').inspect(evaled);
-            message.channel.send(clean(evaled).substr(0, 1990), {code:"xl"});
+            message.channel.send(clean(evaled).substr(0, 1990), {code:"xl"}).then(msg => deletion(msg));
         }
         catch (err) {
-            message.channel.send(`\`\`\`xl\nERROR:\n${clean(err)}\n\`\`\``);
+            message.channel.send(`\`\`\`xl\nERROR:\n${clean(err)}\n\`\`\``).then(msg => deletion(msg));
+        }
+        async function deletion(msg){
+            await msg.react('❌');
+            let filter = (reaction, user) => reaction.emoji.name === '❌' && client.perms.owner.includes(user.id)
+            let collector = msg.createReactionCollector(filter, {time:15000});
+            collector.on('collect', () => msg.delete());
+            collector.on('end', () => msg.clearReactions());
         }
     });
 }
