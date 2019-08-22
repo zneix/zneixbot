@@ -1,7 +1,8 @@
 module.exports = (client, message) => {
     if (message.author.bot || message.channel.type === "dm") return;
+    let emote = require('../utils/emoteHandler')(client);
     if (message.isMemberMentioned(client.user)) message.react(client.config.emojis.peepoPinged);
-    // if (message.mentions.everyone) message.reply("you don't ping everyone :DansGame:"); //unfinished, add emote handler
+    if (message.mentions.everyone) message.reply("you don't ping everyone "+emote.find("DansGame")); //unfinished, add emote handler
     if (message.content.startsWith(client.user)) message.channel.send(`Hey ${message.author}, my prefix here is \`${client.config.prefix}\`\nUse \`${client.config.prefix}help\` to get a list of available commands.`);
     try {
         //funny thing to react on mention
