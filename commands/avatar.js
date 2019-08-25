@@ -17,7 +17,22 @@ exports.run = async (client, message) => {
         else return link(taggedUser);
         function link(user){
             if (!user.avatarURL) return message.channel.send(`User \`${user.tag}\` does not have an avatar ${emote.find("peepoSadDank")}`);
-            message.channel.send(`Avatar of \`${user.tag}\`:\n${user.avatarURL}`, {file:user.avatarURL});
+            let embed = {
+                color: 0x852442,
+                timestamp: Date.now(),
+                footer: {
+                    text: "Avatar of "+user.tag,
+                    icon_url: user.avatarURL
+                },
+                author: {
+                    name: `Avatar of ${user.tag}`,
+                    url: user.avatarURL
+                },
+                image: {
+                    url: user.avatarURL
+                }
+            }
+            message.channel.send(`<${user.avatarURL}>`, {embed:embed});
         }
     });
 }
