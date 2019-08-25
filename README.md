@@ -1,23 +1,23 @@
-```xl
+`
 zneixbot - cool bot for getting informations with slight moderation features included and some fun commands (made by IT nerd with :heart:).
-```
+`
 That bot helps me in moderating servers and fetches useful informations for other users.
-###### Short description of some commands
+#### Short description of some commands
 - make-your-life-easier
- - `emote` - helps with adding new custom emotes
- - `user` - displays information about guild member / user outside current server
- - `server` - displays various information about current server
- - `avatar` - links yours or someone's avatar
--moderation
- - `kick` - kicks a guild member (via ID or @mention)
- - `ban` - bans a user (via ID or @mention)
- - `purge` - deletes 1-100 messages at once
--fun commands
- - `wednesday` - is it wednesday, my dude?
- - `scramble` - random scramble generator for Rubik's Cube solvers (aka Speedcubers)
+  -  `emote` - helps with adding new custom emotes
+  - `user` - displays information about guild member / user outside current server
+  - `server` - displays various information about current server
+  - `avatar` - links yours or someone's avatar
+- moderation
+  - `kick` - kicks a guild member (via ID or @mention)
+  - `ban` - bans a user (via ID or @mention)
+  - `purge` - deletes 1-100 messages at once
+- fun commands
+  - `wednesday` - is it wednesday, my dude?
+  - `scramble` - random scramble generator for Rubik's Cube solvers (aka Speedcubers)
 ---
 
-##### Used libraries:
+#### Used libraries:
 - [discord.js](https://github.com/discordjs/discord.js)
 - [bluebird](https://github.com/petkaantonov/bluebird)
 - [enmap](https://enmap.evie.codes/)
@@ -29,7 +29,7 @@ That bot helps me in moderating servers and fetches useful informations for othe
 
 ---
 
-##### Planned to do in near future:
+#### Planned to do in near future:
 - Music Module 
 - Random Image lookup command
 - auto-role thing for moderation
