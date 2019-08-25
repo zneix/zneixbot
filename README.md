@@ -40,7 +40,7 @@ That bot helps me in moderating servers and fetches useful informations for othe
 
 ##### Awesome people who helped a lot:
 - EinLiftedSoul#4461 (coder, co-owner)
-- Heryin#0695 (debugger, feedback provider, advisor)
+- Heryin#0695 (debugger, feedback provider, adviser)
 - Shooterism#3767 ('personal stackoverflow')
 - Alexou !#0238 (adviser)
 - Asheki#3972 (adviser)
