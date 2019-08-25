@@ -1,6 +1,5 @@
-`
 zneixbot - cool bot for getting informations with slight moderation features included and some fun commands (made by IT nerd with :heart:).
-`
+
 That bot helps me in moderating servers and fetches useful informations for other users.
 #### Short description of some commands
 - make-your-life-easier
