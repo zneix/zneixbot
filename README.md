@@ -7,7 +7,7 @@ That bot helps me in moderating servers and fetches useful informations for othe
   - `user` - displays information about guild member / user outside current server
   - `server` - displays various information about current server
   - `avatar` - links yours or someone's avatar
-  - `color` - color info utility in 3 different formats - hex, rgb, numeric
+  - `color` - color info utility in 3 different formats (hex, rgb, numeric) plus random one
 - moderation
   - `kick` - kicks a guild member (via ID or @mention)
   - `ban` - bans a user (via ID or @mention)

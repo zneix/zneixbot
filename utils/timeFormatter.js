@@ -5,6 +5,11 @@ let leadingZeroes = function(n){
 
 exports.leadingZeroes = leadingZeroes;
 
+exports.leadSigleHex = function(n){
+    if (parseInt(n, 16) < 16) return "0"+n;
+    return n;
+}
+
 exports.leadHex = function(n){
     switch(n.length){
         case 1:return "00000"+n;
