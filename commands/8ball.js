@@ -38,7 +38,7 @@ exports.run = async (client, message) => {
             //     if (/<:[a-z0-9-_]+:\d+>/i.test(string)) string = string.replace(/<:[a-z0-9-_]+:\d+>/i, "<userEmote>");
             //     if (/<a:[a-z0-9-_]+:\d+>/i.test(string)) string = string.replace(/<a:[a-z0-9-_]+:\d+>/i, "<userAnimatedEmote>");
             // }
-            if (/;[a-z0-9-_]*?;/.test(string)) {
+            if (/;[a-z0-9-_]*?;/i.test(string)) {
                 do {
                     //emote replacer
                     let eth = /;[a-z0-9-_]*?;/i.exec(string)[0]; //eth - emotes to handle
