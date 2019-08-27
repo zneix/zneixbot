@@ -10,9 +10,11 @@ That bot helps me in moderating servers and fetches useful informations for othe
   - `color` - color info utility in 3 different formats (hex, rgb, numeric) plus random one
 - moderation
   - `kick` - kicks a guild member (via ID or @mention)
+  - `unban` - unbans previously banned user (via ID)
   - `ban` - bans a user (via ID or @mention)
   - `purge` - deletes up to 100 messages at once
 - fun commands
+  - `8ball` - asks 8ball a magic question
   - `wednesday` - is it wednesday, my dude?
   - `scramble` - random scramble generator for Rubik's Cube solvers (aka Speedcubers)
 ---
