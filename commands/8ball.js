@@ -19,9 +19,12 @@ exports.run = async (client, message) => {
             "python sucks",
             "bad",
             "RRRRRRRRRRAUUUUUUUUUUUUUUUUUUUUUUUUL",
-            "yeah, but "+message.args.join(' ')+" is like a third-party thing and idk ;staff; ;forsenCD; ;sadzneix; ;ZULUL;",
+            "yeah, but your question is like a third-party thing and idk ;forsenCD;",
             "weź spierdalaj, nie chce mi się już z Tobą gadać",
-            "ask Wit, he will know ;Kapp;"
+            "ask Wit, he will know ;Kapp;",
+            "not sure how to answer, but you von ;ZULUL;",
+            "you're smort, no doubt ;5Head;",
+            "Wuv you <3 ;peepoLove;"
         ];
         let rng = Math.floor(Math.random()*(responses.length));
         message.reply(clean(responses[rng])
@@ -29,11 +32,12 @@ exports.run = async (client, message) => {
         function clean(string){
             string = string.replace(/@everyone/, "`@everyone`"); //filters everyone mentions
             string = string.replace(/@here/, "`@here`"); //filters here mentions
-            if (/<:[a-z0-9-_]+:\d+>/i.test(string) || /<a:[a-z0-9-_]+:\d+>/i.test(string)) {
-                console.log("that had "+(/<a:[a-z0-9-_]+:\d+>/i.test(string)?"animated":"regular")+" emote");
-                if (/<:[a-z0-9-_]+:\d+>/i.test(string)) string = string.replace(/<:[a-z0-9-_]+:\d+>/i, "<userEmote>");
-                if (/<a:[a-z0-9-_]+:\d+>/i.test(string)) string = string.replace(/<a:[a-z0-9-_]+:\d+>/i, "<userAnimatedEmote>");
-            }
+            //TODO: Finish this escape later, when more advanced responses will be added.
+            // if (/<:[a-z0-9-_]+:\d+>/i.test(string) || /<a:[a-z0-9-_]+:\d+>/i.test(string)) {
+            //     console.log("that had "+(/<a:[a-z0-9-_]+:\d+>/i.test(string)?"animated":"regular")+" emote");
+            //     if (/<:[a-z0-9-_]+:\d+>/i.test(string)) string = string.replace(/<:[a-z0-9-_]+:\d+>/i, "<userEmote>");
+            //     if (/<a:[a-z0-9-_]+:\d+>/i.test(string)) string = string.replace(/<a:[a-z0-9-_]+:\d+>/i, "<userAnimatedEmote>");
+            // }
             if (/;[a-z0-9-_]*?;/.test(string)) {
                 do {
                     //emote replacer
