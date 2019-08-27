@@ -24,8 +24,8 @@ client.save = require(`./utils/save`); //saving functions combined
 client.logger = require('./utils/logger')(client); //logging in console and in logs channel
 client.emoteHandler = require(`./utils/emoteHandler`)(client);
 require(`./utils/errorHandler`); //executing commands and handling thrown errors
-require(`./utils/loadEvents`)(client); //event handler
-require(`./utils/loadCommands`)(client); //command handler
+require(`./utils/eventHandler`).load(client); //event handler
+require(`./utils/commandHandler`).load(client); //command handler
 
 //discord authentication
 client.login(auth.token); //logging to WebSocket with specified client token
