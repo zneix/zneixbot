@@ -9,8 +9,10 @@ exports.run = (client, message) => {
         var prefix = client.config.prefix;
         if (message.args.length) cmd = client.commands.get(message.args[0].toLowerCase());
         if (!message.args.length || !cmd || !message.perms.isAllowed(cmd, true)) {
+            let clones = require('../utils/commandHandler').clones;
+            let emote = require('../utils/emoteHandler')(client);
             let commandList = "";
-            client.commands.filter(cmd => cmd.perms === "user").forEach((object, key, map) => commandList = commandList.concat(`\`${key}\`\n`));
+            client.commands.filter(cmd => cmd.perms === "user" && !cmd.cloned).forEach((object, key, map) => commandList = commandList.concat(`\`${key}\`${clones[key]?', or:  \`'+clones[key].join('\` \`')+'\`':""}\n`));
             var cmd = client.commands.get("help");
             let embed = { //send general help with command list
                 color: parseInt("0x99ff66"),
@@ -30,7 +32,6 @@ exports.run = (client, message) => {
                 ],
             }
             //showing extra commands
-            let emote = require('../utils/emoteHandler')(client);
             //append guild mod commands
             let guildModList = "";
             client.commands.filter((object, key, map) => typeof object.perms === "object" && message.perms.guildperm(object.perms, true)).forEach((object, key, map) => guildModList = guildModList.concat(`\`${key}\`\n`));

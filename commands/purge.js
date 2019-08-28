@@ -3,7 +3,7 @@ exports.description = `Cleans specified amount of messages.`;
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} (number of messages to delete, max 100)`;
 exports.perms = ['MANAGE_MESSAGES'];
 
-exports.run = async (client, message) => {
+exports.run = (client, message) => {
     message.cmd = this;
     message.command(1, async () => {
         if (isNaN(message.args[0]) || message.args[0] < 1) throw "This is not a valid positive number!"

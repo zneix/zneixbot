@@ -3,7 +3,7 @@ exports.description = `Links yours or someone's avatar.`;
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} [user ID | @mention]`;
 exports.perms = 'user';
 
-exports.run = async (client, message) => {
+exports.run = (client, message) => {
     const emote = require('../utils/emoteHandler')(client);
     message.cmd = this;
     message.command(false, async () => {

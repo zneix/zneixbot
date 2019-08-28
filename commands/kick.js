@@ -3,7 +3,7 @@ exports.description = `Kicks user from the server.`;
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} [@mention | userID] (reason)`;
 exports.perms = ['KICK_MEMBERS'];
 
-exports.run = async (client, message) => {
+exports.run = (client, message) => {
     message.cmd = this;
     message.command(1, async () => {
         if (!message.guild.me.hasPermission('KICK_MEMBERS')) throw "I don't have **KICK_MEMBERS** permission!\nContact moderators.";

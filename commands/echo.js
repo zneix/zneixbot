@@ -3,7 +3,7 @@ exports.description = `Makes me speak.`;
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} [channel ID | #channel]`;
 exports.perms = 'mod';
 
-exports.run = async (client, message) => {
+exports.run = (client, message) => {
     message.cmd = this;
     message.command(1, async () => {
         let taggedChannel = message.mentions.channels.first();

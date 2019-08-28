@@ -3,7 +3,7 @@ exports.description = `Links Witt#1338's epicc fanfic.`;
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
 exports.perms = 'user';
 
-exports.run = async (client, message) => {
+exports.run = (client, message) => {
     message.cmd = this;
     message.command(false, async () => {
         let origin = `https://www.wattpad.com/623549440-jak-naprawd%C4%99-powsta%C5%82-%C5%9Bwiat-1-jak-zosta%C5%82em-bogiem`;

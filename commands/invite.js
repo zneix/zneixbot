@@ -3,7 +3,7 @@ exports.description = `Invite zneixbot to your server!`;
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
 exports.perms = 'user';
 
-exports.run = async (client, message) => {
+exports.run = (client, message) => {
     message.cmd = this;
     message.command(false, async () => {
         var embed = {

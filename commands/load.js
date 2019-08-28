@@ -3,7 +3,7 @@ exports.description = `Loads command from commands folder if it is unloaded, or 
 exports.usage = `**{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} (command)**`;
 exports.perms = 'admin';
 
-exports.run = async (client, message) => {
+exports.run = (client, message) => {
     message.cmd = this;
     message.command(1, async () => {
         let cmd = message.args[0].toLowerCase();
@@ -12,7 +12,7 @@ exports.run = async (client, message) => {
         if (!require('fs').existsSync(__dirname+`\\${cmd}.js`)) throw `File \`${cmd}.js\` does not exist in command folder!`
         //assigning command
         let props = require(`./${cmd}.js`);
-        client.commands.set(cmd, props);
+        await client.commands.set(cmd, props);
         require(`./../src/embeds/commandLoaded`)(client, message, false, cmd);
     });
 }
