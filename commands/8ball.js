@@ -24,7 +24,17 @@ exports.run = (client, message) => {
             "ask Wit, he will know ;Kapp;",
             "not sure how to answer, but you von ;ZULUL;",
             "you're smort, no doubt ;5Head;",
-            "Wuv you <3 ;peepoLove;"
+            "Wuv you <3 ;peepoLove;",
+            "brhjbknhuwegfhmkuweghrfekumesfghg",
+            "hamburger",
+            "John Cena",
+            "don't ask me that ",
+            "the answer is even more dumb than you",
+            "that qualifies for a bruh moment of the week",
+            "20% cooler than you ;EZ;",
+            ";forsenPls; ;forsenPls; ;forsenPls; ;forsenPls; ;forsenPls;",
+            "ponies! ;fastlyragroove;",
+            "nie wiem (idk) ;Pappa;"
         ];
         let rng = Math.floor(Math.random()*(responses.length));
         message.reply(clean(responses[rng])
