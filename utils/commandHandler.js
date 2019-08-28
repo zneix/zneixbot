@@ -1,8 +1,14 @@
 let fs = require('fs');
 let clones = {
-    "help": ["h", "commands", "pomoc"],
     "8ball": ["ask"],
+    "about": ["info"],
+    "emote": ["emoji"],
+    "help": ["h", "commands", "pomoc"],
+    "server": ["serverinfo"],
+    "user": ["userinfo", "lookup", "whois"],
     "echo": ["say"],
+    "addemote": ["addemoji", "createemote", "createemoji"],
+    "kick": ["yeet"],
     "purge": ["clean", "clear"],
     "eval": ["sudo"]
 }
