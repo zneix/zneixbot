@@ -26,7 +26,7 @@ exports.run = (client, message) => {
                         value: `${cmd.usage.replace(/{PREFIX}/g, prefix)}`
                     },
                     {
-                        name: emote.asset("TriHard")+"User commands",
+                        name: emote.asset("TriHard")+" User commands",
                         value: commandList
                     }
                 ],

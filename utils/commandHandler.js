@@ -1,8 +1,9 @@
 let fs = require('fs');
 let clones = {
-    "help": ["h", "commands"],
+    "help": ["h", "commands", "pomoc"],
     "8ball": ["ask"],
     "echo": ["say"],
+    "purge": ["clean", "clear"],
     "eval": ["sudo"]
 }
 exports.clones = clones;

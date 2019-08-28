@@ -7,9 +7,9 @@ module.exports = (message, member, reason, boolBanned) => {
             icon_url: message.author.avatarURL
         },
         author: {
-            name: "Successfully "+(boolBanned?"Banned":"Kicked")
+            name: boolBanned==="banerror"?"User is already banned!":"Successfully "+(boolBanned?"Banned":"Kicked")
         },
-        description: `${typeof member === "object"?member:`<@${member}>`} ${reason==="No reason given."?" without a reason.":` with reason: ${reason}`}`
+        description: boolBanned==="banerror"?`Reason of ${member}'s ban: \`${reason}\``:`${typeof member === "object"?member:`<@${member}>`} ${reason==="No reason given."?" without a reason.":` with reason: ${reason}`}`
     }
     return message.channel.send({embed:embed});
 }
