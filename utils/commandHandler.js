@@ -1,7 +1,9 @@
 let fs = require('fs');
 let clones = {
     "help": ["h", "commands"],
-    "8ball": ["ask"]
+    "8ball": ["ask"],
+    "echo": ["say"],
+    "eval": ["sudo"]
 }
 exports.clones = clones;
 exports.load = function(client){
@@ -24,7 +26,6 @@ exports.load = function(client){
                 for (y=0;y < clones[cloneArray[i]].length;y++) {
                     cmd.cloned = cloneArray[i];
                     client.commands.set(clones[cloneArray[i]][y], cmd);
-                    // console.log(`cloned ${cloneArray[i]} into ${clones[cloneArray[i]][y]}!`);
                 }
             }
         }   

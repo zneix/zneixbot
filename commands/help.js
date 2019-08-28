@@ -26,7 +26,7 @@ exports.run = (client, message) => {
                         value: `${cmd.usage.replace(/{PREFIX}/g, prefix)}`
                     },
                     {
-                        name: "User commands",
+                        name: emote.asset("TriHard")+"User commands",
                         value: commandList
                     }
                 ],
@@ -34,7 +34,7 @@ exports.run = (client, message) => {
             //showing extra commands
             //append guild mod commands
             let guildModList = "";
-            client.commands.filter((object, key, map) => typeof object.perms === "object" && message.perms.guildperm(object.perms, true)).forEach((object, key, map) => guildModList = guildModList.concat(`\`${key}\`\n`));
+            client.commands.filter((object, key, map) => typeof object.perms === "object" && message.perms.guildperm(object.perms, true) && !object.cloned).forEach((object, key, map) => guildModList = guildModList.concat(`\`${key}\`${clones[key]?', or:  \`'+clones[key].join('\` \`')+'\`':""}\n`));
             if (guildModList.length) {
                 embed.fields.push({
                     name: emote.asset("mod")+" Server Moderator commands",
@@ -44,7 +44,7 @@ exports.run = (client, message) => {
             // append mod commands
             if (message.perms.levelCheck().number > 0) {
                 let modList = "";
-                client.commands.filter(cmd => cmd.perms === 'mod').forEach((object, key, map) => modList = modList.concat(`\`${key}\`\n`))
+                client.commands.filter(cmd => cmd.perms === 'mod' && !cmd.cloned).forEach((object, key, map) => modList = modList.concat(`\`${key}\`${clones[key]?', or:  \`'+clones[key].join('\` \`')+'\`':""}\n`));
                 embed.fields.push({
                     name: emote.asset("supermod")+" Bot Moderator commands",
                     value: modList
@@ -53,7 +53,7 @@ exports.run = (client, message) => {
             // append admin commands
             if (message.perms.levelCheck().number > 1) {
                 let adminList = "";
-                client.commands.filter(cmd => cmd.perms === 'admin').forEach((object, key, map) => adminList = adminList.concat(`\`${key}\`\n`))
+                client.commands.filter(cmd => cmd.perms === 'admin' && !cmd.cloned).forEach((object, key, map) => adminList = adminList.concat(`\`${key}\`${clones[key]?', or:  \`'+clones[key].join('\` \`')+'\`':""}\n`));
                 await embed.fields.push({
                     name: emote.asset("staff")+" Bot Administrator commands",
                     value: adminList
@@ -62,7 +62,7 @@ exports.run = (client, message) => {
             // append owner commands
             if (message.perms.levelCheck().number > 2) {
                 let ownerList = "";
-                client.commands.filter(cmd => cmd.perms === 'owner').forEach((object, key, map) => ownerList = ownerList.concat(`\`${key}\`\n`))
+                client.commands.filter(cmd => cmd.perms === 'owner' && !cmd.cloned).forEach((object, key, map) => ownerList = ownerList.concat(`\`${key}\`${clones[key]?', or:  \`'+clones[key].join('\` \`')+'\`':""}\n`));
                 await embed.fields.push({
                     name: emote.asset("broadcaster")+" Bot Owner commands",
                     value: ownerList
