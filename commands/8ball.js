@@ -28,13 +28,19 @@ exports.run = (client, message) => {
             "brhjbknhuwegfhmkuweghrfekumesfghg",
             "hamburger",
             "John Cena",
-            "don't ask me that ",
+            "don't ask me that",
             "the answer is even more dumb than you",
             "that qualifies for a bruh moment of the week",
             "20% cooler than you ;EZ;",
             ";forsenPls; ;forsenPls; ;forsenPls; ;forsenPls; ;forsenPls;",
-            "ponies! ;fastlyragroove;",
-            "nie wiem (idk) ;Pappa;"
+            "ponies are the answer to everything ;fastlyragroove;",
+            "nie wiem (idk) ;Pappa;",
+            "China!",
+            "they're taking the hobbits to Isengard",
+            "Darude Sandstorm ;Kappa;",
+            "puck the flebs ;forsenC; ;forsenGun;",
+            "أمك مثلي الجنس ;ANELE; ;Clap;",
+            ""
         ];
         let rng = Math.floor(Math.random()*(responses.length));
         message.reply(clean(responses[rng])
