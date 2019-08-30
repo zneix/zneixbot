@@ -1,5 +1,5 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = `Changes my nickname (or removes when ran without arguments).`;
+exports.description = `Changes bot's nickname (or removes when ran without arguments).`;
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} (new nick)`;
 exports.perms = 'admin';
 
