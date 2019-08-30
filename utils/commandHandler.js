@@ -1,8 +1,8 @@
 let fs = require('fs');
 let clones = {
     "8ball": ["ask"],
-    "about": ["info"],
-    "emote": ["emoji"],
+    "about": ["info", "botinfo"],
+    "emote": ["emoji", "showemote"],
     "help": ["h", "commands", "pomoc"],
     "server": ["serverinfo"],
     "user": ["userinfo", "lookup", "whois"],
