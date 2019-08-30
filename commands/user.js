@@ -48,25 +48,75 @@ exports.run = (client, message) => {
                         name: "Created at",
                         value: time.dateFormat(user.createdAt)+` \`${time.msFormat(Date.now()-user.createdTimestamp)} ago\``,
                         inline: true
-                    },
-                    {
-                        name: "Joined at",
-                        value: member?time.dateFormat(member.joinedAt)+` \`${time.msFormat(Date.now()-member.joinedTimestamp)} ago\``:"The user is not in this guild.",
-                        inline: true
-                    },
-                    {
-                        name: `Roles${member?` [${arr.length}]`:""}`,
-                        value: 
-                        member?
-                            arr.length?
-                                arr.join(" ").length<1023?
-                                    arr.join(" ")
-                                    :arr.join(" ").substr(0, 1012)+"\n[truncated]"
-                                :"None."
-                            :"The user is not in this guild.",
-                        inline: false
                     }
                 ]
+            }
+            if (member) {
+                embed.fields.push({
+                    name: 'Joined at',
+                    value: time.dateFormat(member.joinedAt)+` \`${time.msFormat(Date.now()-member.joinedTimestamp)} ago\``,
+                    inline: true
+                });
+                embed.fields.push({
+                    name: `Roles [${arr.length}]`,
+                    value: 
+                        arr.length?
+                            arr.join(" ").length<1023?
+                                arr.join(" ")
+                                :arr.join(" ").substr(0, 1012)+"\n[truncated]"
+                        :"None.",
+                    inline: false
+                });
+                //Moderator Permissions
+                let modPermsObj = {
+                    'KICK_MEMBERS': 'Kick Members',
+                    'BAN_MEMBERS': 'Ban Members',
+                    'ADMINISTRATOR': 'Administrator',
+                    'MANAGE_CHANNELS': 'Manage Channels',
+                    'MANAGE_SERVER': 'Manage Server',
+                    'MANAGE_MESSAGES': 'Manage Messages',
+                    'MENTION_EVERYONE': 'Mention Everyone',
+                    'MANAGE_NICKNAMES': 'Manage Nicknames',
+                    'MANAGE_ROLES': 'Manage Roles',
+                    'MANAGE_WEBHOOKS': 'Manage Webhooks',
+                    'MANAGE_EMOJIS': 'Manage Emojis'
+                };
+                let modPerms = Object.getOwnPropertyNames(modPermsObj);
+                if (member.permissions.toArray().some(x => modPerms.includes(x))) {
+                    let memberPerms = modPerms.filter(x => member.permissions.toArray().includes(x));
+                    let permsFormat = function(){
+                        let locarr = [];
+                        for (i=0;i<memberPerms.length;i++) {
+                            locarr.push(modPermsObj[memberPerms[i]]);
+                        }
+                        return locarr;
+                    }
+                    embed.fields.push({
+                        name: 'Moderator Permissions',
+                        value: permsFormat().join(', '),
+                        inline: false
+                    });
+                }
+                //Server Acknowledgements
+                let Acknowledge = function(){
+                    if (member.guild.ownerID === member.id) return "Server Owner";
+                    if (member.permissions.has('ADMINISTRATOR')) return "Server Administrator";
+                    // let modPerms = [
+                    //     'BAN_MEMBERS',
+                    //     'MANAGE_CHANNELS',
+                    //     'MANAGE_SERVER',
+                    //     'MANAGE_ROLES'
+                    // ];
+                    // if (member.permissions.toArray().some(x => modPerms.includes(x))) return "Server Moderator";
+                    return false;
+                }
+                if (Acknowledge()) {
+                    embed.fields.push({
+                        name: "Acknowledgements",
+                        value: Acknowledge(),
+                        inline: false
+                    });
+                }
             }
             return message.channel.send({embed:embed});
         }
