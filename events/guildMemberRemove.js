@@ -1,5 +1,5 @@
-module.exports = async client => {
-    await client.guilds.forEach(g => g.fetchMembers());
+module.exports = async (client, member) => {
+    await member.guild.fetchMembers();
     client.user.setPresence({
         status: 'dnd',
         game: {
@@ -8,5 +8,4 @@ module.exports = async client => {
             type: 1
         }
     });
-    client.logger.ready();
 }
