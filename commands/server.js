@@ -16,10 +16,10 @@ exports.run = (client, message) => {
             },
             author: {
                 name: message.guild.name,
-                icon_url: message.guild.iconURL
+                icon_url: message.guild.iconURL.slice(0, -3).concat("png")
             },
             thumbnail: {
-                url: message.guild.iconURL
+                url: message.guild.iconURL.slice(0, -3).concat("png")
             },
             fields: [
                 {
