@@ -7,10 +7,12 @@ let clones = {
     "help": ["h", "commands", "pomoc"],
     "server": ["serverinfo"],
     "user": ["userinfo", "lookup", "whois"],
-    "echo": ["say"],
     "addemote": ["addemoji", "createemote", "createemoji"],
     "kick": ["yeet"],
     "purge": ["clean", "clear"],
+    "unban": ["pardon"],
+    "echo": ["say"],
+    "botnick": ["botname"],
     "eval": ["sudo"]
 }
 exports.clones = clones;
