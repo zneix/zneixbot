@@ -65,15 +65,15 @@ exports.run = (client, message) => {
         let time = new Date().getUTCDay();
         let Pepega;
         switch(time){
-            case 1: Pepega = 'two more days, my dude '+emote.find("OkayChamp");break;
+            case 1: Pepega = 'Two more days, my dude '+emote.find("OkayChamp");break;
             case 2: Pepega = 'Tommorow, my dude '+emote.find("PagChomp");break;
-            case 3: Pepega = `**it is Wednesday, my dude ${emote.find("FeelsOkayMan")} ${emote.find("forsenPls")}**\nHere's you daily wednesday: <${myDudes[rng]}>`;break;
+            case 3: Pepega = `**It is Wednesday, my dude ${emote.find("Wednesday")} ${emote.find("forsenPls")}**\nHere's you daily wednesday: <${myDudes[rng]}>`;break;
             case 4: Pepega = 'I hate Thursdays '+emote.find("NotLikeThis");break;
             case 5: Pepega = emote.find("GachiPls")+' weekend, my dude';break;
-            case 6: Pepega = 'it is Weekend my dude '+emote.find("EZ");break;
-            case 0: Pepega = 'it is Weekend my dude '+emote.find("EZ");break;
+            case 6: Pepega = 'It is Weekend my dude '+emote.find("EZ");break;
+            case 0: Pepega = 'It is Weekend my dude '+emote.find("EZ");break;
         }
-        if (!Pepega) Pepega = 'it is not Wednesday, my dude '+emote.find("FeelsBadMan"); //just in case something would go wrong
+        if (!Pepega) Pepega = 'It is not Wednesday, my dude '+emote.find("FeelsBadMan"); //just in case something would go wrong
         message.reply(Pepega);
     });
 }
