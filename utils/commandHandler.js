@@ -2,6 +2,7 @@ let fs = require('fs');
 let clones = {
     "8ball": ["ask"],
     "about": ["info", "botinfo"],
+    "avatar": ["pfp"],
     "emote": ["emoji", "showemote"],
     "help": ["h", "commands", "pomoc"],
     "server": ["serverinfo"],
