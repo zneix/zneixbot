@@ -16,6 +16,7 @@ That bot helps me in moderating servers and fetches useful informations for othe
 - fun commands
   - `8ball` - asks 8ball a magic question
   - `wednesday` - is it wednesday, my dude?
+  - `lenny` - prints a lennyface
   - `scramble` - random scramble generator for Rubik's Cube solvers (aka Speedcubers)
 ---
 

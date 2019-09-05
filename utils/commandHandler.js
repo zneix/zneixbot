@@ -5,6 +5,7 @@ let clones = {
     "avatar": ["awatar", "pfp"],
     "emote": ["emoji", "showemote"],
     "help": ["h", "commands", "pomoc", "komendy"],
+    "lenny": ["lennyface"],
     "server": ["serverinfo"],
     "user": ["userinfo", "lookup", "whois"],
     "addemote": ["addemoji", "createemote", "createemoji"],
