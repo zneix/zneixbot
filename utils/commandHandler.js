@@ -10,7 +10,7 @@ let clones = {
     "user": ["userinfo", "lookup", "whois"],
     "addemote": ["addemoji", "createemote", "createemoji"],
     "kick": ["yeet"],
-    "purge": ["clean", "clear"],
+    "purge": ["clean", "clear", "prune"],
     "unban": ["pardon"],
     "echo": ["say"],
     "botnick": ["botname"],
