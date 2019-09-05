@@ -1,9 +1,11 @@
 //npm libraries
 const Discord = require('discord.js'); //discord core library
 const enmap = require('enmap'); //enmap object for command handler
-require('npm-package-to-env').config(); //importing values from package.json to process.env
-var Promise = require('bluebird'); //module for error handler and rejections while using fs.writeFile
+const Promise = require('bluebird'); //module for error handler and rejections while using fs.writeFile
 Promise.config({longStackTraces:true}); //enabling long stack trees
+const fetch = require('node-fetch'); //package for url JSON fetching
+fetch.Promise = Promise; //fixing custom Promises
+require('npm-package-to-env').config(); //importing values from package.json to process.env
 
 //JSON data
 const auth = require(`./src/json/auth`)(); //token and module authentication
@@ -18,6 +20,7 @@ client.database = database; //global database
 client.perms = perms; //global permissions sets
 client.commands = new enmap(); //declaring new enmap object for command handler
 client.version = process.env.npm_package_version; //global version
+client.fetch = fetch; //declaring global fetch function
 
 //utils load
 client.save = require(`./utils/save`); //saving functions combined

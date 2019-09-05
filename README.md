@@ -25,8 +25,10 @@ That bot helps me in moderating servers and fetches useful informations for othe
 - [enmap](https://enmap.evie.codes/)
 - [fs](https://github.com/npm/security-holder)
 - ~~[node-schedule](https://github.com/node-schedule/node-schedule)~~
+- [node-fetch](https://www.npmjs.com/package/node-fetch)
 - [npm-package-to-env](https://github.com/stefanjudis/npm-package-to-env)
 - ~~[reaction-core](https://github.com/Mundayne/reaction-core)~~
+
 *striked libs will be used soon™
 
 ---
