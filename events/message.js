@@ -3,7 +3,7 @@ module.exports = (client, message) => {
     let emote = require('../utils/emoteHandler')(client);
     if (message.isMemberMentioned(message.guild.me)) message.react(client.config.emojis.peepoPinged);
     if (message.mentions.everyone) message.reply("you don't ping everyone "+emote.find("DansGame")); //unfinished, add emote handler
-    if (message.content.startsWith(client.user)) message.channel.send(`Hey ${message.author}, my prefix is \`${client.config.prefix}\``, {embed:{color:Math.floor(Math.random()*16777215),description:`[Support Server](https://discordapp.com/invite/cF555AV)`}});
+    if (message.content.startsWith(client.user)) message.channel.send(`Hey ${message.author}, my prefix is \`${client.config.prefix}\``, {embed:{color:Math.floor(Math.random()*16777215),description:'[Support Server](https://discordapp.com/invite/cF555AV)'}});
     try {
         //funny thing to react on mention
         let prefix = function(){return message.content.substr(0, client.config.prefix.length).toLowerCase();}

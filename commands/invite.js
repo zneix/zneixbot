@@ -16,7 +16,8 @@ exports.run = (client, message) => {
             author: {
                 name: `https://discordapp.com/api/oauth2/authorize?client_id=506606171906637855&permissions=8&scope=bot`,
                 url: "https://discordapp.com/api/oauth2/authorize?client_id=506606171906637855&permissions=8&scope=bot"
-            }
+            },
+            description: '[Support Server](https://discordapp.com/invite/cF555AV)'
         }
         message.channel.send({embed:embed});
     });
