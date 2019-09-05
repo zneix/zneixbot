@@ -23,7 +23,7 @@ exports.run = (client, message) => {
         throw error;
 
         //exec part
-        function kolorek(value, inputType){
+        async function kolorek(value, inputType){
             let {leadSigleHex, leadHex} = require('../utils/timeFormatter');
             let color = {};
             switch(inputType){
@@ -48,6 +48,7 @@ exports.run = (client, message) => {
                     color.number = parseInt(value);
                     break;
             }
+            let colorapi = await client.fetch('https://www.thecolorapi.com/id?hex='+color.hex).then(res => res.json())
             let embed = {
                 color: color.number,
                 timestamp: Date.now(),
@@ -58,10 +59,14 @@ exports.run = (client, message) => {
                 author: {
                     name: "Information about "+(color.random?"random color":(inputType==="rgb"?message.args.join(' '):message.args[0]))
                 },
+                thumbnail: {
+                    url: `http://singlecolorimage.com/get/${color.hex}/60x60`
+                },
                 description:
                     "Hex: **#"+color.hex+"**\n"+
                     "RGB: **"+color.rgb+"**\n"+
-                    "Numeric value: **"+color.number+"**"
+                    "Numeric value: **"+color.number+"**\n"+
+                    "CSS Name: **"+colorapi.name.value+"**"
             };
             message.channel.send({embed:embed});
         }
