@@ -1,6 +1,7 @@
 //npm libraries
 const Discord = require('discord.js'); //discord core library
 const enmap = require('enmap'); //enmap object for command handler
+const RC = require('reaction-core'); //reaction core package for emote menus
 const Promise = require('bluebird'); //module for error handler and rejections while using fs.writeFile
 Promise.config({longStackTraces:true}); //enabling long stack trees
 const fetch = require('node-fetch'); //package for url JSON fetching
@@ -19,8 +20,9 @@ client.config = config; //global config
 client.database = database; //global database
 client.perms = perms; //global permissions sets
 client.commands = new enmap(); //declaring new enmap object for command handler
-client.version = process.env.npm_package_version; //global version
+client.RCHandler = new RC.Handler(); //global emote menu handler
 client.fetch = fetch; //declaring global fetch function
+client.version = process.env.npm_package_version; //global version
 
 //utils load
 client.save = require(`./utils/save`); //saving functions combined
