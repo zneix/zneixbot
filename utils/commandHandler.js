@@ -6,6 +6,7 @@ let clones = {
     "emote": ["emoji", "showemote"],
     "help": ["h", "commands", "pomoc", "komendy"],
     "lenny": ["lennyface"],
+    "math": ["calc", "calculate"],
     "server": ["serverinfo"],
     "user": ["userinfo", "lookup", "whois"],
     "addemote": ["addemoji", "createemote", "createemoji"],
