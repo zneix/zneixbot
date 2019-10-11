@@ -11,16 +11,16 @@ module.exports = (client, message) => {
             message.perms = require('../utils/permsHandler')(client, message);
             message.perms.isBanned(); //ban check
             let command = function(){
-                if (prefix().endsWith(" ")) return message.content.split(/ +/g)[1].toLowerCase();
-                return message.content.split(/ +/g).shift(1).slice(prefix().length).toLowerCase();
+                if (prefix().endsWith(" ")) return message.content.split(/\s+/gm)[1].toLowerCase();
+                return message.content.split(/\s+/gm).shift(1).slice(prefix().length).toLowerCase();
             }
             //args declaration
             if (prefix().endsWith(" ")) {
-                message.args = message.content.split(/ +/g);
+                message.args = message.content.split(/[ \s]+/gm);
                 message.args.splice(0, 2);
             }
             else {
-                message.args = message.content.slice(prefix().length).split(/ +/g);
+                message.args = message.content.slice(client.config.prefix.length).split(/[ \s]+/gm);
                 message.args.splice(0, 1);
             }
             //command handling

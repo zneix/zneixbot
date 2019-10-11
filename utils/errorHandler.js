@@ -3,11 +3,11 @@ Discord.Message.prototype.command = async function(num, func){
     try {
         //argument declaration
         if (this.client.config.prefix.endsWith(" ")) {
-                args = this.content.split(/ +/g);
+                args = this.content.split(/\s+/g);
                 args.splice(0, 2);
             }
             else {
-                args = this.content.slice(this.client.config.prefix.length).split(/ +/g);
+                args = this.content.slice(this.client.config.prefix.length).split(/\s+/g);
                 args.splice(0, 1);
             }
         if (num) {
