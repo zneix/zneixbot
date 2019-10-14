@@ -21,10 +21,8 @@ exports.run = (client, message) => {
         //cloning those again
         let clones = require('../utils/commandHandler').clones;
         if (clones[cmd]) {
-            console.log('Entered clones[cmd] if for '+cmd);
             for (i=0;i < clones[cmd].length;i++) {
                 //deletion
-                console.log('Deletion for '+clones[cmd][i]);
                 client.commands.delete(clones[cmd][i]);
                 // delete require.cache[require.resolve(`./${clones[cmd][i]}.js`)];
                 //re-requiring
