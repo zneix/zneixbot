@@ -3,21 +3,26 @@ zneixbot - cool bot for getting informations with slight moderation features inc
 That bot helps me in moderating servers and fetches useful informations for other users.
 #### Short description of some commands
 - make-your-life-easier
-  - `emote` - helps with adding new custom emotes
-  - `user` - displays information about guild member / user outside current server
-  - `server` - displays various information about current server
   - `avatar` - links yours or someone's avatar
   - `color` - color info utility in 3 different formats (hex, rgb, numeric) plus random one
+  - `currency` - converts and calculates one currency into another (25+ common currencies)
+  - `emote` - helps with adding new custom emotes
+  - `math` - evaluates your mathematic expressions
+  - `user` - displays information about guild member / user outside current server
+  - `server` - displays various information about current server
+  - `servericon` - links a server icon in png format
 - moderation
-  - `kick` - kicks a guild member (via ID or @mention)
-  - `unban` - unbans previously banned user (via ID)
+  - `addemote` - Adds new emote to the current server (currently supports custom emotes only, not links yet)
   - `ban` - bans a user (via ID or @mention)
+  - `unban` - unbans previously banned user (via ID)
+  - `kick` - kicks a guild member (via ID or @mention)
   - `purge` - deletes up to 100 messages at once
+  - `region` - change server region to every possible one
 - fun commands
   - `8ball` - asks 8ball a magic question
-  - `wednesday` - is it wednesday, my dude?
   - `lenny` - prints a lennyface
   - `scramble` - random scramble generator for Rubik's Cube solvers (aka Speedcubers)
+  - `wednesday` - is it wednesday, my dude?
 ---
 
 #### Used libraries:
