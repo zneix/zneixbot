@@ -12,7 +12,7 @@ That bot helps me in moderating servers and fetches useful informations for othe
   - `server` - displays various information about current server
   - `servericon` - links a server icon in png format
 - moderation
-  - `addemote` - Adds new emote to the current server (currently supports custom emotes only, not links yet)
+  - `addemote` - Adds new emote to the current server (supports both emotes from nitro users and URLs)
   - `ban` - bans a user (via ID or @mention)
   - `unban` - unbans previously banned user (via ID)
   - `kick` - kicks a guild member (via ID or @mention)
