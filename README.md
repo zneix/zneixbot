@@ -20,6 +20,7 @@ That bot helps me in moderating servers and fetches useful informations for othe
   - `region` - change server region to every possible one
 - fun commands
   - `8ball` - asks 8ball a magic question
+  - `coinflip` - heads or tails? (yes or no random choice)
   - `lenny` - prints a lennyface
   - `scramble` - random scramble generator for Rubik's Cube solvers (aka Speedcubers)
   - `wednesday` - is it wednesday, my dude?

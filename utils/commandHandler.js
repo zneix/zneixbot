@@ -4,6 +4,7 @@ let clones = {
     "about": ["info", "botinfo"],
     "addemote": ["addemoji", "createemote", "createemoji"],
     "avatar": ["awatar", "pfp"],
+    "coinflip": ["cf"],
     "currency": ["curr", "money"],
     "emote": ["emoji", "showemote"],
     "help": ["h", "commands", "pomoc", "komendy"],

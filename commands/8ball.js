@@ -40,7 +40,8 @@ exports.run = (client, message) => {
             "Darude Sandstorm ;Kappa;",
             "puck the flebs ;forsenC; ;forsenGun;",
             "أمك مثلي الجنس ;ANELE; ;Clap;",
-            ""
+            "",
+            "du bist ein Zurückgebliebene Missgeburt ;DatSheffy;"
         ];
         let rng = Math.floor(Math.random()*(responses.length));
         message.reply(clean(responses[rng])
