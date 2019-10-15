@@ -14,6 +14,7 @@ That bot helps me in moderating servers and fetches useful informations for othe
 - moderation
   - `addemote` - Adds new emote to the current server (supports both emotes from nitro users and URLs)
   - `ban` - bans a user (via ID or @mention)
+  - `isbanned` - Checks if given ID is banned in current server
   - `unban` - unbans previously banned user (via ID)
   - `kick` - kicks a guild member (via ID or @mention)
   - `purge` - deletes up to 100 messages at once

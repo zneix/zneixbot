@@ -8,6 +8,7 @@ let clones = {
     "currency": ["curr", "money"],
     "emote": ["emoji", "showemote"],
     "help": ["h", "commands", "pomoc", "komendy"],
+    "isbanned": ["isban", "checkban"],
     "lenny": ["lennyface"],
     "math": ["calc", "calculate"],
     "server": ["serverinfo"],
