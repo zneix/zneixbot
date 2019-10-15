@@ -7,7 +7,7 @@ module.exports = (message, member, reason, boolBanned) => {
             icon_url: message.author.avatarURL
         },
         author: {
-            name: boolBanned==="banerror"?"User is already banned!":"Successfully "+(boolBanned?"Banned":"Kicked")
+            name: boolBanned==="banerror"?`User is already banned in ${message.guild.name}!`:"Successfully "+(boolBanned?"Banned":"Kicked")
         },
         description: boolBanned==="banerror"?`Reason of ${member}'s ban: \`${reason}\``:`${typeof member === "object"?member:`<@${member}>`} ${reason==="No reason given."?" without a reason.":` with reason: ${reason}`}`
     }
