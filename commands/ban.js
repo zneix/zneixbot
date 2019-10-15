@@ -24,7 +24,10 @@ exports.run = (client, message) => {
             if (typeof member !== "object") {
                 //check and 'error' throw if user is already banned
                 let check = await message.guild.fetchBans();
-                if (check.get(member)) return require('../src/embeds/memberKickedBanned')(message, `<@${member}>`, check.reason, "banerror");
+                if (check.get(member)) {
+                    let aban = await message.guild.fetchBan(member);
+                    return require('../src/embeds/memberKickedBanned')(message, `<@${member}>`, aban.reason, "banerror");
+                }
                 await message.guild.ban(member, reason+"\nResponsible moderator: "+message.author.tag);
                 require('../src/embeds/memberKickedBanned')(message, member, reason, true);
                 return;
