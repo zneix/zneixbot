@@ -7,7 +7,7 @@ exports.run = (client, message) => {
     message.cmd = this;
     message.command(1, async () => {
         if (!message.guild.me.hasPermission('BAN_MEMBERS')) throw "I don't have **BAN_MEMBERS** permission!\nContact moderators.";
-        if (!/^\d+$/.test(message.args[0])) throw "That is not a valid user ID!";
+        if (!/^\d{17,}$/.test(message.args[0])) throw "That is not a valid user ID!";
         let member = message.args[0];
         
         //check and 'error' throw if user is already banned
