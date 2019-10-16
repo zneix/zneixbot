@@ -7,6 +7,7 @@ let clones = {
     "coinflip": ["cf"],
     "currency": ["curr", "money"],
     "emote": ["emoji", "showemote"],
+    "feedback": ["devmsg"],
     "help": ["h", "commands", "pomoc", "komendy"],
     "isbanned": ["isban", "checkban"],
     "lenny": ["lennyface"],
