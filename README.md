@@ -12,7 +12,7 @@ That bot helps me in moderating servers and fetches useful informations for othe
   - `server` - displays various information about current server
   - `servericon` - links a server icon in png format
 - moderation
-  - `addemote` - Adds new emote to the current server (supports both emotes from nitro users and URLs)
+  - `addemote` - Adds new emote to the current server (supports both emotes from nitro users and image URLs)
   - `ban` - bans a user (via ID or @mention)
   - `isbanned` - Checks if given ID is banned in current server
   - `unban` - unbans previously banned user (via ID)
@@ -25,6 +25,12 @@ That bot helps me in moderating servers and fetches useful informations for othe
   - `lenny` - prints a lennyface
   - `scramble` - random scramble generator for Rubik's Cube solvers (aka Speedcubers)
   - `wednesday` - is it wednesday, my dude?
+- bot-related commands
+  - `about` - displays general information about the bot
+  - `feedback` - sends a feedback message to bot developer
+  - `invite` - invite zneixbot to your server today!
+
+##### Note: **There are some aliases for several commands, use help command for more information.**
 ---
 
 #### Used libraries:
@@ -54,5 +60,6 @@ That bot helps me in moderating servers and fetches useful informations for othe
 - EinLiftedSoul#4461 (coder, co-owner)
 - Heryin#0695 (debugger, feedback provider, adviser)
 - Shooterism#3767 ('personal stackoverflow')
+- meszerbi#0022 (code adviser, VPS provider)
 - Alexou !#0238 (adviser)
 - Asheki#3972 (adviser)
