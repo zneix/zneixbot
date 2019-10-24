@@ -15,7 +15,7 @@ const database = require(`./src/json/database.json`); //general database for loc
 const perms = require(`./src/json/perms`)(); //permission database
 
 //discord client extras
-const client = new Discord.Client({fetchAllMembers:true}); //declaring new discord client
+const client = new Discord.Client(); //declaring new discord client
 client.config = config; //global config
 client.database = database; //global database
 client.perms = perms; //global permissions sets

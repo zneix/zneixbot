@@ -64,7 +64,6 @@ exports.run = (client, message) => {
             },
             description: `**${num}** ${objcodes[wanted()]} (${wanted()}) = **${Round(num * apidata.rates[base()], 4)}** ${objcodes[base()]} (${base()})`
         }
-        Math.round()
         message.channel.send({embed:embed});
     });
 }
