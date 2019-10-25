@@ -43,6 +43,7 @@ exports.run = (client, message) => {
     message.cmd = this;
     message.command(1, async () => {
         let num = 1;
+        message.args[0] = message.args[0].replace(/,/g, ".");
         if (!isNaN(message.args[0])) num = message.args.shift();
         function wanted(){
             if (codes.some(x => x === message.args[0].toUpperCase())) return message.args[0].toUpperCase();
