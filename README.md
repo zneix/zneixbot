@@ -11,6 +11,7 @@ That bot helps me in moderating servers and fetches useful informations for othe
   - `user` - displays information about guild member / user outside current server
   - `server` - displays various information about current server
   - `servericon` - links a server icon in png format
+  - `temperature` - converts Celcius to Farenheit and vice-versa
 - moderation
   - `addemote` - Adds new emote to the current server (supports both emotes from nitro users and image URLs)
   - `ban` - bans a user (via ID or @mention)

@@ -13,6 +13,7 @@ let clones = {
     "lenny": ["lennyface"],
     "math": ["calc", "calculate"],
     "server": ["serverinfo"],
+    "temperature": ["temp"],
     "user": ["userinfo", "lookup", "whois"],
     "kick": ["yeet"],
     "purge": ["clean", "clear", "prune"],
