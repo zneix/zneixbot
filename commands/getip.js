@@ -1,0 +1,43 @@
+exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
+exports.description = `Tracks IPv4, IPv6 addresses and hostnames.`;
+exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} (IP | hostname)`;
+exports.perms = 'user';
+
+exports.run = (client, message) => {
+    message.cmd = this;
+    message.command(1, async () => {
+        let apidata;
+        let domain;
+        if (/^[a-z0-9][a-z0-9-_.]{2,}[a-z0-9]$/.test(message.args[0].toLowerCase())) {
+            let dns = require('dns');
+            dns.lookup(message.args[0].toLowerCase(), async function(err, address, family){
+                domain = message.args[0].toLowerCase();
+                apidata = await apifetch(address);
+            })
+        }
+        else apidata = await apifetch(message.args[0]);
+        //functions
+        async function apifetch(ip){
+            let result = await client.fetch(`https://api.ipdata.co/${ip}?api-key=test`).then(data => data.json());
+            var embed = {
+                color: 0xfff12e,
+                timestamp: new Date(),
+                footer: {
+                    text: message.author.tag,
+                    icon_url: message.author.avatarURL
+                },
+                fields: [
+                    {
+                        name: 'IP Address',
+                        value: result.ip
+                    },
+                    {
+                        name: 'Country',
+                        value: result.country_name+" "+result.emoji_flag
+                    }
+                ]
+            }
+            message.channel.send({embed:embed});
+        }
+    });
+}
