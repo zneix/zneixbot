@@ -6,7 +6,6 @@ exports.perms = 'user';
 exports.run = (client, message) => {
     message.cmd = this;
     message.command(false, async () => {
-        let emote = require('../utils/emoteHandler')(client);
         let myDudes = [
             'https://www.youtube.com/watch?v=9K4-jllrPrE',
             'https://www.youtube.com/watch?v=bbat6cvgEJ8',
@@ -65,15 +64,15 @@ exports.run = (client, message) => {
         let time = new Date().getUTCDay();
         let Pepega;
         switch(time){
-            case 1: Pepega = 'Two more days, my dude '+emote.find("OkayChamp");break;
-            case 2: Pepega = 'Tommorow, my dude '+emote.find("PagChomp");break;
-            case 3: Pepega = `**It is Wednesday, my dude ${emote.find("Wednesday")} ${emote.find("forsenPls")}**\nHere's you daily wednesday: <${myDudes[rng]}>`;break;
-            case 4: Pepega = 'I hate Thursdays '+emote.find("NotLikeThis");break;
-            case 5: Pepega = emote.find("GachiPls")+' weekend, my dude';break;
-            case 6: Pepega = 'It is Weekend my dude '+emote.find("EZ");break;
-            case 0: Pepega = 'It is Weekend my dude '+emote.find("EZ");break;
+            case 1: Pepega = 'Two more days, my dude '+client.emoteHandler.find("OkayChamp");break;
+            case 2: Pepega = 'Tommorow, my dude '+client.emoteHandler.find("PagChomp");break;
+            case 3: Pepega = `**It is Wednesday, my dude ${client.emoteHandler.find("Wednesday")} ${client.emoteHandler.find("forsenPls")}**\nHere's you daily wednesday: <${myDudes[rng]}>`;break;
+            case 4: Pepega = 'I hate Thursdays '+client.emoteHandler.find("NotLikeThis");break;
+            case 5: Pepega = client.emoteHandler.find("GachiPls")+' weekend, my dude';break;
+            case 6: Pepega = 'It is Weekend my dude '+client.emoteHandler.find("EZ");break;
+            case 0: Pepega = 'It is Weekend my dude '+client.emoteHandler.find("EZ");break;
         }
-        if (!Pepega) Pepega = 'It is not Wednesday, my dude '+emote.find("FeelsBadMan"); //just in case something would go wrong
+        if (!Pepega) Pepega = 'It is not Wednesday, my dude '+client.emoteHandler.find("FeelsBadMan"); //just in case something would go wrong
         message.reply(Pepega);
     });
 }

@@ -10,7 +10,6 @@ exports.run = (client, message) => {
         if (message.args.length) cmd = client.commands.get(message.args[0].toLowerCase());
         if (!message.args.length || !cmd || !message.perms.isAllowed(cmd, true)) {
             let clones = require('../utils/commandHandler').clones;
-            let emote = require('../utils/emoteHandler')(client);
             let commandList = "";
             client.commands.filter(cmd => cmd.perms === "user" && !cmd.cloned).forEach((object, key, map) => commandList = commandList.concat(`\`${key}\`${clones[key]?' aliases:  \`'+clones[key].join('\`, \`')+'\`':""}\n`));
             var cmd = client.commands.get("help");
@@ -26,7 +25,7 @@ exports.run = (client, message) => {
                         value: `${cmd.usage.replace(/{PREFIX}/g, prefix)}`
                     },
                     {
-                        name: emote.asset("subscriber")+" User commands",
+                        name: client.emoteHandler.asset("subscriber")+" User commands",
                         value: commandList
                     }
                 ],
@@ -37,7 +36,7 @@ exports.run = (client, message) => {
             client.commands.filter((object, key, map) => typeof object.perms === "object" && message.perms.guildperm(object.perms, true) && !object.cloned).forEach((object, key, map) => guildModList = guildModList.concat(`\`${key}\`${clones[key]?' aliases:  \`'+clones[key].join('\`, \`')+'\`':""}\n`));
             if (guildModList.length) {
                 embed.fields.push({
-                    name: emote.asset("mod")+" Server Moderator commands",
+                    name: client.emoteHandler.asset("mod")+" Server Moderator commands",
                     value: guildModList
                 });
             }
@@ -46,7 +45,7 @@ exports.run = (client, message) => {
                 let modList = "";
                 client.commands.filter(cmd => cmd.perms === 'mod' && !cmd.cloned).forEach((object, key, map) => modList = modList.concat(`\`${key}\`${clones[key]?' aliases:  \`'+clones[key].join('\`, \`')+'\`':""}\n`));
                 embed.fields.push({
-                    name: emote.asset("supermod")+" Bot Moderator commands",
+                    name: client.emoteHandler.asset("supermod")+" Bot Moderator commands",
                     value: modList
                 });
             }
@@ -55,7 +54,7 @@ exports.run = (client, message) => {
                 let adminList = "";
                 client.commands.filter(cmd => cmd.perms === 'admin' && !cmd.cloned).forEach((object, key, map) => adminList = adminList.concat(`\`${key}\`${clones[key]?' aliases:  \`'+clones[key].join('\`, \`')+'\`':""}\n`));
                 await embed.fields.push({
-                    name: emote.asset("staff")+" Bot Administrator commands",
+                    name: client.emoteHandler.asset("staff")+" Bot Administrator commands",
                     value: adminList
                 });
             }
@@ -64,7 +63,7 @@ exports.run = (client, message) => {
                 let ownerList = "";
                 client.commands.filter(cmd => cmd.perms === 'owner' && !cmd.cloned).forEach((object, key, map) => ownerList = ownerList.concat(`\`${key}\`${clones[key]?' aliases:  \`'+clones[key].join('\`, \`')+'\`':""}\n`));
                 await embed.fields.push({
-                    name: emote.asset("broadcaster")+" Bot Owner commands",
+                    name: client.emoteHandler.asset("broadcaster")+" Bot Owner commands",
                     value: ownerList
                 });
             }

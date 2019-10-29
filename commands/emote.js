@@ -4,7 +4,6 @@ exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} :emote:`
 exports.perms = 'user';
 
 exports.run = (client, message) => {
-    let emote = require('../utils/emoteHandler')(client);
     message.cmd = this;
     message.command(1, async () => {
         if (/<:[a-z0-9-_]+:\d+>/i.test(message.args[0]) || /<a:[a-z0-9-_]+:\d+>/i.test(message.args[0])) {
@@ -18,6 +17,6 @@ exports.run = (client, message) => {
         //     try {message.channel.send(`<${url}>`, {file:url});}
         //     catch (issue) {throw "coś poszło nie tak ;c\n"+issue}
         // }
-        else message.channel.send("that's not an emote nor it's ID "+emote.find("NaM"));
+        else message.channel.send("that's not an emote nor it's ID "+client.emoteHandler.find("NaM"));
     });
 }
