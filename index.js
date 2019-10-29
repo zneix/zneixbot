@@ -30,7 +30,7 @@ client.logger = require('./utils/logger')(client); //logging in console and in l
 client.emoteHandler = require(`./utils/emoteHandler`)(client);
 client.db = require('./utils/dbconnect'); //database connection interface
 
-//executing rest of code after establishing successful db connection
+//executing rest of code after establishing successful database connection
 client.db.connect((err, dbclient) => {
     if (err) return console.error(err);
     console.log('[database] Successfully connected to MongoDB!');
@@ -38,9 +38,9 @@ client.db.connect((err, dbclient) => {
     require('./utils/eventHandler').load(client); //event handler
     require('./utils/commandHandler').load(client); //command handler
     
-    //discord authentication - logging to WebSocket with specified client token
+    //discord authentication - logging to WebSocket with specified Discord client token
     client.login(auth.token).catch(err => {
         console.log(err);
-        client.db.close(); //closing database connection upon error on Discord WebSocket to save Mongo's bandwith
+        client.db.close(); //closing database connection upon error on Discord WebSocket to save Mongo's bandwidth
     }); 
 });
