@@ -1,5 +1,5 @@
 {
-    "prefix": "zb ",
+    "prefix": "&",
     "delete": {
         "error": false,
         "command": false,

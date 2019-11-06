@@ -42,6 +42,7 @@ That bot helps me in moderating servers and fetches useful informations for othe
 - ~~[node-schedule](https://github.com/node-schedule/node-schedule)~~
 - [node-fetch](https://www.npmjs.com/package/node-fetch)
 - [npm-package-to-env](https://github.com/stefanjudis/npm-package-to-env)
+- [mongodb](https://github.com/mongodb/node-mongodb-native)
 - ~~[reaction-core](https://github.com/Mundayne/reaction-core)~~
 
 *striked libs will be used soon™

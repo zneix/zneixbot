@@ -4,7 +4,6 @@ exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} [questio
 exports.perms = 'user';
 
 exports.run = (client, message) => {
-    const emote = require('../utils/emoteHandler')(client);
     message.cmd = this;
     message.command(false, async () => {
         let responses = [
@@ -59,7 +58,7 @@ exports.run = (client, message) => {
                 do {
                     //emote replacer
                     let eth = /;[a-z0-9-_]*?;/i.exec(string)[0]; //eth - emotes to handle
-                    string = string.replace(eth, emote.find(eth.slice(1, -1)));
+                    string = string.replace(eth, client.emoteHandler.find(eth.slice(1, -1)));
                 } while (/;[a-z0-9-_]*?;/i.test(string));
             }
             return string;

@@ -4,7 +4,6 @@ exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} [user ID
 exports.perms = 'user';
 
 exports.run = (client, message) => {
-    const emote = require('../utils/emoteHandler')(client);
     message.cmd = this;
     message.command(false, async () => {
         if (!message.args.length) return link(message.author);
@@ -16,7 +15,7 @@ exports.run = (client, message) => {
         }
         else return link(taggedUser);
         function link(user){
-            if (!user.avatarURL) return message.channel.send(`User \`${user.tag}\` does not have an avatar ${emote.find("peepoSadDank")}`);
+            if (!user.avatarURL) return message.channel.send(`User \`${user.tag}\` does not have an avatar ${client.emoteHandler.find("peepoSadDank")}`);
             let embed = {
                 color: 0x852442,
                 timestamp: Date.now(),
