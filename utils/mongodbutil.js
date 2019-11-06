@@ -1,5 +1,5 @@
 const mongodb = require('mongodb');
-const auth = require('../src/json/auth')();
+const auth = require('../src/json/auth');
 let uri = `mongodb+srv://${auth.db.user}:${auth.db.pass}@${auth.db.host}/zneixbot`;
 let client = new mongodb.MongoClient(uri, {useUnifiedTopology: true});
 
