@@ -7,7 +7,7 @@ exports.perms = 'user';
 exports.run = (client, message) => {
     message.cmd = this;
     message.command(1, async () => {
-        var embed = {
+        let embed = {
             color: 0x79fcb2,
             timestamp: new Date(),
             footer: {
@@ -49,7 +49,7 @@ exports.run = (client, message) => {
         feedback.send({embed:embed})
         .then(() => {
             message.react('👌');
-            message.channel.send("Thanks for feedback! Devs will take a look it.\nIn the meantime, check out my GitHub repository ~~and give a star~~ https://github.com/zneix/zneixbot");
+            message.channel.send("Thanks for feedback! Devs will take a look it.\nIn the meantime, check out my GitHub repository ~~and give a star~~ <https://github.com/zneix/zneixbot>");
         })
         .catch(err => {throw err.toString();});
     });
