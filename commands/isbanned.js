@@ -1,5 +1,5 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = `Checks if user with given ID is banned and shows ban reason if yes.`;
+exports.description = 'Checks if user with given ID is banned and shows ban reason if banned.';
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} [userID]`;
 exports.perms = ['BAN_MEMBERS'];
 
@@ -27,7 +27,7 @@ exports.run = (client, message) => {
                 author: {
                     name: `This user is not banned in ${message.guild.name}`
                 },
-                description: `KKool GuitarTime`
+                description: `${client.emoteHandler.find('KKool')} ${client.emoteHandler.find('GuitarTime')}`
             };
             return message.channel.send({embed:embed});
         }
