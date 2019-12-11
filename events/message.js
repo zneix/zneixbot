@@ -2,7 +2,7 @@ module.exports = (client, message) => {
     if (message.author.bot || message.channel.type === "dm") return;
     if (message.isMemberMentioned(message.guild.me)) message.react(client.config.emojis.peepoPinged);
     if (message.mentions.everyone) message.reply("you don't ping everyone "+client.emoteHandler.find("DansGame")); //unfinished, add emote handler
-    if (message.content.startsWith(client.user) || `<@!${client.user.id}>`) message.channel.send(`Hey ${message.author}, my prefix is \`${client.config.prefix}\``, {embed:{color:Math.floor(Math.random()*16777215),description:'[Support Server](https://discordapp.com/invite/cF555AV)'}});
+    if (message.content.startsWith(client.user) || message.content.startsWith(`<@!${client.user.id}>`)) message.channel.send(`Hey ${message.author}, my prefix is \`${client.config.prefix}\``, {embed:{color:Math.floor(Math.random()*16777215),description:'[Support Server](https://discordapp.com/invite/cF555AV)'}});
     try {
         //funny thing to react on mention
         let prefix = function(){return message.content.substr(0, client.config.prefix.length).toLowerCase();}
