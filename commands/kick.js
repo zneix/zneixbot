@@ -16,11 +16,9 @@ exports.run = (client, message) => {
         else return execute(taggedMember);
 
         async function execute(member){
+            //clearances
             if (!member.kickable) throw `I can't kick ${member}!\nThey may have higher role.`;
-            //skipping clearance if commander is a bot owner
-            if (!message.perms.isOwner()) {
-                if (message.member.highestRole.calculatedPosition <= member.highestRole.calculatedPosition) throw `You're not able to kick ${member} because of role hierachy!`;
-            }
+            if (!message.perms.sufficientRole(message.member, member)) throw `You're not able to kick ${member} because of role hierachy!`;
 
             //reason compilation
             let reason = "No reason given.";

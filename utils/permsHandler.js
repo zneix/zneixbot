@@ -108,6 +108,12 @@ module.exports = (client, message) => {
         }
         else if (beSilent) return true;
     }
+    function sufficientRole(msgmember, reqmember){
+        if (!isOwner()){
+            if (msgmember.highestRole.calculatedPosition <= reqmember.highestRole.calculatedPosition) return false;
+        }
+        return true;
+    }
     return {
         isOwner: isOwner,
         isAdmin: isAdmin,
@@ -115,6 +121,7 @@ module.exports = (client, message) => {
         isBanned: isBanned,
         guildperm: guildperm,
         levelCheck: levelCheck,
-        isAllowed: isAllowed
+        isAllowed: isAllowed,
+        sufficientRole: sufficientRole
     }
 }
