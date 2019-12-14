@@ -8,7 +8,7 @@ exports.run = (client, message) => {
     message.command(false, async () => {
         if (!message.guild.iconURL) return message.channel.send(`This server does not have an icon ${emote.find("peepoSadDank")}`);
         let iconpng = message.guild.iconURL.slice(0, -3).concat('png');
-        if ((await client.fetch(message.guild.iconURL.slice(0, -4))).headers.get('content-type')=='image/gif') iconpng = iconpng.slice(0, -3).concat('gif');
+        if ((await client.fetch(iconpng.slice(0, -4))).headers.get('content-type')=='image/gif') iconpng = iconpng.slice(0, -3).concat('gif');
         let embed = {
             color: 0x9c6bcc,
             timestamp: Date.now(),

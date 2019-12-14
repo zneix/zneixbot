@@ -7,7 +7,9 @@ exports.run = (client, message) => {
     message.cmd = this;
     message.command(false, async () => {
         const time = require('../utils/timeFormatter');
-        var embed = {
+        let iconpng = message.guild.iconURL.slice(0, -3).concat('png');
+        if ((await client.fetch(iconpng.slice(0, -4))).headers.get('content-type')=='image/gif') iconpng = iconpng.slice(0, -3).concat('gif');
+        let embed = {
             color: 0xcc44ff,
             timestamp: new Date(),
             footer: {
@@ -16,10 +18,10 @@ exports.run = (client, message) => {
             },
             author: {
                 name: message.guild.name,
-                icon_url: message.guild.iconURL.slice(0, -3).concat("png")
+                icon_url: iconpng
             },
             thumbnail: {
-                url: message.guild.iconURL.slice(0, -3).concat("png")
+                url: iconpng
             },
             fields: [
                 {
