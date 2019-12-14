@@ -9,19 +9,15 @@ module.exports = (client, message) => {
         if (prefix() == client.config.prefix){
             message.perms = require('../utils/permsHandler')(client, message);
             message.perms.isBanned(); //ban check
-            let command = function(){
+            //function for getting command name
+            function command(){
                 if (prefix().endsWith(" ")) return message.content.split(/\s+/gm)[1].toLowerCase();
                 return message.content.split(/\s+/gm).shift(1).slice(prefix().length).toLowerCase();
             }
+            if (!command()) return; //quick escape in weird cases (e.g. someone types only prefix, no command)
             //args declaration
-            if (prefix().endsWith(" ")){
-                message.args = message.content.split(/[ \s]+/gm);
-                message.args.splice(0, 2);
-            }
-            else {
-                message.args = message.content.slice(client.config.prefix.length).split(/[ \s]+/gm);
-                message.args.splice(0, 1);
-            }
+            if (prefix().endsWith(" ")) message.args = message.content.split(/[ \s]+/gm).slice(2);
+            else message.args = message.content.slice(client.config.prefix.length).split(/[ \s]+/gm).slice(1);
             //command handling
             let cmd = client.commands.get(command());
             if (!cmd) throw `"${command()}" is not a command!`;
