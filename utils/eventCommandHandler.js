@@ -23,7 +23,16 @@ let clones = {
     "eval": ["sudo"]
 }
 exports.clones = clones;
-exports.load = function(client){
+exports.eventsCommandsLoad = function(client){
+    fs.readdir(`./events`, (err, files) => {
+        if (err) return console.error(err);
+        files.forEach(async file => {
+            let event = require(`../events/${file}`);
+            let name = file.split(".")[0];
+            await client.on(name, event.bind(null, client));
+            delete require.cache[require.resolve(`../events/${file}`)];
+        });
+    });
     fs.readdir(`./commands`, (err, files) => {
         if (err) return console.error(err);
         files.forEach(file => {
@@ -37,14 +46,14 @@ exports.load = function(client){
         let cloneArray = Object.keys(clones);
         for (i=0;i < cloneArray.length;i++) {
             let cmd = client.commands.get(cloneArray[i]);
-            if (!cmd) console.log("There was an error while cloning "+cloneArray[i]);
-            else {
+            if (cmd){
                 //actual cloning
                 for (y=0;y < clones[cloneArray[i]].length;y++) {
                     cmd.cloned = cloneArray[i];
                     client.commands.set(clones[cloneArray[i]][y], cmd);
                 }
             }
-        }   
+            else console.log("There was an error while cloning "+cloneArray[i]);
+        }
     });
 }

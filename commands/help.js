@@ -9,7 +9,7 @@ exports.run = (client, message) => {
         var prefix = client.config.prefix;
         if (message.args.length) cmd = client.commands.get(message.args[0].toLowerCase());
         if (!message.args.length || !cmd || !message.perms.isAllowed(cmd, true)) {
-            let clones = require('../utils/commandHandler').clones;
+            let clones = require('../utils/eventCommandHandler').clones;
             let commandList = "";
             client.commands.filter(cmd => cmd.perms === "user" && !cmd.cloned).forEach((object, key, map) => commandList = commandList.concat(`\`${key}\`${clones[key]?' aliases:  \`'+clones[key].join('\`, \`')+'\`':""}\n`));
             var cmd = client.commands.get("help");

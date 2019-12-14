@@ -35,8 +35,7 @@ client.emoteHandler = require(`./utils/emoteHandler`)(client);
     // if (err) return console.error(err);
     // console.log('[mongodb] Successfully connected to MongoDB!');
     require('./utils/errorHandler'); //executing commands and handling thrown errors
-    require('./utils/eventHandler').load(client); //event handler
-    require('./utils/commandHandler').load(client); //command handler
+    require('./utils/eventCommandHandler').eventsCommandsLoad(client); //event (and command) handler load
     
     //discord authentication - logging to WebSocket with specified Discord client token
     client.login(auth.token).catch(err => {
