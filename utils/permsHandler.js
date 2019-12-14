@@ -59,22 +59,22 @@ module.exports = (client, message) => {
         if (perms.ban.includes(id)) throw "You are banned from the bot!"
     }
     function guildperm(given, bool){
-        if (!isOwner() && !perms.admin.includes(id)) {
+        if (!isOwner() && !perms.admin.includes(id)){
             if (!message.member.hasPermission(given)) return locexit();
         }
         else {
-            let permLack;
-            let ovrLack;
+            let permGrant = false;
+            let ovrGrant = false;
             given.forEach(perm => {
-                if (!message.member.hasPermission(perm)) permLack = true;
-                if (!adminOverrides.includes(perm)) ovrLack = true;
+                if (message.member.hasPermission(perm)) permGrant = true;
+                if (adminOverrides.includes(perm)) ovrGrant = true;
             });
-            if (permLack && ovrLack && !isOwner()) return locexit();
+            if ((!permLack && !ovrLack) && !isOwner()) return locexit();
         }
         if (bool) return true;
         function locexit(){
             if (bool) return false;
-            throw `This command requires ${given.length === 1?`**${given}** permission`:`**${given.join(", ")}** permissions`} to run!`;
+            throw `This command requires ${given.length === 1?`**${given}** permission`:`one of **${given.join(", ")}** permissions`} to run!`;
         }
     }
     function levelCheck(cmdPerms){
@@ -95,7 +95,7 @@ module.exports = (client, message) => {
         }
     }
     function isAllowed(cmd, beSilent){
-        if (!isOwner()) { //disabling handler for users with owner perms aka bot's gods
+        if (!isOwner()){ //disabling handler for users with owner perms aka bot's gods
             if (typeof cmd.perms !== "string") return guildperm(cmd.perms, beSilent); //checking guild-perms (with some overrides on admin-level)
             else switch(cmd.perms){
                 case "owner":
