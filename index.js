@@ -28,12 +28,12 @@ client.version = process.env.npm_package_version; //global version
 client.save = require(`./utils/save`); //saving functions combined
 client.logger = require('./utils/logger')(client); //logging in console and in logs channel
 client.emoteHandler = require(`./utils/emoteHandler`)(client);
-// client.db = require('./utils/mongodbutil'); //database connection interface
+client.db = require('./utils/mongodb'); //database connection interface
 
 //executing rest of code after establishing successful database connection
-// client.db.connect((err, dbclient) => {
-    // if (err) return console.error(err);
-    // console.log('[mongodb] Successfully connected to MongoDB!');
+client.db.connect((err, mongoclient) => {
+    if (err) return console.error(`[!mongodb] Error while connecting:\n${err}`);
+    console.log('[mongodb] Connected to MongoDB!');
     require('./utils/errorHandler'); //executing commands and handling thrown errors
     require('./utils/eventCommandHandler').eventsCommandsLoad(client); //event (and command) handler load
     
@@ -42,4 +42,4 @@ client.emoteHandler = require(`./utils/emoteHandler`)(client);
         console.log(err);
         client.db.utils.close(); //closing database connection upon error on Discord WebSocket to save Mongo's bandwidth
     });
-// });
+});
