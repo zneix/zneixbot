@@ -36,7 +36,7 @@ client.db.connect((err, mongoclient) => {
     console.log('[mongodb] Connected to MongoDB!');
     require('./utils/errorHandler'); //executing commands and handling thrown errors
     require('./utils/eventCommandHandler').eventsCommandsLoad(client); //event (and command) handler load
-    
+
     //discord authentication - logging to WebSocket with specified Discord client token
     client.login(auth.token).catch(err => {
         console.log(err);

@@ -30,9 +30,7 @@ module.exports = (client, message) => {
             //actual running a command
             cmd.run(client, message);
         }
-        else {
-            //message handling
-        }
+        //message handling (removed it from else, because I want it to be running even if someone executes a command)
     }
     catch (err) {client.logger.caughtError(message, err, "message");}
 }
