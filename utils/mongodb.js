@@ -1,6 +1,6 @@
 let mongodb = require('mongodb');
-let auth = require('../json/auth');
-let uri = `mongodb+srv://${auth.db.user}:${auth.db.pass}@${auth.db.host}/smarkbot`;
+let auth = require('../src/json/auth');
+let uri = `mongodb+srv://${auth.db.user}:${auth.db.pass}@${auth.db.host}/zneixbot`;
 let client = new mongodb.MongoClient(uri, {
 	useUnifiedTopology: true,
 	keepAlive: true,
@@ -9,17 +9,17 @@ let client = new mongodb.MongoClient(uri, {
 	socketTimeoutMS: 360000,
 	connectTimeoutMS: 360000
 });
-let lvldb = 'zneixbotlvl'; //name of database with leveling info
+let lvldb = 'zneixbotleveling'; //name of database with leveling info
 
 //mongodb general utils
 client.utils = new Object;
 //reconnection
 client.utils.reconnect = async function(){
-    await client.close();
+	await client.close();
     return await client.connect().then(() => console.log('[mongodb] Reconeccted!')).catch(err => console.log(`[!mongodb] Error while reconnecting:\n${err}`));
 }
 //terminating current connection
-client.utils.close = async function close(){
+client.utils.disconnect = async function(){
     return await client.close().then(() => console.log('[mongodb] Closed connection!')).catch(err => console.log(`[!mongodb] Error while closing connection:\n${err}`));
 }
 //logging into
@@ -37,9 +37,9 @@ client.utils.insert = async function(collectionName, docs){
 	return await client.db().collection(collectionName).insertMany(docs);
 }
 //updating single document
-client.utils.replaceOne = async function(collectionName, filter, doc){
+client.utils.replaceOne = async function(collectionName, filter, D_OMEGALUL_C){
     if (!collectionName) return "collection name can't be null";
-    return await client.db().collection(collectionName).findOneAndReplace(filter, doc);
+    return await client.db().collection(collectionName).findOneAndReplace(filter, D_OMEGALUL_C);
 }
 //deleting documents
 client.utils.delete = async function(collectionName, filter){
@@ -102,7 +102,7 @@ client.lvl.newUser = async function(guildid, userid){
 client.lvl.getLeaderboard = async function(guildid){
 	return await client.db(lvldb).collection(guildid).find().sort('xp', -1).toArray();
 }
-//getting user positions and doc count for rank.js command
+//getting user positions and document count for rank.js command
 client.lvl.getRanking = async function(guildid, userid){
 	let all = await client.db(lvldb).collection(guildid).countDocuments();
 	let userArr = (await client.db(lvldb).collection(guildid).find({}, {projection: {userid: userid, _id: null}}).sort('xp', -1).toArray());
