@@ -6,7 +6,7 @@ module.exports = (client, message) => {
     try {
         //funny thing to react on mention
         let prefix = function(){return message.content.substr(0, client.config.prefix.length).toLowerCase();}
-        if (prefix() == client.config.prefix) {
+        if (prefix() == client.config.prefix){
             message.perms = require('../utils/permsHandler')(client, message);
             message.perms.isBanned(); //ban check
             let command = function(){
@@ -14,7 +14,7 @@ module.exports = (client, message) => {
                 return message.content.split(/\s+/gm).shift(1).slice(prefix().length).toLowerCase();
             }
             //args declaration
-            if (prefix().endsWith(" ")) {
+            if (prefix().endsWith(" ")){
                 message.args = message.content.split(/[ \s]+/gm);
                 message.args.splice(0, 2);
             }
@@ -34,7 +34,5 @@ module.exports = (client, message) => {
             //message handling
         }
     }
-    catch (err) {
-        client.logger.caughtError(message, err, "message");
-    }
+    catch (err) {client.logger.caughtError(message, err, "message");}
 }

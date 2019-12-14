@@ -34,7 +34,7 @@ exports.load = function(client){
             client.commands.set(name, props);
         });
         //loading clones
-        let cloneArray = Object.getOwnPropertyNames(clones);
+        let cloneArray = Object.keys(clones);
         for (i=0;i < cloneArray.length;i++) {
             let cmd = client.commands.get(cloneArray[i]);
             if (!cmd) console.log("There was an error while cloning "+cloneArray[i]);
