@@ -32,8 +32,8 @@ client.db = require('./utils/mongodb'); //database connection interface
 
 //executing rest of code after establishing successful database connection
 client.db.connect((err, mongoclient) => {
-    if (err) return console.error(`[!mongodb] Error while connecting:\n${err}`);
-    console.log('[mongodb] Connected to MongoDB!');
+    if (err) return console.error(`[!mongodb:index.js] Error while connecting:\n${err}`);
+    console.log('[mongodb:index.js] Connected to MongoDB!');
     require('./utils/errorHandler'); //executing commands and handling thrown errors
     require('./utils/eventCommandHandler').eventsCommandsLoad(client); //event (and command) handler load
 

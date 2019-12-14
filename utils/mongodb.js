@@ -3,9 +3,10 @@ let auth = require('../src/json/auth');
 let uri = `mongodb+srv://${auth.db.user}:${auth.db.pass}@${auth.db.host}/zneixbot`;
 let client = new mongodb.MongoClient(uri, {
 	useUnifiedTopology: true,
+	useNewUrlParser: true,
 	keepAlive: true,
+	keepAliveInitialDelay: 60000,
 	poolSize: 30,
-	autoReconnect: true,
 	socketTimeoutMS: 360000,
 	connectTimeoutMS: 360000
 });
@@ -23,27 +24,32 @@ client.utils.disconnect = async function(){
     return await client.close().then(() => console.log('[mongodb] Closed connection!')).catch(err => console.log(`[!mongodb] Error while closing connection:\n${err}`));
 }
 //logging into
-client.utils.connect = async function(){
+client.utils.connect = connect();
+async function connect(){
     return await client.connect().then(() => console.log('[mongodb] Connected!')).catch(err => console.log(`[!mongodb] Error while connecting:\n${err}`));
 }
 //finding documents
 client.utils.find = async function(collectionName, filter){
 	if (!collectionName) return "collection name can't be null";
+	if (!client.isConnected()) await connect();
 	return await client.db().collection(collectionName).find(filter).toArray();
 }
 //inserting documents
 client.utils.insert = async function(collectionName, docs){
 	if (!collectionName) return "collection name can't be null";
+	if (!client.isConnected()) await connect();
 	return await client.db().collection(collectionName).insertMany(docs);
 }
 //updating single document
 client.utils.replaceOne = async function(collectionName, filter, D_OMEGALUL_C){
-    if (!collectionName) return "collection name can't be null";
+	if (!collectionName) return "collection name can't be null";
+	if (!client.isConnected()) await connect();
     return await client.db().collection(collectionName).findOneAndReplace(filter, D_OMEGALUL_C);
 }
 //deleting documents
 client.utils.delete = async function(collectionName, filter){
 	if (!collectionName) return "collection name can't be null";
+	if (!client.isConnected()) await connect();
 	return await client.db().collection(collectionName).deleteMany(filter);
 }
 //new config template insertion
@@ -62,9 +68,6 @@ client.utils.newGuildConfig = async function(guildid){
 				blocked: [],
 				rewards: {}
 			},
-			responses: {
-				enabled: false
-			},
 			roles: {
 				enabled: false,
 				units: {}
@@ -76,20 +79,24 @@ client.utils.newGuildConfig = async function(guildid){
 			}
 		}
 	}
-	return await client.db().collection('guilds').insertOne(template);
+	if (!client.isConnected()) await connect();
+	return (await client.db().collection('guilds').insertOne(template)).ops[0];
 }
 
 //mongodb leveling module utils
 client.lvl = new Object;
 //getting user level info
 client.lvl.findUser = async function(guildid, userid){
+	if (!client.isConnected()) await connect();
 	return await client.db(lvldb).collection(guildid).find({userid: userid}).toArray();
 }
 client.lvl.updateUser = async function(guildid, D_OMEGALUL_C){
+	if (!client.isConnected()) await connect();
 	return await client.db(lvldb).collection(guildid).findOneAndReplace({userid: D_OMEGALUL_C.userid}, D_OMEGALUL_C);
 }
 //new user level info insertion
 client.lvl.newUser = async function(guildid, userid){
+	if (!client.isConnected()) await connect();
 	(await client.db(lvldb).listCollections().toArray()).some(x => x.name === guildid)?null:(await client.db(lvldb).createCollection(guildid));
 	let template = {
 		userid: userid,
@@ -117,7 +124,7 @@ client.on('topologyOpening', function(event) {
 	console.log('[mongodb:event] Server topology is OPENING!');
 });
 client.on('topologyClosed', function(event) {
-	console.log('[mongodb:event] Server topology is CLOSING!');
+	console.log('[mongodb:event] Server topology has CLOSED!');
 });
 
 //process listeners for database disconnecting once process terminates
