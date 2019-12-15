@@ -51,9 +51,10 @@ module.exports = client => {
         else console.log(`(!cmd) logs channel not found!`);
     }
     function caughtError(message, err, type){
+        console.log(err);
         switch(type){
             case "message":
-                if (typeof err !== "string") err.stack = err;
+                if (typeof err !== "string") err.stack = err.toString();
                 break;
             case "reject":
                 console.trace("Async/Promise rejection command error: "+err);
@@ -64,7 +65,7 @@ module.exports = client => {
             default:console.trace("Sync command error: "+err);
         }
         console.log(err);
-        var embed = {
+        let embed = {
             color: 0xff5050,
             author: {
                     name: message.guild.name+" — \""+message.channel.name+"\"",
