@@ -29,11 +29,11 @@ exports.run = (client, message) => {
                 fields: [
                     {
                         name: 'IP Address',
-                        value: result.ip
+                        value: result.ip || 'IP address not found ;-;'
                     },
                     {
                         name: 'Country',
-                        value: result.country_name+" "+result.emoji_flag
+                        value: result.country_name+" "+result.emoji_flag || 'IP address not found ;-;'
                     }
                 ]
             }
