@@ -60,16 +60,16 @@ module.exports = (client, message) => {
     }
     function guildperm(given, bool){
         if (!isOwner() && !perms.admin.includes(id)){
-            if (!message.member.hasPermission(given)) return locexit();
+            if (!message.member.permissions.toArray().some(x => message.member.hasPermission(x))) return locexit();
         }
         else {
-            let permGrant = false;
-            let ovrGrant = false;
+            let permGrant;
+            let ovrGrant;
             given.forEach(perm => {
                 if (message.member.hasPermission(perm)) permGrant = true;
                 if (adminOverrides.includes(perm)) ovrGrant = true;
             });
-            if ((!permLack && !ovrLack) && !isOwner()) return locexit();
+            if ((!permGrant && !ovrGrant) && !isOwner()) return locexit();
         }
         if (bool) return true;
         function locexit(){
