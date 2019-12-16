@@ -1,17 +1,19 @@
 module.exports = (guild, destination, boolCreated) => {
     let time = require('../../utils/timeFormatter');
+    let fixedIconUrl = message.guild.iconURL.slice(0, -3).concat('png');
+    if ((await client.fetch(iconpng.slice(0, -4))).headers.get('content-type')=='image/gif') fixedIconUrl = fixedIconUrl.slice(0, -3).concat('gif');
     let embed = {
         color: boolCreated?0x0dc61a:0xd71a42,
         timestamp: new Date(),
         footer: {
             text: guild.id,
-            icon_url: guild.iconURL.slice(0, -3).concat("png")
+            icon_url: fixedIconUrl
         },
         author: {
             name: (boolCreated?"Joined":"Left")+" a server"
         },
         thumbnail: {
-            url: guild.iconURL.slice(0, -3).concat("png")
+            url: fixedIconUrl
         },
         fields: [
             {

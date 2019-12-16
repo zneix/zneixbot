@@ -7,23 +7,23 @@ exports.run = (client, message) => {
     message.cmd = this;
     message.command(false, async () => {
         if (!message.guild.iconURL) return message.channel.send(`This server does not have an icon ${emote.find("peepoSadDank")}`);
-        let iconpng = message.guild.iconURL.slice(0, -3).concat('png');
-        if ((await client.fetch(iconpng.slice(0, -4))).headers.get('content-type')=='image/gif') iconpng = iconpng.slice(0, -3).concat('gif');
+        let fixedIconUrl = message.guild.iconURL.slice(0, -3).concat('png');
+        if ((await client.fetch(fixedIconUrl.slice(0, -4))).headers.get('content-type')=='image/gif') fixedIconUrl = fixedIconUrl.slice(0, -3).concat('gif');
         let embed = {
             color: 0x9c6bcc,
             timestamp: Date.now(),
             footer: {
                 text: message.guild.name+"'s icon",
-                icon_url: iconpng||message.guild.iconURL
+                icon_url: fixedIconUrl||message.guild.iconURL
             },
             author: {
                 name: `Icon of ${message.guild.name}`,
-                url: iconpng||message.guild.iconURL
+                url: fixedIconUrl||message.guild.iconURL
             },
             image: {
-                url: iconpng||message.guild.iconURL
+                url: fixedIconUrl||message.guild.iconURL
             }
         }
-        message.channel.send(`<${iconpng||message.guild.iconURL}>`, {embed:embed});
+        message.channel.send(`<${fixedIconUrl||message.guild.iconURL}>`, {embed:embed});
     });
 }
