@@ -1,7 +1,7 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
 exports.description = "Changes current server's configuration settings.";
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <one_of_modules>`;
-exports.perms = ['ADMINISTRATOR'];
+exports.perms = [false, 'modrole'];
 
 exports.run = (client, message) => {
     message.cmd = this;
@@ -444,7 +444,7 @@ exports.run = (client, message) => {
                     break;
                 case "modrole":
                 case "mod":
-                    if (!message.member.hasPermission('ADMINISTRATOR')) throw 'Only **server owner** or user with **ADMINISTRATOR** permission can change modrole!';
+                    if (!message.member.hasPermission('ADMINISTRATOR') && !message.perms.isOwner()) throw 'Only **server owner** or user with **ADMINISTRATOR** permission can change modrole!';
                     embed.description = '`set <ID_or_@Role>` - changes moderator role to given value, can be either role ID or direct role @Mention'
                     +'\n`reset` - removes moderator role from configuration';
                     embed.fields = null;

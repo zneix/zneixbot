@@ -1,7 +1,7 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
 exports.description = `Executes provided code.`;
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} [code]`;
-exports.perms = 'owner';
+exports.perms = ['owner', false];
 
 exports.run = (client, message) => {
     message.cmd = this;

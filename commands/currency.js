@@ -37,7 +37,7 @@ let codes = Object.getOwnPropertyNames(objcodes);
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
 exports.description = `Converts currencies, calculates them, etc.\nSupported currencies: ${codes.join(', ')}`;
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} EUR to PLN\n{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} 10 EUR to PLN`;
-exports.perms = 'user';
+exports.perms = [false, false];
 
 exports.run = (client, message) => {
     message.cmd = this;

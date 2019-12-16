@@ -36,31 +36,46 @@ module.exports = (client, message) => {
 		'MANAGE_WEBHOOKS',
 		'MANAGE_EMOJIS'
     ];
-
+    //global ban check
+    function isBanned(){
+        if (perms.ban.includes(id)) throw "You are banned from the bot!";
+    }
+    //global permission checks
     function isOwner(){
         if (!perms.owner.includes(id)) return false;
         return true;
     }
     function isAdmin(bool){
-        if (bool) {
-            if (!perms.owner.includes(id) && !perms.admin.includes(id)) return false;
-            return true;
+        if (!isOwner() && !perms.admin.includes(id)){
+            if (bool) return false;
+            throw "This command requires **bot administrator** prvileges to run!";
         }
-        if (!perms.owner.includes(id) && !perms.admin.includes(id)) throw "This command requires **bot administrator** prvileges to run!"
+        if (bool) return true;
     }
     function isMod(bool){
-        if (bool) {
-            if (!perms.owner.includes(id) && !perms.admin.includes(id) && !perms.mod.includes(id)) return false;
-            return true;
+        if (!isOwner() && !perms.admin.includes(id) && !perms.mod.includes(id)){
+            if (bool) return false;
+            throw "This command requires **bot moderator** prvileges to run!";
         }
-        if (!perms.owner.includes(id) && !perms.admin.includes(id) && !perms.mod.includes(id)) throw "This command requires **bot moderator** prvileges to run!"
+        if (bool) return true;
     }
-    function isBanned(){
-        if (perms.ban.includes(id)) throw "You are banned from the bot!"
+    //guild-based role checks (only one so far)
+    function isModrole(bool){
+        if (message.member.hasPermission('ADMINISTRATOR') || isOwner()) return bool?true:undefined;
+        if (!message.guild.dbconfig.modrole){
+            if (bool) return false;
+            throw `This command requires to set up **server moderator role** to run!`;
+        }
+        if (!message.member.roles.has(message.guild.dbconfig.modrole)){
+            if (bool) return false;
+            throw `This command requires **server moderator role** to run!`;
+        }
+        if (bool) return true;
     }
+    //Discord permission-based system check (with some overrides for global admins)
     function guildperm(given, bool){
         if (!isOwner() && !perms.admin.includes(id)){
-            if (!message.member.permissions.toArray().some(x => message.member.hasPermission(x))) return locexit();
+            if (!message.member.permissions.toArray().some(x => given.includes(x))) return locexit();
         }
         else {
             let permGrant;
@@ -78,7 +93,7 @@ module.exports = (client, message) => {
         }
     }
     function levelCheck(cmdPerms){
-        if (cmdPerms) { //when cmd.perms is given
+        if (cmdPerms){ //when cmd.perms is given
             if (typeof cmdPerms === "string") switch(cmdPerms){
                 case "owner": return 3;
                 case "admin": return 2;
@@ -96,17 +111,23 @@ module.exports = (client, message) => {
     }
     function isAllowed(cmd, beSilent){
         if (!isOwner()){ //disabling handler for users with owner perms aka bot's gods
-            if (typeof cmd.perms !== "string") return guildperm(cmd.perms, beSilent); //checking guild-perms (with some overrides on admin-level)
-            else switch(cmd.perms){
-                case "owner":
-                    if (beSilent) return false;
-                    else throw "This command requires **bot owner** prvileges to run!";
-                case "admin":return isAdmin(beSilent);
-                case "mod":return isMod(beSilent);
-                case "user":if (beSilent) return true;
+            if (cmd.perms[0]){
+                switch(cmd.perms[0]){
+                    case "owner":
+                        if (beSilent) return false;
+                        else throw "This command requires **bot owner** prvileges to run!";
+                    case "admin":return isAdmin(beSilent);
+                    case "mod":return isMod(beSilent);
+                    case false:if (beSilent) return true;
+                }
             }
+            if (cmd.perms[1]) switch(cmd.perms[1]){
+                case "modrole":return isModrole(beSilent);
+                case false:if (beSilent) return true;
+            }
+            if (cmd.perms.slice(2).length) return guildperm(cmd.perms.slice(2), beSilent);
         }
-        else if (beSilent) return true;
+        if (beSilent) return true;
     }
     function sufficientRole(msgmember, reqmember){
         if (!isOwner()){
@@ -115,10 +136,11 @@ module.exports = (client, message) => {
         return true;
     }
     return {
+        isBanned: isBanned,
         isOwner: isOwner,
         isAdmin: isAdmin,
         isMod: isMod,
-        isBanned: isBanned,
+        isModrole: isModrole,
         guildperm: guildperm,
         levelCheck: levelCheck,
         isAllowed: isAllowed,

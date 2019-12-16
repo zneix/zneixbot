@@ -3,7 +3,7 @@ exports.description = `Picks random number between two numbers.`;
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <first_number> <last_number>`
 +`\n{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} 1 100`
 +`\n{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} 21 37`;
-exports.perms = 'user';
+exports.perms = [false, false];
 
 exports.run = (client, message) => {
     message.cmd = this;

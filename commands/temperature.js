@@ -6,7 +6,7 @@ let codes = Object.getOwnPropertyNames(objcodes);
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
 exports.description = `Converts Celcius to Farenheit and vice-versa.\nSupported temperatures: C, F`;
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} 20 C\n{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} 56 F`;
-exports.perms = 'user';
+exports.perms = [false, false];
 
 exports.run = (client, message) => {
     message.cmd = this;

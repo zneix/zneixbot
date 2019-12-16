@@ -1,7 +1,7 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
 exports.description = `Links Witt#1338's epicc fanfic.`;
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.perms = 'user';
+exports.perms = [false, false];
 
 exports.run = (client, message) => {
     message.cmd = this;

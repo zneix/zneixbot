@@ -1,7 +1,7 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
 exports.description = `Tracks IPv4, IPv6 addresses and hostnames.`;
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} (IP | hostname)`;
-exports.perms = 'user';
+exports.perms = [false, false];
 
 exports.run = (client, message) => {
     message.cmd = this;

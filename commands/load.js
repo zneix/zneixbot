@@ -1,7 +1,7 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
 exports.description = `Loads command from commands folder if it is unloaded, or newly installed.`;
 exports.usage = `**{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} (command)**`;
-exports.perms = 'admin';
+exports.perms = ['admin', false];
 
 exports.run = (client, message) => {
     message.cmd = this;

@@ -1,7 +1,7 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
 exports.description = `Checks if it's wednesday, my dude. (based on UK (GMT 0) time, my mate)`;
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.perms = 'user';
+exports.perms = [false, false];
 
 exports.run = (client, message) => {
     message.cmd = this;

@@ -1,7 +1,7 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
 exports.description = `Flips a coin, heads or tails, true or false, yes or no.`;
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.perms = 'user';
+exports.perms = [false, false];
 
 exports.run = (client, message) => {
     message.cmd = this;

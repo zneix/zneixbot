@@ -5,7 +5,7 @@ exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`
 +`\n{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} #00ff00`
 +`\n{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} rgb(0, 255, 0)`
 +`\n{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} 65280`
-exports.perms = 'user';
+exports.perms = [false, false];
 
 exports.run = (client, message) => {
     message.cmd = this;
