@@ -86,7 +86,7 @@ client.lvl = new Object;
 //getting user level info
 client.lvl.findUser = async function(guildid, userid){
 	if (!client.isConnected()) await connect();
-	return await client.db(lvldb).collection(guildid).find({userid: userid}).toArray();
+	return (await client.db(lvldb).collection(guildid).find({userid: userid}).toArray())[0];
 }
 client.lvl.updateUser = async function(guildid, D_OMEGALUL_C){
 	if (!client.isConnected()) await connect();
@@ -105,10 +105,12 @@ client.lvl.newUser = async function(guildid, userid){
 }
 //finding and sorting elements in leveling collection
 client.lvl.getLeaderboard = async function(guildid){
+	if (!client.isConnected()) await connect();
 	return await client.db(lvldb).collection(guildid).find().sort('xp', -1).toArray();
 }
 //getting user positions and document count for rank.js command
 client.lvl.getRanking = async function(guildid, userid){
+	if (!client.isConnected()) await connect();
 	let all = await client.db(lvldb).collection(guildid).countDocuments();
 	let userArr = (await client.db(lvldb).collection(guildid).find({}, {projection: {userid: userid, _id: null}}).sort('xp', -1).toArray());
 	for (i=0;i<userArr.length;i++) if (userArr[i].userid == userid) return (i+1)+'/'+all;
