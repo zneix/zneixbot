@@ -25,6 +25,7 @@ module.exports = async (client, message) => {
             cmd.run(client, message);
         }
         //message handling (removed it from else, because I want it to be running even if someone executes a command)
+        require('../utils/levelingHandler')(client, message);
     }
     catch (err) {client.logger.caughtError(message, err, "message");}
 }

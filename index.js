@@ -23,6 +23,7 @@ client.commands = new enmap(); //declaring new enmap object for command handler
 client.RCHandler = new RC.Handler(); //global emote menu handler
 client.fetch = fetch; //declaring global fetch function
 client.version = process.env.npm_package_version; //global version
+client.tr = new Object(); //global object with Talked Recently Sets for every guild
 
 //utils load
 client.save = require(`./utils/save`); //saving functions combined
