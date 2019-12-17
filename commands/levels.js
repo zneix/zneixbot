@@ -4,6 +4,7 @@ exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
 exports.perms = [false, false];
 
 exports.run = (client, message) => {
+    message.cmd = this;
     message.command(false, async () => {
         //comment that code later (and maybe add a cooldown? ;d)
         let data = await client.db.lvl.getLeaderboard(message.guild.id);
