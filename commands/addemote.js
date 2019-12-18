@@ -11,7 +11,7 @@ exports.run = (client, message) => {
         let url;
         let emotename;
         //resolving discord emotes (from nitro users)
-        if (/^<:[a-z0-9-_]+:\d+>/i.test(message.args[0]) || /^<a:[a-z0-9-_]+:\d+>/i.test(message.args[0])) {
+        if (/^<:[a-z0-9-_]+:\d+>/i.test(message.args[0]) || /^<a:[a-z0-9-_]+:\d+>/i.test(message.args[0])){
             let id = /:\d+>/g.exec(message.args[0])[0].slice(1, -1);
             url = `https://cdn.discordapp.com/emojis/${id}.${/^<a:[a-z0-9-_]+:\d+>/i.test(message.args[0])?"gif":"png"}`;
             emotename = /^<[a]?:([a-z0-9-_]+):\d+>/gi.exec(message.args[0])[1];
@@ -56,7 +56,7 @@ exports.run = (client, message) => {
                 Mcollector.on('collect', mess => {
                     let newName = mess.content.split(/ +/)[1];
                     if (!/^[a-z0-9-_]{2,}$/i.test(newName)) message.reply("That's not a valid emote name!");
-                    else if (emote) {let old = emote.name;emote.setName(newName).then(e => message.channel.send(`Changed name of ${e} from \`${old}\` to \`${e.name}\`.`));}
+                    else if (emote){let old = emote.name;emote.setName(newName).then(e => message.channel.send(`Changed name of ${e} from \`${old}\` to \`${e.name}\`.`));}
                 });
                 Mcollector.on('end', mess => {
                     if (m) m.edit(`Successfully created emote \`${emote.name}\` ${emote}`);

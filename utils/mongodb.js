@@ -117,13 +117,13 @@ client.lvl.getRanking = async function(guildid, userid){
 }
 
 //mongodb-related listeners for topology and failed heartbeats information
-client.on('serverHeartbeatFailed', function(event) {
+client.on('serverHeartbeatFailed', function(event){
 	console.log('[mongodb:event] Heartbeat FAILED!');
 });
-client.on('topologyOpening', function(event) {
+client.on('topologyOpening', function(event){
 	console.log('[mongodb:event] Server topology is OPENING!');
 });
-client.on('topologyClosed', function(event) {
+client.on('topologyClosed', function(event){
 	console.log('[mongodb:event] Server topology has CLOSED!');
 });
 

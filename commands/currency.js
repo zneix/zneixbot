@@ -69,6 +69,6 @@ exports.run = (client, message) => {
     });
 }
 function Round(n, k){
-    var factor = 10**k;
+    let factor = 10**k;
     return Math.round(n*factor)/factor;
 }

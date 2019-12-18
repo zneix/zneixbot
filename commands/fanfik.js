@@ -9,7 +9,7 @@ exports.run = (client, message) => {
         let origin = `https://www.wattpad.com/623549440-jak-naprawd%C4%99-powsta%C5%82-%C5%9Bwiat-1-jak-zosta%C5%82em-bogiem`;
         let second = `https://www.wattpad.com/710733117-przygody-wita-stwórcy-sezon-2-0-zanim-zaczniesz`;
         let special = `https://www.wattpad.com/674077106-przygody-wita-stw%C3%B3rcy-christmas-special-wigilia-u`;
-        var embed = {
+        let embed = {
             color: 0xceffff,
             timestamp: new Date(),
             footer: {

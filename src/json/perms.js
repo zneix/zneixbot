@@ -1,5 +1,5 @@
 module.exports = () => {
-    var obj = {
+    let obj = {
         owner: [
             "288028423031357441", //zneix#4433
             "534816237176225793", //EinLiftedSoul#4461

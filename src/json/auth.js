@@ -1,4 +1,4 @@
-var obj = {
+let obj = {
     token: process.env.token,
     db: {
         host: process.env.dbhost,

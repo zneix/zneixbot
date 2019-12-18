@@ -45,11 +45,11 @@ exports.eventsCommandsLoad = function(client){
         });
         //loading clones
         let cloneArray = Object.keys(clones);
-        for (i=0;i < cloneArray.length;i++) {
+        for (i=0;i < cloneArray.length;i++){
             let cmd = client.commands.get(cloneArray[i]);
             if (cmd){
                 //actual cloning
-                for (y=0;y < clones[cloneArray[i]].length;y++) {
+                for (y=0;y < clones[cloneArray[i]].length;y++){
                     cmd.cloned = cloneArray[i];
                     client.commands.set(clones[cloneArray[i]][y], cmd);
                 }

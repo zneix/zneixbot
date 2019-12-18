@@ -1,5 +1,5 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = `Picks random number between two numbers.`;
+exports.description = `Picks random integer between two provided numbers.`;
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <first_number> <last_number>`
 +`\n{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} 1 100`
 +`\n{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} 21 37`;

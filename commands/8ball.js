@@ -106,12 +106,12 @@ exports.run = (client, message) => {
             string = string.replace(/@everyone/, "`@everyone`"); //filters everyone mentions
             string = string.replace(/@here/, "`@here`"); //filters here mentions
             //TODO: Finish this escape later, when more advanced responses will be added.
-            // if (/<:[a-z0-9-_]+:\d+>/i.test(string) || /<a:[a-z0-9-_]+:\d+>/i.test(string)) {
+            // if (/<:[a-z0-9-_]+:\d+>/i.test(string) || /<a:[a-z0-9-_]+:\d+>/i.test(string)){
             //     console.log("that had "+(/<a:[a-z0-9-_]+:\d+>/i.test(string)?"animated":"regular")+" emote");
             //     if (/<:[a-z0-9-_]+:\d+>/i.test(string)) string = string.replace(/<:[a-z0-9-_]+:\d+>/i, "<userEmote>");
             //     if (/<a:[a-z0-9-_]+:\d+>/i.test(string)) string = string.replace(/<a:[a-z0-9-_]+:\d+>/i, "<userAnimatedEmote>");
             // }
-            if (/;[a-z0-9-_]*?;/i.test(string)) {
+            if (/;[a-z0-9-_]*?;/i.test(string)){
                 do {
                     //emote replacer
                     let eth = /;[a-z0-9-_]*?;/i.exec(string)[0]; //eth - emotes to handle

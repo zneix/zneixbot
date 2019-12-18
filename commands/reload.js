@@ -20,8 +20,8 @@ exports.run = (client, message) => {
         client.commands.set(cmd, props);
         //cloning those again
         let clones = require('../utils/eventCommandHandler').clones;
-        if (clones[cmd]) {
-            for (i=0;i < clones[cmd].length;i++) {
+        if (clones[cmd]){
+            for (i=0;i < clones[cmd].length;i++){
                 //deletion
                 client.commands.delete(clones[cmd][i]);
                 // delete require.cache[require.resolve(`./${clones[cmd][i]}.js`)];

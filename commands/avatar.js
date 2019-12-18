@@ -8,7 +8,7 @@ exports.run = (client, message) => {
     message.command(false, async () => {
         if (!message.args.length) return link(message.author);
         let taggedUser = message.mentions.users.first();
-        if (!taggedUser) {
+        if (!taggedUser){
             let validUser = client.users.get(message.args[0]);
             if (validUser) return link(validUser);
             else return link(message.author);

@@ -7,7 +7,7 @@ exports.run = (client, message) => {
     message.cmd = this;
     message.command(1, async () => {
         let taggedChannel = message.mentions.channels.first();
-        if (!taggedChannel) {
+        if (!taggedChannel){
             let validChannel = client.channels.get(message.args[0]);
             if (validChannel) return result(validChannel);
             else return result(false);

@@ -128,7 +128,7 @@ exports.run = (client, message) => {
                             if (message.args[2]) switch(message.args[2].toLowerCase()){
                                 case "add":
                                     if (!message.args[3]) throw 'You must specify Channel ID or mention it via #Channel';
-                                    if (message.mentions.channels.size) {
+                                    if (message.mentions.channels.size){
                                         if (message.guild.channels.has(message.mentions.channels.first().id) && message.args[3].includes(message.mentions.channels.first().id)){
                                             //success from mention
                                             data.modules.leveling.blacklist.push(message.mentions.channels.first().id);
@@ -144,7 +144,7 @@ exports.run = (client, message) => {
                                     break;
                                 case "remove":
                                     if (!message.args[3]) throw 'You must specify Channel ID or mention it via #Channel';
-                                    if (message.mentions.channels.size) {
+                                    if (message.mentions.channels.size){
                                         if (message.guild.channels.has(message.mentions.channels.first().id) && message.args[3].includes(message.mentions.channels.first().id)){
                                             //success from mention
                                             let index = data.modules.leveling.blacklist.indexOf(message.mentions.channels.first().id);
@@ -180,7 +180,7 @@ exports.run = (client, message) => {
                             if (message.args[2]) switch (message.args[2].toLowerCase()){
                                 case "add":
                                     if (!message.args[3]) throw 'You must specify user by their ID or @Mention it!';
-                                    if (message.mentions.members.size) {
+                                    if (message.mentions.members.size){
                                         if (message.guild.members.has(message.mentions.members.first().id) && message.args[3].includes(message.mentions.members.first().id)){
                                             //success from mention
                                             data.modules.leveling.blocked.push(message.mentions.members.first().id);
@@ -196,7 +196,7 @@ exports.run = (client, message) => {
                                     break;
                                 case "remove":
                                     if (!message.args[3]) throw 'You must specify User ID or @Mention it!';
-                                    if (message.mentions.members.size) {
+                                    if (message.mentions.members.size){
                                         if (message.guild.members.has(message.mentions.members.first().id) && message.args[3].includes(message.mentions.members.first().id)){
                                             //success from mention
                                             let index = data.modules.leveling.blocked.indexOf(message.mentions.members.first().id);
@@ -231,7 +231,7 @@ exports.run = (client, message) => {
                             if (rewardLevels.length){
                                 let n = Math.max.apply(Math, rewardLevels);
                                 for (i=0;i<=n;i++){
-                                    if (rewardLevels.includes(i.toString())) {
+                                    if (rewardLevels.includes(i.toString())){
                                         let subRewArr = [];
                                         subRewArr.push(`Level ${i}: `);
                                         rewardLevels.forEach(level => {

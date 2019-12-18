@@ -29,7 +29,7 @@ exports.run = (client, message) => {
     message.command(1, async () => {
         if (!message.guild.me.hasPermission('MANAGE_GUILD')) throw "I don't have **MANAGE_GUILD** permission here, contact moderators!";
         let region = message.args[0].toLowerCase();
-        if (regions.some(x => region === x)) {
+        if (regions.some(x => region === x)){
             try {
                 message.guild.setRegion(region);
                 let embed = {
@@ -43,7 +43,7 @@ exports.run = (client, message) => {
                 }
                 message.channel.send({embed:embed});
             }
-            catch (err) {
+            catch (err){
                 throw err.toString();
             }
         }

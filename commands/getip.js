@@ -8,7 +8,7 @@ exports.run = (client, message) => {
     message.command(1, async () => {
         let apidata;
         let domain;
-        if (/^[a-z0-9][a-z0-9-_.]{2,}[a-z0-9]$/.test(message.args[0].toLowerCase())) {
+        if (/^[a-z0-9][a-z0-9-_.]{2,}[a-z0-9]$/.test(message.args[0].toLowerCase())){
             let dns = require('dns');
             dns.lookup(message.args[0].toLowerCase(), async function(err, address, family){
                 domain = message.args[0].toLowerCase();
@@ -19,7 +19,7 @@ exports.run = (client, message) => {
         //functions
         async function apifetch(ip){
             let result = await client.fetch(`https://api.ipdata.co/${ip}?api-key=test`).then(data => data.json());
-            var embed = {
+            let embed = {
                 color: 0xfff12e,
                 timestamp: new Date(),
                 footer: {

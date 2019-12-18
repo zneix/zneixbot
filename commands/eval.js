@@ -6,7 +6,7 @@ exports.perms = ['owner', false];
 exports.run = (client, message) => {
     message.cmd = this;
     message.command(false, async () => {
-        function clean(text) {
+        function clean(text){
             if (typeof(text) === "string") return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
             else return text;
           }
@@ -17,7 +17,7 @@ exports.run = (client, message) => {
             if (typeof evaled !== "string") evaled = require('util').inspect(evaled);
             message.channel.send(clean(evaled).substr(0, 1990), {code:"xl"}).then(msg => deletion(msg));
         }
-        catch (err) {
+        catch (err){
             message.channel.send(`\`\`\`xl\nERROR:\n${clean(err)}\n\`\`\``).then(msg => deletion(msg));
         }
         async function deletion(msg){

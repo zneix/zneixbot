@@ -3,7 +3,7 @@ module.exports = client => {
         console.log(`[ready] Connected as: '${client.user.tag}'`);
         let logs = client.channels.get(client.config.channels.logs);
         if (logs){
-            var embed = {
+            let embed = {
                 color: 0xf97304,
                 timestamp: new Date(),
                 footer: {
@@ -34,7 +34,7 @@ module.exports = client => {
         console.log(`(cmd; level ${level}) ${cmd.name.replace(/{PREFIX}/, "")}`);
         let logs = client.channels.get(client.config.channels.logs);
         if (logs){
-            var embed = {
+            let embed = {
                 color: 0x0008ff,
                 timestamp: new Date(),
                 footer: {

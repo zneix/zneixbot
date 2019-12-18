@@ -42,7 +42,7 @@ exports.run = (client, message) => {
             });
         }
         let feedback = client.channels.get(client.config.channels.feedback);
-        if (!feedback) {
+        if (!feedback){
             console.log('(!cmd) feedback channel not found!');
             return message.channel.send("Bot developer hasn't set a feedback channel yet, so I can't process your message.");
         }

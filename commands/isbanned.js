@@ -12,7 +12,7 @@ exports.run = (client, message) => {
         
         //check and 'error' throw if user is already banned
         let check = await message.guild.fetchBans();
-        if (check.get(member)) {
+        if (check.get(member)){
             let ban = await message.guild.fetchBan(message.args[0]).catch(err => {throw err.toString()});
             return require('../src/embeds/memberKickedBanned')(message, `<@${member}>`, ban.reason, "banerror");
         }

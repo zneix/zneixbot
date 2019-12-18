@@ -8,7 +8,7 @@ exports.run = (client, message) => {
     message.command(1, async () => {
         if (!message.guild.me.hasPermission('KICK_MEMBERS')) throw "I don't have **KICK_MEMBERS** permission!\nContact moderators.";
         let taggedMember = message.mentions.members.first();
-        if (!taggedMember) {
+        if (!taggedMember){
             let validMember = message.guild.members.get(message.args[0]);
             if (!validMember) throw "Please @mention a user or provide their ID!";
             return execute(validMember);

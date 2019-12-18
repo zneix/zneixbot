@@ -6,7 +6,7 @@ exports.perms = [false, false];
 exports.run = (client, message) => {
     message.cmd = this;
     message.command(false, async () => {
-        var embed = {
+        let embed = {
             color: 0xf97304,
             timestamp: new Date(),
             footer: {

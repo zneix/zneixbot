@@ -21,7 +21,7 @@ exports.run = (client, message) => {
             if (message.args.length > 1) reason = message.args.slice(1).join(" ");
 
             //banning by ID
-            if (typeof member !== "object") {
+            if (typeof member !== "object"){
                 //check and 'error' throw if user is already banned
                 let check = await message.guild.fetchBans();
                 if (check.get(member)){

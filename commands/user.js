@@ -9,7 +9,7 @@ exports.run = (client, message) => {
         const time = require('../utils/timeFormatter');
         if (!message.args.length) return result(message.author);
         let taggedUser = message.mentions.users.first();
-        if (!taggedUser) {
+        if (!taggedUser){
             let validUser = client.users.get(message.args[0]);
             if (validUser) return result(validUser);
             else return result(message.author);
@@ -19,7 +19,7 @@ exports.run = (client, message) => {
             let member = message.guild.members.get(user.id);
             let arr = [];
             member?member.roles.forEach(r => {if (r.id !== message.guild.id) arr.push(r.toString())}):null //roles thingy
-            var embed = {
+            let embed = {
                 color: member?member.displayColor:0x000000,
                 timestamp: new Date(),
                 footer: {
@@ -51,7 +51,7 @@ exports.run = (client, message) => {
                     }
                 ]
             }
-            if (member) {
+            if (member){
                 embed.fields.push({
                     name: 'Joined at',
                     value: time.dateFormat(member.joinedAt)+` \`${time.msFormat(Date.now()-member.joinedTimestamp)} ago\``,
@@ -82,11 +82,11 @@ exports.run = (client, message) => {
                     'MANAGE_EMOJIS': 'Manage Emojis'
                 };
                 let modPerms = Object.getOwnPropertyNames(modPermsObj);
-                if (member.permissions.toArray().some(x => modPerms.includes(x))) {
+                if (member.permissions.toArray().some(x => modPerms.includes(x))){
                     let memberPerms = modPerms.filter(x => member.permissions.toArray().includes(x));
                     let permsFormat = function(){
                         let locarr = [];
-                        for (i=0;i<memberPerms.length;i++) {
+                        for (i=0;i<memberPerms.length;i++){
                             locarr.push(modPermsObj[memberPerms[i]]);
                         }
                         return locarr;
@@ -110,7 +110,7 @@ exports.run = (client, message) => {
                     // if (member.permissions.toArray().some(x => modPerms.includes(x))) return "Server Moderator";
                     return false;
                 }
-                if (Acknowledge()) {
+                if (Acknowledge()){
                     embed.fields.push({
                         name: "Acknowledgements",
                         value: Acknowledge(),

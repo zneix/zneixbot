@@ -25,6 +25,7 @@ That bot helps me in moderating servers and fetches useful informations for othe
   - `8ball` - asks 8ball a magic question
   - `coinflip` - heads or tails? (yes or no random choice)
   - `lenny` - prints a lennyface
+  - `rng` - picks random integer between two provided numbers
   - `scramble` - random scramble generator for Rubik's Cube solvers (aka Speedcubers)
   - `wednesday` - is it wednesday, my dude?
 - bot-related commands

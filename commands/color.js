@@ -13,7 +13,7 @@ exports.run = (client, message) => {
         if (!message.args.length) return kolorek(null, "random");
         let error = `This is not a valid color format!\nUse **${client.config.prefix}help ${__filename.split(/[\\/]/).pop().slice(0,-3)}** for valid formats.`
         if (/^\D*[a-f0-9]{6}$/i.test(message.args[0])) return kolorek(/[a-f0-9]{6}$/i.exec(message.args[0])[0], "hex");
-        if (/^\D*(\d{1,3})[\s\W]+(\d{1,3})[\s\W]+(\d{1,3})\D*$/.test(message.args.join(' '))) {
+        if (/^\D*(\d{1,3})[\s\W]+(\d{1,3})[\s\W]+(\d{1,3})\D*$/.test(message.args.join(' '))){
             let rgbData = /^\D*(\d{1,3})[\s\W]+(\d{1,3})[\s\W]+(\d{1,3})\D*$/.exec(message.args.join(' ')).slice(1);
             if (rgbData[0] > 255 || rgbData[1] > 255 || rgbData[2] > 255) throw error;
             return kolorek(rgbData, "rgb");
