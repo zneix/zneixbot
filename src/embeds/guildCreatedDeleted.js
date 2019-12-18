@@ -1,7 +1,8 @@
 module.exports = (guild, destination, boolCreated) => {
     let time = require('../../utils/timeFormatter');
+    let fetch = require('node-fetch');
     let fixedIconUrl = message.guild.iconURL.slice(0, -3).concat('png');
-    if ((await client.fetch(iconpng.slice(0, -4))).headers.get('content-type')=='image/gif') fixedIconUrl = fixedIconUrl.slice(0, -3).concat('gif');
+    if ((await fetch(iconpng.slice(0, -4))).headers.get('content-type')=='image/gif') fixedIconUrl = fixedIconUrl.slice(0, -3).concat('gif');
     let embed = {
         color: boolCreated?0x0dc61a:0xd71a42,
         timestamp: new Date(),
