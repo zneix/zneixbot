@@ -1,7 +1,7 @@
 module.exports = async (client, event) => {
     let handledEvents = {
         MESSAGE_UPDATE: 'messageUpdate',
-        MESSAGE_DELETE: 'messageDelete'
+        // MESSAGE_DELETE: 'messageDelete'
     }
     if (!handledEvents.hasOwnProperty(event.t)) return;
     const {d: data} = event;
@@ -12,12 +12,12 @@ module.exports = async (client, event) => {
         let newMessage = await channel.fetchMessage(data.id);
         client.emit(handledEvents[event.t], data, newMessage);
     }
-    if (event.t === 'MESSAGE_DELETE'){
-        let channel = client.channels.get(data.channel_id);
-        if (!channel) return; //getting rid of DMs(?)
-        if (channel.messages.has(data.id)) return; //don't re-emit when message was already cached
+    // if (event.t === 'MESSAGE_DELETE'){
+    //     let channel = client.channels.get(data.channel_id);
+    //     if (!channel) return; //getting rid of DMs(?)
+    //     if (channel.messages.has(data.id)) return; //don't re-emit when message was already cached
 
-        data.channel = channel;
-        client.emit(handledEvents[event.t], data);
-    }
+    //     data.channel = channel;
+    //     client.emit(handledEvents[event.t], data);
+    // }
 }
