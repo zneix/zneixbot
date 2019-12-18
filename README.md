@@ -21,6 +21,7 @@ That bot helps me in moderating servers and fetches useful informations for othe
   - `purge` - deletes up to 100 messages at once
   - `region` - change server region to every possible one
 - fun commands
+  - `%` - rolls a random percentage between 0 and 100%
   - `8ball` - asks 8ball a magic question
   - `coinflip` - heads or tails? (yes or no random choice)
   - `lenny` - prints a lennyface

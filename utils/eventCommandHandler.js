@@ -1,5 +1,6 @@
 let fs = require('fs');
 let clones = {
+    "%": ["percent", "procent"],
     "8ball": ["ask"],
     "about": ["info", "botinfo"],
     "addemote": ["addemoji", "createemote", "createemoji"],
