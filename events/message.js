@@ -18,7 +18,7 @@ module.exports = async (client, message) => {
             message.args = message.content.slice(message.guild.prefix.length).trim().split(/[ \s]+/gm).slice(1);
             //command handling
             let cmd = client.commands.get(command);
-            if (!cmd) throw `"${command}" is not a command!`;
+            if (!cmd) return;
             //permission handler
             message.perms.isAllowed(cmd, false);
             //actual running a command
