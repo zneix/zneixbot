@@ -44,7 +44,7 @@ module.exports = client => {
                 author: {
                     name: "Command successfully executed"
                 },
-                description: `**User**: ${message.author} ${message.author.tag}\n**Channel**: ${message.channel} (${message.channel.name} : ${message.channel.id}) \n**Command**: ${cmd.name.replace(/{PREFIX}/, "")}\n**Arguments**: ${message.args.length?(message.content.slice(client.config.prefix.length).split(/\s+/g).slice(1).join(" ")):"N/A"}`
+                description: `**User**: ${message.author} ${message.author.tag}\n**Channel**: ${message.channel} (${message.channel.name} : ${message.channel.id}) \n**Command**: ${cmd.name.replace(/{PREFIX}/, "")}\n**Arguments**: ${message.args.length?(message.content.slice(message.guild.prefix.length).split(/\s+/g).slice(1).join(" ")):"N/A"}`
             }
             logs.send({embed:embed});
         }

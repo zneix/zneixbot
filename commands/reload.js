@@ -8,7 +8,7 @@ exports.run = (client, message) => {
     message.command(1, async () => {
         let cmd = message.args[0].toLowerCase();
         //throwing an error if command does not exist
-        if (!client.commands.has(cmd)) throw `Command \`${cmd}\` not found! Try **${client.config.prefix}load** instead.`;
+        if (!client.commands.has(cmd)) throw `Command \`${cmd}\` not found! Try **${message.guild.prefix}load** instead.`;
         //correction when using cloned command
         if (client.commands.get(cmd).cloned) cmd = client.commands.get(cmd).cloned;
         //removing command

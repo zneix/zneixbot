@@ -29,7 +29,7 @@ exports.run = (client, message) => {
                 },
                 {
                     name: 'Message',
-                    value: `${message.content.slice(client.config.prefix.length).split(/\s+/g).slice(1).join(" ").substr(0, 1015)} [link](${message.url})`
+                    value: `${message.content.slice(message.guild.prefix.length).split(/\s+/g).slice(1).join(" ").substr(0, 1015)} [link](${message.url})`
                 }
             ]
         }

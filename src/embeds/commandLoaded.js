@@ -7,13 +7,13 @@ module.exports = (client, message, wascmd, cmd) => {
             icon_url: message.author.avatarURL
         },
         author: {
-            name: `${wascmd?"reloaded":"loaded"} ${client.config.prefix}${cmd}!`
+            name: `${wascmd?"reloaded":"loaded"} ${message.guild.prefix}${cmd}!`
         },
-        description: `Description: ${client.commands.get(cmd).description.replace(/{PREFIX}/g, client.config.prefix)}`,
+        description: `Description: ${client.commands.get(cmd).description.replace(/{PREFIX}/g, message.guild.prefix)}`,
         fields: [
             {
                 name: "Usage",
-                value:`${client.commands.get(cmd).usage.replace(/{PREFIX}/g, client.config.prefix)}`
+                value:`${client.commands.get(cmd).usage.replace(/{PREFIX}/g, message.guild.prefix)}`
             },
         ]
     }
