@@ -5,13 +5,16 @@ let aliases = {
     "about": ["info", "botinfo"],
     "addemote": ["addemoji", "createemote", "createemoji"],
     "avatar": ["awatar", "pfp"],
+    "ban": ["banish"],
     "coinflip": ["cf"],
+    "color": ["kolor"],
     "currency": ["curr", "money"],
     "emote": ["emoji", "showemote"],
     "feedback": ["devmsg"],
     "help": ["h", "commands", "pomoc", "komendy"],
     "isbanned": ["isban", "checkban"],
     "lenny": ["lennyface"],
+    "leaderboard": ["levels"],
     "math": ["calc", "calculate"],
     "server": ["serverinfo"],
     "temperature": ["temp"],
@@ -21,7 +24,8 @@ let aliases = {
     "unban": ["pardon"],
     "echo": ["say"],
     "botnick": ["botname"],
-    "eval": ["sudo"]
+    "eval": ["debug", "evaluate", "sudo"],
+    "wednesday": ["wed"]
 }
 function getCommand(client, command){
     let cmd = client.commands.get(command);
