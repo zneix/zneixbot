@@ -2,12 +2,12 @@ module.exports = async (client, message) => {
     if (message.isMemberMentioned(message.guild.me)) message.react(client.config.emojis.peepoPinged); //funny thing to react on mention
     if (message.author.bot || message.channel.type === "dm") return;
     if (message.mentions.everyone) message.reply("you don't ping everyone "+client.emoteHandler.find("DansGame")); //unfinished, add emote handler
-    if (message.content.startsWith(client.user) || message.content.startsWith(`<@!${client.user.id}>`)) message.channel.send(`Hey ${message.author}, my prefix is \`${client.config.prefix}\``, {embed:{color:Math.floor(Math.random()*16777215),description:'[Support Server](https://discordapp.com/invite/cF555AV)'}});
     try {
         //getting guild settings
         message.guild.dbconfig = (await client.db.utils.find('guilds', {guildid: message.guild.id}))[0];
         if (!message.guild.dbconfig) message.guild.dbconfig = await client.db.utils.newGuildConfig(message.guild.id);
         message.guild.prefix = message.guild.dbconfig.customprefix===null?client.config.prefix:message.guild.dbconfig.customprefix;
+        if (message.content.startsWith(client.user) || message.content.startsWith(`<@!${client.user.id}>`)) message.channel.send(`Hey ${message.author}, my prefix is \`${message.guild.prefix}\``, {embed:{color:Math.floor(Math.random()*16777215),description:'[Support Server](https://discordapp.com/invite/cF555AV)'}});
         //command handling
         if (message.content.substr(0, message.guild.prefix.length).toLowerCase() === message.guild.prefix){
             message.perms = require('../utils/permsHandler')(client, message);
