@@ -6,31 +6,16 @@ exports.perms = ['admin', false];
 exports.run = (client, message) => {
     message.cmd = this;
     message.command(1, async () => {
-        let cmd = message.args[0].toLowerCase();
+        let cmd = require('../utils/eventCommandHandler').getCommand(client, message.args[0].toLowerCase());
+        let cmdname = cmd.name.replace(/{PREFIX}/, '');
         //throwing an error if command does not exist
-        if (!client.commands.has(cmd)) throw `Command \`${cmd}\` not found! Try **${message.guild.prefix}load** instead.`;
-        //correction when using cloned command
-        if (client.commands.get(cmd).cloned) cmd = client.commands.get(cmd).cloned;
+        if (!client.commands.has(cmdname)) throw `Command \`${cmdname}\` not found! Try **${message.guild.prefix}load** instead.`;
         //removing command
-        client.commands.delete(cmd);
-        delete require.cache[require.resolve(`./${cmd}.js`)];
+        client.commands.delete(cmdname);
+        delete require.cache[require.resolve(`./${cmdname}.js`)];
         //re-initialization of the command
-        let props = require(`./${cmd}.js`);
-        props.cloned = false;
-        client.commands.set(cmd, props);
-        //cloning those again
-        let clones = require('../utils/eventCommandHandler').clones;
-        if (clones[cmd]){
-            for (i=0;i < clones[cmd].length;i++){
-                //deletion
-                client.commands.delete(clones[cmd][i]);
-                // delete require.cache[require.resolve(`./${clones[cmd][i]}.js`)];
-                //re-requiring
-                let props = require(`./${cmd}.js`);
-                props.cloned = cmd;
-                client.commands.set(clones[cmd][i], props);
-            }
-        }
-        require(`./../src/embeds/commandLoaded`)(client, message, true, cmd);
+        let props = require(`./${cmdname}.js`);
+        client.commands.set(cmdname, props);
+        require(`./../src/embeds/commandLoaded`)(client, message, true, cmdname);
     });
 }

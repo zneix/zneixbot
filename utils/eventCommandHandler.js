@@ -1,5 +1,5 @@
 let fs = require('fs');
-let clones = {
+let aliases = {
     "%": ["percent", "procent"],
     "8ball": ["ask"],
     "about": ["info", "botinfo"],
@@ -23,7 +23,21 @@ let clones = {
     "botnick": ["botname"],
     "eval": ["sudo"]
 }
-exports.clones = clones;
+function getCommand(client, command){
+    let cmd = client.commands.get(command);
+    if (!cmd){
+        Object.keys(aliases).forEach(x => {
+            if (aliases[x].includes(command)) cmd = client.commands.get(x);
+        });
+    }
+    return cmd;
+}
+function getAliases(command){
+    return aliases[commad];
+}
+exports.aliases = aliases;
+exports.getCommand = getCommand;
+exports.getAliases = getAliases;
 exports.eventsCommandsLoad = function(client){
     fs.readdir(`./events`, (err, files) => {
         if (err) return console.error(err);
@@ -39,22 +53,8 @@ exports.eventsCommandsLoad = function(client){
         files.forEach(file => {
             if (!file.endsWith(".js")) return;
             let props = require(`../commands/${file}`);
-            props.cloned = false;
             let name = file.split(".")[0];
             client.commands.set(name, props);
         });
-        //loading clones
-        let cloneArray = Object.keys(clones);
-        for (i=0;i < cloneArray.length;i++){
-            let cmd = client.commands.get(cloneArray[i]);
-            if (cmd){
-                //actual cloning
-                for (y=0;y < clones[cloneArray[i]].length;y++){
-                    cmd.cloned = cloneArray[i];
-                    client.commands.set(clones[cloneArray[i]][y], cmd);
-                }
-            }
-            else console.log("There was an error while cloning "+cloneArray[i]);
-        }
     });
 }

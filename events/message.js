@@ -8,6 +8,7 @@ module.exports = async (client, message) => {
         message.guild.dbconfig = (await client.db.utils.find('guilds', {guildid: message.guild.id}))[0];
         if (!message.guild.dbconfig) message.guild.dbconfig = await client.db.utils.newGuildConfig(message.guild.id);
         message.guild.prefix = message.guild.dbconfig.customprefix===null?client.config.prefix:message.guild.dbconfig.customprefix;
+        //command handling
         if (message.content.substr(0, message.guild.prefix.length).toLowerCase() === message.guild.prefix){
             message.perms = require('../utils/permsHandler')(client, message);
             message.perms.isBanned(); //ban check
@@ -16,8 +17,8 @@ module.exports = async (client, message) => {
             if (!command) return; //quick escape in weird cases (e.g. someone types only prefix, no command)
             //args declaration
             message.args = message.content.slice(message.guild.prefix.length).trim().split(/[ \s]+/gm).slice(1);
-            //command handling
-            let cmd = client.commands.get(command);
+            //getting a command
+            let cmd = require('../utils/eventCommandHandler').getCommand(client, command);
             if (!cmd) return;
             //permission handler
             message.perms.isAllowed(cmd, false);

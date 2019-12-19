@@ -1,4 +1,5 @@
 module.exports = (client, message, wascmd, cmd) => {
+    let {aliases} = require('../../utils/eventCommandHandler');
     let embed = {
         color: 0x99ff66,
         timestamp: new Date(),
@@ -17,5 +18,9 @@ module.exports = (client, message, wascmd, cmd) => {
             },
         ]
     }
+    if (aliases[cmd]) embed.fields.push({
+        name: "**Aliases**",
+        value: aliases[cmd].join('\n')
+    });
     return message.channel.send({embed:embed});
 }
