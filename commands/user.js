@@ -71,9 +71,9 @@ exports.run = (client, message) => {
                 let modPermsObj = {
                     'KICK_MEMBERS': 'Kick Members',
                     'BAN_MEMBERS': 'Ban Members',
-                    'ADMINISTRATOR': 'Administrator',
+                    'ADMINISTRATOR': '**Administrator**',
                     'MANAGE_CHANNELS': 'Manage Channels',
-                    'MANAGE_SERVER': 'Manage Server',
+                    'MANAGE_GUILD': 'Manage Server',
                     'MANAGE_MESSAGES': 'Manage Messages',
                     'MENTION_EVERYONE': 'Mention Everyone',
                     'MANAGE_NICKNAMES': 'Manage Nicknames',
