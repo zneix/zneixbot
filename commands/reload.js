@@ -7,9 +7,9 @@ exports.run = (client, message) => {
     message.cmd = this;
     message.command(1, async () => {
         let cmd = require('../utils/eventCommandHandler').getCommand(client, message.args[0].toLowerCase());
-        let cmdname = cmd.name.replace(/{PREFIX}/, '');
         //throwing an error if command does not exist
-        if (!client.commands.has(cmdname)) throw `Command \`${cmdname}\` not found! Try **${message.guild.prefix}load** instead.`;
+        if (!cmd) throw `Command \`${message.args[0]}\` not found! Try **${message.guild.prefix}load** instead.`;
+        let cmdname = cmd.name.replace(/{PREFIX}/, '');
         //removing command
         client.commands.delete(cmdname);
         delete require.cache[require.resolve(`./${cmdname}.js`)];
