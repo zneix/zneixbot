@@ -27,6 +27,7 @@ That bot helps me in moderating servers and fetches useful informations for othe
   - `lenny` - prints a lennyface
   - `rng` - picks random integer between two provided numbers
   - `scramble` - random scramble generator for Rubik's Cube solvers (aka Speedcubers)
+  - `squish` - processes a given emote / image URL / avatar and squishes it
   - `wednesday` - is it wednesday, my dude?
 - bot-related commands
   - `about` - displays general information about the bot
@@ -38,6 +39,7 @@ That bot helps me in moderating servers and fetches useful informations for othe
 
 #### Used libraries:
 - [discord.js](https://github.com/discordjs/discord.js)
+- [canvas](https://github.com/Automattic/node-canvas)
 - [bluebird](https://github.com/petkaantonov/bluebird)
 - [enmap](https://enmap.evie.codes/)
 - [fs](https://github.com/npm/security-holder)

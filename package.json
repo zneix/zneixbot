@@ -13,6 +13,7 @@
     },
     "dependencies": {
         "bluebird": "^3.7.2",
+        "canvas": "^2.6.1",
         "discord.js": "^11.5.1",
         "enmap": "^5.2.3",
         "fs": "0.0.1-security",
