@@ -15,13 +15,13 @@ exports.run = (client, message) => {
             else return result(message.author);
         }
         else return result(taggedUser);
-        function result(user){
+        async function result(user){
             let member = message.guild.members.get(user.id);
             let arr = [];
             member?member.roles.forEach(r => {if (r.id !== message.guild.id) arr.push(r.toString())}):null //roles thingy
             let embed = {
-                color: member?member.displayColor:0x000000,
-                timestamp: new Date(),
+                color: member?member.displayColor:0x2f3136,
+                timestamp: message.createdAt,
                 footer: {
                     text: message.author.tag,
                     icon_url: message.author.avatarURL
@@ -33,28 +33,26 @@ exports.run = (client, message) => {
                 thumbnail: {
                     url: user.avatarURL
                 },
-                description: user.toString(),
+                description: `${user.toString()} ${user.presence.status==="offline"?"offline":user.presence.status==="online"?"online":`online (${user.presence.status})`}`,
                 fields: [
                     {
                         name: "User ID",
                         value: user.id,
-                        inline: true
-                    },
-                    {
-                        name: "Status",
-                        value: user.presence.status==="offline"?"offline":user.presence.status==="online"?"online":`online (${user.presence.status})`
+                        inline: false
                     },
                     {
                         name: "Created at",
-                        value: time.dateFormat(user.createdAt)+` \`${time.msFormat(Date.now()-user.createdTimestamp)} ago\``,
+                        value: `${time.dateFormat(user.createdAt)}\n\`${time.msFormat(message.createdAt-user.createdTimestamp)} ago\``,
                         inline: true
                     }
                 ]
             }
             if (member){
+                await message.guild.fetchMembers();
+                let joinPos = [...message.guild.members.sort((a, b) => a.joinedAt - b.joinedAt).keys()].indexOf(member.user.id)+1;
                 embed.fields.push({
                     name: 'Joined at',
-                    value: time.dateFormat(member.joinedAt)+` \`${time.msFormat(Date.now()-member.joinedTimestamp)} ago\``,
+                    value: `${time.dateFormat(member.joinedAt)}\n\`${time.msFormat(message.createdAt-member.joinedTimestamp)} ago\` (**${joinPos}${time.numeralSuffix(joinPos)}** to join)`,
                     inline: true
                 });
                 embed.fields.push({
@@ -66,6 +64,11 @@ exports.run = (client, message) => {
                                 :arr.join(" ").substr(0, 1012)+"\n[truncated]"
                         :"None.",
                     inline: false
+                });
+                embed.fields.push({
+                    name: 'Color',
+                    value: `#${parseInt(embed.color).toString(16)}`,
+                    inline: true
                 });
                 //Moderator Permissions
                 let modPermsObj = {

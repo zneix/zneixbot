@@ -65,22 +65,23 @@ module.exports = client => {
             default:console.trace("Sync command error: "+err);
         }
         console.log(err);
-        let embed = {
-            color: 0xff5050,
-            author: {
-                    name: message.guild.name+" — \""+message.channel.name+"\"",
-                    icon_url: message.author.avatarURL
-                },
-                description: type==="message"?"There was an error in the message event:":"**"+message.author.username+"#"+message.author.discriminator+":"+message.author.id+"** failed to call: ***"+message.content+"***",
-                fields: [
-                    {
-                        name: "Reason:",
-                        value: err.toString().substring(0,1023),
-                    }
-                ],
-                timestamp: new Date()
-        }
-        message.channel.send({embed:embed}).then(msg => {if (client.config.delete.error) msg.delete(client.config.delete.time)});
+        //temporary disabling that until Promise rejection system will be done
+        // let embed = {
+        //     color: 0xff5050,
+        //     author: {
+        //             name: message.guild.name+" — \""+message.channel.name+"\"",
+        //             icon_url: message.author.avatarURL
+        //         },
+        //         description: type==="message"?"There was an error in the message event:":"**"+message.author.username+"#"+message.author.discriminator+":"+message.author.id+"** failed to call: ***"+message.content+"***",
+        //         fields: [
+        //             {
+        //                 name: "Reason:",
+        //                 value: err.toString().substring(0,1023),
+        //             }
+        //         ],
+        //         timestamp: new Date()
+        // }
+        // message.channel.send({embed:embed}).then(msg => {if (client.config.delete.error) msg.delete(client.config.delete.time)});
     }
     return {
         ready: ready,
