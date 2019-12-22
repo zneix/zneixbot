@@ -17,6 +17,7 @@ let aliases = {
     "leaderboard": ["levels"],
     "math": ["calc", "calculate"],
     "server": ["serverinfo"],
+    "snowflake": ["sf", "discordid"],
     "temperature": ["temp"],
     "user": ["userinfo", "lookup", "whois"],
     "kick": ["yeet"],
