@@ -1,4 +1,4 @@
-zneixbot - cool bot for getting informations with slight moderation features included and some fun commands (made by IT nerd with :heart:).
+zneixbot - cool information-fetcher bot with slight moderation features included and few fun commands (made by IT nerd with :heart:).
 
 That bot helps me in moderating servers and fetches useful informations for other users.
 #### Short description of some commands
@@ -6,6 +6,7 @@ That bot helps me in moderating servers and fetches useful informations for othe
   - `avatar` - links yours or someone's avatar
   - `color` - color info utility in 3 different formats (hex, rgb, numeric) plus random one
   - `currency` - converts and calculates one currency into another (25+ common currencies)
+  - `dns` - translates given DNS hostname
   - `emote` - helps with adding new custom emotes
   - `math` - evaluates your mathematic expressions
   - `user` - displays information about guild member / user outside current server
@@ -24,11 +25,11 @@ That bot helps me in moderating servers and fetches useful informations for othe
 - fun commands
   - `%` - rolls a random percentage between 0 and 100%
   - `8ball` - asks 8ball a magic question
-  - `coinflip` - heads or tails? (yes or no random choice)
+  - `coinflip` - heads or tails? (yes or no, random choice)
   - `lenny` - prints a lennyface
   - `rng` - picks random integer between two provided numbers
   - `scramble` - random scramble generator for Rubik's Cube solvers (aka Speedcubers)
-  - `squish` - processes a given emote / image URL / avatar and squishes it
+  - `squish` - processes a given emote / image URL / avatar and returns squished version of it
   - `wednesday` - is it wednesday, my dude?
 - bot-related commands
   - `about` - displays general information about the bot
@@ -36,6 +37,13 @@ That bot helps me in moderating servers and fetches useful informations for othe
   - `invite` - invite zneixbot to your server today!
 
 ##### Note: **There are some aliases for several commands, use help command for more information.**
+---
+
+#### **(New!)** Dynamic server config via `config` command
+That new feature includes:
+- changeable prefix
+- setting up plain, embed-based logging system
+- 100% configurable self-assign role system
 ---
 
 #### Used libraries:
@@ -57,7 +65,7 @@ That bot helps me in moderating servers and fetches useful informations for othe
 #### Planned to do in near future:
 - Music Module 
 - Random Image lookup command
-- auto-role thing for moderation
+- auto-role thing for moderation, **edit: partly done!**
 - Steam API communication
 - warning, feedback, support system via commands
 

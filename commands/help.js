@@ -10,7 +10,7 @@ exports.run = (client, message) => {
         if (message.args.length) cmd = cmdUtil.getCommand(client, message.args[0].toLowerCase());
         if (!message.args.length || !cmd || !message.perms.isAllowed(cmd, true)){
             let commandList = "";
-            client.commands.filter(cmd => !cmd.perms[0] && !cmd.perms[1]).forEach((object, key, map) => commandList = commandList.concat(`\`${key}\`${cmdUtil.aliases[key]?` aliases:  \`${cmdUtil.aliases[key].join('\`, \`')}\``:''}\n`));
+            client.commands.filter(cmd => !cmd.perms[0] && !cmd.perms[1]).forEach((object, key, map) => commandList = commandList.concat(`\`${key}\`${cmdUtil.aliases[key]?`  aliases:  \`${cmdUtil.aliases[key].join('\`, \`')}\``:''}\n`));
             let cmd = client.commands.get("help");
             embed = { //send general help with command list
                 color: parseInt("0x99ff66"),
@@ -43,7 +43,7 @@ exports.run = (client, message) => {
             // append mod commands
             if (message.perms.levelCheck().number > 0){
                 let modList = "";
-                client.commands.filter(cmd => cmd.perms[0] === 'mod').forEach((object, key, map) => modList = modList.concat(`\`${key}\`${cmdUtil.aliases[key]?` aliases:  \`${cmdUtil.aliases[key].join('\`, \`')}\``:''}\n`));
+                client.commands.filter(cmd => cmd.perms[0] === 'mod').forEach((object, key, map) => modList = modList.concat(`\`${key}\`${cmdUtil.aliases[key]?`  aliases:  \`${cmdUtil.aliases[key].join('\`, \`')}\``:''}\n`));
                 embed.fields.push({
                     name: client.emoteHandler.asset("supermod")+" Bot Moderator commands",
                     value: modList
@@ -52,7 +52,7 @@ exports.run = (client, message) => {
             // append admin commands
             if (message.perms.levelCheck().number > 1){
                 let adminList = "";
-                client.commands.filter(cmd => cmd.perms[0] === 'admin').forEach((object, key, map) => adminList = adminList.concat(`\`${key}\`${cmdUtil.aliases[key]?` aliases:  \`${cmdUtil.aliases[key].join('\`, \`')}\``:''}\n`));
+                client.commands.filter(cmd => cmd.perms[0] === 'admin').forEach((object, key, map) => adminList = adminList.concat(`\`${key}\`${cmdUtil.aliases[key]?`  aliases:  \`${cmdUtil.aliases[key].join('\`, \`')}\``:''}\n`));
                 await embed.fields.push({
                     name: client.emoteHandler.asset("staff")+" Bot Administrator commands",
                     value: adminList
@@ -61,7 +61,7 @@ exports.run = (client, message) => {
             // append owner commands
             if (message.perms.levelCheck().number > 2){
                 let ownerList = "";
-                client.commands.filter(cmd => cmd.perms[0] === 'owner').forEach((object, key, map) => ownerList = ownerList.concat(`\`${key}\`${cmdUtil.aliases[key]?` aliases:  \`${cmdUtil.aliases[key].join('\`, \`')}\``:''}\n`));
+                client.commands.filter(cmd => cmd.perms[0] === 'owner').forEach((object, key, map) => ownerList = ownerList.concat(`\`${key}\`${cmdUtil.aliases[key]?`  aliases:  \`${cmdUtil.aliases[key].join('\`, \`')}\``:''}\n`));
                 await embed.fields.push({
                     name: client.emoteHandler.asset("broadcaster")+" Bot Owner commands",
                     value: ownerList
