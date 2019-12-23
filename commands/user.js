@@ -20,7 +20,7 @@ exports.run = (client, message) => {
             let arr = [];
             member?member.roles.forEach(r => {if (r.id !== message.guild.id) arr.push(r.toString())}):null //roles thingy
             let embed = {
-                color: member?member.displayColor:0x2f3136,
+                color: 0x2f3136,
                 timestamp: message.createdAt,
                 footer: {
                     text: message.author.tag,
@@ -65,11 +65,13 @@ exports.run = (client, message) => {
                         :"None.",
                     inline: false
                 });
-                embed.fields.push({
-                    name: 'Color',
-                    value: `#${parseInt(embed.color).toString(16)}`,
-                    inline: true
-                });
+                if (member.displayColor){
+                    embed.fields.push({
+                        name: 'Color',
+                        value: `#${parseInt(embed.color).toString(16)}`,
+                        inline: true
+                    });
+                }
                 //Moderator Permissions
                 let modPermsObj = {
                     'KICK_MEMBERS': 'Kick Members',
