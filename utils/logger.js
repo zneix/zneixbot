@@ -64,7 +64,6 @@ module.exports = client => {
                 break;
             default:console.trace("Sync command error: "+err);
         }
-        console.log(err);
         //temporary disabling that until Promise rejection system will be done
         // let embed = {
         //     color: 0xff5050,
