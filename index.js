@@ -11,13 +11,11 @@ require('npm-package-to-env').config(); //importing values from package.json to 
 //JSON data
 const auth = require(`./src/json/auth`); //token and module authentication
 const config = require(`./src/json/config.json`); //global client settings
-const database = require(`./src/json/database.json`); //general database for local config data
 const perms = require(`./src/json/perms`)(); //permission database
 
 //discord client extras
 const client = new Discord.Client({disableEveryone:true}); //declaring new discord client
 client.config = config; //global config
-client.database = database; //global database
 client.perms = perms; //global permissions sets
 client.commands = new enmap(); //declaring new enmap object for command handler
 client.RCHandler = new RC.Handler(); //global emote menu handler
