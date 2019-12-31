@@ -42,6 +42,7 @@ exports.perms = [false, false];
 exports.run = (client, message) => {
     message.cmd = this;
     message.command(1, async () => {
+        let {round} = require('../utils/timeFormatter');
         let num = 1;
         message.args[0] = message.args[0].replace(/,/g, ".");
         if (!isNaN(message.args[0])) num = message.args.shift();
@@ -63,12 +64,8 @@ exports.run = (client, message) => {
                 text: message.author.tag,
                 icon_url: message.author.avatarURL
             },
-            description: `**${num}** ${objcodes[wanted()]} (${wanted()}) = **${Round(num * apidata.rates[base()], 4)}** ${objcodes[base()]} (${base()})`
+            description: `**${num}** ${objcodes[wanted()]} (${wanted()}) = **${round(num * apidata.rates[base()], 4)}** ${objcodes[base()]} (${base()})`
         }
         message.channel.send({embed:embed});
     });
-}
-function Round(n, k){
-    let factor = 10**k;
-    return Math.round(n*factor)/factor;
 }

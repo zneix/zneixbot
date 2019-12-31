@@ -12,6 +12,7 @@
         "url": "http://zneix.cba.pl"
     },
     "dependencies": {
+        "agenda": "^2.3.0",
         "bluebird": "^3.7.2",
         "canvas": "^2.6.1",
         "child_process": "^1.0.2",

@@ -46,3 +46,46 @@ exports.numeralSuffix = function(num){
         default:return 'th';
     }
 }
+
+exports.humanParser = function(timeStr){
+    const regex = /(\d+)\s*([a-z]+)/gi;
+    let res = 0;
+    let m;
+
+    while ((m = regex.exec(timeStr)) !== null){
+        if (m.index === regex.lastIndex) regex.lastIndex++;
+        switch(m[2]){
+            case 's':
+            case 'second':
+            case 'seconds':
+                res += parseInt(m[1]);
+                break;
+            case 'm':
+            case 'minute':
+            case 'minutes':
+                res += parseInt(m[1]) * 60;
+                break;
+            case 'h':
+            case 'hour':
+            case 'hours':
+                res += parseInt(m[1]) * 60 * 60;
+                break;
+            case 'd':
+            case 'day':
+            case 'days':
+                res += parseInt(m[1]) * 60 * 60 * 24;
+                break;
+            case 'w':
+            case 'week':
+            case 'weeks':
+                res += parseInt(m[1]) * 60 * 60 * 24 * 7;
+                break;
+        }
+    }
+    return res;
+}
+
+exports.round = function(n, k){
+    let factor = 10**k;
+    return Math.round(n*factor)/factor;
+}

@@ -11,6 +11,7 @@ exports.perms = [false, false];
 exports.run = (client, message) => {
     message.cmd = this;
     message.command(1, async () => {
+        let {round} = require('../utils/timeFormatter');
         let num = 1;
         message.args[0] = message.args[0].replace(/,/g, ".");
         if (!isNaN(message.args[0])) num = message.args.shift();
@@ -31,10 +32,6 @@ exports.run = (client, message) => {
         }
         message.channel.send({embed:embed});
     });
-}
-function round(n, k){
-    let factor = 10**k;
-    return Math.round(n*factor)/factor;
 }
 function FtoC(num){
     return ((num-32)*5)/9;

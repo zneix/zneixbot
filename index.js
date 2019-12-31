@@ -30,15 +30,17 @@ client.emoteHandler = require(`./utils/emoteHandler`)(client);
 client.db = require('./utils/mongodb'); //database connection interface
 
 //executing rest of code after establishing successful database connection
-client.db.connect((err, mongoclient) => {
+client.db.connect(async (err, mongoclient) => {
     if (err) return console.error(`[!mongodb:index.js] Error while connecting:\n${err}`);
     console.log('[mongodb:index.js] Connected to MongoDB!');
     require('./utils/errorHandler'); //executing commands and handling thrown errors
     require('./utils/eventCommandHandler').eventsCommandsLoad(client); //event (and command) handler load
+    client.agenda = await require('./utils/agenda').createAgenda(mongoclient);
+    require('./utils/agenda').defineJobs(client, client.agenda);
 
     //discord authentication - logging to WebSocket with specified Discord client token
-    client.login(auth.token).catch(err => {
+    client.login(auth.token).catch(async err => {
         console.log(err);
-        client.db.utils.close(); //closing database connection upon error on Discord WebSocket to save Mongo's bandwidth
+        process.emit('SIGINT'); //closing database connection upon error on Discord WebSocket to save Mongo's bandwidth
     });
 });

@@ -57,7 +57,7 @@ exports.run = (client, message) => {
                 });
                 embed.fields.push({
                     name: `Roles [${arr.length}]`,
-                    value: 
+                    value:
                         arr.length?
                             arr.join(" ").length<1023?
                                 arr.join(" ")
@@ -66,6 +66,7 @@ exports.run = (client, message) => {
                     inline: false
                 });
                 if (member.displayColor){
+                    embed.color = member.displayColor;
                     embed.fields.push({
                         name: 'Color',
                         value: `#${parseInt(embed.color).toString(16)}`,

@@ -8,7 +8,7 @@ Discord.Message.prototype.command = async function(num, func){
             if (num > args.length) throw `Too few (${args.length}) arguments!`
         }
         try {
-            await func();
+            func();
             //executes after command returns no issues (tl;dr when error flag === 0)
             this.client.logger.command(this, this.cmd, typeof this.cmd.perms !== "string"?"guild-perm":this.cmd.perms);
         }

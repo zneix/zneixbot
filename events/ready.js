@@ -9,4 +9,6 @@ module.exports = async client => {
         }
     });
     client.logger.ready();
+    await client.agenda.start();
+    console.log('[agenda] Started job processing!');
 }

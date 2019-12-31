@@ -6,4 +6,4 @@ let obj = {
         pass: ""
     }
 }
-module.exports = obj
+module.exports = obj;
