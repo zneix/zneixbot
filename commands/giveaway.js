@@ -1,6 +1,6 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = `Start a new giveaway in specified channel, specified winner amount and optional message!\nThere can be 20 winners at most.\nUse word "in" to specify time unit.`;
-exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <channelID | #channel> <number_of_winners> [optional message] <time>`;
+exports.description = 'Start a new giveaway in specified channel, specified winner amount and optional message!\nThere can be 20 winners at most.\nUse word "in" to specify time unit.';
+exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <channelID | #channel> <number of winners (must be 1-20)> [giveaway subject] <time>`;
 exports.perms = [false, false, 'MANAGE_CHANNELS'];
 
 exports.run = (client, message) => {

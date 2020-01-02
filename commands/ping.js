@@ -1,13 +1,13 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = `Pings a bot to check if it's online.`;
+exports.description = "Pings a bot and displays uptime";
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
 exports.perms = [false, false];
 
 exports.run = (client, message) => {
     message.cmd = this;
     message.command(false, async () => {
-        const time = require(`../utils/timeFormatter`);
-        let m = await message.channel.send(`Pong?`);
+        const time = require('../utils/timeFormatter');
+        let m = await message.channel.send('Pong?');
         let ping = {
             color: 0x00ff00,
             timestamp: new Date(),
@@ -17,12 +17,12 @@ exports.run = (client, message) => {
             },
             fields: [
                 {
-                    name: `Ping`,
+                    name: 'Ping',
                     value: `Latency: **${m.createdTimestamp - message.createdTimestamp}ms**\nAPI Latency: **${Math.round(client.ping)}ms**`,
                     inline: false
                 },
                 {
-                    name: `Uptime`,
+                    name: 'Uptime',
                     value: `**${time.msFormat(client.uptime)}** since \`${time.dateFormat(client.readyAt)}\``,
                     inline: false
                 }

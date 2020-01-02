@@ -1,6 +1,6 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
 exports.description = `Bans user from the server (without deleting user messages).`;
-exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} [@mention | userID] (reason)`;
+exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <@mention | userID> [reason]`;
 exports.perms = [false, false, 'BAN_MEMBERS'];
 
 exports.run = (client, message) => {

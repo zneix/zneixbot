@@ -1,5 +1,5 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = `Checks if it's wednesday, my dude. (based on UK (GMT 0) time, my mate)`;
+exports.description = "Checks if it's wednesday, my dude (checks by UTC).";
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
 exports.perms = [false, false];
 

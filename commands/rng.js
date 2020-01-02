@@ -1,6 +1,6 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = `Picks random integer between two provided numbers.`;
-exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <first_number> <last_number>`
+exports.description = 'Picks random integer between two provided numbers. I.e. 1 10 picks a random number between 1 and 10 (inclusive).';
+exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <first number> <last number>`
 +`\n{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} 1 100`
 +`\n{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} 21 37`;
 exports.perms = [false, false];

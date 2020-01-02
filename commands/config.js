@@ -1,6 +1,6 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = "Changes current server's configuration settings.";
-exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <one_of_modules>`;
+exports.description = "Changes current server's configuration settings. Running command without arguments provides further help about each module.";
+exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <module name> <further settings>`;
 exports.perms = [false, 'modrole'];
 
 exports.run = (client, message) => {

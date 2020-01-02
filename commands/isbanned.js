@@ -1,6 +1,6 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
 exports.description = 'Checks if user with given ID is banned and shows ban reason if banned.';
-exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} [userID]`;
+exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <userID>`;
 exports.perms = [false, false, 'BAN_MEMBERS'];
 
 exports.run = (client, message) => {

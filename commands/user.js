@@ -1,5 +1,5 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = `Displays various information about user.`;
+exports.description = 'Displays various information about mentioned user (can be also an ID). Running this command without arguments outputs information about you.';
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} [user ID | @mention]`;
 exports.perms = [false, false];
 

@@ -1,6 +1,6 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = `Cleans specified amount of messages.`;
-exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} (number of messages to delete, max 100)`;
+exports.description = 'Cleans specified amount of messages.';
+exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <number of messages to delete, max 100>`;
 exports.perms = [false, false, 'MANAGE_MESSAGES'];
 
 exports.run = (client, message) => {

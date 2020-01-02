@@ -1,6 +1,6 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = `Calculates your expression (really poor, under developement).`;
-exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
+exports.description = 'Calculates your expression (really poor, under developement). See math.js documentation for better understanding.';
+exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <math expression>`;
 exports.perms = [false, false];
 const math = require('mathjs');
 

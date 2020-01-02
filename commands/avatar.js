@@ -1,5 +1,5 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = `Links yours or someone's avatar.`;
+exports.description = "Links yours or someone's avatar. When no/wrong args are provided, links yours.";
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} [user ID | @mention]`;
 exports.perms = [false, false];
 

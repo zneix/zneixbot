@@ -1,14 +1,14 @@
-let objcodes = {
-    "c": "Celsius",
-    "f": "Fahrenheit"
-};
-let codes = Object.getOwnPropertyNames(objcodes);
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = `Converts Celcius to Farenheit and vice-versa.\nSupported temperatures: C, F`;
-exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} 20 C\n{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} 56 F`;
+exports.description = 'Converts Celcius to Farenheit and vice-versa.\nSupported temperatures: C, F';
+exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} [degree amount] <second temperature>\n{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} 56 F`;
 exports.perms = [false, false];
 
 exports.run = (client, message) => {
+    let objcodes = {
+        "c": "Celsius",
+        "f": "Fahrenheit"
+    };
+    let codes = Object.getOwnPropertyNames(objcodes);
     message.cmd = this;
     message.command(1, async () => {
         let {round} = require('../utils/timeFormatter');
@@ -19,11 +19,11 @@ exports.run = (client, message) => {
             if (codes.some(x => x === message.args[0].toLowerCase())) return message.args[0].toLowerCase();
             return false;
         }
-        if (!wanted()) throw `Wrong temperature unit format!\nMust be either C or F`;
+        if (!wanted()) throw 'Wrong temperature unit format!\nMust be either C or F';
         let base = message.args[0].toLowerCase()==="c"?"f":"c";
         let embed = {
             color: message.member.displayColor,
-            timestamp: new Date(),
+            timestamp: message.createdAt,
             footer: {
                 text: message.author.tag,
                 icon_url: message.author.avatarURL

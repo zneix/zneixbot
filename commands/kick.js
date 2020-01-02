@@ -1,6 +1,6 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = `Kicks user from the server.`;
-exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} [@mention | userID] (reason)`;
+exports.description = 'Kicks user from the server.';
+exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <@mention | userID> [kick reason]`;
 exports.perms = [false, false, 'KICK_MEMBERS'];
 
 exports.run = (client, message) => {

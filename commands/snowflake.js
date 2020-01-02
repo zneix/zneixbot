@@ -1,6 +1,6 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = `Translates Discord snowflake (ID of everything - users, emotes, messages, channels, etc.) to the Date.`;
-exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <discord_ID>`;
+exports.description = 'Translates Discord snowflake (ID of everything - users, emotes, messages, channels, etc.) to the Date.';
+exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <snowflake>`;
 exports.perms = [false, false];
 
 exports.run = (client, message) => {

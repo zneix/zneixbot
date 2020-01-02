@@ -1,5 +1,5 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = `Asks 8ball a question (basic random responses).`;
+exports.description = 'Asks 8ball a question (basic random responses).';
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} [question]`;
 exports.perms = [false, false];
 

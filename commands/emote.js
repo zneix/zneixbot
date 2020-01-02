@@ -1,6 +1,6 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = `Emote showcaser - under developement.`;
-exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} :emote:`;
+exports.description = 'Outputs emote as an image and link to it - under developement.';
+exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <discord emote>`;
 exports.perms = [false, false];
 
 exports.run = (client, message) => {

@@ -1,5 +1,5 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = `Adds new emote to the current server NOW SUPPORTS LINKS!`;
+exports.description = 'Adds new emote to the current server NOW SUPPORTS LINKS!';
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <:Kappa:630103099578646558>`
 +`\n{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} https://static-cdn.jtvnw.net/emoticons/v1/114836/3.0`;
 exports.perms = [false, false, 'MANAGE_EMOJIS'];

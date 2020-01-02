@@ -36,7 +36,8 @@ let objcodes = {
 let codes = Object.getOwnPropertyNames(objcodes);
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
 exports.description = `Converts currencies, calculates them, etc.\nSupported currencies: ${codes.join(', ')}`;
-exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} EUR to PLN\n{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} 10 EUR to PLN`;
+exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} [amount, deafult: 1] <first currency> <wanted currency>`
++`\n{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} EUR PLN\n{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} 10 EUR PLN`;
 exports.perms = [false, false];
 
 exports.run = (client, message) => {
@@ -51,8 +52,11 @@ exports.run = (client, message) => {
             return false;
         }
         function base(){
-            if (!message.args[2]) return false;
-            if (codes.some(x => x === message.args[2].toUpperCase())) return message.args[2].toUpperCase();
+            let secCurr; //handling old word 'to' in between currencies, alongside newly defined '=' and '=='
+            if (message.args[1] == 'to' || message.args[1] == '=' || message.args[1] == '==') secCurr = message.args[2];
+            else secCurr = message.args[1];
+            if (!secCurr) return false;
+            if (codes.some(x => x === secCurr.toUpperCase())) return secCurr.toUpperCase();
             return false;
         }
         if (!base() || !wanted()) throw `Unsupported currency or wrong currency format was provided!\nCheck \`${message.guild.prefix}help ${__filename.split(/[\\/]/).pop().slice(0,-3)}\` for more information.`;

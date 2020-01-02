@@ -1,5 +1,5 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = `Squishes provided attached image / emote / URL / server meber's avatar (Outputs only in PNG format for now).`;
+exports.description = "\"Squishes\" provided attached image / emote / URL / server meber's avatar (Outputs only in PNG format for now).";
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <:Kappa:561931926794141768>`
 +`\n{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} https://static-cdn.jtvnw.net/emoticons/v1/114836/3.0`
 +`\n{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <@506606171906637855>`

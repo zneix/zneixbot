@@ -9,9 +9,9 @@ fetch.Promise = Promise; //fixing custom Promises
 require('npm-package-to-env').config(); //importing values from package.json to process.env
 
 //JSON data
-const auth = require(`./src/json/auth`); //token and module authentication
-const config = require(`./src/json/config.json`); //global client settings
-const perms = require(`./src/json/perms`)(); //permission database
+const auth = require('./src/json/auth'); //token and module authentication
+const config = require('./src/json/config.json'); //global client settings
+const perms = require('./src/json/perms')(); //permission database
 
 //discord client extras
 const client = new Discord.Client({disableEveryone:true}); //declaring new discord client
@@ -24,9 +24,9 @@ client.version = process.env.npm_package_version; //global version
 client.tr = new Object(); //global object with Talked Recently Sets for every guild
 
 //utils load
-client.save = require(`./utils/save`); //saving functions combined
+// client.save = require('./utils/save'); //saving functions combined, disabled until it's actually useful
 client.logger = require('./utils/logger')(client); //logging in console and in logs channel
-client.emoteHandler = require(`./utils/emoteHandler`)(client);
+client.emoteHandler = require('./utils/emoteHandler')(client);
 client.db = require('./utils/mongodb'); //database connection interface
 
 //executing rest of code after establishing successful database connection

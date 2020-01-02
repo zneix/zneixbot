@@ -1,6 +1,6 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = `Send your feedback directly to bot developer, supports file attachments.`;
-exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} (your message) (file attachments)`;
+exports.description = 'Send your feedback directly to bot developer, supports file attachments.';
+exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <your message> [file attachments]`;
 exports.perms = [false, false];
 // exports.cooldown = new Set(); //FINISH COOLDOWN THINGY
 

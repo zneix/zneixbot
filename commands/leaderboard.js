@@ -1,5 +1,5 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = 'Displays lightweight leaderboard in a beautiful embed. Expires after 120 seconds';
+exports.description = 'Displays lightweight leaderboard in a beautiful embed. Expires after 120 seconds.';
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
 exports.perms = [false, false];
 

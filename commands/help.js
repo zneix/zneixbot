@@ -1,6 +1,6 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = `The command for getting help information on other commands.`;
-exports.usage = `Running **{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}** without any arguments will result in this message and Command List.\n\nRunning: **{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}** **(command)** gives you information about specific commands and their usage.`;
+exports.description = 'The dynamic help command for getting information about other commands.';
+exports.usage = `Running this command without arguments will print command list.\nRunning: **{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}** **<command name>** gives you information about specific commands and their usage.`;
 exports.perms = [false, false];
 
 exports.run = (client, message) => {
@@ -10,7 +10,8 @@ exports.run = (client, message) => {
         if (message.args.length) cmd = cmdUtil.getCommand(client, message.args[0].toLowerCase());
         if (!message.args.length || !cmd || !message.perms.isAllowed(cmd, true)){
             let commandList = "";
-            client.commands.filter(cmd => !cmd.perms[0] && !cmd.perms[1]).forEach((object, key, map) => commandList = commandList.concat(`\`${key}\`${cmdUtil.aliases[key]?`  aliases:  \`${cmdUtil.aliases[key].join('\`, \`')}\``:''}\n`));
+            //${cmdUtil.aliases[key]?`  aliases:  \`${cmdUtil.aliases[key].join('\`, \`')}\``:''} //alias support (temporarily disabled ;_;)
+            client.commands.filter(cmd => !cmd.perms[0] && !cmd.perms[1]).forEach((object, key, map) => commandList = commandList.concat(`\`${key}\` | `));
             let cmd = client.commands.get("help");
             embed = { //send general help with command list
                 color: parseInt("0x99ff66"),
@@ -25,46 +26,47 @@ exports.run = (client, message) => {
                     },
                     {
                         name: client.emoteHandler.asset("subscriber")+" User commands",
-                        value: commandList
+                        value: commandList.slice(0, -2)
                     }
                 ],
             }
             //showing extra commands
             //append guild mod commands
             let guildModList = "";
-            client.commands.filter((object, key, map) => object.perms.slice(2).length && message.perms.guildperm(object.perms.slice(2), true) && !object.cloned).forEach((object, key, map) => guildModList = guildModList.concat(`\`${key}\`${cmdUtil.aliases[key]?` aliases:  \`${cmdUtil.aliases[key].join('\`, \`')}\``:''}\n`));
-            client.commands.filter((object, key, map) => object.perms[1] == 'modrole' && message.perms.isModrole(cmd, true)).forEach((object, key, map) => guildModList = guildModList.concat(`\`${key}\`${cmdUtil.aliases[key]?` aliases:  \`${cmdUtil.aliases[key].join('\`, \`')}\``:''}\n`));
+            //${cmdUtil.aliases[key]?` aliases:  \`${cmdUtil.aliases[key].join('\`, \`')}\``:''} //alias support for guild-based commands
+            client.commands.filter((object, key, map) => object.perms.slice(2).length && message.perms.guildperm(object.perms.slice(2), true) && !object.cloned).forEach((object, key, map) => guildModList = guildModList.concat(`\`${key}\` | `));
+            client.commands.filter((object, key, map) => object.perms[1] == 'modrole' && message.perms.isModrole(cmd, true)).forEach((object, key, map) => guildModList = guildModList.concat(`\`${key}\` | `));
             if (guildModList.length){
                 embed.fields.push({
                     name: client.emoteHandler.asset("mod")+" Server Moderator commands",
-                    value: guildModList
+                    value: guildModList.slice(0, -2)
                 });
             }
             // append mod commands
             if (message.perms.levelCheck().number > 0){
                 let modList = "";
-                client.commands.filter(cmd => cmd.perms[0] === 'mod').forEach((object, key, map) => modList = modList.concat(`\`${key}\`${cmdUtil.aliases[key]?`  aliases:  \`${cmdUtil.aliases[key].join('\`, \`')}\``:''}\n`));
+                client.commands.filter(cmd => cmd.perms[0] === 'mod').forEach((object, key, map) => modList = modList.concat(`\`${key}\` | `));
                 embed.fields.push({
                     name: client.emoteHandler.asset("supermod")+" Bot Moderator commands",
-                    value: modList
+                    value: modList.slice(0, -2)
                 });
             }
             // append admin commands
             if (message.perms.levelCheck().number > 1){
                 let adminList = "";
-                client.commands.filter(cmd => cmd.perms[0] === 'admin').forEach((object, key, map) => adminList = adminList.concat(`\`${key}\`${cmdUtil.aliases[key]?`  aliases:  \`${cmdUtil.aliases[key].join('\`, \`')}\``:''}\n`));
+                client.commands.filter(cmd => cmd.perms[0] === 'admin').forEach((object, key, map) => adminList = adminList.concat(`\`${key}\` | `));
                 await embed.fields.push({
                     name: client.emoteHandler.asset("staff")+" Bot Administrator commands",
-                    value: adminList
+                    value: adminList.slice(0, -2)
                 });
             }
             // append owner commands
             if (message.perms.levelCheck().number > 2){
                 let ownerList = "";
-                client.commands.filter(cmd => cmd.perms[0] === 'owner').forEach((object, key, map) => ownerList = ownerList.concat(`\`${key}\`${cmdUtil.aliases[key]?`  aliases:  \`${cmdUtil.aliases[key].join('\`, \`')}\``:''}\n`));
+                client.commands.filter(cmd => cmd.perms[0] === 'owner').forEach((object, key, map) => ownerList = ownerList.concat(`\`${key}\` | `));
                 await embed.fields.push({
                     name: client.emoteHandler.asset("broadcaster")+" Bot Owner commands",
-                    value: ownerList
+                    value: ownerList.slice(0, -2)
                 });
             }
         }

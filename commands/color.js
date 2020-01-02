@@ -1,5 +1,5 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = `Prints informations about given color (or a random one).`;
+exports.description = 'Prints informations about given color. Running this command without arguments generates a random color.';
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`
 +`\n{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} random`
 +`\n{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} #00ff00`

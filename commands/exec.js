@@ -1,6 +1,6 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = `Executes shell command monkaS.`;
-exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} [do the hackerman stuff]`;
+exports.description = `Executes unix shell command.`;
+exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <hackerman stuff>`;
 exports.perms = ['owner', false];
 
 exports.run = (client, message) => {

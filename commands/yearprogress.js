@@ -26,14 +26,14 @@ exports.run = (client, message) => {
         }
         //attached image loading-bar
         let canvas = require('canvas');
-        let cv = canvas.createCanvas(360, 40);
+        let cv = canvas.createCanvas(400, 40);
         let ctx = cv.getContext('2d');
         ctx.fillStyle = '#000000';
-        ctx.fillRect(0, 0, 360, 40);
+        ctx.fillRect(0, 0, 400, 40);
         ctx.fillStyle = '#747f8d';
-        ctx.fillRect(5, 5, 350, 30);
+        ctx.fillRect(5, 5, 390, 30);
         ctx.fillStyle = '#43b581';
-        ctx.fillRect(5, 5, (Math.floor(350/100 * getProgress(date))), 30);
+        ctx.fillRect(5, 5, (Math.floor(390/100 * getProgress(date))), 30);
         let {round} = require('../utils/timeFormatter');
         message.channel.send(`**${cy}** is **${round(getProgress(date), 13)}%** complete.`, {file:cv.toBuffer()});
     });

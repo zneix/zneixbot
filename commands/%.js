@@ -1,6 +1,6 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = `Rolls a random percentage between 0 and 100%.`;
-exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} (optional message)`;
+exports.description = 'Rolls a random percentage between 0 and 100%.';
+exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} [message]`;
 exports.perms = [false, false];
 
 exports.run = (client, message) => {

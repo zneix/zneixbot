@@ -1,6 +1,6 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = `Loads command from commands folder if it is unloaded, or newly installed.`;
-exports.usage = `**{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} (command)**`;
+exports.description = 'Loads command from commands folder if it is unloaded, or newly installed.';
+exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <command>`;
 exports.perms = ['admin', false];
 
 exports.run = (client, message) => {
@@ -13,6 +13,6 @@ exports.run = (client, message) => {
         //assigning command
         let props = require(`./${cmd}.js`);
         await client.commands.set(cmd, props);
-        require(`./../src/embeds/commandLoaded`)(client, message, false, cmd);
+        require('../src/embeds/commandLoaded')(client, message, false, cmd);
     });
 }

@@ -20,8 +20,8 @@ let regions = [
     'russia'
 ];
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = `Sets a new region of the current server.`;
-exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} (region)\n\n**Region must be one of the following:** ${regions.join(', ')}`;
+exports.description = 'Sets a new region of the current server.';
+exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <region>\n\n**Region must be one of the following:** ${regions.join(', ')}`;
 exports.perms = [false, false, 'MANAGE_GUILD'];
 
 exports.run = (client, message) => {
