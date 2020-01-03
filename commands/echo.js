@@ -1,6 +1,6 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = "Makes me speak. **YOU'RE TRUSTED, SO DON'T ABUSE!**";
-exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <channel ID | #channel> <message>`;
+exports.description = "Sends a message on my behalf. If no channel specified, send a message to current channel. **YOU'RE TRUSTED, SO DON'T ABUSE!**";
+exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} [channel ID | #channel] <message>`;
 exports.perms = ['mod', false];
 
 exports.run = (client, message) => {
@@ -14,7 +14,7 @@ exports.run = (client, message) => {
         }
         else return result(taggedChannel);
         function result(channel){
-            message.delete();
+            if (message.guild.me.hasPermission('MANAGE_MESSAGES')) message.delete();
             if (!channel) message.channel.send(message.args.join(" "));
             else channel.send(message.args.slice(1).join(" "));
         }

@@ -1,20 +1,24 @@
 module.exports = async (guild, destination, boolCreated) => {
     let time = require('../../utils/timeFormatter');
     let fetch = require('node-fetch');
-    let fixedIconUrl = guild.iconURL.slice(0, -3).concat('png');
-    if ((await fetch(fixedIconUrl.slice(0, -4))).headers.get('content-type')=='image/gif') fixedIconUrl = fixedIconUrl.slice(0, -3).concat('gif');
+    async function getIconURL(){
+        if (!guild.iconURL) return null;
+        let fixedIconUrl = guild.iconURL.slice(0, -3).concat('png');
+        if ((await fetch(fixedIconUrl.slice(0, -4))).headers.get('content-type')=='image/gif') fixedIconUrl = fixedIconUrl.slice(0, -3).concat('gif');
+        return fixedIconUrl;
+    }
     let embed = {
         color: boolCreated?0x0dc61a:0xd71a42,
         timestamp: new Date(),
         footer: {
             text: guild.id,
-            icon_url: fixedIconUrl
+            icon_url: await getIconURL()
         },
         author: {
             name: (boolCreated?"Joined":"Left")+" a server"
         },
         thumbnail: {
-            url: fixedIconUrl
+            url: await getIconURL()
         },
         fields: [
             {
