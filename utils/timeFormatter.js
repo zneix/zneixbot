@@ -89,3 +89,15 @@ exports.round = function(n, k){
     let factor = 10**k;
     return Math.round(n*factor)/factor;
 }
+
+exports.snowflake = function(sf){
+    //hard assume, that given snowflake is 100% valid
+    const DiscordEpoch = 1420070400000;
+    function getBinSlice(start, end){return parseInt(parseInt(sf).toString(2).slice(start, end), 2);}
+    return {
+        timestamp: DiscordEpoch+getBinSlice(0, -22),
+        worker: getBinSlice(-22, -17),
+        process: getBinSlice(-17, -12),
+        increment: getBinSlice(-12)
+    }
+}
