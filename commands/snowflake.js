@@ -7,12 +7,7 @@ exports.run = (client, message) => {
     message.cmd = this;
     message.command(1, async () => {
         let time = require('../utils/timeFormatter');
-        const DiscordEpoch = 1420070400000;
-        function getBinSlice(start, end){return parseInt(parseInt(message.args[0]).toString(2).slice(start, end), 2);}
-        let timestampSf = DiscordEpoch+getBinSlice(0, -22);
-        let workerSf = getBinSlice(-22, -17);
-        let processSf = getBinSlice(-17, -12);
-        let incrementSf = getBinSlice(-12);
+        let sf = time.snowflake(message.args[0]);
         let embed = {
             color: 0x2f3136,
             footer: {
@@ -20,7 +15,7 @@ exports.run = (client, message) => {
                 icon_url: message.author.avatarURL
             },
             timestamp: message.createdAt,
-            description: `Date (UTC): **${time.dateFormat(new Date(timestampSf))}** (${timestampSf}) \`${time.msFormat(message.createdTimestamp-timestampSf)} ago\`\nWorker ID: ${workerSf}\nProcess ID: ${processSf}\nIncrement: ${incrementSf}`
+            description: `Date (UTC): **${time.dateFormat(new Date(sf.timestamp))}** (${sf.timestamp}) \`${time.msFormat(message.createdTimestamp-sf.timestamp)} ago\`\nWorker ID: ${sf.worker}\nProcess ID: ${sf.process}\nIncrement: ${sf.increment}`
         }
         message.channel.send({embed:embed});
     });

@@ -11,7 +11,7 @@ exports.run = (client, message) => {
         if (!message.args.length || !cmd || !message.perms.isAllowed(cmd, true)){
             let commandList = "";
             //${cmdUtil.aliases[key]?`  aliases:  \`${cmdUtil.aliases[key].join('\`, \`')}\``:''} //alias support (temporarily disabled ;_;)
-            client.commands.filter(cmd => !cmd.perms[0] && !cmd.perms[1]).forEach((object, key, map) => commandList = commandList.concat(`\`${key}\` | `));
+            client.commands.filter(cmd => !cmd.perms[0] && !cmd.perms[1] && !cmd.perms[2]).forEach((object, key, map) => commandList = commandList.concat(`\`${key}\` | `));
             let cmd = client.commands.get("help");
             embed = { //send general help with command list
                 color: parseInt("0x99ff66"),
