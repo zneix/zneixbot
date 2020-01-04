@@ -7,12 +7,29 @@ exports.run = (client, message) => {
     message.cmd = this;
     message.command(false, async () => {
         const time = require('../utils/timeFormatter');
+        const {getUser} = require('../utils/rawApiRequests');
         if (!message.args.length) return result(message.author);
         let taggedUser = message.mentions.users.first();
         if (!taggedUser){
             let validUser = client.users.get(message.args[0]);
             if (validUser) return result(validUser);
-            else return result(message.author);
+            else {
+                if (!/\d{17,}/.test(message.args[0])) return result(message.author); //saving bandwith for obvious non-snowflake values
+                let puser = await getUser(client, message.args[0]);
+                if (!puser) return result(message.author); //escape on wrong ID
+                //successfull user fetch, preparing message author data on result object and sending it to result function
+                puser.tag = `${puser.username}#${puser.discriminator}`;
+                puser.avatarURL = await getFixedAvatar(puser);
+                puser.createdAt = new Date(time.snowflake(message.args[0]).timestamp);
+                puser.createdTimestamp = time.snowflake(message.args[0]).timestamp;
+                return result(puser);
+                async function getFixedAvatar(user){
+                    if (!user.avatar) return null;
+                    let url = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`;
+                    if ((await client.fetch(url.slice(0, -4))).headers.get('content-type')=='image/gif') url = url.slice(0, -3).concat('gif');
+                    return url;
+                }
+            }
         }
         else return result(taggedUser);
         async function result(user){
@@ -33,7 +50,8 @@ exports.run = (client, message) => {
                 thumbnail: {
                     url: user.avatarURL
                 },
-                description: `${user.toString()} ${user.presence.status==="offline"?"offline":user.presence.status==="online"?"online":`online (${user.presence.status})`}`,
+                //messy workaround below to support handling 'foreign users'
+                description: `<@${user.id}> ${user.presence?(user.presence.status==="offline"?"offline":user.presence.status==="online"?"online":`online (${user.presence.status})`):''}`,
                 fields: [
                     {
                         name: "User ID",
