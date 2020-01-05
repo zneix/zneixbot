@@ -23,7 +23,7 @@ exports.run = (client, message) => {
             },
             description: `
 Commands loaded: **${client.commands.size}**
-Running commit: **#${runningNumber+1} [${runningCommit[0].substr(0, 7)}](https://github.com/zneix/zneixbot/commit/${runningCommit[0]})${(runningCommit[0]==lastCommit)?' [Latest]':''}** \`${msFormat(message.createdAt - parseInt('1578103065')*1000)} ago\`
+Running commit: **#${runningNumber+1} [${runningCommit[0].substr(0, 7)}](https://github.com/zneix/zneixbot/commit/${runningCommit[0]})${(runningCommit[0]==lastCommit)?' [Latest]':''}** \`${msFormat(message.createdAt - parseInt(runningCommit[1])*1000)} ago\`
 
 **✨ [Invite me to your server!](https://discordapp.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot)
 ${client.emoteHandler.asset('githublogo')} [Code on GitHub](https://github.com/zneix/zneixbot)
