@@ -4,12 +4,16 @@
         "zneix",
         "EinLiftedSoul"
     ],
-    "description": "Discord modereation, utility, helper, shitpost bot",
+    "description": "Discord modereation, utility, helper, fun bot",
     "version": "1.2.0",
     "main": "index.js",
     "author": {
         "name": "zneix",
-        "url": "http://zneix.cba.pl"
+        "url": "http://github.com/zneix"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/zneix/zneixbot.git"
     },
     "dependencies": {
         "agenda": "^2.3.0",
