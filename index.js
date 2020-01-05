@@ -2,7 +2,7 @@
 const Discord = require('discord.js'); //discord core library
 const enmap = require('enmap'); //enmap object for command handler
 const RC = require('reaction-core'); //reaction core package for emote menus
-const Promise = require('bluebird'); //module for error handler and rejections while using fs.writeFile
+const Promise = require('bluebird'); //module by error handler for better promise resolves and rejections
 Promise.config({longStackTraces:true}); //enabling long stack trees
 const fetch = require('node-fetch'); //package for url JSON fetching
 fetch.Promise = Promise; //fixing custom Promises
@@ -22,6 +22,7 @@ client.RCHandler = new RC.Handler(); //global emote menu handler
 client.fetch = fetch; //declaring global fetch function
 client.version = process.env.npm_package_version; //global version
 client.tr = new Object(); //global object with Talked Recently Sets for every guild
+client.cc = 0; //command count for current running session
 
 //utils load
 // client.save = require('./utils/save'); //saving functions combined, disabled until it's actually useful

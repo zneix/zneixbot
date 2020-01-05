@@ -8,14 +8,14 @@ exports.run = (client, message) => {
     message.command(false, async () => {
         let embed = {
             color: 0xf97304,
-            timestamp: new Date(),
+            timestamp: message.createdAt,
             footer: {
                 text: message.author.tag,
                 icon_url: message.author.avatarURL
             },
             author: {
-                name: `https://discordapp.com/api/oauth2/authorize?client_id=506606171906637855&permissions=8&scope=bot`,
-                url: "https://discordapp.com/api/oauth2/authorize?client_id=506606171906637855&permissions=8&scope=bot"
+                name: `https://discordapp.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot`,
+                url: `https://discordapp.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot`
             },
             description: '[Support Server](https://discordapp.com/invite/cF555AV)'
         }

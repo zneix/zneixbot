@@ -23,7 +23,7 @@ exports.run = (client, message) => {
                 },
                 {
                     name: 'Uptime',
-                    value: `**${time.msFormat(client.uptime)}** since \`${time.dateFormat(client.readyAt)}\``,
+                    value: `**${time.msFormat(client.uptime)}** since \`${time.dateFormat(client.readyAt)}\`\nCommands used: ${client.cc}`,
                     inline: false
                 }
             ]
