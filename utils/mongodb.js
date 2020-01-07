@@ -1,6 +1,7 @@
 let mongodb = require('mongodb');
 let auth = require('../src/json/auth');
-let uri = `mongodb+srv://${auth.db.user}:${auth.db.pass}@${auth.db.host}/zneixbot`;
+// let uri = `mongodb+srv://${auth.db.user}:${auth.db.pass}@${auth.db.host}/zneixbot`; //old, deprecated cloud set method
+let uri = `mongodb://${auth.db.user}:${auth.db.pass}@${auth.db.host}/zneixbot?authSource=test`; //authSource is sadly yet required
 let client = new mongodb.MongoClient(uri, {
 	useUnifiedTopology: true,
 	useNewUrlParser: true,
@@ -53,9 +54,9 @@ client.utils.delete = async function(collectionName, filter){
 	return await client.db().collection(collectionName).deleteMany(filter);
 }
 //new config template insertion
-client.utils.newGuildConfig = async function(guildid){
+client.utils.newGuildConfig = async function(theid){
 	let template = {
-		guildid: guildid,
+		guildid: theid, //quick renaming due to big confusion and creating invalid objects
 		customprefix: null,
 		modrole: null,
 		modules: {
@@ -78,6 +79,7 @@ client.utils.newGuildConfig = async function(guildid){
 		}
 	}
 	if (!client.isConnected()) await connect();
+	console.log(`[mongodb] Attempting to insert configuration for ${theid}`);
 	return (await client.db().collection('guilds').insertOne(template)).ops[0];
 }
 
