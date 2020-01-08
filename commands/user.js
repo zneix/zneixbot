@@ -84,7 +84,7 @@ exports.run = (client, message) => {
                     inline: false
                 });
                 if (member.displayColor){
-                    embed.color = member.displayColor;
+                    embed.color = member.displayColor>=16777215?member.displayColor-1:member.displayColor;
                     embed.fields.push({
                         name: 'Color',
                         value: `#${parseInt(embed.color).toString(16)}`,

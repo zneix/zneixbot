@@ -39,7 +39,7 @@ exports.run = (client, message) => {
                     color.number = parseInt('0x'+hexa);
                     break;
                 case "random":
-                    color.random = (Math.floor(Math.random()*16777215));
+                    color.random = (Math.floor(Math.random()*16777214));
                     value = color.random;
                 case "number":
                     let hex = parseInt(value).toString(16);
@@ -48,10 +48,10 @@ exports.run = (client, message) => {
                     color.number = parseInt(value);
                     break;
             }
-            let colorapi = await client.fetch('https://www.thecolorapi.com/id?hex='+color.hex).then(res => res.json())
+            let colorapi = await client.fetch('https://www.thecolorapi.com/id?hex='+color.hex).then(res => res.json());
             let embed = {
-                color: color.number,
-                timestamp: Date.now(),
+                color: color.number>=16777215?color.number-1:color.number,
+                timestamp: message.createdAt,
                 footer: {
                     text: message.author.tag,
                     icon_url: message.author.avatarURL

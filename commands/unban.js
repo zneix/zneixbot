@@ -17,7 +17,7 @@ exports.run = (client, message) => {
             await message.guild.unban(ban.user);
             let embed = {
                 color: 0xcae2cd,
-                timestamp: Date.now(),
+                timestamp: message.createdAt,
                 footer: {
                     text: message.author.tag,
                     icon_url: message.author.avatarURL
