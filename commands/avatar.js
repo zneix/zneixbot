@@ -13,9 +13,9 @@ exports.run = (client, message) => {
             let validUser = client.users.get(message.args[0]);
             if (validUser) return await link(validUser);
             else {
-                if (!/\d{17,}/.test(message.args[0])) return result(message.author); //saving bandwith for obvious non-snowflake values
+                if (!/\d{17,}/.test(message.args[0])) return link(message.author); //saving bandwith for obvious non-snowflake values
                 let puser = await getUser(client, message.args[0]);
-                if (!puser) return result(message.author); //escape on wrong ID
+                if (!puser) return link(message.author); //escape on wrong ID
                 //successfull user fetch, preparing message author data on result object and sending it to result function
                 puser.tag = `${puser.username}#${puser.discriminator}`;
                 return await link(puser);
