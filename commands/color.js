@@ -15,12 +15,12 @@ exports.run = (client, message) => {
         if (/^\D*[a-f0-9]{6}$/i.test(message.args[0])) return kolorek(/[a-f0-9]{6}$/i.exec(message.args[0])[0], "hex");
         if (/^\D*(\d{1,3})[\s\W]+(\d{1,3})[\s\W]+(\d{1,3})\D*$/.test(message.args.join(' '))){
             let rgbData = /^\D*(\d{1,3})[\s\W]+(\d{1,3})[\s\W]+(\d{1,3})\D*$/.exec(message.args.join(' ')).slice(1);
-            if (rgbData[0] > 255 || rgbData[1] > 255 || rgbData[2] > 255) throw error;
+            if (rgbData[0] > 255 || rgbData[1] > 255 || rgbData[2] > 255) return {code: '15', msg: error};
             return kolorek(rgbData, "rgb");
         }
         if (!isNaN(message.args[0]) && message.args[0] < 16777216 && message.args[0] >= 0) return kolorek(message.args[0], "number");
         if (message.args[0] === 'random') return kolorek(null, "random");
-        throw error;
+        return {code: '15', msg: error};
 
         //exec part
         async function kolorek(value, inputType){

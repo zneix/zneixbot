@@ -7,7 +7,7 @@ exports.perms = [false, false, 'MANAGE_EMOJIS'];
 exports.run = (client, message) => {
     message.cmd = this;
     message.command(1, async () => {
-        if (!message.guild.me.hasPermission('MANAGE_EMOJIS')) throw "I don't have **MANAGE_EMOJIS** permission!\nContact moderators.";
+        if (!message.guild.me.hasPermission('MANAGE_EMOJIS')) return {code: '23', msg: 'Manage Emojis'};
         let url;
         let emotename;
         //resolving discord emotes (from nitro users)
@@ -24,11 +24,11 @@ exports.run = (client, message) => {
             }
             let headers = await urlheaders();
             if (headers.get('content-type').startsWith('image')){
-                if (headers.get('content-length') > 262143) throw `The requested image is too big! (${Math.floor(headers.get('content-length') / 1024)}kb)! Must be less than 256kb.`;
+                if (headers.get('content-length') > 262143) return {code: '11', msg: `The requested image is too big! (${Math.floor(headers.get('content-length') / 1024)}kb)! Must be less than 256kb.`};
                 url = message.args[0];
                 emotename = (headers.get('content-location'))?(headers.get('content-location').split('.')[0]):`emoji_${message.guild.emojis.size+1}`;
             }
-            else throw "That's not an emote nor valid image link!";
+            else return {code: '15', msg: "That's not an emote nor valid image URL!"};
         }
         //got an emote, resolving extension
         let m = await message.channel.send('Creating emote...');

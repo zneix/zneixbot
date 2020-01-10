@@ -100,8 +100,7 @@ exports.run = (client, message) => {
             
         ];
         let rng = Math.floor(Math.random()*(responses.length));
-        message.reply(clean(responses[rng])
-        );
+        message.reply(clean(responses[rng]));
         function clean(string){
             string = string.replace(/@everyone/, "`@everyone`"); //filters everyone mentions
             string = string.replace(/@here/, "`@here`"); //filters here mentions

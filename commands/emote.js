@@ -15,8 +15,8 @@ exports.run = (client, message) => {
         // else if (/^\d+$/.test(message.args[0])){
         //     let url = `https://cdn.discordapp.com/emojis/${message.args[0]}`;
         //     try {message.channel.send(`<${url}>`, {file:url});}
-        //     catch (issue){throw "coś poszło nie tak ;c\n"+issue}
+        //     catch (issue){return {code: '27', msg: `coś poszło nie tak ;c : ${issue}`};}
         // }
-        else message.channel.send("that's not an emote nor it's ID "+client.emoteHandler.find("NaM"));
+        else return {code: '15', msg: "That's not an emote nor it's ID "+client.emoteHandler.find("NaM")};
     });
 }

@@ -42,7 +42,7 @@ exports.perms = [false, false];
 
 exports.run = (client, message) => {
     message.cmd = this;
-    message.command(1, async () => {
+    message.command(2, async () => {
         let {round} = require('../utils/timeFormatter');
         let num = 1;
         message.args[0] = message.args[0].replace(/,/g, ".");
@@ -59,7 +59,7 @@ exports.run = (client, message) => {
             if (codes.some(x => x === secCurr.toUpperCase())) return secCurr.toUpperCase();
             return false;
         }
-        if (!base() || !wanted()) throw `Unsupported currency or wrong currency format was provided!\nCheck \`${message.guild.prefix}help ${__filename.split(/[\\/]/).pop().slice(0,-3)}\` for more information.`;
+        if (!base() || !wanted()) return {code: '15', msg: `Unsupported currency or wrong currency format was provided!\nCheck \`${message.guild.prefix}help ${__filename.split(/[\\/]/).pop().slice(0,-3)}\` for more information.`};
         let apidata = await client.fetch(`https://api.exchangeratesapi.io/latest?base=${wanted()}`).then(data => data.json());
         let embed = {
             color: message.member.displayColor,

@@ -6,14 +6,14 @@ exports.perms = [false, false, 'BAN_MEMBERS'];
 exports.run = (client, message) => {
     message.cmd = this;
     message.command(1, async () => {
-        if (!message.guild.me.hasPermission('BAN_MEMBERS')) throw "I don't have **BAN_MEMBERS** permission!\nContact moderators.";
-        if (!/^\d{17,}$/.test(message.args[0])) throw "That is not a valid user ID!";
+        if (!message.guild.me.hasPermission('BAN_MEMBERS')) return {code: '23', msg: 'Ban Members'};
+        if (!/^\d{17,}$/.test(message.args[0])) return {code: '15', msg: 'That is not a valid user ID'};
         let member = message.args[0];
         
-        //check and 'error' throw if user is already banned
+        //check and 'error' emit if user is already banned
         let check = await message.guild.fetchBans();
         if (check.get(member)){
-            let ban = await message.guild.fetchBan(message.args[0]).catch(err => {throw err.toString()});
+            let ban = await message.guild.fetchBan(message.args[0]).catch(err => {return {code: '27', msg: err.toString()};});
             return require('../src/embeds/memberKickedBanned')(message, `<@${member}>`, ban.reason, "banerror");
         }
         else {
@@ -28,8 +28,8 @@ exports.run = (client, message) => {
                     name: `This user is not banned in ${message.guild.name}`
                 },
                 description: `${client.emoteHandler.find('KKool')} ${client.emoteHandler.find('GuitarTime')}`
-            };
-            return message.channel.send({embed:embed});
+            }
+            message.channel.send({embed:embed});
         }
     });
 }

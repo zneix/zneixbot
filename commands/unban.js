@@ -6,13 +6,13 @@ exports.perms = [false, false, 'BAN_MEMBERS'];
 exports.run = (client, message) => {
     message.cmd = this;
     message.command(1, async () => {
-        if (!message.guild.me.hasPermission('BAN_MEMBERS')) throw "I don't have **BAN_MEMBERS** permission!\nContact moderators.";
-        if (!/^\d+$/.test(message.args[0])) throw "That is not a user ID!";
+        if (!message.guild.me.hasPermission('BAN_MEMBERS')) return {code: '23', msg: 'Ban Members'};
+        if (!/^\d{17,}$/.test(message.args[0])) return {code: '15', msg: 'That is not a user ID!'};
         return execute(message.args[0]);
 
         async function execute(member){
-            let ban = await message.guild.fetchBan(member);
-            if (!ban) throw "This user is not banned!";
+            let ban = await message.guild.fetchBan(member).catch(e => {return {code: '15', msg: e.toString()}});
+            if (ban.code = '15') return ban;
 
             await message.guild.unban(ban.user);
             let embed = {
@@ -26,8 +26,8 @@ exports.run = (client, message) => {
                     name: "Successfully Unbanned"
                 },
                 description: `${ban.user} ${ban.reason?`, with previous ban reason: \`${ban.reason}\``:"; there was no previous ban reason."}`
-            };
-            return message.channel.send({embed:embed});
+            }
+            message.channel.send({embed:embed});
         }
     });
 }

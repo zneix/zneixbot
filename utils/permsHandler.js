@@ -38,7 +38,8 @@ module.exports = (client, message) => {
     ];
     //global ban check
     function isBanned(){
-        if (perms.ban.includes(id)) throw "You are banned from the bot!";
+        if (perms.ban.includes(id)) return {code: '132', msg: ''};
+        else return {code: '00', msg: ''};
     }
     //global permission checks
     function isOwner(){
@@ -48,14 +49,14 @@ module.exports = (client, message) => {
     function isAdmin(bool){
         if (!isOwner() && !perms.admin.includes(id)){
             if (bool) return false;
-            throw "This command requires **bot administrator** prvileges to run!";
+            return {code: '13', msg: 'bot administrator'};
         }
         if (bool) return true;
     }
     function isMod(bool){
         if (!isOwner() && !perms.admin.includes(id) && !perms.mod.includes(id)){
             if (bool) return false;
-            throw "This command requires **bot moderator** prvileges to run!";
+            return {code: '13', msg: 'bot moderator'};
         }
         if (bool) return true;
     }
@@ -64,11 +65,11 @@ module.exports = (client, message) => {
         if (message.member.hasPermission('ADMINISTRATOR') || isOwner()) return bool?true:undefined;
         if (!message.guild.dbconfig.modrole){
             if (bool) return false;
-            throw `This command requires to set up **server moderator role** to run!`;
+            return {code: '13', msg: 'server moderator role'};
         }
         if (!message.member.roles.has(message.guild.dbconfig.modrole)){
             if (bool) return false;
-            throw `This command requires **server moderator role** to run!`;
+            return {code: '13', msg: 'server moderator role'};
         }
         if (bool) return true;
     }
@@ -89,7 +90,7 @@ module.exports = (client, message) => {
         if (bool) return true;
         function locexit(){
             if (bool) return false;
-            throw `This command requires ${given.length === 1?`**${given}** permission`:`one of **${given.join(", ")}** permissions`} to run!`;
+            return {code: '13', msg: given.length === 1?`${given} permission`:`one of ${given.join(", ")} permissions`}
         }
     }
     function levelCheck(cmdPerms){
@@ -115,7 +116,7 @@ module.exports = (client, message) => {
                 switch(cmd.perms[0]){
                     case "owner":
                         if (beSilent) return false;
-                        else throw "This command requires **bot owner** prvileges to run!";
+                        else return {code: '13', msg: 'bot owner'};
                     case "admin":return isAdmin(beSilent);
                     case "mod":return isMod(beSilent);
                     case false:if (beSilent) return true;

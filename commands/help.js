@@ -92,6 +92,6 @@ exports.run = (client, message) => {
                 value: cmdUtil.aliases[cmd.name.replace(/{PREFIX}/, '')].join('\n')
             });
         }
-        return message.channel.send({embed:embed});
+        message.channel.send({embed:embed});
     });
 }

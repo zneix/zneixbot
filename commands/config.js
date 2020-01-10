@@ -53,7 +53,7 @@ exports.run = (client, message) => {
                 ];
                 if (message.args[1]) switch(message.args[1].toLowerCase()){
                     case "set":
-                        if (!message.args[2]) throw 'You must specify the new prefix!';
+                        if (!message.args[2]) return {code: '14', msg: 'the new prefix'};
                         data.customprefix = message.args[2].toLowerCase();
                         await updateConfig(`Successfully updated custom prefix for **${message.guild.name}** to \`${data.customprefix}\``);
                         break;
@@ -127,7 +127,7 @@ exports.run = (client, message) => {
                             embed.fields[0].value = blacklist.length?blacklist.join('\n'):'There are no blacklisted channels.';
                             if (message.args[2]) switch(message.args[2].toLowerCase()){
                                 case "add":
-                                    if (!message.args[3]) throw 'You must specify Channel ID or mention it via #Channel';
+                                    if (!message.args[3]) return {code: '14', msg: 'Channel ID or mention it via #Channel'};
                                     if (message.mentions.channels.size){
                                         if (message.guild.channels.has(message.mentions.channels.first().id) && message.args[3].includes(message.mentions.channels.first().id)){
                                             //success from mention
@@ -135,15 +135,15 @@ exports.run = (client, message) => {
                                             await updateConfig(`Channel <#${message.mentions.channels.first().id}> (${message.mentions.channels.first().id}) has been __added__ to blacklist.`, null);
                                             break;
                                         }
-                                        throw 'Mentioned channel is not a part of current server!';
+                                        return {code: '15', msg: 'Mentioned channel is not in current server'};
                                     }
-                                    if (!message.guild.channels.has(message.args[3])) throw "Channel with given ID is not a part of current server!";
+                                    if (!message.guild.channels.has(message.args[3])) return {code: '15', msg: 'Channel with given ID is not in current server'};
                                     //success from ID
                                     data.modules.leveling.blacklist.push(message.args[3]);
                                     await updateConfig(`Channel <#${message.args[3]}> (${message.args[3]}) has been __added__ to blacklist.`, null);
                                     break;
                                 case "remove":
-                                    if (!message.args[3]) throw 'You must specify Channel ID or mention it via #Channel';
+                                    if (!message.args[3]) return {code: '14', msg: 'Channel ID or mention it via #Channel'};
                                     if (message.mentions.channels.size){
                                         if (message.guild.channels.has(message.mentions.channels.first().id) && message.args[3].includes(message.mentions.channels.first().id)){
                                             //success from mention
@@ -152,9 +152,9 @@ exports.run = (client, message) => {
                                             await updateConfig(`Channel <#${message.mentions.channels.first().id}> (${message.mentions.channels.first().id}) has been __removed__ from blacklist.`, null);
                                             break;
                                         }
-                                        throw 'Mentioned channel is not a part of current server!';
+                                        return {code: '15', msg: 'Mentioned channel is not in current server'};
                                     }
-                                    if (!message.guild.channels.has(message.args[3])) throw "Channel with given ID is not a part of current server!";
+                                    if (!message.guild.channels.has(message.args[3])) return {code: '15', msg: 'Channel with given ID is not in current server'};
                                     //success from ID
                                     let index = data.modules.leveling.blacklist.indexOf(message.args[3]);
                                     if (index > -1) data.modules.leveling.blacklist.splice(index, 1);
@@ -179,7 +179,7 @@ exports.run = (client, message) => {
                             embed.fields[0].value = blocked.length?blocked.join('\n'):'There are no blocked users.';
                             if (message.args[2]) switch (message.args[2].toLowerCase()){
                                 case "add":
-                                    if (!message.args[3]) throw 'You must specify user by their ID or @Mention it!';
+                                    if (!message.args[3]) return {code: '14', msg: 'user by their ID or @Mention them'};
                                     if (message.mentions.members.size){
                                         if (message.guild.members.has(message.mentions.members.first().id) && message.args[3].includes(message.mentions.members.first().id)){
                                             //success from mention
@@ -187,15 +187,15 @@ exports.run = (client, message) => {
                                             await updateConfig(`User <@${message.mentions.members.first().id}> (${message.mentions.members.first().id}) has been blocked from getting xp.`, null);
                                             break;
                                         }
-                                        throw 'Mentioned user is not a part of current server!';
+                                        return {code: '15', msg: 'Mentioned user is not in current server'};
                                     }
-                                    if (!message.guild.members.has(message.args[3])) throw 'User with given ID is not a part of current server!';
+                                    if (!message.guild.members.has(message.args[3])) return {code: '15', msg: 'User with given ID is not in current server!'};
                                     //success from ID
                                     data.modules.leveling.blocked.push(message.args[3]);
                                     await updateConfig(`User <@${message.args[3]}> (${message.args[3]}) has been blocked from getting xp.`, null);
                                     break;
                                 case "remove":
-                                    if (!message.args[3]) throw 'You must specify User ID or @Mention it!';
+                                    if (!message.args[3]) return {code: '14', msg: 'user by their ID or @Mention them'};
                                     if (message.mentions.members.size){
                                         if (message.guild.members.has(message.mentions.members.first().id) && message.args[3].includes(message.mentions.members.first().id)){
                                             //success from mention
@@ -204,9 +204,9 @@ exports.run = (client, message) => {
                                             await updateConfig(`User <@${message.mentions.members.first().id}> (${message.mentions.members.first().id}) has been unblocked.`, null);
                                             break;
                                         }
-                                        throw 'Mentioned user is not a part of current server!';
+                                        return {code: '15', msg: 'Mentioned user is not in current server'};
                                     }
-                                    if (!message.guild.members.has(message.args[3])) throw 'User with given ID is not a part of current server!';
+                                    if (!message.guild.members.has(message.args[3])) return {code: '15', msg: 'User with given ID is not in current server!'};
                                     //success from ID
                                     let index = data.modules.leveling.blocked.indexOf(message.args[3]);
                                     if (index > -1) data.modules.leveling.blocked.splice(index, 1);
@@ -247,34 +247,34 @@ exports.run = (client, message) => {
                             if (message.args[2]) switch(message.args[2].toLowerCase()){
                                 case "add":
                                     embed.fields = null;
-                                    if (!message.guild.me.hasPermission('MANAGE_ROLES')) throw "I don't have **MANAGE_ROLES** permission here, so I can't use reward system here!";
-                                    if (!message.args[3] || !message.args[4]) throw 'You must specify both level __and__ role by its ID or direct @Mention';
-                                    if (!Number.isInteger(parseInt(message.args[3])) || !(/\d+/.test(message.args[3]))) throw `\`${message.args[3]}\` is not a valid positive number`;
-                                    if (message.args[3] > 200) throw 'Bot supports level rewards can not be set above level 200!';
+                                    if (!message.guild.me.hasPermission('MANAGE_ROLES')) return {code: '23', msg: 'Manage Roles'};
+                                    if (!message.args[3] || !message.args[4]) return {code: '14', msg: 'both level and role by its ID or direct @Mention'};
+                                    if (!Number.isInteger(parseInt(message.args[3])) || !(/\d+/.test(message.args[3]))) return {code: '15', msg: `\`${message.args[3]}\` is not a valid positive number`};
+                                    if (message.args[3] > 200) return {code: '15', msg: 'Level rewards can not exceed level 200!'};
                                     if (!message.guild.roles.has(message.args[4])){
                                         if (message.mentions.roles.size && message.args[4].includes(message.mentions.roles.first().id)){
                                             data.modules.leveling.rewards[message.args[3]] = message.mentions.roles.first().id;
                                             await updateRole(message.mentions.roles.first().id, {added: true, lvl: message.args[3]});
                                             break;
                                         }
-                                        throw 'This is not a valid role ID nor @Mention!';
+                                        return {code: '15', msg: 'This is not a valid role ID nor @Mention!'};
                                     }
                                     data.modules.leveling.rewards[message.args[3]] = message.args[4];
                                     await updateRole(message.args[4], {added: true, lvl: message.args[3]});
                                     break;
                                 case "remove":
                                     embed.fields = null;
-                                    if (!message.guild.me.hasPermission('MANAGE_ROLES')) throw "I don't have **MANAGE_ROLES** permission here, so I can't use reward system here!";
-                                    if (!message.args[3] || !message.args[4]) throw 'You must specify both level __and__ role by its ID or direct @Mention';
-                                    if (!Number.isInteger(parseInt(message.args[3])) || !(/\d+/.test(message.args[3]))) throw `\`${message.args[3]}\` is not a valid positive number`;
-                                    if (message.args[3] > 200) throw 'Bot supports level rewards can not be set above level 200!';
+                                    if (!message.guild.me.hasPermission('MANAGE_ROLES')) return {code: '23', msg: 'Manage Roles'};
+                                    if (!message.args[3] || !message.args[4]) return {code: '14', msg: 'both level and role by its ID or direct @Mention'};
+                                    if (!Number.isInteger(parseInt(message.args[3])) || !(/\d+/.test(message.args[3]))) return {code: '15', msg: `\`${message.args[3]}\` is not a valid positive number`};
+                                    if (message.args[3] > 200) return {code: '15', msg: 'Level rewards can not exceed level 200!'};
                                     if (!message.guild.roles.has(message.args[4])){
                                         if (message.mentions.roles.size && message.args[4].includes(message.mentions.roles.first().id)){
                                             delete data.modules.leveling.rewards[message.args[3]];
                                             await updateRole(message.mentions.roles.first().id, {added: false, lvl: message.args[3]});
                                             break;
                                         }
-                                        throw 'This is not a valid role ID nor @Mention!';
+                                        return {code: '15', msg: 'This is not a valid role ID nor @Mention!'};
                                     }
                                     delete data.modules.leveling.rewards[message.args[3]];
                                     await updateRole(message.args[4], {added: false, lvl: message.args[3]});
@@ -320,8 +320,8 @@ exports.run = (client, message) => {
                             await updateConfig(`Roles module is now __disabled__`, null);
                             break;
                         case "add":
-                            if (!message.guild.me.hasPermission('MANAGE_ROLES')) throw "I don't have **MANAGE_ROLES** permission here, so I can't use role assignment feature!";
-                            if (!message.args[2] || !message.args[3]) throw 'You must specify **name for assignment** and **role ID/@Mention**';
+                            if (!message.guild.me.hasPermission('MANAGE_ROLES')) return {code: '23', msg: 'Manage Roles'};
+                            if (!message.args[2] || !message.args[3]) return {code: '15', msg: 'Name for assignment and role ID/@Mention'};
                             if (!message.guild.roles.has(message.args[3])){
                                 if (message.mentions.roles.size && message.args[3].includes(message.mentions.roles.first().id)){
                                     data.modules.roles.units[message.args[2]] = message.mentions.roles.first().id;
@@ -329,15 +329,15 @@ exports.run = (client, message) => {
                                     await updateConfig(`Successfully added role ${message.mentions.roles.first()} to autoassignment module with name \`${message.args[2]}\``, null);
                                     break;
                                 }
-                                throw 'This is not a valid role ID nor @Mention!';
+                                return {code: '15', msg: 'This is not a valid role ID nor @Mention!'};
                             }
                             data.modules.roles.units[message.args[2]] = message.args[3];
                             roleCheck(message.args[3]);
                             await updateConfig(`Successfully added role <@&${message.args[3]}> to autoassignment module with name \`${message.args[2]}\``, null);
                             break;
                         case "remove":
-                            if (!message.args[2]) throw "You must specify the **role assignment name**";
-                            if (!data.modules.roles.units[message.args[2]]) throw "That role doesn't exist in autoassignment module";
+                            if (!message.args[2]) return {code: '14', msg: 'the role assignment name'};
+                            if (!data.modules.roles.units[message.args[2]]) return {code: '15', msg: "Role with given alias doesn't exist in autoassignment module"};
                             delete data.modules.roles.units[message.args[2]];
                             await updateConfig(`Removed role associated with name \`${message.args[2]}\` from autoassignment module`, null);
                             break;
@@ -376,27 +376,28 @@ exports.run = (client, message) => {
                             if (message.args[2]){
                                 switch(message.args[2].toLowerCase()){
                                     case "set":
-                                        if (!message.args[3]) throw 'You must specify Join/leave log channel to set!';
+                                        if (!message.args[3]) return {code: '14', msg: 'join/leave log channel (via its ID or #Channel)'};
                                         if (!message.guild.channels.get(message.args[3])){
                                             if (message.mentions.channels.size){
                                                 if (message.guild.channels.has(message.mentions.channels.first().id)){
-                                                    if (message.mentions.channels.first().type !== 'text') throw 'This is not a text channel!';
+                                                    if (message.mentions.channels.first().type !== 'text') return {code: '15', msg: 'This is not a text channel'};
                                                     data.modules.logging.joinleave = message.mentions.channels.first().id;
                                                     await updateConfig(`<#${message.mentions.channels.first().id}> is now Join/leave log channel`, null);
                                                     break;
                                                 }
                                             }
-                                            throw 'Mentioned channel is not a part of current server!';
+                                            return {code: '15', msg: 'Mentioned channel is not in current server'};
                                         }
                                         else {
-                                            if (message.guild.channels.get(message.args[3]).type !== 'text') throw 'This is not a text channel!';
+                                            if (message.guild.channels.get(message.args[3]).type !== 'text') return {code: '15', msg: 'This is not a text channel'};
                                             data.modules.logging.joinleave = message.args[3];
                                             await updateConfig(`<#${message.args[3]}> is now Join/leave log channel`, null);
                                         }
                                         break;
                                     case "clear":
+                                    case "delete":
                                         data.modules.logging.joinleave = null;
-                                        await updateConfig(`Deleted Join/leave channel from config`, null);
+                                        await updateConfig(`Deleted Join/leave log channel from config`, null);
                                         break;
                                     default:
                                         break;
@@ -411,27 +412,28 @@ exports.run = (client, message) => {
                             if (message.args[2]){
                                 switch(message.args[2].toLowerCase()){
                                     case "set":
-                                        if (!message.args[3]) throw 'You must specify message log channel to set!';
+                                        if (!message.args[3]) return {code: '14', msg: 'message log channel (via its ID or #Channel)'};
                                         if (!message.guild.channels.get(message.args[3])){
                                             if (message.mentions.channels.size){
                                                 if (message.guild.channels.has(message.mentions.channels.first().id)){
-                                                    if (message.mentions.channels.first().type !== 'text') throw 'This is not a text channel!';
+                                                    if (message.mentions.channels.first().type !== 'text') return {code: '15', msg: 'This is not a text channel'};
                                                     data.modules.logging.message = message.mentions.channels.first().id;
                                                     await updateConfig(`<#${message.mentions.channels.first().id}> is now message log channel`, null);
                                                     break;
                                                 }
                                             }
-                                            throw 'Mentioned channel is not a part of current server!';
+                                            return {code: '15', msg: 'Mentioned channel is not in current server'};
                                         }
                                         else {
-                                            if (message.guild.channels.get(message.args[3]).type !== 'text') throw 'This is not a text channel!';
+                                            if (message.guild.channels.get(message.args[3]).type !== 'text') return {code: '15', msg: 'This is not a text channel'};
                                             data.modules.logging.message = message.args[3];
                                             await updateConfig(`<#${message.args[3]}> is now message log channel`, null);
                                         }
                                         break;
                                     case "clear":
+                                    case "delete":
                                         data.modules.logging.message = null;
-                                        await updateConfig(`Deleted message channel from config`, null);
+                                        await updateConfig(`Deleted message log channel from config`, null);
                                         break;
                                     default:
                                         break;
@@ -444,7 +446,7 @@ exports.run = (client, message) => {
                     break;
                 case "modrole":
                 case "mod":
-                    if (!message.member.hasPermission('ADMINISTRATOR') && !message.perms.isOwner()) throw 'Only **server owner** or user with **ADMINISTRATOR** permission can change modrole!';
+                    if (!message.member.hasPermission('ADMINISTRATOR') && !message.perms.isOwner()) return {code: '13', msg: 'ADMINISTRATOR'};
                     embed.description = '`set <ID_or_@Role>` - changes moderator role to given value, can be either role ID or direct role @Mention'
                     +'\n`reset` - removes moderator role from configuration';
                     embed.fields = null;
@@ -452,13 +454,13 @@ exports.run = (client, message) => {
                     // embed.fields[0].value = '';
                     if (message.args[1]) switch(message.args[1].toLowerCase()){
                         case "set":
-                            if (!message.args[2]) throw "You must specify role's ID or @Mention it!";
+                            if (!message.args[2]) return {code: '14', msg: 'role ID or @Mention it'};
                             if (!message.guild.roles.has(message.args[2])){
                                 if (message.mentions.roles.size && message.args[2].includes(message.mentions.roles.first().id)){
                                     await permRoleCheck(message.mentions.roles.first().id, 'modrole');
                                     break;
                                 }
-                                throw 'This is not a valid role ID nor @Mention!';
+                                return {code: '15', msg: 'This is not a valid role ID nor @Mention!'};
                             }
                             await permRoleCheck(message.args[2], 'modrole');
                             break;
@@ -476,15 +478,15 @@ exports.run = (client, message) => {
                     break;
             }
             async function permRoleCheck(role, permLvlName){
-                if (message.guild.roles.get(role).managed) throw "This role is a Discord integration role, it can't be managed!";
-                if (role === message.guild.id) throw "Really clever, but setting `@everyone` role would not break me - you can't manage it!";
+                if (message.guild.roles.get(role).managed) return {code: '15', msg: "This role is a Discord integration role, it can't be managed"};
+                if (role === message.guild.id) return {code: '15', msg: 'Clever, but setting default everyone role is not the way'};
                 data[permLvlName] = role;
                 await updateConfig(`Successfully updated ${permLvlName} for **${message.guild.name}** to <@&${data.modrole}> (${data.modrole})`, null);
             }
             function roleCheck(role){
-                if (message.guild.roles.get(role).calculatedPosition >= message.guild.me.highestRole.calculatedPosition) throw "I can't manage this role because of role hierarchy!";
-                if (message.guild.roles.get(role).managed) throw "This role is a Discord integration role, it can't be managed!";
-                if (role === message.guild.id) throw "Really clever, but setting `@everyone` role would not break me - you can't manage it!";
+                if (message.guild.roles.get(role).calculatedPosition >= message.guild.me.highestRole.calculatedPosition) return {code: '22', msg: 'provided role'};
+                if (message.guild.roles.get(role).managed) return {code: '15', msg: "This role is a Discord integration role, it can't be managed"};
+                if (role === message.guild.id) return {code: '15', msg: 'Clever, but setting default everyone role is not the way'};
             }
             async function updateRole(roleID, reward){
                 roleCheck(roleID);

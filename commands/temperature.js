@@ -14,12 +14,16 @@ exports.run = (client, message) => {
         let {round} = require('../utils/timeFormatter');
         let num = 1;
         message.args[0] = message.args[0].replace(/,/g, ".");
-        if (!isNaN(message.args[0])) num = message.args.shift();
+        if (!isNaN(message.args[0])) {
+            num = message.args.shift();
+            //checking if there are any other arguments remaining, if not - return an error
+            if (!message.args.length) return {code: '15', msg: 'Wrong temperature unit format, must be either C or F'};
+        }
         function wanted(){
             if (codes.some(x => x === message.args[0].toLowerCase())) return message.args[0].toLowerCase();
             return false;
         }
-        if (!wanted()) throw 'Wrong temperature unit format!\nMust be either C or F';
+        if (!wanted()) return {code: '15', msg: 'Wrong temperature unit format, must be either C or F'};
         let base = message.args[0].toLowerCase()==="c"?"f":"c";
         let embed = {
             color: message.member.displayColor,

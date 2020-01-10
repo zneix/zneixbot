@@ -22,5 +22,5 @@ module.exports = (client, message, wascmd, cmd) => {
         name: "**Aliases**",
         value: aliases[cmd].join('\n')
     });
-    return message.channel.send({embed:embed});
+    message.channel.send({embed:embed});
 }

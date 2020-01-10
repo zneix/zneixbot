@@ -6,19 +6,19 @@ exports.perms = [false, false, 'KICK_MEMBERS'];
 exports.run = (client, message) => {
     message.cmd = this;
     message.command(1, async () => {
-        if (!message.guild.me.hasPermission('KICK_MEMBERS')) throw "I don't have **KICK_MEMBERS** permission!\nContact moderators.";
+        if (!message.guild.me.hasPermission('KICK_MEMBERS')) return {code: '23', msg: 'Kick Members'};
         let taggedMember = message.mentions.members.first();
         if (!taggedMember){
             let validMember = message.guild.members.get(message.args[0]);
-            if (!validMember) throw "Please @mention a user or provide their ID!";
+            if (!validMember) return {code: '15', msg: 'Unknown member, provide user ID or @mention them'};
             return execute(validMember);
         }
         else return execute(taggedMember);
 
         async function execute(member){
             //clearances
-            if (!member.kickable) throw `I can't kick ${member}!\nThey may have higher role.`;
-            if (!message.perms.sufficientRole(message.member, member)) throw `You're not able to kick ${member} because of role hierachy!`;
+            if (!member.kickable) return {code: '22', msg: member.user.tag};
+            if (!message.perms.sufficientRole(message.member, member)) return {code: '12', msg: member.user.tag};
 
             //reason compilation
             let reason = "No reason given.";

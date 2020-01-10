@@ -10,9 +10,9 @@ exports.run = (client, message) => {
     message.command(2, async () => {
         let first = message.args[0].replace(/,/g, ".");
         let last = message.args[1].replace(/,/g, ".");
-        if (isNaN(message.args[0])) throw 'First number value is invalid!';
-        if (isNaN(message.args[1])) throw 'Last number value is invalid!';
+        if (isNaN(message.args[0])) return {code: '15', msg: 'First number value is invalid!'};
+        if (isNaN(message.args[1])) return {code: '15', msg: 'Last number value is invalid!'};
         let random = Math.floor((parseInt(first)) + (Math.random()*(last-first+1)));
-        message.channel.send(`Random number between **${first}-${last}**: __${first==last?first:random}__`);
+        message.channel.send(`Random number between **${first}** and **${last}**: \`${first==last?first:random}\``);
     });
 }

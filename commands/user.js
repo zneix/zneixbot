@@ -142,7 +142,7 @@ exports.run = (client, message) => {
                     });
                 }
             }
-            return message.channel.send({embed:embed});
+            message.channel.send({embed:embed});
         }
     });
 }

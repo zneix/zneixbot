@@ -27,7 +27,7 @@ exports.perms = [false, false, 'MANAGE_GUILD'];
 exports.run = (client, message) => {
     message.cmd = this;
     message.command(1, async () => {
-        if (!message.guild.me.hasPermission('MANAGE_GUILD')) throw "I don't have **MANAGE_GUILD** permission here, contact moderators!";
+        if (!message.guild.me.hasPermission('MANAGE_GUILD')) return {code: '23', msg: 'Manage Server'};
         let region = message.args[0].toLowerCase();
         if (regions.some(x => region === x)){
             try {
@@ -43,10 +43,8 @@ exports.run = (client, message) => {
                 }
                 message.channel.send({embed:embed});
             }
-            catch (err){
-                throw err.toString();
-            }
+            catch (err){return {code: '27', msg: err.toString()};}
         }
-        else throw "Wrong region, must be one of following:\n"+regions.join(', ');
+        else return {code: '15', msg: "Region must be one of following:\n"+regions.join(', ')};
     });
 }

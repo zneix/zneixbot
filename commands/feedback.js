@@ -43,14 +43,14 @@ exports.run = (client, message) => {
         }
         let feedback = client.channels.get(client.config.channels.feedback);
         if (!feedback){
-            console.log('(!cmd) feedback channel not found!');
-            return message.channel.send("Bot developer hasn't set a feedback channel yet, so I can't process your message.");
+            console.log("(!feedback) Feedback channel wasn't found!");
+            return {code: '26', msg: "Bot developer hasn't set a feedback channel yet"};
         }
-        feedback.send({embed:embed})
+        return feedback.send({embed:embed})
         .then(() => {
             message.react('👌');
-            message.channel.send("Thanks for feedback! Devs will take a look it.\nIn the meantime, check out my GitHub repository ~~and give a star~~ <https://github.com/zneix/zneixbot>");
+            message.channel.send("Thanks for feedback! Devs will take a look it.\nIn the meantime, you can check out my GitHub repository ~~and give a star~~ <https://github.com/zneix/zneixbot>");
         })
-        .catch(err => {throw err.toString();});
+        .catch(err => {return {code: '27', msg: err.toString()}});
     });
 }

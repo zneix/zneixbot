@@ -6,7 +6,7 @@ exports.perms = ['admin', false];
 exports.run = (client, message) => {
     message.cmd = this;
     message.command(false, async () => {
-        if (!message.guild.me.hasPermission('CHANGE_NICKNAME')) throw "I can't change my nickname in here!";
+        if (!message.guild.me.hasPermission('CHANGE_NICKNAME')) return {code: '23', msg: 'Change Nickname'};
         if (!message.args.length) await message.guild.me.setNickname('');
         else await message.guild.me.setNickname(message.args.join(' '));
         message.channel.send({embed:{

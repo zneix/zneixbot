@@ -14,12 +14,12 @@ exports.run = (client, message) => {
                     if (!userLvl) userLvl = await client.db.lvl.newUser(message.guild.id, message.mentions.members.first().id);
                     return require('../src/embeds/rankCheck')(message, userLvl);
                 }
-                else throw 'Command argument is not a valid member ID or @Mention';
+                else return {code: '15', msg: 'Given ID is not present in database or invalid'};
             }
             let userLvl = await client.db.lvl.findUser(message.guild.id, message.args[0]);
             if (!userLvl){
                 if (message.guild.member(message.args[0])) userLvl = await client.db.lvl.newUser(message.guild.id, message.args[0]);
-                else throw 'Command argument is not a valid member ID or @Mention';
+                else return {code: '15', msg: 'Given ID is not present in database or invalid'};
             }
             require('../src/embeds/rankCheck')(message, userLvl);
         }
