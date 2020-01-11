@@ -1,7 +1,7 @@
 module.exports = async (client, message) => {
     if (message.isMemberMentioned(message.guild.me)) message.react(client.config.emojis.peepoPinged); //funny thing to react on mention
     if (message.author.bot || message.channel.type === "dm") return;
-    if (message.mentions.everyone) message.reply("you don't ping everyone "+client.emoteHandler.find("DansGame")); //unfinished, add emote handler
+    if (message.mentions.everyone && (message.channel.permissionsFor(message.guild.id).missing(['SEND_MESSAGES', 'VIEW_CHANNEL']).length == 0)) message.reply("you don't ping everyone "+client.emoteHandler.find("DansGame")); //sending DansGame message, but only in channels, where everyone can freely type and read
     try {
         //getting guild settings
         message.guild.dbconfig = (await client.db.utils.find('guilds', {guildid: message.guild.id}))[0];
