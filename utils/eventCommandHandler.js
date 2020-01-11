@@ -47,23 +47,33 @@ function getAliases(command){
 exports.aliases = aliases;
 exports.getCommand = getCommand;
 exports.getAliases = getAliases;
-exports.eventsCommandsLoad = function(client){
+function loadEvent(client, file){
+    let event = require(`../events/${file}`);
+    let name = file.split(".")[0];
+    client.on(name, event.bind(null, client));
+    delete require.cache[require.resolve(`../events/${file}`)];
+}
+function loadCommand(client, file){
+    if (!file.endsWith(".js")) return;
+    let props = require(`../commands/${file}`);
+    let name = file.split(".")[0];
+    client.commands.set(name, props);
+}
+function loadEvents(client){
     fs.readdir(`./events`, (err, files) => {
         if (err) return console.error(err);
-        files.forEach(async file => {
-            let event = require(`../events/${file}`);
-            let name = file.split(".")[0];
-            await client.on(name, event.bind(null, client));
-            delete require.cache[require.resolve(`../events/${file}`)];
-        });
-    });
+        files.forEach(file => loadEvent(client, file));
+    });    
+}
+function loadCommands(client){
     fs.readdir(`./commands`, (err, files) => {
         if (err) return console.error(err);
-        files.forEach(file => {
-            if (!file.endsWith(".js")) return;
-            let props = require(`../commands/${file}`);
-            let name = file.split(".")[0];
-            client.commands.set(name, props);
-        });
+        files.forEach(file => loadCommand(client, file));
     });
+}
+exports.loadEvents = loadEvents;
+exports.loadCommands = loadCommands;
+exports.loadAll = function(client){
+    loadEvents(client);
+    loadCommands(client);
 }
