@@ -11,7 +11,9 @@ module.exports = async (client, message) => {
         //command handling
         if (message.content.substr(0, message.guild.prefix.length).toLowerCase() === message.guild.prefix){
             message.perms = require('../utils/permsHandler')(client, message);
-            message.perms.isBanned(); //ban check
+            let isErrored = require('../utils/errorHandler').isErrored;
+            let isban = message.perms.isBanned();
+            isErrored(message, isban); //ban check
             //getting command name
             let command = message.content.slice(message.guild.prefix.length).trim().split(/\s+/gm)[0].toLowerCase();
             if (!command) return; //quick escape in weird cases (e.g. someone types only prefix, no command)
@@ -21,7 +23,9 @@ module.exports = async (client, message) => {
             let cmd = require('../utils/eventCommandHandler').getCommand(client, command);
             if (!cmd) return;
             //permission handler
-            message.perms.isAllowed(cmd, false);
+            let isPemitted = message.perms.isAllowed(cmd, false);
+            console.log(typeof isPemitted, isPemitted);
+            if (typeof isPemitted == 'object') return isErrored(message, isPemitted);
             //actual running a command
             cmd.run(client, message);
         }
