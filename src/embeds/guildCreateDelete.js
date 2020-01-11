@@ -38,7 +38,7 @@ module.exports = async (guild, destination, boolCreated) => {
             }
         ]
     }
-    console.log(`[${boolCreated?"guildCreated":"guildDeleted"}] joined guild '${guild.name}' | ${guild.id}`);
+    console.log(`${boolCreated?"[guildCreate] joined":"[guildDelete] left"} guild '${guild.name}' | ${guild.id}`);
     if (destination) destination.send({embed:embed});
     else console.log(`[!${boolCreated?"guildCreated":"guildDeleted"}] guilds logs channel not found!`);
     return;

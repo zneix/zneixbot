@@ -1,5 +1,5 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = 'Allows you to check your level progress. You can mention another member or provide their userID to check their progress instead.';
+exports.description = 'Allows you to check your level progress. You can mention another member or provide user ID to check their progress instead.';
 exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
 exports.perms = [false, false];
 

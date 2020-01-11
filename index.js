@@ -34,8 +34,8 @@ client.db = require('./utils/mongodb'); //database connection interface
 client.db.connect(async (err, mongoclient) => {
     if (err) return console.error(`[!mongodb:index.js] Error while connecting:\n${err}`);
     console.log('[mongodb:index.js] Connected to MongoDB!');
-    require('./utils/errorHandler'); //executing commands and handling thrown errors
     require('./utils/eventCommandHandler').eventsCommandsLoad(client); //event (and command) handler load
+    require('./utils/errorHandler'); //executing commands and handling emitted errors
     client.agenda = await require('./utils/agenda').createAgenda(mongoclient);
     require('./utils/agenda').defineJobs(client, client.agenda);
 

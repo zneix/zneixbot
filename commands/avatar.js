@@ -30,10 +30,10 @@ exports.run = (client, message) => {
                 return url+'?size=2048';
             }
             let avatarURL = await getFixedAvatar(user);
-            if (!avatarURL) return message.channel.send(`User \`${user.tag}\` does not have an avatar ${client.emoteHandler.find("peepoSadDank")}`);
+            if (!avatarURL) return {code: '26', msg: `User \`${user.tag}\` does not have an avatar`};
             let embed = {
                 color: 0x852442,
-                timestamp: Date.now(),
+                timestamp: message.createdAt,
                 footer: {
                     text: "Avatar of "+user.tag,
                     icon_url: avatarURL

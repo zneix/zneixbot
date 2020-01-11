@@ -1,6 +1,6 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
 exports.description = 'Unbans previously banned member. Requires user ID.';
-exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <userID>`;
+exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <user ID>`;
 exports.perms = [false, false, 'BAN_MEMBERS'];
 
 exports.run = (client, message) => {

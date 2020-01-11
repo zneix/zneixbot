@@ -1,6 +1,6 @@
 exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = 'Checks if user with given ID is banned and shows ban reason if banned.';
-exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <userID>`;
+exports.description = 'Checks if user with given ID is banned in the server and shows potential ban reason.';
+exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)} <user ID>`;
 exports.perms = [false, false, 'BAN_MEMBERS'];
 
 exports.run = (client, message) => {
@@ -19,7 +19,7 @@ exports.run = (client, message) => {
         else {
             let embed = {
                 color: 0x42de1a,
-                timestamp: Date.now(),
+                timestamp: message.createdAt,
                 footer: {
                     text: message.author.tag,
                     icon_url: message.author.avatarURL
