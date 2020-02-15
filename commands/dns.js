@@ -18,7 +18,7 @@ exports.run = (client, message) => {
         else apidata = await apifetch(message.args[0]);
         //functions
         async function apifetch(ip){
-            let result = await client.fetch(`https://api.ipdata.co/${ip}?api-key=test`).then(data => data.json());
+            let result = await client.fetch(`https://api.ipdata.co/${ip}?api-key=${client.config.ipapikey}`).then(data => data.json());
             let embed = {
                 color: 0xfff12e,
                 timestamp: message.createdAt,

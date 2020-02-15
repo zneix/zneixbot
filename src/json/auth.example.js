@@ -1,5 +1,6 @@
 let obj = {
     token: "",
+    ipapikey: "",
     db: {
         host: "",
         user: "",

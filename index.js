@@ -16,6 +16,7 @@ const perms = require('./src/json/perms')(); //permission database
 //discord client extras
 const client = new Discord.Client({disableEveryone:true}); //declaring new discord client
 client.config = config; //global config
+client.config.ipapikey = auth.ipapikey; //api key for ip dns requests
 client.perms = perms; //global permissions sets
 client.commands = new enmap(); //declaring new enmap object for command handler
 client.RCHandler = new RC.Handler(); //global emote menu handler
