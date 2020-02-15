@@ -19,6 +19,7 @@ exports.aliases = {
     "math": ["calc", "calculate"],
     "ping": ["uptime"],
     "role": ["roles"],
+    "rps": ["rockpaperscissors"],
     "server": ["serverinfo"],
     "snowflake": ["sf", "discordid"],
     "temperature": ["temp"],
