@@ -4,7 +4,7 @@ let time = require('../utils/timeFormatter');
 exports.createAgenda = async function(dbclient){
     let agenda = await new Agenda({
         mongo: dbclient.db(),
-        processEvery: 1000, //interval in ms between asking database for jobs to execute - also maximum latency for job execution
+        processEvery: 2000, //interval in ms between asking database for jobs to execute - also maximum latency for job execution
         name: 'zneixbot#'+process.pid
     });
     agenda.on('ready', () => console.log('[agenda] Agenda initialized KKona'));

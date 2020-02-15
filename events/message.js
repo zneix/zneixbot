@@ -24,7 +24,6 @@ module.exports = async (client, message) => {
             if (!cmd) return;
             //permission handler
             let isPemitted = message.perms.isAllowed(cmd, false);
-            console.log(typeof isPemitted, isPemitted);
             if (typeof isPemitted == 'object') return isErrored(message, isPemitted);
             //actual running a command
             cmd.run(client, message);

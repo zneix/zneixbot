@@ -21,7 +21,7 @@ exports.run = (client, message) => {
             let result = await client.fetch(`https://api.ipdata.co/${ip}?api-key=test`).then(data => data.json());
             let embed = {
                 color: 0xfff12e,
-                timestamp: new Date(),
+                timestamp: message.createdAt,
                 footer: {
                     text: message.author.tag,
                     icon_url: message.author.avatarURL

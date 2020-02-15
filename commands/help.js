@@ -87,9 +87,9 @@ exports.run = (client, message) => {
                 ],
             }
             //appending aliases if those are present
-            if (cmdUtil.aliases[cmd.name.replace(/{PREFIX}/, '')]) embed.fields.push({
+            if (cmdUtil.getAliases(cmd.name.replace(/{PREFIX}/, ''))) embed.fields.push({
                 name: "**Aliases**",
-                value: cmdUtil.aliases[cmd.name.replace(/{PREFIX}/, '')].join('\n')
+                value: cmdUtil.getAliases(cmd.name.replace(/{PREFIX}/, '')).join('\n')
             });
         }
         message.channel.send({embed:embed});

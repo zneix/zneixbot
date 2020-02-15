@@ -1,5 +1,5 @@
 let fs = require('fs');
-let aliases = {
+exports.aliases = {
     "%": ["percent", "procent"],
     "8ball": ["ask"],
     "about": ["info", "botinfo"],
@@ -18,6 +18,7 @@ let aliases = {
     "leaderboard": ["levels", "lvls"],
     "math": ["calc", "calculate"],
     "ping": ["uptime"],
+    "role": ["roles"],
     "server": ["serverinfo"],
     "snowflake": ["sf", "discordid"],
     "temperature": ["temp"],
@@ -32,21 +33,19 @@ let aliases = {
     "eval": ["debug", "evaluate", "sudo", "superuserdo", "averycoolcommandthatonlybotownercanuse"],
     "wednesday": ["wed"]
 }
-function getCommand(client, command){
+exports.getCommand = function(client, command){
     let cmd = client.commands.get(command);
     if (!cmd){
-        Object.keys(aliases).forEach(x => {
-            if (aliases[x].includes(command)) cmd = client.commands.get(x);
+        Object.keys(exports.aliases).forEach(x => {
+            if (exports.aliases[x].includes(command)) cmd = client.commands.get(x);
         });
     }
     return cmd;
 }
-function getAliases(command){
-    return aliases[commad];
+exports.getAliases = function(command){
+    if (!exports.aliases[command]) return null;
+    return exports.aliases[command];
 }
-exports.aliases = aliases;
-exports.getCommand = getCommand;
-exports.getAliases = getAliases;
 function loadEvent(client, file){
     let event = require(`../events/${file}`);
     let name = file.split(".")[0];
@@ -59,21 +58,19 @@ function loadCommand(client, file){
     let name = file.split(".")[0];
     client.commands.set(name, props);
 }
-function loadEvents(client){
+exports.loadEvents = function(client){
     fs.readdir(`./events`, (err, files) => {
         if (err) return console.error(err);
         files.forEach(file => loadEvent(client, file));
     });    
 }
-function loadCommands(client){
+exports.loadCommands = function(client){
     fs.readdir(`./commands`, (err, files) => {
         if (err) return console.error(err);
         files.forEach(file => loadCommand(client, file));
     });
 }
-exports.loadEvents = loadEvents;
-exports.loadCommands = loadCommands;
 exports.loadAll = function(client){
-    loadEvents(client);
-    loadCommands(client);
+    exports.loadEvents(client);
+    exports.loadCommands(client);
 }
