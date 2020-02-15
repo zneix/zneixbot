@@ -15,7 +15,7 @@ exports.run = (client, message) => {
                 icon_url: message.author.avatarURL
             },
             author: {
-                name: args.join(' ')+' ='
+                name: message.args.join(' ')+' ='
             },
             description: thonk().toString()
         }

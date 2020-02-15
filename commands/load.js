@@ -9,7 +9,7 @@ exports.run = (client, message) => {
         let cmd = message.args[0].toLowerCase();
         //checking if command already exists
         if (client.commands.has(cmd)) return {code: '26', msg: `command \`${cmd}\` is already loaded! Try **${message.guild.prefix}reload** instead.`};
-        if (!require('fs').existsSync(__dirname+`\\${cmd}.js`)) return {code: '26', msg: `File \`${cmd}.js\` does not exist in command folder!`};
+        if (!require('fs').existsSync(require.resolve(`./${cmd}.js`))) return {code: '26', msg: `File \`${cmd}.js\` does not exist in command folder!`};
         //assigning command
         let props = require(`./${cmd}.js`);
         await client.commands.set(cmd, props);

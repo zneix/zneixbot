@@ -30,7 +30,7 @@ exports.run = (client, message) => {
                 }
                 if (message.guild.members.get(member)){
                     let d = clearance(message.member, message.guild.members.get(member));
-                    if (d.code) return d;
+                    if (d) if (d.code) return d;
                 }
                 await message.guild.ban(member, reason+" | Responsible moderator: "+message.author.tag);
                 return require('../src/embeds/memberKickedBanned')(message, member, reason, true);
@@ -41,11 +41,15 @@ exports.run = (client, message) => {
                 if (!message.perms.sufficientRole(msgmember, reqmember)) return {code: '12', msg: reqmember.user.tag};
             }
             let d = clearance(message.member, member);
-            if (d.code) return d;
+            if (d) if (d.code) return d;
 
             //actual ban
-            await member.ban(reason+" | Responsible moderator: "+message.author.tag);
-            require('../src/embeds/memberKickedBanned')(message, member, reason, true);
+            // await member.ban(reason+" | Responsible moderator: "+message.author.tag);
+            // require('../src/embeds/memberKickedBanned')(message, member, reason, true);
+            let val = await member.ban(reason+" | Responsible moderator: "+message.author.tag)
+            .catch(e => {return {code: '15', msg: e.toString()}})
+            .then(() => require('../src/embeds/memberKickedBanned')(message, member, reason, true));
+            return val;
         }
     });
 }

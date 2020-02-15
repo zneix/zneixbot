@@ -70,7 +70,7 @@ exports.run = (client, message) => {
             "nah, maybe tommorow dud",
             "your ISP sucks anyway LOOOOL ;4HEad;",
             ";WAYTOODANK; BAZA ;WAYTOODANK; WIRUSÓW ;WAYTOODANK; PROGRAMU ;WAYTOODANK; AVAST ;WAYTOODANK; ZOSTAŁA ;WAYTOODANK; ZAKTUALIZOWANA ;WAYTOODANK;",
-            `this is a supa dank secret response that does literally nothing except pinging a developer\n${message.guild.members.get('288028423031357441')?`\*Inhales...\* ;monkaS; ;mega; <@288028423031357441>`:"...Except he's not in this server ;NaM;"}`,
+            `this is a supa dank secret response that does literally nothing except pinging a developer\n${message.guild.members.get('288028423031357441')?`\*Inhales...\* ;monkaS; 📣 <@288028423031357441>`:"...Except he's not in this server ;NaM;"}`,
             "this is your lucky day and your answer is yes ;FeelsGoodMan; ;Clap;",
             "if you played a game of roulette last week, you'd actually win ;Okayga;",
             "I just like memes, don't bother me with your questions ;cease;",

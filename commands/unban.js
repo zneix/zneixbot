@@ -12,7 +12,7 @@ exports.run = (client, message) => {
 
         async function execute(member){
             let ban = await message.guild.fetchBan(member).catch(e => {return {code: '15', msg: e.toString()}});
-            if (ban.code = '15') return ban;
+            if (ban.code == '15') return ban;
 
             await message.guild.unban(ban.user);
             let embed = {
