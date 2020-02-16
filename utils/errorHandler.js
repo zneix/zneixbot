@@ -44,8 +44,8 @@ Discord.Message.prototype.command = async function(num, func){
         //argument declaration
         let args = this.content.slice(this.guild.prefix.length).trim().split(/[ \s]+/g).slice(1);
         if (num){
-            // if (num <= args.length) return this.channel.send(`${this.client.emoteHandler.dev('FeelsDankMan')} 👇\n${codes['143'].replace(/{}/, num)}`); //I guess this one is useless for now, so I've disabled it
-            if (num > args.length) return this.channel.send(`${this.client.emoteHandler.dev('FeelsDankMan')} 👉 ${codes['142'].replace(/{}/, num)}`);
+            // if (num <= args.length) return this.channel.send(`${this.client.emoteHandler.guild('dev', 'FeelsDankMan')} 👇\n${codes['143'].replace(/{}/, num)}`); //I guess this one is useless for now, so I've disabled it
+            if (num > args.length) return this.channel.send(`${this.client.emoteHandler.guild('dev', 'FeelsDankMan')} 👉 ${codes['142'].replace(/{}/, num)}`);
         }
         try {
             //pseudo error codes
@@ -73,8 +73,8 @@ function isErrored(message, resp){
         let errMsg = labels[resp.code];
         switch(resp.code[0]){
             case '0':break;
-            case '1':errMsg += ` ${message.client.emoteHandler.dev('PeepoGlad')} 👇`;break;
-            case '2':errMsg += ` ${message.client.emoteHandler.dev('PepeS')} 👇`;break;
+            case '1':errMsg += ` ${message.client.emoteHandler.guild('dev', 'PeepoGlad')} 👇`;break;
+            case '2':errMsg += ` ${message.client.emoteHandler.guild('dev', 'PepeS')} 👇`;break;
         }
         errMsg += `\n${codes[resp.code].replace(/{}/, resp.msg)}`;
         message.channel.send(errMsg);

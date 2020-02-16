@@ -25,7 +25,7 @@ exports.run = (client, message) => {
                         value: `${cmd.usage.replace(/{PREFIX}/g, message.guild.prefix)}`
                     },
                     {
-                        name: client.emoteHandler.asset("subscriber")+" User commands",
+                        name: client.emoteHandler.guild('asset', "subscriber")+" User commands",
                         value: commandList.slice(0, -2)
                     }
                 ],
@@ -38,7 +38,7 @@ exports.run = (client, message) => {
             client.commands.filter((object, key, map) => object.perms[1] == 'modrole' && message.perms.isModrole(cmd, true)).forEach((object, key, map) => guildModList = guildModList.concat(`\`${key}\` | `));
             if (guildModList.length){
                 embed.fields.push({
-                    name: client.emoteHandler.asset("mod")+" Server Moderator commands",
+                    name: client.emoteHandler.guild('asset', "mod")+" Server Moderator commands",
                     value: guildModList.slice(0, -2)
                 });
             }
@@ -47,7 +47,7 @@ exports.run = (client, message) => {
                 let modList = "";
                 client.commands.filter(cmd => cmd.perms[0] === 'mod').forEach((object, key, map) => modList = modList.concat(`\`${key}\` | `));
                 embed.fields.push({
-                    name: client.emoteHandler.asset("supermod")+" Bot Moderator commands",
+                    name: client.emoteHandler.guild('asset', "supermod")+" Bot Moderator commands",
                     value: modList.slice(0, -2)
                 });
             }
@@ -56,7 +56,7 @@ exports.run = (client, message) => {
                 let adminList = "";
                 client.commands.filter(cmd => cmd.perms[0] === 'admin').forEach((object, key, map) => adminList = adminList.concat(`\`${key}\` | `));
                 await embed.fields.push({
-                    name: client.emoteHandler.asset("staff")+" Bot Administrator commands",
+                    name: client.emoteHandler.guild('asset', "staff")+" Bot Administrator commands",
                     value: adminList.slice(0, -2)
                 });
             }
@@ -65,7 +65,7 @@ exports.run = (client, message) => {
                 let ownerList = "";
                 client.commands.filter(cmd => cmd.perms[0] === 'owner').forEach((object, key, map) => ownerList = ownerList.concat(`\`${key}\` | `));
                 await embed.fields.push({
-                    name: client.emoteHandler.asset("broadcaster")+" Bot Owner commands",
+                    name: client.emoteHandler.guild('asset', "broadcaster")+" Bot Owner commands",
                     value: ownerList.slice(0, -2)
                 });
             }

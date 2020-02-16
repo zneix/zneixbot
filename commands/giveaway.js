@@ -36,12 +36,12 @@ exports.run = (client, message) => {
         +`\nNumber of winners: **${message.args[1]}**`
         +`\nGiveaway is going to last for: **${msFormat(humanParser(timeStr)*1000)}** (will end approx. at \`${dateFormat(new Date(Date.now()+humanParser(timeStr)*1000))})\``
         +`\nExtra message: **${userMsg?userMsg:'Not specified.'}**`
-        +`\n\nReact with ${client.emoteHandler.asset('tickyes')} to start giveaway`
-        +`\nReact with ${client.emoteHandler.asset('tickno')} or wait 15s to try again`
+        +`\n\nReact with ${client.emoteHandler.guild('asset', 'tickyes')} to start giveaway`
+        +`\nReact with ${client.emoteHandler.guild('asset', 'tickno')} or wait 15s to try again`
         );
         //awaiting confirmation from command author
-        await cmsg.react(client.emoteHandler.asset('tickyes'));
-        await cmsg.react(client.emoteHandler.asset('tickno'));
+        await cmsg.react(client.emoteHandler.guild('asset', 'tickyes'));
+        await cmsg.react(client.emoteHandler.guild('asset', 'tickno'));
         let gStart = false;
         const collector = cmsg.createReactionCollector((reaction, user) => user.id == message.author.id, {time: 15000});
         collector.on('collect', async r => {
