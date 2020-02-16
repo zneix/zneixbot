@@ -18,11 +18,8 @@ exports.run = (client, message) => {
         }
         //resolving URLs
         else {
-            async function urlheaders(){
-                let f = await client.fetch(message.args[0]);
-                return f.headers;
-            }
-            let headers = await urlheaders();
+            let headers = await client.fetch(message.args[0]).then(f => f.headers);
+            console.log(headers);
             if (headers.get('content-type').startsWith('image')){
                 if (headers.get('content-length') > 262143) return {code: '11', msg: `The requested image is too big! (${Math.floor(headers.get('content-length') / 1024)}kb)! Must be less than 256kb.`};
                 url = message.args[0];
@@ -32,36 +29,39 @@ exports.run = (client, message) => {
         }
         //got an emote, resolving extension
         let m = await message.channel.send('Creating emote...');
-        await message.guild.createEmoji(url, emotename).catch(err => console.error(err))
-        .then(async emote => {
-            let psa = `Successfully created emote \`${emote.name}\` ${emote}\nReact with ❌ within 15 seconds to remove it or change it's name with typing \`emote <new_name>\``;
-            await !m?message.channel.send(psa):m.edit(psa)
-            .then(async msg => {
-                //reaction collector
-                await msg.react('❌');
-                let Rfilter = (reaction, user) => reaction.emoji.name === '❌' && user.id === message.author.id
-                let Rcollector = msg.createReactionCollector(Rfilter, {time:15000});
-                Rcollector.on('collect', () => {
-                    //delete emote
-                    let old = emote.name;
-                    message.guild.deleteEmoji(emote)
-                    .then(() => message.reply(`removed emote \`${old}\``));
-                    Rcollector.emit('end');
-                });
-                Rcollector.on('end', () => {
-                    if (msg) msg.reactions.get('❌').remove();
-                });
-                let Mfilter = mesg => mesg.author.id === message.author.id && mesg.content.startsWith('emote ');
-                let Mcollector = msg.channel.createMessageCollector(Mfilter, {time:15000});
-                Mcollector.on('collect', mess => {
-                    let newName = mess.content.split(/ +/)[1];
-                    if (!/^[a-z0-9-_]{2,}$/i.test(newName)) message.reply("That's not a valid emote name!");
-                    else if (emote){let old = emote.name;emote.setName(newName).then(e => message.channel.send(`Changed name of ${e} from \`${old}\` to \`${e.name}\`.`));}
-                });
-                Mcollector.on('end', mess => {
-                    if (m) m.edit(`Successfully created emote \`${emote.name}\` ${emote}`);
+        try {
+            await message.guild.createEmoji(url, emotename).catch(err => {throw err.toString()})
+            .then(async emote => {
+                let psa = `Successfully created emote \`${emote.name}\` ${emote}\nReact with ❌ within 17 seconds to remove it or change it's name with typing \`emote <new_name>\``;
+                !m ? message.channel.send(psa) : m.edit(psa)
+                .then(async msg => {
+                    //reaction collector
+                    await msg.react('❌');
+                    let Rfilter = (reaction, user) => reaction.emoji.name === '❌' && user.id === message.author.id
+                    let Rcollector = msg.createReactionCollector(Rfilter, {time:15000});
+                    Rcollector.on('collect', () => {
+                        //delete emote
+                        let old = emote.name;
+                        message.guild.deleteEmoji(emote)
+                        .then(() => message.reply(`removed emote \`${old}\``));
+                        Rcollector.emit('end');
+                    });
+                    Rcollector.on('end', () => {
+                        if (msg) msg.reactions.get('❌').remove();
+                    });
+                    let Mfilter = mesg => mesg.author.id === message.author.id && mesg.content.startsWith('emote ');
+                    let Mcollector = msg.channel.createMessageCollector(Mfilter, {time:17000});
+                    Mcollector.on('collect', mess => {
+                        let newName = mess.content.split(/ +/)[1];
+                        if (!/^[a-z0-9-_]{2,}$/i.test(newName)) message.reply("Given name is invalid!");
+                        else if (emote){let old = emote.name;emote.setName(newName).then(e => message.channel.send(`Changed name of ${e} from \`${old}\` to \`${e.name}\`.`));}
+                    });
+                    Mcollector.on('end', mess => {
+                        if (m) m.edit(`Successfully created emote \`${emote.name}\` ${emote}`);
+                    });
                 });
             });
-        });
+        }
+        catch (err){return {code: '26', msg: err}}
     });
 }
