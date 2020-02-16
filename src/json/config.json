@@ -1,10 +1,5 @@
 {
     "prefix": "zb",
-    "delete": {
-        "error": false,
-        "command": false,
-        "time": 7500
-    },
     "channels": {
         "logs": "596469658169770034",
         "feedback": "634113705503621162",
@@ -14,8 +9,5 @@
     "guilds": {
         "dev": "288029287892910100",
         "asset": "488443056799088640"
-    },
-    "emojis": {
-        "peepoPinged": "560171729255923753"
     }
 }

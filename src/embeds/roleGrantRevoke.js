@@ -12,7 +12,7 @@ module.exports = (client, message, role, added) => {
         description: `${added?'Added':'Revoked'} role ${role} ${added?'to':'from'} ${message.author}.`
     }
     return [
-        message.channel.send({embed:embed}).then(msg => {if (client.config.delete.command) msg.delete(client.config.delete.time);}),
+        message.channel.send({embed:embed}),
         console.log(`(role-${added?'add':'rem'}) role: '${role.name}', user: ${message.author.tag}, guild: '${message.guild.name}'`)
     ];
 }
