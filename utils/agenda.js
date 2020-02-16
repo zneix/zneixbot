@@ -69,3 +69,6 @@ exports.defineJobs = function(client, agenda){
         if (ourWinners.length) await channel.send(`Conratulations to ${printWinners(ourWinners, true)}\nThey won the giveaway${job.attrs.data.ginfo.subject?`, **${job.attrs.data.ginfo.subject}**`:''}!\nMessage link: ${message.url}`);
     });
 }
+exports.SIGINT = async function(client){
+    await client.agenda.stop().then(a => console.log('[agenda] Agenda gracefully stopped KKona'));
+}

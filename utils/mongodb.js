@@ -1,7 +1,9 @@
 let mongodb = require('mongodb');
 let auth = require('../src/json/auth');
 // let uri = `mongodb+srv://${auth.db.user}:${auth.db.pass}@${auth.db.host}/zneixbot`; //old, deprecated cloud set method
-let uri = `mongodb://${auth.db.user}:${auth.db.pass}@${auth.db.host}/zneixbot?authSource=test`; //authSource is sadly yet required
+let maindb = 'zneixbot'; //main database used for almost everything
+let lvldb = 'zneixbotleveling'; //name of database with leveling info
+let uri = `mongodb://${auth.db.host}/${maindb}`; //authSource is sadly yet required
 let client = new mongodb.MongoClient(uri, {
 	useUnifiedTopology: true,
 	useNewUrlParser: true,
@@ -9,9 +11,13 @@ let client = new mongodb.MongoClient(uri, {
 	keepAliveInitialDelay: 60000,
 	poolSize: 30,
 	socketTimeoutMS: 360000,
-	connectTimeoutMS: 360000
+	connectTimeoutMS: 360000,
+	auth: {
+		password: auth.db.pass,
+		user: auth.db.user
+	},
+	authSource: 'test'
 });
-let lvldb = 'zneixbotleveling'; //name of database with leveling info
 
 //mongodb general utils
 client.utils = new Object;
@@ -129,11 +135,9 @@ client.on('topologyClosed', function(event){
 	console.log('[mongodb:event] Server topology has CLOSED!');
 });
 
-//process listeners for database disconnecting once process terminates
-process.on('SIGINT', async () => {
-	await client.close().then(() => console.log('[mongodb] Closed upon SIGINT!'));
-	process.exit();
-});
-process.on('exit', code => console.log('[node] Process exited with code '+code));
+//adds a database disconnecting before process terminates
+client.SIGINT = function(){
+	client.close().then(() => console.log('[mongodb] Closed upon SIGINT!'));
+}
 
 module.exports = client;

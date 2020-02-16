@@ -1,3 +1,3 @@
 module.exports = async (client, reaction, user) => {
-    client.RCHandler.handle(reaction, user);
+    //to be done later...
 }

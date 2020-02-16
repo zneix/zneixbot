@@ -16,17 +16,15 @@
         "url": "git+https://github.com/zneix/zneixbot.git"
     },
     "dependencies": {
-        "agenda": "^2.3.0",
+        "agenda": "^3.0.0",
         "bluebird": "^3.7.2",
         "canvas": "^2.6.1",
         "child_process": "^1.0.2",
         "discord.js": "^11.5.1",
-        "enmap": "^5.2.3",
+        "enmap": "^5.2.4",
         "fs": "0.0.1-security",
-        "mathjs": "^6.2.5",
-        "mongodb": "^3.3.5",
-        "node-fetch": "^2.6.0",
-        "npm-package-to-env": "^1.0.1",
-        "reaction-core": "^2.3.0"
+        "mathjs": "^6.6.0",
+        "mongodb": "^3.5.3",
+        "node-fetch": "^2.6.0"
     }
 }
