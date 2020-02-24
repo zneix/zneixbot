@@ -1,29 +1,20 @@
 {
     "name": "zneixbot",
-    "maintainers": [
-        "zneix",
-        "EinLiftedSoul"
-    ],
-    "description": "Discord modereation, utility, helper, fun bot",
-    "version": "1.2.0",
     "main": "index.js",
     "author": {
         "name": "zneix",
-        "url": "http://github.com/zneix"
+        "url": "https://github.com/zneix"
     },
     "repository": {
-        "type": "git",
-        "url": "git+https://github.com/zneix/zneixbot.git"
+        "url": "https://github.com/zneix/zneixbot"
     },
     "dependencies": {
         "agenda": "^3.0.0",
-        "bluebird": "^3.7.2",
         "canvas": "^2.6.1",
         "child_process": "^1.0.2",
         "discord.js": "^11.5.1",
         "enmap": "^5.2.4",
         "fs": "0.0.1-security",
-        "mathjs": "^6.6.0",
         "mongodb": "^3.5.3",
         "node-fetch": "^2.6.0"
     }

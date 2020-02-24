@@ -1,3 +1,0 @@
-module.exports = async (client, reaction, user) => {
-    //to be done later...
-}

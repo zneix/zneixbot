@@ -1,5 +1,4 @@
+node_modules/
 node_modules/*
-node_modules
-commands/template
-boot*.*
+src/json/config.js
 src/json/auth.js

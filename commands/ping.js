@@ -1,33 +1,30 @@
-exports.name = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.description = "Pings a bot and displays uptime";
-exports.usage = `{PREFIX}${__filename.split(/[\\/]/).pop().slice(0,-3)}`;
-exports.perms = [false, false];
+exports.description = 'Pings a bot to check if it\'s online'; //brief desc of the commad
+exports.usage = ''; //usage syntax
+exports.level = 0; //required global level for running the command (used by high-level restricted commands)
+exports.perms = []; //guild-based permissions
+exports.cooldown = 3000; //cooldown for the command
+exports.pipeable = false; //whether the command is able to be piped to another command or not
 
-exports.run = (client, message) => {
-    message.cmd = this;
-    message.command(false, async () => {
-        const time = require('../utils/timeFormatter');
-        let m = await message.channel.send('Pong?');
-        let ping = {
-            color: 0x00ff00,
-            timestamp: new Date(),
-            footer: {
-                text: message.author.tag,
-                icon_url: message.author.avatarURL
+exports.run = async (client, message) => {
+    const formmatter = require('../src/utils/formatter');
+    let m = await message.channel.send('Pinging...');
+    let ping = {
+        color: 0x00ff00,
+        timestamp: message.createdAt,
+        footer: {
+            text: message.author.tag,
+            icon_url: message.author.avatarURL
+        },
+        fields: [
+            {
+                name: 'Ping',
+                value: `​Latency: **${m.createdTimestamp - message.createdTimestamp}ms**\nAPI Ping: **${Math.round(client.ping)}ms**`
             },
-            fields: [
-                {
-                    name: 'Ping',
-                    value: `Latency: **${m.createdTimestamp - message.createdTimestamp}ms**\nAPI Latency: **${Math.round(client.ping)}ms**`,
-                    inline: false
-                },
-                {
-                    name: 'Uptime',
-                    value: `**${time.msFormat(client.uptime)}** since \`${time.dateFormat(client.readyAt)}\`\nCommands used: ${client.cc}`,
-                    inline: false
-                }
-            ]
-        }
-        m.edit({embed:ping});
-    });
+            {
+                name: 'Uptime',
+                value: `​**${formmatter.msToHuman(client.uptime)}** since \`​${formmatter.dateFormat(client.readyAt)}\`​\nCommands used: ${client.cc}`
+            }
+        ]
+    }
+    m.edit({embed:ping});
 }

@@ -1,35 +1,62 @@
 module.exports = async (client, message) => {
     if (message.isMemberMentioned(message.guild.me)) message.react(client.emoteHandler.guild('asset', 'peepoPinged')); //funny thing to react on mention
-    if (message.author.bot || message.channel.type === "dm") return;
+    if (message.author.bot) return;
+    if (message.channel.type == 'dm'){
+        //handle some commands later
+        return;
+    }
     if (message.mentions.everyone && (message.channel.permissionsFor(message.guild.id).missing(['SEND_MESSAGES', 'VIEW_CHANNEL']).length == 0)) message.reply("you don't ping everyone "+client.emoteHandler.find("DansGame")); //sending DansGame message, but only in channels, where everyone can freely type and read
     try {
-        //getting guild settings
-        message.guild.dbconfig = (await client.db.utils.find('guilds', {guildid: message.guild.id}))[0];
-        if (!message.guild.dbconfig) message.guild.dbconfig = await client.db.utils.newGuildConfig(message.guild.id);
-        message.guild.prefix = message.guild.dbconfig.customprefix===null?client.config.prefix:message.guild.dbconfig.customprefix;
-        if (message.content.startsWith(client.user) || message.content.startsWith(`<@!${client.user.id}>`)) message.channel.send(`Hey ${message.author}, my prefix is \`${message.guild.prefix}\``, {embed:{color:Math.floor(Math.random()*16777215),description:'[Support Server](https://discordapp.com/invite/cF555AV)'}});
-        //command handling
-        if (message.content.substr(0, message.guild.prefix.length).toLowerCase() === message.guild.prefix){
-            message.perms = require('../utils/permsHandler')(client, message);
-            let isErrored = require('../utils/errorHandler').isErrored;
-            let isban = message.perms.isBanned();
-            isErrored(message, isban); //ban check
-            //getting command name
-            let command = message.content.slice(message.guild.prefix.length).trim().split(/\s+/gm)[0].toLowerCase();
-            if (!command) return; //quick escape in weird cases (e.g. someone types only prefix, no command)
-            //args declaration
-            message.args = message.content.slice(message.guild.prefix.length).trim().split(/[ \s]+/gm).slice(1);
-            //getting a command
-            let cmd = require('../utils/eventCommandHandler').getCommand(client, command);
-            if (!cmd) return;
-            //permission handler
-            let isPemitted = message.perms.isAllowed(cmd, false);
-            if (typeof isPemitted == 'object') return isErrored(message, isPemitted);
-            //actual running a command
-            cmd.run(client, message);
+        //getting server settings
+        if (!client.go[message.guild.id]){
+            client.go[message.guild.id] = new Object;
+            // client.go[message.guild.id].tr = new Set;
+            let config = (await client.db.utils.find('guilds', {guildid: message.guild.id}))[0];
+            if (!config) config = await client.db.utils.newGuildConfig(message.guild.id);
+            client.go[message.guild.id].config = config;
         }
-        //message handling (removed it from else, because I want it to be running even if someone executes a command)
-        require('../utils/levelingHandler')(client, message);
+        let config = client.go[message.guild.id].config;
+        let prefix = config.customprefix === null ? client.config.prefix : config.customprefix;
+        if (message.content.startsWith(client.user) || message.content.startsWith(`<@!${client.user.id}>`)) message.channel.send(`Hey ${message.author}, my prefix is \`${prefix}\``, {embed:{color:Math.floor(Math.random()*16777215),description:'[Support Server](https://discordapp.com/invite/cF555AV)'}});
+
+        // if (message.content.substr(0, prefix.length).toLowerCase() == prefix); //old method, deprec
+        if (message.content.toLowerCase().startsWith(prefix)){
+            //command handling
+            let perms = require('../src/utils/perms')(client);
+            let {getCommand} = require('../src/utils/loader');
+            if (perms.isBanned(message.author.id)) return; //check for bot ban, regular return for now
+            message.args = message.content.slice(prefix.length).trim().split(/\s+/gm);
+            if (!message.args.length) return; //quick escape in weird cases (e.g. someone types only prefix, no command)
+            let commandName = message.args.shift().toLowerCase();
+            let cmd = getCommand(client.commands, commandName);
+            if (!cmd) return; //simple return, when command isn't found
+            //checking if user can actually call the command
+            if (!perms.isAllowed(cmd, message.member)) return;
+            try {
+                cmd.run(client, message).then(function(){
+                    //command count incrementation
+                    client.cc++;
+                    //logging stuff
+                    //
+                    //handling cooldowns with an exception for immune users
+                    if (perms.getUserLvl(message.author.id) >= perms.levels['skipCooldowns']) return;
+                    client.cooldowns[cmd.name].add(`${message.guild.id}_${message.member.id}`);
+                    setTimeout(function(){ client.cooldowns[cmd.name].delete(`${message.guild.id}_${message.member.id}`); }, cmd.cooldown);
+                }).catch(err => {
+                    if (typeof err != 'string') return console.log(err);
+                    message.reply(`An error occured: ${err}`);
+                });
+            }
+            catch (errorino){
+                //catching some dank command errors
+                console.log('Critical command error!!! Stack below:');
+                console.log(errorino);
+            }
+        }
+        //message handling
     }
-    catch (err){client.logger.caughtError(message, err, "message");}
+    catch (err){
+        console.log('Insane message event error!!!!! Stack below:');
+        console.error(err);
+    }
 }
