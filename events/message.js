@@ -19,7 +19,6 @@ module.exports = async (client, message) => {
         let prefix = config.customprefix === null ? client.config.prefix : config.customprefix;
         if (message.content.startsWith(client.user) || message.content.startsWith(`<@!${client.user.id}>`)) message.channel.send(`Hey ${message.author}, my prefix is \`${prefix}\``, {embed:{color:Math.floor(Math.random()*16777215),description:'[Support Server](https://discordapp.com/invite/cF555AV)'}});
 
-        // if (message.content.substr(0, prefix.length).toLowerCase() == prefix); //old method, deprec
         if (message.content.toLowerCase().startsWith(prefix)){
             //command handling
             let perms = require('../src/utils/perms')(client);
@@ -42,16 +41,9 @@ module.exports = async (client, message) => {
                     if (perms.getUserLvl(message.author.id) >= perms.levels['skipCooldowns']) return;
                     client.cooldowns[cmd.name].add(`${message.guild.id}_${message.member.id}`);
                     setTimeout(function(){ client.cooldowns[cmd.name].delete(`${message.guild.id}_${message.member.id}`); }, cmd.cooldown);
-                }).catch(err => {
-                    if (typeof err != 'string') return console.log(err);
-                    message.reply(`An error occured: ${err}`);
-                });
+                }).catch(async err => require('../src/utils/errors').command(message, err));
             }
-            catch (errorino){
-                //catching some dank command errors
-                console.log('Critical command error!!! Stack below:');
-                console.log(errorino);
-            }
+            catch (errorino){require('../src/utils/errors').message(message, errorino);}
         }
         //message handling
     }

@@ -6,7 +6,8 @@ let obj = {
         password: "",
         authdb: "",
         maindb: "",
-        permcol: ""
+        permcol: "",
+        incrcol: ""
     },
     apis: {
         ip: ""

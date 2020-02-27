@@ -55,9 +55,17 @@ client.utils.delete = async function(collectionName, filter){
 	if (!client.isConnected()) await connect();
 	return await client.db().collection(collectionName).deleteMany(filter);
 }
+//get "autoincrementation" (kill me for this shitty workaround, perhaps should switch to sql already)
+client.utils.getAutoincrement = async function(collectionName){
+	if (!client.isConnected()) await connect();
+	let result = await client.db().collection(ops.incrcol).findOneAndUpdate({_id: collectionName }, {$inc: { count: 1 }});
+	if (!result.value) await client.db().collection(ops.incrcol).insertOne({_id: collectionName, count: 0});
+	return result.value.count;
+}
 //getting permission levels from database
 client.utils.permlevels = async function(){
-    let obj = new Object;
+	let obj = new Object;
+	if (!client.isConnected()) await connect();
     let perms = (await client.db().collection(ops.permcol).find({}, {projection: {_id: null}}).sort('level', -1).toArray());
     let levels = perms.map(perm => perm.level).filter((value, index, self) => self.indexOf(value) === index);
     levels.forEach(lvl => obj[lvl.toString()] = []);

@@ -22,13 +22,13 @@ exports.msToHuman = function(n){
     n = parseInt(n);
     let str = [];
     if (n >= 1000 * 60 * 60 * 24 * 365) cut(1000 * 60 * 60 * 24 * 365, 'y');
-    // if (n >= 1000 * 60 * 60 * 24 * 30) cut(1000 * 60 * 60 * 24 * 30, 'mo');
+    // if (n >= 1000 * 60 * 60 * 24 * 30) cut(1000 * 60 * 60 * 24 * 30, 'mo'); //decided to not use that for now, because months have different amounts of days
     if (n >= 1000 * 60 * 60 * 24) cut(1000 * 60 * 60 * 24, 'd');
     if (n >= 1000 * 60 * 60) cut(1000 * 60 * 60, 'h');
     if (n >= 1000 * 60) cut(1000 * 60, 'm');
     if (n >= 1000) cut(1000, 's');
     if (!str.length && n < 1000) cut(1, 'ms'); //only when there's no other time units specified
-    //kkona
+    //execution part
     function cut(v, c){
         str.push(Math.floor(n/v)+c);
         n = n%v;

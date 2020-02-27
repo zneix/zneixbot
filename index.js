@@ -9,7 +9,7 @@ let client = new Discord.Client({disableEveryone:true});
 client.config = require('./src/json/config');
 client.version = JSON.parse(require('fs').readFileSync('package.json').toString()).version;
 client.commands = load.commands(client);
-client.emoteHandler = false; //Finish this
+client.emoteHandler = require('./src/utils/emotes')(client);
 
 client.go = new Object; //GuildsObject, is supposed to have two props: config (guild's config) and tr (TalkedRecently) - cooldown Set used by leveling system
 client.cc = 0; //CommandCount - number of commands used since last reboot
