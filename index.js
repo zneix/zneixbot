@@ -8,8 +8,8 @@ let load = require('./src/utils/loader');
 let client = new Discord.Client({disableEveryone:true});
 client.config = require('./src/json/config');
 client.version = JSON.parse(require('fs').readFileSync('package.json').toString()).version;
-client.commands = load.commands(client);
-client.emoteHandler = require('./src/utils/emotes')(client);
+client.commands = load.commands(client); //global command object
+client.emoteHandler = require('./src/utils/emotes')(client); //utility for finding, sanitizing and detecting emotes in strings
 
 client.go = new Object; //GuildsObject, is supposed to have two props: config (guild's config) and tr (TalkedRecently) - cooldown Set used by leveling system
 client.cc = 0; //CommandCount - number of commands used since last reboot
@@ -20,13 +20,6 @@ client.cc = 0; //CommandCount - number of commands used since last reboot
     load.events(client); //pre-loading events
     await client.login(require('./src/json/auth').token).catch(err => {console.error(err);process.emit('SIGINT');}); //logging in before initializing agenda
     client.agenda = await agenda.createAgenda(client.db); // .catch(err => {console.error(err);process.emit('SIGINT');});
+    //SIGINT and process.exit defs for graceful shutdowns
+    load.gracefulExits(client, agenda);
 })();
-
-//sigint and process.exit defs for graceful shutdowns
-process.on('SIGINT', async code => {
-    console.log('!!! SIGINT DETECTED !!!');
-    await agenda.SIGINT(client.agenda);
-    await client.db.SIGINT();
-    process.exit();
-});
-process.on('exit', code => console.log(`[node] Exit code: ${code}`));

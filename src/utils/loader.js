@@ -71,3 +71,12 @@ exports.events = function(client){
         });
     });
 }
+exports.gracefulExits = async function(client, agenda){
+    process.on('SIGINT', async code => {
+        console.log('!!! SIGINT DETECTED !!!');
+        await agenda.SIGINT(client.agenda);
+        await client.db.SIGINT();
+        process.exit();
+    });
+    process.on('exit', code => console.log(`[node] Exit code: ${code}`));
+}

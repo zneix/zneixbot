@@ -42,7 +42,7 @@ exports.message = async function(message, err){
     console.log('Critical command error!!! Stack below:');
     console.log(err);
     let nextid = await message.client.db.utils.getAutoincrement('errors');
-    await client.db.utils.insert('errors', {
+    await message.client.db.utils.insert('errors', [{
         id: nextid,
         event: 'message',
         timestamp: message.createdTimestamp,
@@ -52,7 +52,7 @@ exports.message = async function(message, err){
         timestamp: message.createdTimestamp,
         date: message.createdAt,
         userid: message.author.id
-    });
+    }]);
     //reporting critical error to developer
     let embed = {
         color: 0xff5050,
