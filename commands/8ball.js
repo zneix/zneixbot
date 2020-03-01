@@ -1,5 +1,5 @@
 exports.description = 'Ask 8ball a question. Responses might be a little dank at times';
-exports.usage = `[question]`;
+exports.usage = '[question]';
 exports.level = 0;
 exports.perms = [];
 exports.cooldown = 3000;

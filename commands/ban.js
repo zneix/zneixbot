@@ -1,4 +1,4 @@
-exports.description = `Bans user from the server (without deleting user messages).`;
+exports.description = 'Bans user from the server (without deleting user messages).';
 exports.usage = '<@mention | user ID> [reason]';
 exports.level = 0;
 exports.perms = ['BAN_MEMBERS'];

@@ -1,5 +1,5 @@
 exports.description = "Links yours or someone's avatar. When no/wrong args are provided, links yours.";
-exports.usage = `[user ID | @mention]`;
+exports.usage = '[user ID | @mention]';
 exports.level = 0;
 exports.perms = [];
 exports.cooldown = 3000;

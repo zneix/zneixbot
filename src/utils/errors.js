@@ -1,5 +1,4 @@
 exports.command = async function(message, err){
-    console.log(err);
     console.log('preparing to handle the error...');
     if (Array.isArray(err)){
         let reply = `${message.client.emoteHandler.guild('dev', 'peepoSadDank')} 👉 `;
@@ -14,7 +13,7 @@ exports.command = async function(message, err){
                 reply = `Failed to fetch link info: ${err[1]}`;
                 break;
             case 'discordapi':
-                reply = `Discord API threw an error: ${err[1]}`;
+                reply = `Discord API threw an error: ${err[1].replace('DiscordAPIError: ', '')}`;
                 break;
             default:
                 reply = err.toString();
