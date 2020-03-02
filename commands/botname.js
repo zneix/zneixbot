@@ -11,6 +11,6 @@ exports.run = async (client, message) => {
     else await message.guild.me.setNickname(message.args.join(' ')).catch(err => {console.log(err);throw ['discordapi', err.toString()];}); //slicing
     message.channel.send({embed:{
         color: 0x1c98f6,
-        description: message.guild.me.nickname?`Set my nickname to **${message.guild.me.nickname}**`:'Cleared nickname of mine ^_^'
+        description: message.guild.me.nickname ? `Set my nickname to **${message.guild.me.nickname}**` : 'Cleared nickname of mine ^_^'
     }});
 }
