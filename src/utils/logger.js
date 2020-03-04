@@ -13,16 +13,16 @@ exports.ready = function(client){
             icon_url: client.user.avatarURL({format:'png', 'dynamic':true})
         },
         author: {
-            name: "Logged in to WebSocket"
+            name: 'Logged in to WebSocket'
         },
         fields: [
             {
-                name: "User",
-                value: client.user+"\n"+client.user.tag+" `"+client.user.id+"`",
+                name: 'User',
+                value: `${client.user}\n${client.user.tag} \`${client.user.id}\``,
                 inline: false
             },
             {
-                name: "Size",
+                name: 'Size',
                 value: `Users: **${client.users.cache.size}**\nGuilds: **${client.guilds.cache.size}**\nChannels: **${client.channels.cache.size}**\nEmotes: **${client.emojis.cache.size}**`,
                 inline: false
             }
