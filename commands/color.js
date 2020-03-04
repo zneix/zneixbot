@@ -11,8 +11,9 @@ exports.run = async (client, message) => {
     let error = `This is not a valid color format!\nUse **${message.prefix}help ${__filename.split(/[\\/]/).pop().slice(0,-3)}** for valid formats.`
     //resolving numeric value
     if (!isNaN(message.args[0]) && message.args[0] < 16777216 && message.args[0] >= 0) return resolve(message.args[0], 'number');
-    //resolving hex value
+    //resolving hex value (and triple-hex below as well)
     if (/^[^a-f0-9]*[a-f0-9]{6}$/i.test(message.args[0])) return resolve(/[a-f0-9]{6}$/i.exec(message.args[0])[0], 'hex');
+    if (/^[^a-f0-9]*[a-f0-9]{3}$/i.test(message.args[0])) return resolve(/[a-f0-9]{3}$/i.exec(message.args[0])[0], 'triphex');
     //trying to resolve rgb value
     if (/^\D*(\d{1,3})[\s\W]+(\d{1,3})[\s\W]+(\d{1,3})\D*$/.test(message.args.join(' '))){
         let rgbData = /^\D*(\d{1,3})[\s\W]+(\d{1,3})[\s\W]+(\d{1,3})\D*$/.exec(message.args.join(' ')).slice(1);
@@ -27,6 +28,8 @@ exports.run = async (client, message) => {
         const fetch = require('node-fetch');
         let color = {};
         switch(inputType){
+            case "triphex":
+                value = value.split('').map(a => a+a).join(''); //simple hardfix
             case "hex":
                 color.hex = value;
                 color.rgb = `rgb(${value.match(/../g).map(e => parseInt(e, 16)).join(', ')})`;
