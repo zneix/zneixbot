@@ -13,12 +13,12 @@ exports.run = async (client, message) => {
         timestamp: message.createdAt,
         footer: {
             text: message.author.tag,
-            icon_url: message.author.avatarURL
+            icon_url: message.author.avatarURL({format:'png', 'dynamic':true})
         },
         fields: [
             {
                 name: 'Ping',
-                value: `​Latency: **${m.createdTimestamp - message.createdTimestamp}ms**\nAPI Ping: **${Math.round(client.ping)}ms**`
+                value: `​Latency: **${m.createdTimestamp - message.createdTimestamp}ms**\nAPI Ping: **${Math.round(client.ws.ping)}ms**`
             },
             {
                 name: 'Uptime',

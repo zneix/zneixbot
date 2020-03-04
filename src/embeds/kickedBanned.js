@@ -4,7 +4,7 @@ module.exports = (message, userid, reason, boolBanned) => {
         timestamp: message.createdAt,
         footer: {
             text: message.author.tag,
-            icon_url: message.author.avatarURL
+            icon_url: message.author.avatarURL({format:'png', 'dynamic':true})
         },
         author: {
             name: boolBanned == 'banerror' ? `User is already banned in ${message.guild.name}!` : `Successfully ${boolBanned?"Banned":"Kicked"}`

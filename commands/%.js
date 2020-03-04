@@ -15,7 +15,7 @@ exports.run = async (client, message) => {
         todelete.forEach(f => string = string.replace(f, ''));
         string = string.replace(/@(everyone|here)/, '@\u200b$1')
         .replace(/<@!?(\d+)>/gm, (regex, id) => `@\u200b${message.guild.member(id).nickname || message.guild.member(id).user.username}`)
-        .replace(/<@&(\d+)>/, (regex, id) => `\u200b_${message.guild.roles.get(id).name}`); //finish this later
+        .replace(/<@&(\d+)>/, (regex, id) => `\u200b_${message.guild.roles.cache.get(id).name}`); //finish this later
         return string.length ? string : 'that';
     }
     message.channel.send(`${message.author.username}, chances for ${wish} are about **${random}%**`);

@@ -1,6 +1,6 @@
 //numeric operations
 exports.leadHex = function(hex){ return '0'.repeat(6 - hex.length)+hex; }
-exports.leadSingleHex = function(n){ return parseInt(n, 16) < 16 ? '0'+n : n.toString(); }
+exports.leadTwoHex = function(n){ return parseInt(n, 16) < 16 ? '0'+n : n.toString(); }
 exports.leadZero = function(n){ return n < 10 ? '0'+n : n.toString(); }
 exports.numSuffix = function(n){
     if ([11, 12, 13].includes(n%100)) return 'th';

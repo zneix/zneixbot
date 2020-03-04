@@ -1,5 +1,5 @@
 function logEmbed(client, embed){
-    let logs = client.channels.get(client.config.channels.logs);
+    let logs = client.channels.cache.get(client.config.channels.logs);
     if (logs && !logs.permissionsFor(client.user).missing(['SEND_MESSAGES', 'VIEW_CHANNEL', 'EMBED_LINKS']).length) logs.send({embed:embed});
     else console.log("[!logger] logs channel not found or I'm missing perms!"); //code executed as an error message
 }
@@ -10,7 +10,7 @@ exports.ready = function(client){
         timestamp: client.readyAt,
         footer: {
             text: client.user.tag,
-            icon_url: client.user.avatarURL
+            icon_url: client.user.avatarURL({format:'png', 'dynamic':true})
         },
         author: {
             name: "Logged in to WebSocket"
@@ -23,7 +23,7 @@ exports.ready = function(client){
             },
             {
                 name: "Size",
-                value: `Users: **${client.users.size}**\nGuilds: **${client.guilds.size}**\nChannels: **${client.channels.size}**\nEmotes: **${client.emojis.size}**`,
+                value: `Users: **${client.users.cache.size}**\nGuilds: **${client.guilds.cache.size}**\nChannels: **${client.channels.cache.size}**\nEmotes: **${client.emojis.cache.size}**`,
                 inline: false
             }
         ]
@@ -36,7 +36,7 @@ exports.command = function(message, cmd, level){
         timestamp: message.createdAt,
         footer: {
             text: message.author.tag,
-            icon_url: message.author.avatarURL
+            icon_url: message.author.avatarURL({format:'png', 'dynamic':true})
         },
         author: {
             name: "Command called"

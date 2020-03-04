@@ -1,14 +1,14 @@
 module.exports = client => {
     function find(name){
-        let emote = client.emojis.find(e => e.name == name);
+        let emote = client.emojis.cache.find(e => e.name == name);
         return emote ? emote : `\`:${name}:\``;
     }
     function guild(alias, name){
-        let emote = client.guilds.get(client.config.guilds[alias]).emojis.find(e => e.name == name);
+        let emote = client.guilds.cache.get(client.config.guilds[alias]).emojis.cache.find(e => e.name == name);
         return emote ? emote : `\`:${name}:\``;
     }
     function id(eid){
-        let emote = client.emojis.get(eid);
+        let emote = client.emojis.cache.cache.get(eid);
         return emote ? emote : `\`:${name}:\``;
     }
     function sanit(str){
@@ -24,7 +24,7 @@ module.exports = client => {
             emotes.push({
                 name: m[1],
                 animated: m[0].startsWith('<a:'),
-                clienthas: client.emojis.has(),
+                clienthas: client.emojis.cache.has(),
                 start: m.index,
                 end: m.index+m[0].length
             });

@@ -134,7 +134,7 @@ client.lvl.getRanking = async function(guildid, userid){
 	if (!client.isConnected()) await connect();
 	let all = await client.db(lvldb).collection(guildid).countDocuments();
 	let userArr = (await client.db(lvldb).collection(guildid).find({}, {projection: {userid: userid, _id: null}}).sort('xp', -1).toArray());
-	for (i=0;i<userArr.length;i++) if (userArr[i].userid == userid) return (i+1)+'/'+all;
+	for (let i=0; i < userArr.length; i++) if (userArr[i].userid == userid) return `${i+1}/${all}`;
 }
 
 //mongodb-related listeners for topology and failed heartbeats information

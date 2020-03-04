@@ -10,7 +10,7 @@ exports.run = async (client, message) => {
     if (!message.args.length) return await link(message.author);
     let taggedUser = message.mentions.users.first();
     if (!taggedUser){
-        let validUser = client.users.get(message.args[0]);
+        let validUser = client.users.cache.get(message.args[0]);
         if (validUser) return await link(validUser);
         else {
             if (!/\d{17,}/.test(message.args[0])) return link(message.author, true); //saving bandwith for obvious non-snowflake values
@@ -27,8 +27,8 @@ exports.run = async (client, message) => {
             if (!user.avatar) return null;
             let url = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`;
             let fetch = require('node-fetch');
-            if ((await fetch(url.slice(0, -4))).headers.get('content-type')=='image/gif') url = url.slice(0, -3).concat('gif');
-            return url+'?size=2048';
+            if ((await fetch(url.slice(0, -4))).headers.get('content-type') == 'image/gif') url = url.slice(0, -3).concat('gif');
+            return `${url}?size=2048`;
         }
         let avatarURL = await getFixedAvatar(user);
         if (!avatarURL) throw ['normal', `User \`${user.tag}\` does not have an avatar`];

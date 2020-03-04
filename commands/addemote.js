@@ -31,7 +31,7 @@ exports.run = async (client, message) => {
                 if (f ? f.headers.get('content-type').startsWith('image') : false){
                     if (parseInt(f.headers.get('content-length')) > 262143) throw ['normal', `Requested image is too big: ${Math.floor(f.headers.get('content-length') / 1024)}kb > 256kb`];
                     url = message.args[0];
-                    emotename = f.headers.get('content-location') ? f.headers.get('content-location').split('.')[0] : `emoji_${message.guild.emojis.size+1}`;
+                    emotename = f.headers.get('content-location') ? f.headers.get('content-location').split('.')[0] : `emoji_${message.guild.emojis.cache.size+1}`;
                 }
             });
         }
@@ -39,7 +39,7 @@ exports.run = async (client, message) => {
     if (!url.length || !emotename.length) throw ['normal', "You have to provide one of following: emote, image link, attached image\nFor links, make sure those lead directly to image"];
     //got an emote, resolving extension
     let m = await message.channel.send('Creating emote...');
-    await message.guild.createEmoji(url, emotename).catch(err => {throw ['discordapi', err.toString()];})
+    await message.guild.emojis.create(url, emotename).catch(err => {throw ['discordapi', err.toString()];})
     .then(async emote => {
         let psa = `Successfully created emote \`${emote.name}\` ${emote}\nReact with ❌ within 17 seconds to remove it or change it's name with typing \`emote <new_name>\``;
         !m ? message.channel.send(psa) : m.edit(psa)
@@ -54,10 +54,10 @@ exports.run = async (client, message) => {
             //reaction collector for deleting emote
             Rcollector.on('collect', () => {
                 //deleting emote
-                message.guild.deleteEmoji(emote, `Responsible user: ${message.author.tag}`).catch(err => {throw ['discordapi', err.toString()];})
+                emote.delete(`Responsible user: ${message.author.tag}`).catch(err => {throw ['discordapi', err.toString()];})
                 .then(() => {
                     message.reply(`removed emote \`${emote.name}\``);
-                    Rcollector.emit('end');
+                    Rcollector.stop();
                 });
             });
             Mcollector.on('collect', mess => {
@@ -76,8 +76,8 @@ exports.run = async (client, message) => {
                 }
             });
             Rcollector.on('end', () => {
-                if (msg) msg.reactions.get('❌').remove();
-                Mcollector.emit('end'); //also emitting end for message handler
+                if (msg) msg.reactions.cache.get('❌').remove();
+                Mcollector.stop(); //also emitting end for message handler
             });
         });
     });

@@ -13,17 +13,17 @@ exports.createAgenda = async function(dbclient){
 }
 exports.defineJobs = function(client, agenda){
     agenda.define('vin', job => {
-        client.channels.get(job.attrs.data[0]).send('zneix VON ZULUL !\n'+(Date.now() - job.attrs.data[1]) / 1000+'s');
+        client.channels.cache.get(job.attrs.data[0]).send('zneix VON ZULUL !\n'+(Date.now() - job.attrs.data[1]) / 1000+'s');
         console.log('zneix VON ZULUL !\n'+Date.now()+'\n'+job.attrs.data[1]);
     });
     agenda.define('giveaway', async job => {
         //clearances
-        let channel = client.channels.get(job.attrs.data.dest[0]);
-        if (!channel) return client.channels.get(job.attrs.data.orig[0]).send(`Giveaway Error (ID ${job.attrs.data.dest[1]})! Channel was deleted or I lack permissons to see it!`);
-        let message = channel.messages.get(job.attrs.data.dest[1]);
-        if (!message) return client.channels.get(job.attrs.data.orig[0]).send(`Giveaway Error (ID ${job.attrs.data.dest[1]})! Message was deleted or I lack permissons to see it!`);
+        let channel = client.channels.cache.get(job.attrs.data.dest[0]);
+        if (!channel) return client.channels.cache.get(job.attrs.data.orig[0]).send(`Giveaway Error (ID ${job.attrs.data.dest[1]})! Channel was deleted or I lack permissons to see it!`);
+        let message = channel.messages.cache.get(job.attrs.data.dest[1]);
+        if (!message) return client.channels.cache.get(job.attrs.data.orig[0]).send(`Giveaway Error (ID ${job.attrs.data.dest[1]})! Message was deleted or I lack permissons to see it!`);
         //select random winner
-        let pool = [...message.reactions.get('🎉').users.keys()];
+        let pool = [...message.reactions.cache.get('🎉').users.keys()];
         let index = pool.indexOf(client.user.id);
         if (index > -1) pool.splice(index, 1);
         //functions
@@ -47,7 +47,7 @@ exports.defineJobs = function(client, agenda){
             if (!ids.length) return 'None.';
             let str = '';
             if (doInline) ids.forEach(id => str += `<@${id}>, `);
-            else ids.forEach(id => str += `<@${id}> ${client.users.get(id).tag}\n`);
+            else ids.forEach(id => str += `<@${id}> ${client.users.cache.get(id).tag}\n`);
             return str;
         }
         let embed = {
@@ -55,7 +55,7 @@ exports.defineJobs = function(client, agenda){
             timestamp: new Date(),
             footer: {
                 text: `Hosted by ${message.author.tag}`,
-                icon_url: message.author.avatarURL
+                icon_url: message.author.avatarURL({format:'png', 'dynamic':true})
             },
             author: {
                 name: `🎉 Giveaway has finished!`

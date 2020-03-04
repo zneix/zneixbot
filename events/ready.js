@@ -4,8 +4,8 @@ module.exports = async client => {
         readyAt: client.readyAt,
         readyTimestamp: client.readyTimestamp,
         size: {
-            guilds: client.guilds.size,
-            users: client.users.size
+            guilds: client.guilds.cache.size,
+            users: client.users.cache.size
         }
     }
     await client.db.utils.insert('logready', [doc]);

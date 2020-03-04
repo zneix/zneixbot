@@ -11,7 +11,7 @@ exports.run = (client, message) => {
             timestamp: new Date(),
             footer: {
                 text: message.author.tag,
-                icon_url: message.author.avatarURL
+                icon_url: message.author.avatarURL({format:'png', 'dynamic':true})
             },
             author: {
                 name: `New feedback report`,
@@ -40,7 +40,7 @@ exports.run = (client, message) => {
                 value: filelinks.join("\n").length<1023?filelinks.join("\n"):(filelinks.join("\n").substr(0, 1011)+" [truncated]")
             });
         }
-        let feedback = client.channels.get(client.config.channels.feedback);
+        let feedback = client.channels.cache.get(client.config.channels.feedback);
         if (!feedback){
             console.log("(!feedback) Feedback channel wasn't found!");
             return {code: '26', msg: "Bot developer hasn't set a feedback channel yet"};

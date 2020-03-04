@@ -9,7 +9,7 @@ exports.run = async (client, message) => {
     let responses = require('fs').readFileSync('./src/assets/8ball.txt').toString().split('\n');
     let rng = Math.floor(Math.random()*(responses.length));
     let responseFunctions = {
-        mentDev: () => {return message.guild.members.get('288028423031357441')?`\*Inhales...\* ;monkaS; 📣 <@288028423031357441>`:"...Except he's not in this server ;NaM;"}
+        mentDev: () => {return message.guild.members.cache.get('288028423031357441')?`\*Inhales...\* ;monkaS; 📣 <@288028423031357441>`:"...Except he's not in this server ;NaM;"}
     }
     message.reply(clean(responses[rng]));
     function clean(string){

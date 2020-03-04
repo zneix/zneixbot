@@ -56,18 +56,22 @@ exports.message = async function(message, err){
     let embed = {
         color: 0xff5050,
         author: {
-                name: `${message.guild ? `${message.guild.name} —` : ''}${message.channel.name}\nError #${nextid}`,
-                icon_url: message.author.avatarURL
+                name: `${message.guild ? `${message.guild.name} — ` : ''}${message.channel.name}\nError #${nextid}`,
+                icon_url: message.author.avatarURL({format:'png', 'dynamic':true})
             },
             description: `event: **message**\nreference timestamp: ${message.createdTimestamp}\nuser: ${message.author.id} (${message.author.tag})\ncall: **${message.content}**`,
             fields: [
                 {
-                    name: "Reason:",
+                    name: 'Reason',
                     value: err.toString().substring(0,1023),
+                },
+                {
+                    name: 'Stack',
+                    value: err.stack ? err.stack.toString() : 'N / A'
                 }
             ],
             timestamp: message.createdAt
     }
-    let ch = message.client.channels.get(message.client.config.channels.errors);
-    if (ch) errors.send(`<@288028423031357441> ERRORDETECTED, investigate pls!`, {embed:embed});
+    let ch = message.client.channels.cache.get(message.client.config.channels.errors);
+    if (ch) ch.send(`<@288028423031357441> ERRORDETECTED, investigate pls!`, {embed:embed});
 }
