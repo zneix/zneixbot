@@ -10,7 +10,7 @@ module.exports = async (client, message) => {
         //getting server settings
         if (!client.go[message.guild.id]){
             client.go[message.guild.id] = new Object;
-            // client.go[message.guild.id].tr = new Set;
+            // client.go[message.guild.id].tr = new Set; // that'll be implemented only for guilds with leveling enabled (in leveling module manager) to save some memory
             let config = (await client.db.utils.find('guilds', {guildid: message.guild.id}))[0];
             if (!config) config = await client.db.utils.newGuildConfig(message.guild.id);
             client.go[message.guild.id].config = config;
@@ -30,7 +30,7 @@ module.exports = async (client, message) => {
             let cmd = getCommand(client.commands, commandName);
             if (!cmd) return; //simple return, when command isn't found
             //checking if user can actually call the command
-            if (!perms.isAllowed(cmd, message.member)) return;
+            if (!perms.isAllowed(cmd, message.channel, message.member)) return;
             try {
                 cmd.run(client, message).then(function(){
                     //command count incrementation

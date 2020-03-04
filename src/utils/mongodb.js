@@ -77,7 +77,14 @@ client.utils.newGuildConfig = async function(theid){
 	let template = {
 		guildid: theid, //quick renaming due to big confusion and creating invalid objects
 		customprefix: null,
-		modrole: null,
+		perms: [
+			//something like this could be inserted in here by config command, userperm bool determines whether it's role-baed perm or user-based perm
+			// {
+			// 	id: '288028423031357441',
+			// 	userperm: false,
+			// 	level: true
+			// }
+		],
 		modules: {
 			leveling: {
 				enabled: false,
