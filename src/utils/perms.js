@@ -33,21 +33,20 @@ let adminOverrides = [
 let levels = {
     god: 1337, //god can do literally whatever he wants, all the restrictions are ignored
     admin: 500, //admin level allows to ignore some guild permission-based restrictions
-    mod: 400, //mods can execute some whitelisted commands
+    mod: 300, //mods can execute some whitelisted commands
 
-    maxguildmod: 300, //upper cap of the guild moderator permissions
+    maxguildmod: 200, //upper cap of the guild moderator permissions
     minguildmod: 100, //moderator of the current server (most likely, defined by role / user ID by admins)
 
     user: 0, //everyone below regular user level is consideted as banned
-    skipCooldowns: 450 //everyone above skipCooldowns skips every cooldown
+    skipCooldowns: 400 //everyone above skipCooldowns skips every cooldown
 }
 module.exports = client => {
-    let perms = client.perms;
     function getUserLvl(userid){
-        let levels = Object.keys(perms).map(k => parseInt(k)).sort();
+        let levels = Object.keys(client.perms).map(k => parseInt(k)).sort();
         let userLevel = 0; //default level of a user
         for (let i = 0; i < levels.length; i++){
-            if (perms[levels[i].toString()].includes(userid)) userLevel = levels[i];
+            if (client.perms[levels[i].toString()].includes(userid)) userLevel = levels[i];
         }
         return userLevel;
     }

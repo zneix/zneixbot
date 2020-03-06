@@ -1,0 +1,14 @@
+euro: EUR
+euros: EUR
+pound: GBP
+pounds: GBP
+zloty: PLN
+zlotych: PLN
+zlote: PLN
+złoty: PLN
+złotych: PLN
+złote: PLN
+dollar: USD
+dollars: USD
+dolar: USD
+dolars: USD

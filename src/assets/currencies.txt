@@ -1,0 +1,33 @@
+CAD: Canadian Dollar 🇨🇦
+HKD: Honkgong Dollar 🇭🇰
+ISK: Icelandic Krona 🇮🇸
+PHP: Philippine Peso 🇵🇭
+DKK: Danish Krone 🇩🇰
+HUF: Hungarian Forint 🇭🇺
+CZK: Czech Koruna 🇨🇿
+GBP: Pound Sterling 🇬🇧
+RON: Romanian Leu 🇷🇴
+SEK: Swedish Krona 🇸🇪
+IDR: Indonesian Rupiah 🇮🇩
+INR: Indian Rupee 🇮🇳
+BRL: Brazilian Real 🇧🇷
+RUB: Russian Ruble 🇷🇺
+HRK: Croatian Kuna 🇭🇷
+JPY: Japanese Yen 🇯🇵
+THB: Thai Baht 🇹🇭
+CHF: Swiss Franc 🇨🇭
+EUR: Euro 🇪🇺
+MYR: Malaysian Ringgit 🇲🇾
+BGN: Bulgarian Lev 🇧🇬
+TRY: Turkish Lira 🇹🇷
+CNY: Chinese Yuan 🇨🇳
+NOK: Norwegian Krone 🇳🇴
+NZD: New Zealand Dollar 🇳🇿
+ZAR: South African Rand 🇿🇦
+USD: American Dollar 🇺🇸
+MXN: Mexican Peso 🇲🇽
+SGD: Singapore Dollar 🇸🇬
+AUD: Australian Dollar 🇦🇺
+ILS: Israeli New Shekel 🇮🇱
+KRW: South Korean Won 🇰🇷
+PLN: Polish Zloty 🇵🇱

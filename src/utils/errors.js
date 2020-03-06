@@ -9,6 +9,9 @@ exports.command = async function(message, err){
             case 'normal':
                 reply = err[1];
                 break;
+            case 'args':
+                reply = `This command requires at least **${err[1]}** arguments to run`;
+                break;
             case 'fetch':
                 reply = `Failed to fetch link info: ${err[1]}`;
                 break;

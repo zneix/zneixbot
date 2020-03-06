@@ -6,7 +6,7 @@ exports.cooldown = 3000;
 exports.pipeable = false;
 
 exports.run = async (client, message) => {
-    if (!message.args.length) throw ['normal', 'You have to specify a user by their ID or @mention'];
+    if (message.args.length < 1) throw ['args', 1];
     if (!message.guild.me.hasPermission('BAN_MEMBERS')) throw ['botperm', 'Ban Members'];
     let taggedMember = message.mentions.members.first();
     if (!taggedMember){
