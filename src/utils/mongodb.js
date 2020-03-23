@@ -64,8 +64,8 @@ client.utils.getAutoincrement = async function(collectionName){
 }
 //getting permission levels from database
 client.utils.permlevels = async function(){
-	let obj = new Object;
 	if (!client.isConnected()) await connect();
+	let obj = new Object;
     let perms = (await client.db().collection(ops.permcol).find({}, {projection: {_id: null}}).sort('level', -1).toArray());
     let levels = perms.map(perm => perm.level).filter((value, index, self) => self.indexOf(value) === index);
     levels.forEach(lvl => obj[lvl.toString()] = []);

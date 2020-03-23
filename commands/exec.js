@@ -1,21 +1,23 @@
-exports.description = 'Evaluates JavaScript code.';
-exports.usage = '[hackerman stuff]';
+exports.description = `Executes shell command.`;
+exports.usage = '<hackerman stuff>';
 exports.level = 1000;
 exports.perms = [];
 exports.cooldown = 0;
 exports.pipeable = false;
 
 exports.run = async (client, message) => {
+    if (!message.args.length) throw ['args', 1];
     function clean(text){
-        if (typeof(text) === 'string') return text.replace(/[`@]/g, `$1${String.fromCharCode(8203)}`);
+        if (typeof(text) === "string") return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
         else return text;
     }
+    let shell = require('child_process');
     try {
-        let code = message.args.join(' ');
-        let evaled = await eval(code);
+        let cmd = message.args.join(' ');
+        let output = shell.execSync(cmd).toString();
 
-        if (typeof evaled !== 'string') evaled = require('util').inspect(evaled);
-        message.channel.send(clean(evaled).substr(0, 1990), {code:"xl"}).then(msg => deletion(msg));
+        if (typeof output !== "string") output = require('util').inspect(output);
+        message.channel.send(clean(output).substr(0, 1990)  || 'No stdout', {code:"xl"}).then(msg => deletion(msg));
     }
     catch (err){
         message.channel.send(`\`\`\`xl\nERROR:\n${clean(err)}\n\`\`\``).then(msg => deletion(msg));
