@@ -2,7 +2,7 @@ exports.description = "Links yours or someone's avatar. When no/wrong args are p
 exports.usage = '[user ID | @mention]';
 exports.level = 0;
 exports.perms = [];
-exports.cooldown = 3500;
+exports.cooldown = 5000;
 exports.pipeable = false;
 
 exports.run = async (client, message) => {

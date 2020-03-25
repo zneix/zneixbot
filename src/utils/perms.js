@@ -91,7 +91,7 @@ module.exports = client => {
     }
     function sufficientRole(msgmember, reqmember){
         if (!isGod(msgmember.id)){
-            if (msgmember.roles.highest.calculatedPosition <= reqmember.roles.highest.calculatedPosition) return false;
+            if (msgmember.roles.highest.position <= reqmember.roles.highest.position) return false;
         }
         return true;
     }

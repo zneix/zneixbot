@@ -13,7 +13,7 @@ exports.run = async (client, message) => {
     else return await say(message.channel, message.args.join(' '));
     //exec part
     async function say(channel, msg){
-        if (channel.permissionsFor(message.guild.me).missing(['SEND_MESSAGES', 'VIEV_CHANNEL']).length) throw ['botperms', 'View Channel, Send Messages']; //checks for bot's permissions
+        if (channel.permissionsFor(message.guild.me).missing(['SEND_MESSAGES', 'VIEV_CHANNEL']).length) throw ['botperm', 'View Channel, Send Messages']; //checks for bot's permissions
         if (!msg.length) throw ['normal', 'You also need to provide a message']; //check if message isn't empty (to avoid API errors)
         await message.delete({reason: `${message.author.tag} used echo command`});
         channel.send(msg);

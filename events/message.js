@@ -17,7 +17,7 @@ module.exports = async (client, message) => {
         }
         let config = client.go[message.guild.id].config;
         message.prefix = config.customprefix === null ? client.config.prefix : config.customprefix;
-        if (message.content.startsWith(client.user) || message.content.startsWith(`<@!${client.user.id}>`)) message.channel.send(`Hey ${message.author}, my prefix is \`${message.prefix}\``, {embed:{color:Math.floor(Math.random()*16777215),description:'[Support Server](https://discordapp.com/invite/cF555AV)'}});
+        if (message.content == client.user.toString() || message.content == `<@!${client.user.id}>`) message.channel.send(`Hey ${message.author}, my prefix is \`${message.prefix}\``, {embed:{color:Math.floor(Math.random()*16777215),description:'[Support Server](https://discordapp.com/invite/cF555AV)'}});
 
         if (message.content.toLowerCase().startsWith(message.prefix)){
             //command handling

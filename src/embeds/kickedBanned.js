@@ -1,6 +1,6 @@
 module.exports = (message, userid, reason, boolBanned) => {
     let embed = {
-        color: boolBanned ? 0xdd3c12 : 0x443ca1, //banned | kicked colour
+        color: boolBanned == 'banerror' ? 0xe7c607 : (boolBanned ? 0xdd3c12 : 0x443ca1), //already-banned (banned | kicked) colour
         timestamp: message.createdAt,
         footer: {
             text: message.author.tag,
@@ -9,8 +9,7 @@ module.exports = (message, userid, reason, boolBanned) => {
         author: {
             name: boolBanned == 'banerror' ? `User is already banned in ${message.guild.name}!` : `Successfully ${boolBanned?"Banned":"Kicked"}`
         },
-        description: `<@${userid}> ${reason == 'No reason given.' ? 'without a reason.' : `with reason: **${reason}**`}`
+        description: `<@${userid}> ${reason == 'No reason given.' ? 'without a reason.' : `with reason: \`${reason}\``}`
     }
-    if (boolBanned == 'banerror') embed.color = 0xe7c607;
     message.channel.send({embed:embed});
 }
