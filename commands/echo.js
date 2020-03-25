@@ -11,6 +11,7 @@ exports.run = async (client, message) => {
     if (message.args[0].includes(mentionedChannel ? mentionedChannel.id : null)) return await say(client.channels.cache.get(mentionedChannel.id), message.args.join(' ').slice(mentionedChannel.toString().length).trim);
     else if (client.channels.cache.has(message.args[0])) return await say(client.channels.cache.get(message.args[0]), message.args.slice(1).join(' '));
     else return await say(message.channel, message.args.join(' '));
+    //exec part
     async function say(channel, msg){
         if (channel.permissionsFor(message.guild.me).missing(['SEND_MESSAGES', 'VIEV_CHANNEL']).length) throw ['botperms', 'View Channel, Send Messages']; //checks for bot's permissions
         if (!msg.length) throw ['normal', 'You also need to provide a message']; //check if message isn't empty (to avoid API errors)

@@ -31,7 +31,7 @@ let adminOverrides = [
     'MANAGE_EMOJIS'
 ];
 let levels = {
-    god: 1337, //god can do literally whatever he wants, all the restrictions are ignored
+    god: 1000, //god can do literally whatever he wants, all the restrictions are ignored
     admin: 500, //admin level allows to ignore some guild permission-based restrictions
     mod: 300, //mods can execute some whitelisted commands
 
@@ -63,11 +63,16 @@ module.exports = client => {
         return getUserLvl(userid) >= levels['god']; //gods are defined above level 1000
     }
     function guildLevel(member, glevel){
-        if (isGod(member.id)) return true;
-        if (member.hasPermission('MANAGE_GUILD')) return true; //guild managers (and admins) have full rights in guild level tree
-        client.go[member.guild.id].config.perms.filter(p => parseInt(p.level) >= glevel).forEach(perm => {
-            if (perm.userperm) if (member.roles.cache.has(perm.id)) return true;
-            else if (member.id == perm.id) return true;
+        if (isGod(member.id) || member.hasPermission('ADMINISTRATOR')) return true; //gods and guild admins have full rights in guild level tree (obviously)
+        client.go[member.guild.id].config.perms.filter(p => parseInt(p.level) >= glevel).forEach(perm => { //filter makes it, so only perms on sufficient levels
+            switch (perm.type){
+                case 'user':
+                    if (member.roles.cache.has(perm.id)) return true;
+                    break;
+                case 'role':
+                    if (member.id == perm.id) return true;
+                    break;
+            }
         });
     }
     function guildPerm(gperms, channel, member){
@@ -75,13 +80,12 @@ module.exports = client => {
             if (!member.permissionsIn(channel).toArray().some(x => gperms.includes(x))) return false;
         }
         else {
-            let permGrant;
-            let ovrGrant;
+            let permGrant, ovrGrant;
             gperms.forEach(perm => {
                 if (member.hasPermission(perm)) permGrant = true;
                 if (adminOverrides.includes(perm)) ovrGrant = true;
             });
-            if ((!permGrant && !ovrGrant) && !isGod()) return false;
+            if ((!permGrant && !ovrGrant) && !isGod(member.id)) return false;
         }
         return true;
     }

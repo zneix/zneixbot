@@ -8,12 +8,12 @@ exports.pipeable = false;
 exports.run = async (client, message) => {
     if (message.args.length < 1) throw ['args', 1];
     if (!message.guild.me.hasPermission('BAN_MEMBERS')) throw ['botperm', 'Ban Members'];
-    let taggedMember = message.mentions.members.first();
-    if (!taggedMember){
+    let mentionedMember = message.mentions.members.first();
+    if (!mentionedMember){
         if (!/^\d{17,}$/.test(message.args[0])) throw ['normal', 'You have provided invalid user ID or @mention'];
         return execute(message.args[0]);
     }
-    else return execute(taggedMember.id);
+    else return execute(mentionedMember.id);
     //the function that bans users, now it does that only by their ID to make code more simple
     async function execute(userid){
         //reason compilation

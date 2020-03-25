@@ -27,10 +27,10 @@ client.utils.disconnect = async function(){
     return await client.close().then(() => console.log('[mongodb] Closed connection!')).catch(err => console.log(`[!mongodb] Error while closing connection:\n${err}`));
 }
 //logging into
-client.utils.connect = connect();
 async function connect(){
     return await client.connect().then(() => console.log('[mongodb] Connected!')).catch(err => console.log(`[!mongodb] Error while connecting:\n${err}`));
 }
+client.utils.connect = connect();
 //finding documents
 client.utils.find = async function(collectionName, filter){
 	if (!collectionName) return "collection name can't be null";
@@ -47,7 +47,7 @@ client.utils.insert = async function(collectionName, docs){
 client.utils.replaceOne = async function(collectionName, filter, D_OMEGALUL_C){
 	if (!collectionName) return "collection name can't be null";
 	if (!client.isConnected()) await connect();
-    return await client.db().collection(collectionName).findOneAndReplace(filter, D_OMEGALUL_C);
+	return await client.db().collection(collectionName).findOneAndReplace(filter, D_OMEGALUL_C);
 }
 //deleting documents
 client.utils.delete = async function(collectionName, filter){
@@ -78,11 +78,18 @@ client.utils.newGuildConfig = async function(theid){
 		guildid: theid, //quick renaming due to big confusion and creating invalid objects
 		customprefix: null,
 		perms: [
-			//something like this could be inserted in here by config command, userperm bool determines whether it's role-baed perm or user-based perm
+			/*
+			something like this could be inserted in here by config command, type property is a string - can be only 'role' (role-baed perm) or 'user' (user-based perm)
+			level should be only between perms.levels.minguildmod and perms.levels.maxguildmod
+			level 100 can represent a server moderator
+			level 200 can represent a server admin (server owner always has level of value perms.levels.maxguildmod)
+			levels in between those can be held for server managers or something
+			*/
+
 			// {
 			// 	id: '288028423031357441',
-			// 	userperm: false,
-			// 	level: true
+			// 	type: 'user',
+			// 	level: 100
 			// }
 		],
 		modules: {

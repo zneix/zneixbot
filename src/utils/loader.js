@@ -43,6 +43,9 @@ exports.getCommand = function(commands, name){
     });
     return cmd;
 }
+exports.getAliases = function(cmdname){
+    return aliases[cmdname] ? aliases[cmdname] : null;
+}
 exports.commands = function(client){
     let commands = new enmap();
     client.cooldowns = new Object; //object, that's going to store all the cooldowns for now

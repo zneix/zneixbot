@@ -10,5 +10,6 @@ exports.getDiscordUser = async function(client, id){
     if (!response.id) return null; //escape on wrong user (all valid users should have their ID field returned)
     //hard fix for non-bot users
     if (!response.bot) response.bot = false;
+    response.tag = `${response.username}#${response.discriminator}`;
     return response;
 }

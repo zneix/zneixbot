@@ -2,14 +2,14 @@ exports.description = "Links yours or someone's avatar. When no/wrong args are p
 exports.usage = '[user ID | @mention]';
 exports.level = 0;
 exports.perms = [];
-exports.cooldown = 3000;
+exports.cooldown = 3500;
 exports.pipeable = false;
 
 exports.run = async (client, message) => {
     const {getDiscordUser} = require('../src/utils/apicalls');
     if (!message.args.length) return await link(message.author);
-    let taggedUser = message.mentions.users.first();
-    if (!taggedUser){
+    let mentionedUser = message.mentions.users.first();
+    if (!mentionedUser){
         let validUser = client.users.cache.get(message.args[0]);
         if (validUser) return await link(validUser);
         else {
@@ -17,11 +17,10 @@ exports.run = async (client, message) => {
             let puser = await getDiscordUser(client, message.args[0]); //puser - Partial User (just a few basic informations)
             if (!puser) return link(message.author, true); //escape on wrong ID
             //successfull user fetch, preparing message author data on result object and sending it to result function
-            puser.tag = `${puser.username}#${puser.discriminator}`;
             return await link(puser);
         }
     }
-    else return await link(taggedUser);
+    else return await link(mentionedUser);
     async function link(user, wasError){
         async function getFixedAvatar(user){
             if (!user.avatar) return null;

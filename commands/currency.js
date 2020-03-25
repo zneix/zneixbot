@@ -5,7 +5,7 @@ require('fs').readFileSync('./src/assets/currencies.txt').toString().split('\n')
 });
 let codes = Object.getOwnPropertyNames(objcodes);
 exports.description = `Converts currencies, calculates them, etc.\nSupported currencies: ${codes.join(', ')}`;
-exports.usage = '[amount, deafult: 1] <first currency> <wanted currency>\nEUR PLN\n10 EUR PLN';
+exports.usage = '[amount] <first currency> <wanted currency>\nEUR PLN\n10 EUR PLN';
 exports.level = 0;
 exports.perms = [];
 exports.cooldown = 5000;
