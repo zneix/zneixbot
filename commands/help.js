@@ -1,0 +1,87 @@
+exports.description = 'Lists all commands available for you to use in current channel.'
++`\nUse: **{PREFIX}help <command name>** to get information about specific commands and their usage.`;
+exports.usage = '\n<command name>';
+exports.level = 0;
+exports.perms = [];
+exports.cooldown = 3000;
+exports.pipeable = false;
+
+exports.run = async (client, message) => {
+    let cmdUtil = require('../src/utils/loader');
+    let perms = require('../src/utils/perms')(client);
+    let embed, cmd;
+    if (message.args.length) cmd = cmdUtil.getCommand(client.commands, message.args[0].toLowerCase());
+    if (!message.args.length || !cmd || !perms.isAllowed(cmd, message.channel, message.member)){
+        let commandList = client.commands.filter(cmd => !cmd.perms.length && cmd.level < perms.levels.minguildmod).map((object, key, map) => `\`${key}\``).join(' | ');
+        //${cmdUtil.aliases[key]?`  aliases:  \`${cmdUtil.aliases[key].join('\`, \`')}\``:''} //alias support (temporarily disabled ;_;)
+        embed = { //send general help with command list
+            color: parseInt('0x99ff66'),
+            author: {
+                name: `${client.user.tag}, ver ${client.version}`,
+                icon_url: client.user.avatarURL({format:'png', dynamic:true})
+            },
+            description: exports.description.replace(/{PREFIX}/, message.prefix),
+            fields: [
+                {
+                    name: `${client.emoteHandler.guild('asset', 'subscriber')} User commands`,
+                    value: commandList
+                }
+            ],
+        }
+        //showing extra commands
+        //append guild mod commands
+        let guildModList = client.commands.filter(cmd => (cmd.perms.length && perms.guildPerm(cmd.perms, message.channel, message.member)) || (cmd.level >= perms.levels.minguildmod && cmd.level <= perms.levels.maxguildmod && perms.guildLevel(message.member, cmd.level))).map((object, key, map) => `\`${key}\``).join(' | ');
+        //${cmdUtil.aliases[key]?` aliases:  \`${cmdUtil.aliases[key].join('\`, \`')}\``:''} //alias support for guild-based commands
+        if (guildModList.length){
+            embed.fields.push({
+                name: `${client.emoteHandler.guild('asset', 'mod')} Server Moderator commands`,
+                value: guildModList
+            });
+        }
+        // append mod commands
+        if (perms.getUserLvl(message.author.id) >= perms.levels.mod){
+            embed.fields.push({
+                name: `${client.emoteHandler.guild('asset', 'supermod')} Bot Moderator commands`,
+                value: client.commands.filter(cmd => cmd.level >= perms.levels.mod && cmd.level <= perms.levels.admin).map((object, key, map) => `\`${key}\``).join(' | ')
+            });
+        }
+        // append admin commands
+        if (perms.getUserLvl(message.author.id) >= perms.levels.admin){
+            embed.fields.push({
+                name: `${client.emoteHandler.guild('asset', 'staff')} Bot Administrator commands`,
+                value: client.commands.filter(cmd => cmd.level >= perms.levels.admin && cmd.level >= perms.levels.god).map((object, key, map) => `\`${key}\``).join(' | ')
+            });
+        }
+        // append owner commands
+        if (perms.getUserLvl(message.author.id) >= perms.levels.god){
+            embed.fields.push({
+                name: `${client.emoteHandler.guild('asset', 'broadcaster')} Bot Owner commands`,
+                value: client.commands.filter(cmd => cmd.level >= perms.levels.god).map((object, key, map) => `\`${key}\``).join(' | ')
+            });
+        }
+    }
+    //send dynamic help
+    else {
+        embed = {
+            color: 0x99ff66,
+            author: {
+                name: `${cmd.name} [${cmd.cooldown ? `${cmd.cooldown/1000}s`: 'no'} cooldown]`,
+                icon_url: client.user.avatarURL({format:'png', dynamic:true})
+            }, 
+            description: cmd.description.replace(/{PREFIX}/, message.prefix),
+            fields: [
+                {
+                    name: '**Usage:**',
+                    value: cmd.usage.split('\n').map(u => `${message.prefix}${cmd.name} ${u}`).join(`\n`)
+                }
+            ],
+        }
+        //appending aliases if those are present
+        if (cmdUtil.getAliases(cmd.name)) embed.fields.push({
+            name: '**Aliases:**',
+            value: cmdUtil.getAliases(cmd.name).join('\n')
+        });
+    }
+    if (message.args.length && !cmd) message.channel.send(`Provided command isn't loaded or you're not allowed to use it ${client.emoteHandler.guild('asset', 'Jebaited')}`);
+    else message.channel.send({embed:embed});
+}
