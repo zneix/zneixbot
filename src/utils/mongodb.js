@@ -59,8 +59,8 @@ client.utils.delete = async function(collectionName, filter){
 client.utils.getAutoincrement = async function(collectionName){
 	if (!client.isConnected()) await connect();
 	let result = await client.db().collection(ops.incrcol).findOneAndUpdate({_id: collectionName }, {$inc: { count: 1 }});
-	if (!result.value) await client.db().collection(ops.incrcol).insertOne({_id: collectionName, count: 0});
-	return result.value.count;
+	if (result.value) return result.value.count+1; //returning already existing document with elevated value
+	else return (await client.db().collection(ops.incrcol).insertOne({_id: collectionName, count: 1})).ops[0].count; //inserting new entry to database and returning it
 }
 //getting permission levels from database
 client.utils.permlevels = async function(){
@@ -74,6 +74,8 @@ client.utils.permlevels = async function(){
 }
 //new config template insertion
 client.utils.newGuildConfig = async function(theid){
+	if (!client.isConnected()) await connect();
+	console.log(`[mongodb] Attempting to insert configuration for ${theid}`);
 	let template = {
 		guildid: theid, //quick renaming due to big confusion and creating invalid objects
 		customprefix: null,
@@ -111,8 +113,6 @@ client.utils.newGuildConfig = async function(theid){
 			}
 		}
 	}
-	if (!client.isConnected()) await connect();
-	console.log(`[mongodb] Attempting to insert configuration for ${theid}`);
 	return (await client.db().collection('guilds').insertOne(template)).ops[0];
 }
 
