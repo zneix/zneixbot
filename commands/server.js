@@ -7,6 +7,8 @@ exports.pipeable = false;
 
 exports.run = async (client, message) => {
     const {dateFormat, msToHuman} = require('../src/utils/formatter');
+    //fetching members for correct membercount
+    await require('../src/utils/cache').fetchGuildMembers(client, message.guild);
     message.channel.send({embed:{
         color: 0xcc44ff,
         timestamp: message.createdAt,
