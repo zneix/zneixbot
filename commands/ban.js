@@ -17,7 +17,8 @@ exports.run = async (client, message) => {
     //the function that bans users, now it does that only by their ID to make code more simple
     async function execute(userid){
         //reason compilation
-        let reason = `${message.args.length > 1 ? message.args.slice(1).join(' ') : 'No reason given'} | Responsible moderator: ${message.author.tag}`;
+        let reason = `Responsible moderator: ${message.author.tag}`;
+        if (message.args.length > 1) reason = `${message.args.slice(1).join(' ')} | ${reason}`;
 
         //don't ban the user, if he's already banned
         let aban = await message.guild.fetchBan(userid).catch(() => {}); //added scuffed .catch here, so stuff actually continues

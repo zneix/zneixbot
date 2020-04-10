@@ -22,7 +22,8 @@ exports.run = async (client, message) => {
         if (!client.perms.sufficientRole(message.member, member)) throw ['normal', `You can't kick that user because they may have a higher (or equal) role than you ${client.emoteHandler.guild('asset', 'Jebaited')}`];
 
         //reason compilation
-        let reason = `${message.args.length > 1 ? message.args.slice(1).join(' ') : 'No reason given'} | Responsible moderator: ${message.author.tag}`;
+        let reason = `Responsible moderator: ${message.author.tag}`;
+        if (message.args.length > 1) reason = `${message.args.slice(1).join(' ')} | ${reason}`;
 
         //actual kick
         member.kick(reason).then(() => require('../src/embeds/kickedBanned')(message, member.id, reason, false)).catch(err => {throw `An error occured: ${err}`});
