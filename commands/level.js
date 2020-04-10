@@ -1,4 +1,4 @@
-exports.description = 'Manages level entries level of specified user. If no args are specified, prints level entries from database.';
+exports.description = 'Manages level entries of specified user (ID or @mention). If no args are specified, prints level entries from database.';
 exports.usage = '<user ID | @mention> <level>';
 exports.level = 1000;
 exports.perms = [];
@@ -22,24 +22,23 @@ exports.run = async (client, message) => {
         let userDoc = (await client.db.utils.find(permcol, {userid: userid}))[0];
         if (!userDoc) userDoc = (await client.db.utils.insert(permcol, [{userid: userid, level: level}]))[0];
         else {
-            const userlevel = require('../src/utils/perms')(client).levels.user;
-            if (level == userlevel) await client.db.utils.delete(permcol, {userid: userid}); //deleting entries for users degraded to 0 (regular users)
+            if (level == client.perms.levels.user) await client.db.utils.delete(permcol, {userid: userid}); //deleting entries for users degraded to 0 (regular users)
             else await client.db.db().collection(permcol).updateOne({userid: userid}, {$set: {level: level}});
         }
-        const perms = await client.db.utils.permlevels();
-        if (!perms) throw ['normal', `An error occured while updating permission levels! ${client.emoteHandler.find('PepeS')}`];
+        const levels = await client.db.utils.permlevels();
+        if (!levels) throw ['normal', `An error occured while updating permission levels! ${client.emoteHandler.find('PepeS')}`];
         else {
-            client.perms = perms;
+            client.levels = levels;
             let str = `Set level of **${userid}** to **${level}**`;
             message.channel.send(str);
         }
     }
     else {
         let m = await message.channel.send('Updating global permission levels...');
-        const perms = await client.db.utils.permlevels();
-        if (!perms) throw ['normal', `An error occured while updating permission levels! ${client.emoteHandler.find('PepeS')}`];
+        const levels = await client.db.utils.permlevels();
+        if (!levels) throw ['normal', `An error occured while updating permission levels! ${client.emoteHandler.find('PepeS')}`];
         else {
-            client.perms = perms;
+            client.levels = levels;
             let str = `Updated global permission levels ${client.emoteHandler.guild('asset', 'FeelsGoodMan')}`;
             m.deleted ? message.channel.send(str) : m.edit(str);
         }

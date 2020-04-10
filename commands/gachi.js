@@ -6,9 +6,8 @@ exports.cooldown = 7000;
 exports.pipeable = false;
 
 exports.run = async (client, message) => {
-    const {isGod} = require('../src/utils/perms')(client);
     const fetch = require('node-fetch');
-    if (!message.channel.nsfw && !isGod(message.author.id)) message.channel.send(`This command is only available in NSFW channels, leatherman ${client.emoteHandler.guild('asset', 'pajaVan')}`);
+    if (!message.channel.nsfw && !client.perms.isGod(message.author.id)) message.channel.send(`This command is only available in NSFW channels, leatherman ${client.emoteHandler.guild('asset', 'pajaVan')}`);
     else {
         let m = await message.channel.send('Looking up some dank gachi videos...');
         //pinging supinic's API

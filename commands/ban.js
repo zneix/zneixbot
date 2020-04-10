@@ -26,8 +26,7 @@ exports.run = async (client, message) => {
         let posmember = message.guild.members.cache.get(userid);
         if (posmember){
             if (!posmember.bannable) throw ['normal', `I'm unable to ban this user`]; //return {code: '22', msg: posmember.user.tag};
-            let {sufficientRole} = require('../src/utils/perms')(client);
-            if (!sufficientRole(message.member, posmember)) throw ['normal', `You can't kick that user because they may have a higher (or equal) role than you ${client.emoteHandler.guild('asset', 'Jebaited')}`]; //return {code: '12', msg: posmember.user.tag};
+            if (!client.perms.sufficientRole(message.member, posmember)) throw ['normal', `You can't kick that user because they may have a higher (or equal) role than you ${client.emoteHandler.guild('asset', 'Jebaited')}`]; //return {code: '12', msg: posmember.user.tag};
         }
         //actual ban
         await message.guild.members.ban(userid, {reason: reason}).catch(err => {throw ['discordapi', err.toString()];})

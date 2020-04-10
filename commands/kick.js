@@ -19,7 +19,7 @@ exports.run = async (client, message) => {
     async function execute(member){
         //clearances
         if (!member.kickable) throw ['normal', 'I\'m unable to kick that user. They may have a higher (or equal) role.'];
-        if (!require('../src/utils/perms')(client).sufficientRole(message.member, member)) throw ['normal', `You can't kick that user because they may have a higher (or equal) role than you ${client.emoteHandler.guild('asset', 'Jebaited')}`];
+        if (!client.perms.sufficientRole(message.member, member)) throw ['normal', `You can't kick that user because they may have a higher (or equal) role than you ${client.emoteHandler.guild('asset', 'Jebaited')}`];
 
         //reason compilation
         let reason = `${message.args.length > 1 ? message.args.slice(1).join(' ') : 'No reason given'} | Responsible moderator: ${message.author.tag}`;

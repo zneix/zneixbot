@@ -24,8 +24,7 @@ exports.run = async (client, message) => {
     }
     async function deletion(msg){
         await msg.react('❌');
-        let perms = require('../src/utils/perms')(client);
-        let filter = (reaction, user) => reaction.emoji.name === '❌' && perms.isGod(user.id);
+        let filter = (reaction, user) => reaction.emoji.name == '❌' && client.perms.isGod(user.id);
         let collector = msg.createReactionCollector(filter, {time:10000});
         collector.on('collect', () => msg.delete());
         collector.on('end', () => !msg.deleted ? msg.reactions.cache.get('❌').remove() : null);

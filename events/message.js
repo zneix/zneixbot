@@ -21,16 +21,15 @@ module.exports = async (client, message) => {
 
         if (message.content.toLowerCase().startsWith(message.prefix)){
             //command handling
-            let perms = require('../src/utils/perms')(client);
             let {getCommand} = require('../src/utils/loader');
-            if (perms.isBanned(message.author.id)) return; //check for bot ban, regular return for now
+            if (client.perms.isBanned(message.author.id)) return; //check for bot ban, regular return for now
             message.args = message.content.slice(message.prefix.length).trim().split(/\s+/gm);
             if (!message.args.length) return; //quick escape in weird cases (e.g. someone types only prefix, no command)
             let commandName = message.args.shift().toLowerCase();
             let cmd = getCommand(client.commands, commandName);
             if (!cmd) return; //simple return, when command isn't found
             //checking if user can actually call the command
-            if (!perms.isAllowed(cmd, message.channel, message.member)) return;
+            if (!client.perms.isAllowed(cmd, message.channel, message.member)) return;
             try {
                 cmd.run(client, message).then(function(){
                     //command count incrementation
@@ -38,7 +37,7 @@ module.exports = async (client, message) => {
                     //logging stuff
                     //
                     //handling cooldowns with an exception for immune users
-                    if (perms.getUserLvl(message.author.id) >= perms.levels['skipCooldowns']) return;
+                    if (client.perms.getUserLvl(message.author.id) >= client.perms.levels['skipCooldowns']) return;
                     client.cooldowns[cmd.name].add(`${message.guild.id}_${message.member.id}`);
                     setTimeout(function(){ client.cooldowns[cmd.name].delete(`${message.guild.id}_${message.member.id}`); }, cmd.cooldown);
                 }).catch(async err => {

@@ -8,11 +8,10 @@ exports.pipeable = false;
 
 exports.run = async (client, message) => {
     let cmdUtil = require('../src/utils/loader');
-    let perms = require('../src/utils/perms')(client);
     let embed, cmd;
     if (message.args.length) cmd = cmdUtil.getCommand(client.commands, message.args[0].toLowerCase());
-    if (!message.args.length || !cmd || !perms.isAllowed(cmd, message.channel, message.member)){
-        let commandList = client.commands.filter(cmd => !cmd.perms.length && cmd.level < perms.levels.minguildmod).map((object, key, map) => `\`${key}\``).join(' | ');
+    if (!message.args.length || !cmd || !client.perms.isAllowed(cmd, message.channel, message.member)){
+        let commandList = client.commands.filter(cmd => !cmd.perms.length && cmd.level < client.perms.levels.minguildmod).map((object, key, map) => `\`${key}\``).join(' | ');
         //${cmdUtil.aliases[key]?`  aliases:  \`${cmdUtil.aliases[key].join('\`, \`')}\``:''} //alias support (temporarily disabled ;_;)
         embed = { //send general help with command list
             color: parseInt('0x99ff66'),
@@ -30,7 +29,7 @@ exports.run = async (client, message) => {
         }
         //showing extra commands
         //append guild mod commands
-        let guildModList = client.commands.filter(cmd => (cmd.perms.length && perms.guildPerm(cmd.perms, message.channel, message.member)) || (cmd.level >= perms.levels.minguildmod && cmd.level <= perms.levels.maxguildmod && perms.guildLevel(message.member, cmd.level))).map((object, key, map) => `\`${key}\``).join(' | ');
+        let guildModList = client.commands.filter(cmd => (cmd.perms.length && client.perms.guildPerm(cmd.perms, message.channel, message.member)) || (cmd.level >= client.perms.levels.minguildmod && cmd.level <= client.perms.levels.maxguildmod && client.perms.guildLevel(message.member, cmd.level))).map((object, key, map) => `\`${key}\``).join(' | ');
         //${cmdUtil.aliases[key]?` aliases:  \`${cmdUtil.aliases[key].join('\`, \`')}\``:''} //alias support for guild-based commands
         if (guildModList.length){
             embed.fields.push({
@@ -39,24 +38,24 @@ exports.run = async (client, message) => {
             });
         }
         // append mod commands
-        if (perms.getUserLvl(message.author.id) >= perms.levels.mod){
+        if (client.perms.getUserLvl(message.author.id) >= client.perms.levels.mod){
             embed.fields.push({
                 name: `${client.emoteHandler.guild('asset', 'supermod')} Bot Moderator commands`,
-                value: client.commands.filter(cmd => cmd.level >= perms.levels.mod && cmd.level <= perms.levels.admin).map((object, key, map) => `\`${key}\``).join(' | ')
+                value: client.commands.filter(cmd => cmd.level >= client.perms.levels.mod && cmd.level <= client.perms.levels.admin).map((object, key, map) => `\`${key}\``).join(' | ')
             });
         }
         // append admin commands
-        if (perms.getUserLvl(message.author.id) >= perms.levels.admin){
+        if (client.perms.getUserLvl(message.author.id) >= client.perms.levels.admin){
             embed.fields.push({
                 name: `${client.emoteHandler.guild('asset', 'staff')} Bot Administrator commands`,
-                value: client.commands.filter(cmd => cmd.level >= perms.levels.admin && cmd.level >= perms.levels.god).map((object, key, map) => `\`${key}\``).join(' | ')
+                value: client.commands.filter(cmd => cmd.level >= client.perms.levels.admin && cmd.level >= client.perms.levels.god).map((object, key, map) => `\`${key}\``).join(' | ')
             });
         }
         // append owner commands
-        if (perms.getUserLvl(message.author.id) >= perms.levels.god){
+        if (client.perms.getUserLvl(message.author.id) >= client.perms.levels.god){
             embed.fields.push({
                 name: `${client.emoteHandler.guild('asset', 'broadcaster')} Bot Owner commands`,
-                value: client.commands.filter(cmd => cmd.level >= perms.levels.god).map((object, key, map) => `\`${key}\``).join(' | ')
+                value: client.commands.filter(cmd => cmd.level >= client.perms.levels.god).map((object, key, map) => `\`${key}\``).join(' | ')
             });
         }
     }

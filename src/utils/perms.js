@@ -43,10 +43,10 @@ let levels = {
 }
 module.exports = client => {
     function getUserLvl(userid){
-        let levels = Object.keys(client.perms).map(k => parseInt(k)).sort();
+        let levels = Object.keys(client.levels).map(k => parseInt(k)).sort();
         let userLevel = 0; //default level of a user
         for (let i = 0; i < levels.length; i++){
-            if (client.perms[levels[i].toString()].includes(userid)) userLevel = levels[i];
+            if (client.levels[levels[i].toString()].includes(userid)) userLevel = levels[i];
         }
         return userLevel;
     }
