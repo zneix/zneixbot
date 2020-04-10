@@ -4,7 +4,9 @@ module.exports = client => {
         return emote ? emote : `\`:${name}:\``;
     }
     function guild(alias, name){
-        let emote = client.guilds.cache.get(client.config.guilds[alias]).emojis.cache.find(e => e.name == name);
+        let guild = client.guilds.cache.get(client.config.guilds[alias]);
+        let emote;
+        if (guild) emote = guild.emojis.cache.find(e => e.name == name);
         return emote ? emote : `\`:${name}:\``;
     }
     function id(eid){
