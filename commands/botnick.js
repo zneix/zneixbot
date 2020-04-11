@@ -5,7 +5,7 @@ exports.perms = [];
 exports.cooldown = 3000;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     if (!message.guild.me.hasPermission('CHANGE_NICKNAME')) throw ['botperm', 'Change Nickname'];
     if (!message.args.length) await message.guild.me.setNickname('');
     else await message.guild.me.setNickname(message.args.join(' ')).catch(err => {console.log(err);throw ['discordapi', err.toString()];}); //slicing

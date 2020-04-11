@@ -5,7 +5,7 @@ exports.perms = [];
 exports.cooldown = 3000;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     // According to Murray & Teare (1993), the probability of an American silver nickel landing on its edge is around 1 in 6000 tosses
     let num = Math.floor(Math.random() * 60000);
     let reply = num == 1 ? 'The coin landed on its edge! That happends only once in 6000!' : (num%2 ? 'Heads (yes)' : 'Tails (no)');

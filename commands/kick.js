@@ -5,7 +5,7 @@ exports.perms = ['KICK_MEMBERS'];
 exports.cooldown = 3000;
 exports.pipeable = true;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     if (!message.args.length) throw ['args', 1];
     if (!message.guild.me.hasPermission('KICK_MEMBERS')) throw ['botperm', 'Kick Members'];
     let mentionedMember = message.mentions.members.first();

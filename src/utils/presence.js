@@ -1,4 +1,4 @@
-module.exports = client => {
+module.exports = () => {
     client.user.setPresence({
         status: 'dnd',
         activity: {

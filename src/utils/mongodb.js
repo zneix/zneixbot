@@ -1,7 +1,7 @@
 const mongodb = require('mongodb');
 let ops = require('../json/auth').db;
 let uri = `mongodb://${ops.host}/${ops.maindb}`
-let client = new mongodb.MongoClient(uri, {
+let mclient = new mongodb.MongoClient(uri, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     keepAlive: true,
@@ -16,65 +16,65 @@ let client = new mongodb.MongoClient(uri, {
     authSource: ops.authdb
 });
 //utils
-client.utils = new Object;
+mclient.utils = new Object;
 //reconnection
-client.utils.reconnect = async function(){
-	await client.close();
-    return await client.connect().then(() => console.log('[mongodb] Reconeccted!')).catch(err => console.log(`[!mongodb] Error while reconnecting:\n${err}`));
+mclient.utils.reconnect = async function(){
+	await mclient.close();
+    return await mclient.connect().then(() => console.log('[mongodb] Reconeccted!')).catch(err => console.log(`[!mongodb] Error while reconnecting:\n${err}`));
 }
 //terminating current connection
-client.utils.disconnect = async function(){
-    return await client.close().then(() => console.log('[mongodb] Closed connection!')).catch(err => console.log(`[!mongodb] Error while closing connection:\n${err}`));
+mclient.utils.disconnect = async function(){
+    return await mclient.close().then(() => console.log('[mongodb] Closed connection!')).catch(err => console.log(`[!mongodb] Error while closing connection:\n${err}`));
 }
 //logging into
 async function connect(){
-    return await client.connect().then(() => console.log('[mongodb] Connected!')).catch(err => console.log(`[!mongodb] Error while connecting:\n${err}`));
+    return await mclient.connect().then(() => console.log('[mongodb] Connected!')).catch(err => console.log(`[!mongodb] Error while connecting:\n${err}`));
 }
-client.utils.connect = connect();
+mclient.utils.connect = connect();
 //finding documents
-client.utils.find = async function(collectionName, filter){
+mclient.utils.find = async function(collectionName, filter){
 	if (!collectionName) return "collection name can't be null";
-	if (!client.isConnected()) await connect();
-	return await client.db().collection(collectionName).find(filter).toArray();
+	if (!mclient.isConnected()) await connect();
+	return await mclient.db().collection(collectionName).find(filter).toArray();
 }
 //inserting documents
-client.utils.insert = async function(collectionName, docs){
+mclient.utils.insert = async function(collectionName, docs){
 	if (!collectionName) return "collection name can't be null";
-	if (!client.isConnected()) await connect();
-	return await client.db().collection(collectionName).insertMany(docs);
+	if (!mclient.isConnected()) await connect();
+	return await mclient.db().collection(collectionName).insertMany(docs);
 }
 //updating single document
-client.utils.replaceOne = async function(collectionName, filter, D_OMEGALUL_C){
+mclient.utils.replaceOne = async function(collectionName, filter, D_OMEGALUL_C){
 	if (!collectionName) return "collection name can't be null";
-	if (!client.isConnected()) await connect();
-	return await client.db().collection(collectionName).findOneAndReplace(filter, D_OMEGALUL_C);
+	if (!mclient.isConnected()) await connect();
+	return await mclient.db().collection(collectionName).findOneAndReplace(filter, D_OMEGALUL_C);
 }
 //deleting documents
-client.utils.delete = async function(collectionName, filter){
+mclient.utils.delete = async function(collectionName, filter){
 	if (!collectionName) return "collection name can't be null";
-	if (!client.isConnected()) await connect();
-	return await client.db().collection(collectionName).deleteMany(filter);
+	if (!mclient.isConnected()) await connect();
+	return await mclient.db().collection(collectionName).deleteMany(filter);
 }
 //get "autoincrementation" (kill me for this shitty workaround, perhaps should switch to sql already)
-client.utils.getAutoincrement = async function(collectionName){
-	if (!client.isConnected()) await connect();
-	let result = await client.db().collection(ops.incrcol).findOneAndUpdate({_id: collectionName }, {$inc: { count: 1 }});
+mclient.utils.getAutoincrement = async function(collectionName){
+	if (!mclient.isConnected()) await connect();
+	let result = await mclient.db().collection(ops.incrcol).findOneAndUpdate({_id: collectionName }, {$inc: { count: 1 }});
 	if (result.value) return result.value.count+1; //returning already existing document with elevated value
-	else return (await client.db().collection(ops.incrcol).insertOne({_id: collectionName, count: 1})).ops[0].count; //inserting new entry to database and returning it
+	else return (await mclient.db().collection(ops.incrcol).insertOne({_id: collectionName, count: 1})).ops[0].count; //inserting new entry to database and returning it
 }
 //getting permission levels from database
-client.utils.permlevels = async function(){
-	if (!client.isConnected()) await connect();
+mclient.utils.permlevels = async function(){
+	if (!mclient.isConnected()) await connect();
 	let obj = new Object;
-    let perms = (await client.db().collection(ops.permcol).find({}, {projection: {_id: null}}).sort('level', -1).toArray());
+    let perms = (await mclient.db().collection(ops.permcol).find({}, {projection: {_id: null}}).sort('level', -1).toArray());
     let levels = perms.map(perm => perm.level).filter((value, index, self) => self.indexOf(value) === index);
     levels.forEach(lvl => obj[lvl.toString()] = []);
     perms.forEach(perm => obj[perm.level].push(perm.userid));
     return obj;
 }
 //new config template insertion
-client.utils.newGuildConfig = async function(theid){
-	if (!client.isConnected()) await connect();
+mclient.utils.newGuildConfig = async function(theid){
+	if (!mclient.isConnected()) await connect();
 	console.log(`[mongodb] Attempting to insert configuration for ${theid}`);
 	let template = {
 		guildid: theid, //quick renaming due to big confusion and creating invalid objects
@@ -113,57 +113,57 @@ client.utils.newGuildConfig = async function(theid){
 			}
 		}
 	}
-	return (await client.db().collection('guilds').insertOne(template)).ops[0];
+	return (await mclient.db().collection('guilds').insertOne(template)).ops[0];
 }
 
 //mongodb leveling module utils
-client.lvl = new Object;
+mclient.lvl = new Object;
 //getting user level info
-client.lvl.findUser = async function(guildid, userid){
-	if (!client.isConnected()) await connect();
-	return (await client.db(lvldb).collection(guildid).find({userid: userid}).toArray())[0];
+mclient.lvl.findUser = async function(guildid, userid){
+	if (!mclient.isConnected()) await connect();
+	return (await mclient.db(lvldb).collection(guildid).find({userid: userid}).toArray())[0];
 }
-client.lvl.updateUser = async function(guildid, D_OMEGALUL_C){
-	if (!client.isConnected()) await connect();
-	return await client.db(lvldb).collection(guildid).findOneAndReplace({userid: D_OMEGALUL_C.userid}, D_OMEGALUL_C);
+mclient.lvl.updateUser = async function(guildid, D_OMEGALUL_C){
+	if (!mclient.isConnected()) await connect();
+	return await mclient.db(lvldb).collection(guildid).findOneAndReplace({userid: D_OMEGALUL_C.userid}, D_OMEGALUL_C);
 }
 //new user level info insertion
-client.lvl.newUser = async function(guildid, userid){
-	if (!client.isConnected()) await connect();
-	(await client.db(lvldb).listCollections().toArray()).some(x => x.name === guildid)?null:(await client.db(lvldb).createCollection(guildid));
+mclient.lvl.newUser = async function(guildid, userid){
+	if (!mclient.isConnected()) await connect();
+	(await mclient.db(lvldb).listCollections().toArray()).some(x => x.name === guildid)?null:(await mclient.db(lvldb).createCollection(guildid));
 	let template = {
 		userid: userid,
 		lvl: 0,
 		xp: 0
 	}
-	return (await client.db(lvldb).collection(guildid).insertOne(template)).ops[0];
+	return (await mclient.db(lvldb).collection(guildid).insertOne(template)).ops[0];
 }
 //finding and sorting elements in leveling collection
-client.lvl.getLeaderboard = async function(guildid){
-	if (!client.isConnected()) await connect();
-	return await client.db(lvldb).collection(guildid).find().sort('xp', -1).toArray();
+mclient.lvl.getLeaderboard = async function(guildid){
+	if (!mclient.isConnected()) await connect();
+	return await mclient.db(lvldb).collection(guildid).find().sort('xp', -1).toArray();
 }
 //getting user positions and document count for rank.js command
-client.lvl.getRanking = async function(guildid, userid){
-	if (!client.isConnected()) await connect();
-	let all = await client.db(lvldb).collection(guildid).countDocuments();
-	let userArr = (await client.db(lvldb).collection(guildid).find({}, {projection: {userid: userid, _id: null}}).sort('xp', -1).toArray());
+mclient.lvl.getRanking = async function(guildid, userid){
+	if (!mclient.isConnected()) await connect();
+	let all = await mclient.db(lvldb).collection(guildid).countDocuments();
+	let userArr = (await mclient.db(lvldb).collection(guildid).find({}, {projection: {userid: userid, _id: null}}).sort('xp', -1).toArray());
 	for (let i=0; i < userArr.length; i++) if (userArr[i].userid == userid) return `${i+1}/${all}`;
 }
 
 //mongodb-related listeners for topology and failed heartbeats information
-client.on('serverHeartbeatFailed', function(event){
+mclient.on('serverHeartbeatFailed', function(event){
 	console.log('[mongodb:event] Heartbeat FAILED!');
 });
-client.on('topologyOpening', function(event){
+mclient.on('topologyOpening', function(event){
 	console.log('[mongodb:event] Server topology is OPENING!');
 });
-client.on('topologyClosed', function(event){
+mclient.on('topologyClosed', function(event){
 	console.log('[mongodb:event] Server topology has CLOSED!');
 });
 
 //adds a database disconnecting before process terminates
-client.SIGINT = async function(){
-	await client.close().then(() => console.log('[mongodb] Closed upon SIGINT!'));
+mclient.SIGINT = async function(){
+	await mclient.close().then(() => console.log('[mongodb] Closed upon SIGINT!'));
 }
-exports.client = client;
+exports.client = mclient;

@@ -5,7 +5,7 @@ exports.perms = [];
 exports.cooldown = 3000;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     let random = Math.floor(Math.random()*10001)/100;
     let wish = message.args.length ? message.args.join(' ') : 'that';
     function clean(string){

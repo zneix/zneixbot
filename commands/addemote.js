@@ -5,7 +5,7 @@ exports.perms = ['MANAGE_EMOJIS'];
 exports.cooldown = 5000;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     if (!message.guild.me.hasPermission('MANAGE_EMOJIS')) throw ['botperm', 'Manage Emojis'];
     let url = '';
     let emotename = '';

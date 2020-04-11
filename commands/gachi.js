@@ -5,7 +5,7 @@ exports.perms = [];
 exports.cooldown = 7000;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     const fetch = require('node-fetch');
     if (!message.channel.nsfw && !client.perms.isGod(message.author.id)) message.channel.send(`This command is only available in NSFW channels, leatherman ${client.emoteHandler.guild('asset', 'pajaVan')}`);
     else {

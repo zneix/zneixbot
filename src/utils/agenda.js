@@ -11,7 +11,7 @@ exports.createAgenda = async function(dbclient){
     agenda.on('error', err => console.error('[!agenda] '+err));
     return agenda;
 }
-exports.defineJobs = function(client, agenda){
+exports.defineJobs = function(agenda){
     agenda.define('vin', job => {
         client.channels.cache.get(job.attrs.data[0]).send('zneix VON ZULUL !\n'+(Date.now() - job.attrs.data[1]) / 1000+'s');
         console.log('zneix VON ZULUL !\n'+Date.now()+'\n'+job.attrs.data[1]);
@@ -69,6 +69,6 @@ exports.defineJobs = function(client, agenda){
         if (ourWinners.length) await channel.send(`Conratulations to ${printWinners(ourWinners, true)}\nThey won the giveaway${job.attrs.data.ginfo.subject?`, **${job.attrs.data.ginfo.subject}**`:''}!\nMessage link: ${message.url}`);
     });
 }
-exports.SIGINT = async function(agenda){
-    await agenda.stop().then(a => console.log(`[agenda] stopped gracefully`)); //decided to put a variable in here, maybe it logs something eShrug
+exports.SIGINT = async function(){
+    await client.agenda.stop().then(a => console.log(`[agenda] stopped gracefully`)); //decided to put a variable in here, maybe it logs something eShrug
 }

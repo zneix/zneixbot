@@ -41,68 +41,60 @@ let levels = {
     user: 0, //everyone below regular user level is consideted as banned
     skipCooldowns: 400 //everyone above skipCooldowns skips every cooldown
 }
-module.exports = client => {
-    function getUserLvl(userid){
-        let levels = Object.keys(client.levels).map(k => parseInt(k)).sort();
-        let userLevel = 0; //default level of a user
-        for (let i = 0; i < levels.length; i++){
-            if (client.levels[levels[i].toString()].includes(userid)) userLevel = levels[i];
+function isGod(userid){
+    return getUserLvl(userid) >= levels['god']; //gods are defined above level 1000
+}
+function getUserLvl(userid){
+    let levels = Object.keys(client.levels).map(k => parseInt(k)).sort();
+    let userLevel = 0; //default level of a user
+    for (let i = 0; i < levels.length; i++){
+        if (client.levels[levels[i].toString()].includes(userid)) userLevel = levels[i];
+    }
+    return userLevel;
+}
+exports.levels = levels;
+exports.isGod = isGod;
+exports.getUserLvl = getUserLvl;
+exports.isAllowed = (cmd, channel, member) => {
+    if (member.client.cooldowns[cmd.name].has(`${member.guild.id}_${member.id}`)) return false;
+    if (cmd.level >= levels['minguildmod'] && cmd.level <= levels['maxguildmod']) return exports.guildLevel(member, cmd.level);
+    if (cmd.perms.length) return exports.guildPerm(cmd.perms, channel, member);
+    return getUserLvl(member.id) >= cmd.level ? true : false;
+}
+exports.isBanned = (userid) => {
+    return !(getUserLvl(userid) >= levels['user']); // -1 is a banned user
+}
+
+exports.guildLevel = (member, glevel) => {
+    if (isGod(member.id) || member.hasPermission('ADMINISTRATOR')) return true; //gods and guild admins have full rights in guild level tree (obviously)
+    client.go[member.guild.id].config.perms.filter(p => parseInt(p.level) >= glevel).forEach(perm => { //filter makes it, so only perms on sufficient levels
+        switch (perm.type){
+            case 'user':
+                if (member.roles.cache.has(perm.id)) return true;
+                break;
+            case 'role':
+                if (member.id == perm.id) return true;
+                break;
         }
-        return userLevel;
+    });
+}
+exports.guildPerm = (gperms, channel, member) => {
+    if (!isGod(member.id) && (!getUserLvl(member.id) >= levels['admin'])){
+        if (!member.permissionsIn(channel).toArray().some(x => gperms.includes(x))) return false;
     }
-    function isAllowed(cmd, channel, member){
-        if (member.client.cooldowns[cmd.name].has(`${member.guild.id}_${member.id}`)) return false;
-        if (cmd.level >= levels['minguildmod'] && cmd.level <= levels['maxguildmod']) return guildLevel(member, cmd.level);
-        if (cmd.perms.length) return guildPerm(cmd.perms, channel, member);
-        return getUserLvl(member.id) >= cmd.level ? true : false;
-    }
-    function isBanned(userid){
-        return !(getUserLvl(userid) >= levels['user']); // -1 is a banned user
-    }
-    function isGod(userid){
-        return getUserLvl(userid) >= levels['god']; //gods are defined above level 1000
-    }
-    function guildLevel(member, glevel){
-        if (isGod(member.id) || member.hasPermission('ADMINISTRATOR')) return true; //gods and guild admins have full rights in guild level tree (obviously)
-        client.go[member.guild.id].config.perms.filter(p => parseInt(p.level) >= glevel).forEach(perm => { //filter makes it, so only perms on sufficient levels
-            switch (perm.type){
-                case 'user':
-                    if (member.roles.cache.has(perm.id)) return true;
-                    break;
-                case 'role':
-                    if (member.id == perm.id) return true;
-                    break;
-            }
+    else {
+        let permGrant, ovrGrant;
+        gperms.forEach(perm => {
+            if (member.hasPermission(perm)) permGrant = true;
+            if (adminOverrides.includes(perm)) ovrGrant = true;
         });
+        if ((!permGrant && !ovrGrant) && !isGod(member.id)) return false;
     }
-    function guildPerm(gperms, channel, member){
-        if (!isGod(member.id) && (!getUserLvl(member.id) >= levels['admin'])){
-            if (!member.permissionsIn(channel).toArray().some(x => gperms.includes(x))) return false;
-        }
-        else {
-            let permGrant, ovrGrant;
-            gperms.forEach(perm => {
-                if (member.hasPermission(perm)) permGrant = true;
-                if (adminOverrides.includes(perm)) ovrGrant = true;
-            });
-            if ((!permGrant && !ovrGrant) && !isGod(member.id)) return false;
-        }
-        return true;
+    return true;
+}
+exports.sufficientRole = (msgmember, reqmember) => {
+    if (!isGod(msgmember.id)){
+        if (msgmember.roles.highest.position <= reqmember.roles.highest.position) return false;
     }
-    function sufficientRole(msgmember, reqmember){
-        if (!isGod(msgmember.id)){
-            if (msgmember.roles.highest.position <= reqmember.roles.highest.position) return false;
-        }
-        return true;
-    }
-    return {
-        getUserLvl: getUserLvl,
-        isAllowed: isAllowed,
-        isBanned: isBanned,
-        isGod: isGod,
-        guildPerm: guildPerm,
-        guildLevel: guildLevel,
-        sufficientRole: sufficientRole,
-        levels: levels
-    }
+    return true;
 }

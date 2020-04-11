@@ -5,7 +5,7 @@ exports.perms = [];
 exports.cooldown = 3000;
 exports.pipeabke = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     if (!message.args.length) throw ['args', 1];
     let objcodes = {
         "c": "Celsius",

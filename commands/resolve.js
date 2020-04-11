@@ -5,7 +5,7 @@ exports.perms = [];
 exports.cooldown = 7500;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     if (!message.args.length) throw ['args', 1];
     const dns = require('dns');
     dns.lookup(message.args[0].toLowerCase(), async function(err, address, family){

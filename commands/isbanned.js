@@ -5,7 +5,7 @@ exports.perms = ['BAN_MEMBERS'];
 exports.cooldown = 3000;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     if (!message.args.length) throw ['args', 1];
     if (!message.guild.me.hasPermission('BAN_MEMBERS')) throw ['botperm', 'Ban Members'];
     if (!/^\d{17,}$/.test(message.args[0])) throw ['normal', 'That is not a valid user ID'];

@@ -5,7 +5,7 @@ exports.perms = [];
 exports.cooldown = 5000;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     if (!message.guild.iconURL()) throw ['normal', 'This server doesn\'t have an icon'];
     let dynamicIcon = message.guild.iconURL({format:'png', dynamic:true});
     message.channel.send(`<${dynamicIcon}>${dynamicIcon != message.guild.iconURL({format:'png'}) ? `\nNon-animated: <${message.guild.iconURL({format:'png'})}>` : ''}`, {embed:{

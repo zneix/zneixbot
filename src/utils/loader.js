@@ -35,18 +35,18 @@ let aliases = {
     "eval": ["debug", "sudo"],
     "wednesday": ["wed"]
 }
-exports.getCommand = function(commands, name){
-    let cmd = commands.get(name);
+exports.getCommand = function(name){
+    let cmd = client.commands.get(name);
     if (cmd) return cmd;
     Object.keys(aliases).forEach(alias => {
-        if (aliases[alias].includes(name)) cmd = commands.get(alias);
+        if (aliases[alias].includes(name)) cmd = client.commands.get(alias);
     });
     return cmd;
 }
 exports.getAliases = function(cmdname){
     return aliases[cmdname] ? aliases[cmdname] : null;
 }
-exports.commands = function(client){
+exports.commands = function(){
     let commands = new enmap();
     client.cooldowns = new Object; //object, that's going to store all the cooldowns for now
     fs.readdir('./commands', (err, files) => {
@@ -62,22 +62,22 @@ exports.commands = function(client){
     });
     return commands;
 }
-exports.events = function(client){
+exports.events = function(){
     fs.readdir('./events', (err, files) => {
         if (err) return console.error(err);
         files.forEach(file => {
             if (!file.endsWith('.js')) return;
             let event = require(`../../events/${file}`);
             let name = file.split('.')[0];
-            client.on(name, event.bind(null, client));
+            client.on(name, event);
             delete require.cache[require.resolve(`../../events/${file}`)];
         });
     });
 }
-exports.gracefulExits = async function(client, agenda){
+exports.gracefulExits = async function(agenda){
     process.on('SIGINT', async code => {
         console.log('!!! SIGINT DETECTED !!!');
-        await agenda.SIGINT(client.agenda);
+        await agenda.SIGINT();
         await client.db.SIGINT();
         process.exit();
     });

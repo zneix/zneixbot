@@ -5,7 +5,7 @@ exports.perms = [];
 exports.cooldown = 7000;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     if (!message.args.length) throw ['normal', 'You need to provide a message (and optionally a destination channel by it\'s ID or channel mention).'];
     let mentionedChannel = message.mentions.channels.first();
     if (message.args[0].includes(mentionedChannel ? mentionedChannel.id : null)) return await say(client.channels.cache.get(mentionedChannel.id), message.args.join(' ').slice(mentionedChannel.toString().length).trim);

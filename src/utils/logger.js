@@ -1,11 +1,11 @@
-function logEmbed(client, embed){
+function logEmbed(embed){
     let logs = client.channels.cache.get(client.config.channels.logs);
     if (logs && !logs.permissionsFor(client.user).missing(['SEND_MESSAGES', 'VIEW_CHANNEL', 'EMBED_LINKS']).length) logs.send({embed:embed});
     else console.log("[!logger] logs channel not found or I'm missing perms!"); //code executed as an error message
 }
-exports.ready = function(client){
+exports.ready = function(){
     console.log(`{ready} Connected as: '${client.user.tag}'`);
-    logEmbed(client, {
+    logEmbed({
         color: 0xf97304,
         timestamp: client.readyAt,
         footer: {
@@ -31,7 +31,7 @@ exports.ready = function(client){
 }
 exports.command = function(message, cmd, level){
     console.log(`(cmd; level ${level}) ${cmd.name.replace(/{PREFIX}/, "")}`);
-    logEmbed(message.client, {
+    logEmbed({
         color: 0x0008ff,
         timestamp: message.createdAt,
         footer: {

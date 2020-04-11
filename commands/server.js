@@ -5,10 +5,10 @@ exports.perms = [];
 exports.cooldown = 7000;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     const {dateFormat, msToHuman} = require('../src/utils/formatter');
     //fetching members for correct membercount
-    await require('../src/utils/cache').fetchGuildMembers(client, message.guild);
+    await require('../src/utils/cache').fetchGuildMembers(message.guild);
     message.channel.send({embed:{
         color: 0xcc44ff,
         timestamp: message.createdAt,

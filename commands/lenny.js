@@ -5,6 +5,6 @@ exports.perms = [];
 exports.cooldown = 3000;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     message.channel.send('( ͡° ͜ʖ ͡°)');
 }

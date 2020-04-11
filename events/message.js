@@ -1,4 +1,4 @@
-module.exports = async (client, message) => {
+module.exports = async message => {
     if (message.mentions.has(message.guild.me)) message.react(client.emoteHandler.guild('asset', 'peepoPinged')); //funny thing to react on mention
     if (message.author.bot) return;
     if (message.channel.type == 'dm'){
@@ -26,12 +26,12 @@ module.exports = async (client, message) => {
             message.args = message.content.slice(message.prefix.length).trim().split(/\s+/gm);
             if (!message.args.length) return; //quick escape in weird cases (e.g. someone types only prefix, no command)
             let commandName = message.args.shift().toLowerCase();
-            let cmd = getCommand(client.commands, commandName);
+            let cmd = getCommand(commandName);
             if (!cmd) return; //simple return, when command isn't found
             //checking if user can actually call the command
             if (!client.perms.isAllowed(cmd, message.channel, message.member)) return;
             try {
-                cmd.run(client, message).then(function(){
+                cmd.run(message).then(function(){
                     //command count incrementation
                     client.cc++;
                     //logging stuff

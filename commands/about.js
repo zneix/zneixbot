@@ -5,7 +5,7 @@ exports.perms = [];
 exports.cooldown = 5000;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     const shell = require('child_process');
     const fetch = require('node-fetch');
     let {msToHuman} = require('../src/utils/formatter');
@@ -31,7 +31,7 @@ Developer: **${client.users.cache.get('288028423031357441').tag}**
 OS: **${process.platform}**
 **✨ [Invite me to your server!](https://discordapp.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot)
 ${client.emoteHandler.guild('asset', 'githublogo')} [Code on GitHub](https://github.com/zneix/zneixbot)
-${client.emoteHandler.guild('asset', 'discordlogo')} [Support & Community sevrer](https://discord.gg/3UZ5624)**`
+${client.emoteHandler.guild('asset', 'discordlogo')} [Support & Community server](https://discord.gg/3UZ5624)**`
     }
     if (!msg.deleted) msg.edit({embed:embed});
     else message.channel.send({embed:embed});

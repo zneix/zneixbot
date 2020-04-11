@@ -2,7 +2,7 @@ const fetch = require('node-fetch');
 const baseDiscord = 'https://discordapp.com/api';
 const agent = 'zneixbot Project: https://github.com/zneix/zneixbot';
 const formatter = require('./formatter');
-exports.getDiscordUser = async function(client, id){
+exports.getDiscordUser = async function(id){
     //custom query getting partial user profile, used by commands like user.js, avatar.js, etc...
     let response = await fetch(`${baseDiscord}/users/${id}`, {
         method: 'GET',

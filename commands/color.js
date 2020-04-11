@@ -5,7 +5,7 @@ exports.perms = [];
 exports.cooldown = 5000;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     if (!message.args.length) return resolve(null, 'random');
     let error = `This is not a valid color format!\nUse **${message.prefix}help ${__filename.split(/[\\/]/).pop().slice(0,-3)}** for valid formats.`
     //resolving numeric value

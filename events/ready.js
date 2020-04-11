@@ -1,5 +1,5 @@
-module.exports = async client => {
-    require('../src/utils/presence')(client);
+module.exports = async () => {
+    require('../src/utils/presence');
     await client.db.utils.insert('logready', [{
         readyAt: client.readyAt,
         readyTimestamp: client.readyTimestamp,
@@ -8,7 +8,7 @@ module.exports = async client => {
             users: client.users.cache.size
         }
     }]);
-    require('../src/utils/logger').ready(client);
+    require('../src/utils/logger').ready();
     await client.agenda.start(); //start the agenda once client is ready
     console.log('[agenda] Started job processing!');
 }

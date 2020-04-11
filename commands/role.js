@@ -5,7 +5,7 @@ exports.perms = [];
 exports.cooldown = 5000;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     let roles = client.go[message.guild.id].config.modules.roles;
     if (!Object.getOwnPropertyNames(roles.units).length) return message.channel.send('There are no configured autoroles in this server, contact admins to set those via config commad!');
     if (!message.args.length) message.channel.send({embed:{

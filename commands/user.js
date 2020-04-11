@@ -5,7 +5,7 @@ exports.perms = [];
 exports.cooldown = 5000;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     const formatter = require('../src/utils/formatter');
     const {getDiscordUser} = require('../src/utils/apicalls');
     if (!message.args.length) return result(message.author);
@@ -16,7 +16,7 @@ exports.run = async (client, message) => {
         if (validUser) return result(validUser); //userID
         else {
             if (!/\d{17,}/.test(message.args[0])) return result(message.author); //saving bandwith for obvious non-snowflake values
-            let puser = await getDiscordUser(client, message.args[0]);
+            let puser = await getDiscordUser(message.args[0]);
             if (!puser) return result(message.author); //escape on wrong ID
             //successfull user fetch, preparing message author data on result object and sending it to result function
             puser.avatarURL = await getFixedAvatar(puser);
@@ -62,9 +62,9 @@ exports.run = async (client, message) => {
             ]
         }
         //appending destkop / mobile indicator
-        if (user.presence.clientStatus) embed.description += `${user.presence.clientStatus.desktop ? ' 🖥' : ''}${user.presence.clientStatus.mobile ? ' 📱' : ''}${user.presence.clientStatus.web ? ' 🌐' : ''}`;
+        if (user.presence ? user.presence.clientStatus : false) embed.description += `${user.presence.clientStatus.desktop ? ' 🖥' : ''}${user.presence.clientStatus.mobile ? ' 📱' : ''}${user.presence.clientStatus.web ? ' 🌐' : ''}`;
         if (member){
-            await require('../src/utils/cache').fetchGuildMembers(client, message.guild);
+            await require('../src/utils/cache').fetchGuildMembers(message.guild);
             let joinPos = [...message.guild.members.cache.sort((a, b) => a.joinedAt - b.joinedAt).keys()].indexOf(member.user.id)+1;
             embed.fields.push({
                 name: 'Joined at',

@@ -5,7 +5,7 @@ exports.perms = [];
 exports.cooldown = 5000;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     let date = message.createdAt;
     let cy = date.getUTCFullYear();
     let notLeap = cy % 4; //is year not-leap (counts extra day in feb)

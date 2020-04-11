@@ -6,12 +6,11 @@ exports.perms = [];
 exports.cooldown = 3000;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     let cmdUtil = require('../src/utils/loader');
     let embed, cmd;
-    if (message.args.length) cmd = cmdUtil.getCommand(client.commands, message.args[0].toLowerCase());
+    if (message.args.length) cmd = cmdUtil.getCommand(message.args[0].toLowerCase());
     if (!message.args.length || !cmd || !client.perms.isAllowed(cmd, message.channel, message.member)){
-        let commandList = client.commands.filter(cmd => !cmd.perms.length && cmd.level < client.perms.levels.minguildmod).map((object, key, map) => `\`${key}\``).join(' | ');
         //${cmdUtil.aliases[key]?`  aliases:  \`${cmdUtil.aliases[key].join('\`, \`')}\``:''} //alias support (temporarily disabled ;_;)
         embed = { //send general help with command list
             color: parseInt('0x99ff66'),
@@ -23,7 +22,7 @@ exports.run = async (client, message) => {
             fields: [
                 {
                     name: `${client.emoteHandler.guild('asset', 'subscriber')} User commands`,
-                    value: commandList
+                    value: client.commands.filter(cmd => !cmd.perms.length && cmd.level < client.perms.levels.minguildmod).map((object, key, map) => `\`${key}\``).join(' | ')
                 }
             ],
         }
@@ -52,7 +51,7 @@ exports.run = async (client, message) => {
             });
         }
         // append owner commands
-        if (client.perms.getUserLvl(message.author.id) >= client.perms.levels.god){
+        if (client.perms.isGod(message.author.id)){
             embed.fields.push({
                 name: `${client.emoteHandler.guild('asset', 'broadcaster')} Bot Owner commands`,
                 value: client.commands.filter(cmd => cmd.level >= client.perms.levels.god).map((object, key, map) => `\`${key}\``).join(' | ')

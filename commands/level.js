@@ -5,7 +5,7 @@ exports.perms = [];
 exports.cooldown = 0;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     if (message.args.length > 1){
         let mentionedUser = message.mentions.members.first();
         let userid, level;

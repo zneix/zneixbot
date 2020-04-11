@@ -8,7 +8,7 @@ exports.perms = [];
 exports.cooldown = 10000;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     if (!message.attachments.size && !message.args.length) throw ['normal', 'You can use this command to suggest some new cool stuff, report a bug or message devs.\nInclude your message and bot will let you know once devs have reviewed your request.'];
     else {
         let text = message.args.join(' ');

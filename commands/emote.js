@@ -5,7 +5,7 @@ exports.perms = [];
 exports.cooldown = 5000;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     let res = /<(a?):([a-z0-9-_]+):(\d+)>/i.exec(message.args[0]);
     //res[0] - whole string; res[1] - is animated; res[2] - name; res[3] - id
     if (res){

@@ -11,7 +11,7 @@ exports.perms = [];
 exports.cooldown = 5000;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     if (message.args.length < 2) throw ['args', 2];
     let {round} = require('../src/utils/formatter');
     let num = 1;

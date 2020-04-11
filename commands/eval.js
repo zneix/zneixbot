@@ -5,7 +5,7 @@ exports.perms = [];
 exports.cooldown = 0;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     function clean(text){
         if (typeof(text) === 'string') return text.replace(/[`@]/g, `$1${String.fromCharCode(8203)}`);
         else return text;

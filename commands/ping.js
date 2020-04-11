@@ -5,7 +5,7 @@ exports.perms = []; //guild-based permissions
 exports.cooldown = 3000; //cooldown for the command
 exports.pipeable = false; //whether the command is able to be piped to another command or not
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     const formmatter = require('../src/utils/formatter');
     let m = await message.channel.send('Pinging...');
     let ping = {

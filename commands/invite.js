@@ -5,7 +5,7 @@ exports.perms = [];
 exports.cooldown = 3000;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     let perms = 1409674343; //permission bitfield
     message.channel.send({embed:{
         color: 0xf97304,

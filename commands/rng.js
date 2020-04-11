@@ -5,7 +5,7 @@ exports.perms = [];
 exports.cooldown = 3000;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     let num1 = message.args[0] ? message.args[0].replace(/,/g, ".") : null;
     let num2 = message.args[1] ? message.args[1].replace(/,/g, ".") : null;
     if (isNaN(message.args[0])) roll(1, 100);

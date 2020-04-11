@@ -6,7 +6,7 @@ exports.perms = ['MANAGE_GUILD'];
 exports.cooldown = 5000;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     if (!message.args.length) throw ['args', 1];
     if (!message.guild.me.hasPermission('MANAGE_GUILD')) throw ['botperm', 'Manage Server'];
     let region = message.args[0].toLowerCase();

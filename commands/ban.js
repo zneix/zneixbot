@@ -5,7 +5,7 @@ exports.perms = ['BAN_MEMBERS'];
 exports.cooldown = 3000;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     if (message.args.length < 1) throw ['args', 1];
     if (!message.guild.me.hasPermission('BAN_MEMBERS')) throw ['botperm', 'Ban Members'];
     let mentionedMember = message.mentions.members.first();

@@ -1,4 +1,4 @@
-exports.fetchGuildMembers = async function(client, guild){
+exports.fetchGuildMembers = async function(guild){
     if (client.go[guild.id] ? !client.go[guild.id].fetchedMembers : false){
         await guild.members.fetch();
         if (!client.go[guild.id]) client.go[guild.id] = new Object;

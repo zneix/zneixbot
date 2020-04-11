@@ -5,7 +5,7 @@ exports.perms = [];
 exports.cooldown = 3500;
 exports.pipeable = false;
 
-exports.run = async function xd(client, message) {
+exports.run = async message => {
     let mainMoves = ['U', 'F', 'R', 'D', 'B', 'L'];
     let oneOfSix = function(){ return mainMoves[Math.floor(Math.random()*6)];}
     let random = function(){

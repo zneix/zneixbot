@@ -5,7 +5,7 @@ exports.perms = [];
 exports.cooldown = 3000;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     if (!message.args.length) throw ['args', 1];
     if (!/\d{17,}/.test(message.args[0])) throw ['normal', 'Invalid snowflake was provided, more info here: <https://discordapp.com/developers/docs/reference#snowflakes>'];
     let {snowflake, dateFormat, hourFormat, msToHuman} = require('../src/utils/formatter');

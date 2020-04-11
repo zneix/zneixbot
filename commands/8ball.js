@@ -5,7 +5,7 @@ exports.perms = [];
 exports.cooldown = 3000;
 exports.pipeable = false;
 
-exports.run = async (client, message) => {
+exports.run = async message => {
     let responses = require('fs').readFileSync('./src/assets/8ball.txt').toString().split('\n');
     let rng = Math.floor(Math.random()*(responses.length));
     let responseFunctions = {
