@@ -8,8 +8,8 @@ exports.load = async function(){
         let totalTimeMs = job.runAtTimestampMs - job.insertedAtTimestampMs; //approx time of for how long the job was scheduled
         console.log(`Scheduling job, ID: ${job.id}`);
         lt.setTimeout(function(){
-            console.log(`...running scheduled job, ID: ${job.id}`);
-            exports.jobs[job.name](Math.floor(totalTimeMs/1000), job.params) //the scheduled job itself
+            console.log(`...running scheduled cronjob, ID: ${job.id}`);
+            exports.jobs[job.name](Math.floor(totalTimeMs/1000), job.id, job.params) //the scheduled job itself
             .catch(err => {
                 //updating cronjob document and marking it as failed
                 console.error(`Error while executing cronjob: ${err}`);
@@ -60,10 +60,12 @@ exports.schedule = async function(name, timeInSeconds, params){
         error: null //possible error that may occur while executing scheduled job
     }]).catch(err => console.error(err));
     lt.setTimeout(function(){
-        exports.jobs[name](timeInSeconds, params) //the scheduled job itself
+        console.log(`...running scheduled cronjob, ID: ${jobid}`);
+        exports.jobs[name](timeInSeconds, jobid, params) //the scheduled job itself
         .catch(err => {
             //updating cronjob document and marking it as failed
             console.error(`Error while executing cronjob: ${err}`);
+            console.error(err.stack);
             client.db.db().collection('crons').findOneAndUpdate({id: jobid}, { $set: {
                 runAtTimestampMs: null,
                 finishedBy: `${client.user.tag}#${process.pid}`,
@@ -85,19 +87,72 @@ exports.schedule = async function(name, timeInSeconds, params){
             } });
         });
     }, timeInSeconds * 1000);
+    return jobid; //just to let users know what is the ID of newly created cronjob
 }
 
 //define job types
 exports.jobs = {
     //function(timeInSeconds, userid, guildid, modtag, reason){
-    tempban: async (time, params) => {
+    tempban: async (time, jobid, params) => {
         /* params for this job:
         guildid - guild's ID
         userid - banned user's ID
         reason - reason of temporary ban
         modtag - user.tag of moderator that executed the action
         */
-       console.log(params);
-        client.guilds.cache.get(params.guildid).members.unban(params.userid, `${params.reason ? `${params.reason} || ` : ''}Responsible moderator: ${params.modtag} || executed after: ${formatter.msToHuman(time * 1000)}`);
+        client.guilds.cache.get(params.guildid).members.unban(params.userid, `${params.reason ? `${params.reason} || ` : ''}executed after: ${formatter.msToHuman(time * 1000)}`);
+    },
+    giveaway: async (time, jobid, params) => {
+        /* params for the command
+        channelid: message.channel.id, - channel, where command was executed
+        destChannelid: channel.id, - channel, where there's a giveaway
+        giveawayMsgid: giveawayMsg.id, - giveaway message's ID
+        giveawayInfo: {
+            subject: userMsg || null, - the giveaway note, message
+            winners: message.args[2] - amount of winners (number)
+        }
+        */
+        //clearances
+        let channel = client.channels.cache.get(params.channelid);
+        if (!channel) return; //client.channels.cache.get(params.orig[0]).send(`Giveaway Error (ID ${params.dest[1]})! Channel was deleted or I lack permissons to see it!`);
+        let message = channel.messages.cache.get(params.giveawayMsgid) || await channel.messages.fetch(params.giveawayMsgid);
+        if (!message) return channel.send(`Error while resolving giveaway (ID ${jobid})! Giveaway message has been deleted or I don't have permissons to see it!`);
+
+        //fetching in case bot rebooted before giveaway ended and bot doesn't have all reactions cached, has to be improved later
+        if (message.reactions.cache.get('🎉').users.cache.size != message.reactions.cache.get('🎉').count){
+            await message.reactions.cache.get('🎉').users.fetch(); //.then(f => Math.max([...f.keys()]) ); //finish better fetching all reactions
+        }
+        //get pool of all users that reacted to giveaway message
+        let pool = [...message.reactions.cache.get('🎉').users.cache.keys()];
+        //remove bot's reaction
+        let index = pool.indexOf(client.user.id);
+        if (index > -1) pool.splice(index, 1);
+
+        //escaping on empty giveaways...
+        if (!pool.length) return channel.send(`Couldn't determine giveaway winners (ID ${jobid})\n${message.url}`);
+
+        //select random winner(s)
+        let winners = function(){
+            let winnerArray = [];
+            for (let i = 0; i < Math.min(params.giveawayInfo.winners, pool.length); i++) winnerArray.push(pool.filter(x => !winnerArray.includes(x))[Math.floor(Math.random() * pool.length)]);
+            return winnerArray.map(id => `<@${id}>`);
+        }();
+        let embed = {
+            color: 0x2f3136,
+            timestamp: new Date(),
+            footer: {
+                text: `Hosted by ${message.author.tag} | Ended At`,
+                icon_url: message.author.avatarURL({format:'png', 'dynamic':true})
+            },
+            author: {
+                name: params.giveawayInfo.userMsg || 'A giveaway'
+            },
+            description:
+            `Giveaway lasted for: **${formatter.msToHuman(time * 1000)}**`
+            +`\nWinner${winners.length == 1 ? ': ' : '(s):\n'}${winners.join('\n')}`
+            +`\nWin chance: **${winners.length ? `${formatter.round(winners.length * 100 / pool.length, 2)}` : '0'}%**`
+        }
+        await message.edit('🎉 Giveaway has finished!', {embed: embed});
+        if (winners.length) channel.send(`Conratulations to ${winners.join(', ')}\nThey won the giveaway${params.giveawayInfo.userMsg?`, **${params.giveawayInfo.userMsg}**`:''}!\n${message.url}`);
     }
-};
+}
