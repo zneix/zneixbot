@@ -34,13 +34,13 @@ exports.run = async message => {
             if (!client.perms.sufficientRole(message.member, posmember)) throw ['normal', `You can't kick that user because they may have a higher (or equal) role than you ${client.emoteHandler.guild('asset', 'Jebaited')}`];
         }
         //actual ban
-        await client.cron.schedule('tempban', time, {
+        let jobid = await client.cron.schedule('tempban', time, {
             guildid: message.guild.id,
             userid: userid,
             reason: reason,
             modtag: message.author.tag
         });
         await message.guild.members.ban(userid, {reason: reason}).catch(err => {throw ['discordapi', err.toString()];})
-        .then(() => require('../src/embeds/kickedBanned')(message, userid, reason, true));
+        .then(user => require('../src/embeds/kickedBanned')(message, user.id, reason, {id: jobid, time: time}));
     }
 }

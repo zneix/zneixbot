@@ -11,5 +11,10 @@ module.exports = (message, userid, reason, boolBanned) => {
         },
         description: `<@${userid}> ${reason == 'No reason given.' ? 'without a reason.' : `with reason: \`${reason}\``}`
     }
+    if (typeof boolBanned == 'object'){
+        //tempban was executed
+        const {msToHuman} = require('../utils/formatter');
+        embed.description += `\nTemporarily banned for ${msToHuman(boolBanned.time * 1000)}, ID: ${boolBanned.id}`;
+    }
     message.channel.send({embed:embed});
 }
