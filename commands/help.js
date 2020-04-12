@@ -40,20 +40,20 @@ exports.run = async message => {
         if (client.perms.getUserLvl(message.author.id) >= client.perms.levels.mod){
             embed.fields.push({
                 name: `${client.emoteHandler.guild('asset', 'supermod')} Bot Moderator commands`,
-                value: client.commands.filter(cmd => cmd.level >= client.perms.levels.mod && cmd.level <= client.perms.levels.admin).map((object, key, map) => `\`${key}\``).join(' | ')
+                value: client.commands.filter(cmd => cmd.level >= client.perms.levels.mod && cmd.level < client.perms.levels.admin).map((object, key, map) => `\`${key}\``).join(' | ')
             });
         }
         // append admin commands
         if (client.perms.getUserLvl(message.author.id) >= client.perms.levels.admin){
             embed.fields.push({
                 name: `${client.emoteHandler.guild('asset', 'staff')} Bot Administrator commands`,
-                value: client.commands.filter(cmd => cmd.level >= client.perms.levels.admin && cmd.level >= client.perms.levels.god).map((object, key, map) => `\`${key}\``).join(' | ')
+                value: client.commands.filter(cmd => cmd.level >= client.perms.levels.admin && cmd.level < client.perms.levels.god).map((object, key, map) => `\`${key}\``).join(' | ')
             });
         }
         // append owner commands
         if (client.perms.isGod(message.author.id)){
             embed.fields.push({
-                name: `${client.emoteHandler.guild('asset', 'broadcaster')} Bot Owner commands`,
+                name: `${client.emoteHandler.guild('asset', 'staff')} Bot Owner commands`,
                 value: client.commands.filter(cmd => cmd.level >= client.perms.levels.god).map((object, key, map) => `\`${key}\``).join(' | ')
             });
         }
