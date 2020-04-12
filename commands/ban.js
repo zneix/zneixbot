@@ -1,12 +1,12 @@
 exports.description = 'Bans user from the server (without deleting user messages).';
-exports.usage = '<@mention | user ID> [reason]>';
+exports.usage = '<@mention | user ID> [reason]';
 exports.level = 0;
 exports.perms = ['BAN_MEMBERS'];
 exports.cooldown = 3000;
 exports.pipeable = false;
 
 exports.run = async message => {
-    if (message.args.length < 1) throw ['args', 1];
+    if (!message.args.length) throw ['args', 1];
     if (!message.guild.me.hasPermission('BAN_MEMBERS')) throw ['botperm', 'Ban Members'];
     let mentionedMember = message.mentions.members.first();
     if (!mentionedMember){

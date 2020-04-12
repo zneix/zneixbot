@@ -1,5 +1,5 @@
 module.exports = async () => {
-    require('../src/utils/presence');
+    require('../src/utils/presence')();
     await client.db.utils.insert('logready', [{
         readyAt: client.readyAt,
         readyTimestamp: client.readyTimestamp,
