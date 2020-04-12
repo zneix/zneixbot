@@ -77,7 +77,6 @@ exports.events = function(){
 exports.gracefulExits = async function(agenda){
     process.on('SIGINT', async code => {
         console.log('!!! SIGINT DETECTED !!!');
-        await agenda.SIGINT();
         await client.db.SIGINT();
         process.exit();
     });

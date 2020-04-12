@@ -9,6 +9,6 @@ module.exports = async () => {
         }
     }]);
     require('../src/utils/logger').ready();
-    await client.agenda.start(); //start the agenda once client is ready
-    console.log('[agenda] Started job processing!');
+    //start the non-agenda once client is ready
+    client.cron.load().then(count => console.log(`[cron] Scheduled ${count} job(s) at startup`));
 }

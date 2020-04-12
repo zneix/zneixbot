@@ -1,7 +1,6 @@
 //libs and utils
 const Discord = require('discord.js');
 let mongo = require('./src/utils/mongodb');
-let agenda = require('./src/utils/agenda');
 let load = require('./src/utils/loader');
 
 //client deps
@@ -11,6 +10,7 @@ client.version = JSON.parse(require('fs').readFileSync('package.json').toString(
 client.commands = load.commands(client); //global command object
 client.emoteHandler = require('./src/utils/emotes'); //utility for finding, sanitizing and detecting emotes in strings
 client.perms = require('./src/utils/perms'); //utility for working with permission restrictions and levels
+client.cron = require('./src/utils/cron');
 
 client.go = new Object;
 /* property above is GuildsObject - it's supposed to have few props:
@@ -25,7 +25,6 @@ client.cc = 0; //CommandCount - number of commands used since last reboot
     client.levels = await client.db.utils.permlevels(); //getting levels of priviledged users from database
     load.events(); //pre-loading events
     await client.login(require('./src/json/auth').token).catch(err => {console.error(err);process.emit('SIGINT');}); //logging in before initializing agenda
-    client.agenda = await agenda.createAgenda(client.db); // .catch(err => {console.error(err);process.emit('SIGINT');});
     //SIGINT and process.exit defs for graceful shutdowns
-    load.gracefulExits(agenda);
+    load.gracefulExits();
 })();
