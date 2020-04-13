@@ -1,6 +1,6 @@
-exports.description = 'You can use this command to suggest some new cool stuff, report a bug or message devs.'
+exports.description = 'Suggest new stuff, report a bug or message devs.'
 +'\nBot will notify you once devs review your suggestion.'
-+'\nKeep in mind, that abusing this command may result in being banned from the command.'
++'\nRemember, that abusing command may result in being banned from it.'
 +'\nYou can also go to my github page and open an issue there: https://github.com/zneix/zneixbot/issues';
 exports.usage = '<suggestion>';
 exports.level = 0;
@@ -9,7 +9,7 @@ exports.cooldown = 10000;
 exports.pipeable = false;
 
 exports.run = async message => {
-    if (!message.attachments.size && !message.args.length) throw ['normal', 'You can use this command to suggest some new cool stuff, report a bug or message devs.\nInclude your message and bot will let you know once devs have reviewed your request.'];
+    if (!message.attachments.size && !message.args.length) throw ['normal', 'You can use this to suggest new stuff, report a bug or message devs.\nInclude your message and bot will let you know once devs have reviewed your request.'];
     else {
         let text = message.args.join(' ');
         let links = null;
