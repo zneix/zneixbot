@@ -35,7 +35,7 @@ module.exports = async message => {
                     //command count incrementation
                     client.cc++;
                     //logging stuff
-                    //
+                    client.logger.command(message, cmd, cmd.level);
                     //handling cooldowns with an exception for immune users
                     if (client.perms.getUserLvl(message.author.id) >= client.perms.levels['skipCooldowns']) return;
                     client.cooldowns[cmd.name].add(`${message.guild.id}_${message.member.id}`);

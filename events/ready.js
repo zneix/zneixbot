@@ -8,7 +8,7 @@ module.exports = async () => {
             users: client.users.cache.size
         }
     }]);
-    require('../src/utils/logger').ready();
+    client.logger.ready();
     //start the non-agenda once client is ready
     client.cron.load().then(count => console.log(`[cron] Scheduled ${count} job(s) at startup`));
 }

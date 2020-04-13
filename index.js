@@ -11,6 +11,7 @@ client.commands = load.commands(client); //global command object
 client.emoteHandler = require('./src/utils/emotes'); //utility for finding, sanitizing and detecting emotes in strings
 client.perms = require('./src/utils/perms'); //utility for working with permission restrictions and levels
 client.cron = require('./src/utils/cron');
+client.logger = require('./src/utils/logger');
 
 client.go = new Object;
 /* property above is GuildsObject - it's supposed to have few props:

@@ -30,7 +30,7 @@ exports.ready = function(){
     });
 }
 exports.command = function(message, cmd, level){
-    console.log(`(cmd; level ${level}) ${cmd.name.replace(/{PREFIX}/, "")}`);
+    console.log(`(cmd; ${level}) ${cmd.name} ${message.author.tag}`);
     logEmbed({
         color: 0x0008ff,
         timestamp: message.createdAt,
@@ -39,8 +39,8 @@ exports.command = function(message, cmd, level){
             icon_url: message.author.avatarURL({format:'png', 'dynamic':true})
         },
         author: {
-            name: "Command called"
+            name: 'Command called'
         },
-        description: `**User**: ${message.author} ${message.author.tag}\n**Channel**: ${message.channel} (${message.channel.name} : ${message.channel.id}) \n**Command**: ${cmd.name.replace(/{PREFIX}/, "")}\n**Arguments**: ${message.args.length?(message.content.slice(message.guild.prefix.length).trim().split(/[ \s]+/gm).slice(1).join(" ")):"N/A"}`
+        description: `**User**: ${message.author} ${message.author.tag}\n**Channel**: ${message.channel} (${message.channel.name} : ${message.channel.id}) \n**Command**: ${cmd.name}\n**Arguments**: ${message.args.length ? (message.content.slice(message.prefix.length).trim().split(/\s+/gm).slice(1).join(' ')) : 'N/A'}`
     });
 }
