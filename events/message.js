@@ -49,6 +49,7 @@ module.exports = async message => {
             catch (errorino){require('../src/utils/errors').message(message, errorino);}
         }
         //message handling
+        require('../src/modules/leveling')(message);
     }
     catch (err){
         console.log('Insane message event error!!!!! Stack below:');

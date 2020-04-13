@@ -46,7 +46,7 @@ exports.run = async message => {
         // append admin commands
         if (client.perms.getUserLvl(message.author.id) >= client.perms.levels.admin){
             embed.fields.push({
-                name: `${client.emoteHandler.guild('asset', 'staff')} Bot Administrator commands`,
+                name: `${client.emoteHandler.guild('asset', 'broadcaster')} Bot Administrator commands`,
                 value: client.commands.filter(cmd => cmd.level >= client.perms.levels.admin && cmd.level < client.perms.levels.god).map((object, key, map) => `\`${key}\``).join(' | ')
             });
         }

@@ -121,34 +121,33 @@ mclient.lvl = new Object;
 //getting user level info
 mclient.lvl.findUser = async function(guildid, userid){
 	if (!mclient.isConnected()) await connect();
-	return (await mclient.db(lvldb).collection(guildid).find({userid: userid}).toArray())[0];
+	return (await mclient.db(ops.lvldb).collection(guildid).find({userid: userid}).toArray())[0];
 }
-mclient.lvl.updateUser = async function(guildid, D_OMEGALUL_C){
+mclient.lvl.updateUser = async function(guildid, userid, replaceQuery){
 	if (!mclient.isConnected()) await connect();
-	return await mclient.db(lvldb).collection(guildid).findOneAndReplace({userid: D_OMEGALUL_C.userid}, D_OMEGALUL_C);
+	return await mclient.db(ops.lvldb).collection(guildid).findOneAndUpdate({userid: userid}, replaceQuery);
 }
 //new user level info insertion
 mclient.lvl.newUser = async function(guildid, userid){
 	if (!mclient.isConnected()) await connect();
-	(await mclient.db(lvldb).listCollections().toArray()).some(x => x.name === guildid)?null:(await mclient.db(lvldb).createCollection(guildid));
-	let template = {
+	if (!(await mclient.db(ops.lvldb).listCollections().toArray()).some(x => x.name == guildid)) await mclient.db(ops.lvldb).createCollection(guildid);
+	return (await mclient.db(ops.lvldb).collection(guildid).insertOne({
 		userid: userid,
 		lvl: 0,
 		xp: 0
-	}
-	return (await mclient.db(lvldb).collection(guildid).insertOne(template)).ops[0];
+	})).ops[0];
 }
 //finding and sorting elements in leveling collection
 mclient.lvl.getLeaderboard = async function(guildid){
 	if (!mclient.isConnected()) await connect();
-	return await mclient.db(lvldb).collection(guildid).find().sort('xp', -1).toArray();
+	return await mclient.db(ops.lvldb).collection(guildid).find().sort('xp', -1).toArray();
 }
 //getting user positions and document count for rank.js command
 mclient.lvl.getRanking = async function(guildid, userid){
 	if (!mclient.isConnected()) await connect();
-	let all = await mclient.db(lvldb).collection(guildid).countDocuments();
-	let userArr = (await mclient.db(lvldb).collection(guildid).find({}, {projection: {userid: userid, _id: null}}).sort('xp', -1).toArray());
-	for (let i=0; i < userArr.length; i++) if (userArr[i].userid == userid) return `${i+1}/${all}`;
+	let all = await mclient.db(ops.lvldb).collection(guildid).countDocuments();
+	let userArr = (await mclient.db(ops.lvldb).collection(guildid).find().sort('xp', -1).toArray()).map(x => x.userid);
+	return `${userArr.indexOf(userid)+1}/${all}`;
 }
 
 //mongodb-related listeners for topology and failed heartbeats information
