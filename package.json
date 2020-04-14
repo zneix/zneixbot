@@ -1,5 +1,6 @@
 {
     "name": "zneixbot",
+    "version": "2.0.0",
     "main": "index.js",
     "author": {
         "name": "zneix",
@@ -15,7 +16,7 @@
         "enmap": "^5.2.4",
         "fs": "0.0.1-security",
         "long-timeout": "^0.1.1",
-        "mongodb": "^3.5.5",
+        "mongodb": "^3.5.6",
         "node-fetch": "^2.6.0"
     }
 }
