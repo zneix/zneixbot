@@ -1,5 +1,4 @@
 exports.command = async function(message, err){
-    console.log('preparing to handle the error...');
     if (Array.isArray(err)){
         let reply = `${client.emoteHandler.guild('dev', 'peepoSadDank')} 👉 `;
         switch (err[0]){
@@ -13,7 +12,10 @@ exports.command = async function(message, err){
                 reply = `This command requires at least **${err[1]}** arguments to run`;
                 break;
             case 'fetch':
-                reply = `Failed to fetch link info: ${err[1]}`;
+                reply = `Failed to fetch link info: ${err[1].replace('TypeError: ', '')}`;
+                break;
+            case 'canvas':
+                reply = `Canvas error: ${err[1].replace(/^Error: /, '')}`;
                 break;
             case 'discordapi':
                 reply = `Discord API threw an error: ${err[1].replace('DiscordAPIError: ', '')}`;
@@ -42,7 +44,7 @@ exports.command = async function(message, err){
 exports.message = async function(message, err){
     //catching some dank command errors
     console.log('Critical command error!!! Stack below:');
-    console.log(err);
+    console.trace(err);
     let nextid = await client.db.utils.getAutoincrement('errors');
     await client.db.utils.insert('errors', [{
         id: nextid,

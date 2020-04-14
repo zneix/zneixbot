@@ -41,8 +41,6 @@ module.exports = async message => {
                     client.cooldowns[cmd.name].add(`${message.guild.id}_${message.member.id}`);
                     setTimeout(function(){ client.cooldowns[cmd.name].delete(`${message.guild.id}_${message.member.id}`); }, cmd.cooldown);
                 }).catch(async err => {
-                    console.log('message.js catcher below');
-                    console.log(err);
                     require('../src/utils/errors').command(message, err);
                 });
             }
@@ -53,6 +51,6 @@ module.exports = async message => {
     }
     catch (err){
         console.log('Insane message event error!!!!! Stack below:');
-        console.error(err);
+        console.trace(err);
     }
 }

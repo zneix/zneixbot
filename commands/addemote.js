@@ -21,7 +21,7 @@ exports.run = async message => {
         let res = /<(a?):([a-z0-9-_]+):(\d+)>/i.exec(message.args[0]);
         //res[0] - whole string; res[1] - is animated; res[2] - name; res[3] - id
         if (res){
-            url = `https://cdn.discordapp.com/emojis/${res[3]}.${res[1].length?'gif':'png'}`;
+            url = `https://cdn.discordapp.com/emojis/${res[3]}.${res[1].length ? 'gif' : 'png'}`;
             emotename = res[2];
         }
         else {
