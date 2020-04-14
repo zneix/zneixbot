@@ -3,7 +3,7 @@ exports.usage = '';
 exports.level = 0;
 exports.perms = [];
 exports.cooldown = 3500;
-exports.pipeable = false;
+exports.dmable = true;
 
 exports.run = async message => {
     let mainMoves = ['U', 'F', 'R', 'D', 'B', 'L'];

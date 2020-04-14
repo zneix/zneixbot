@@ -3,7 +3,7 @@ exports.usage = '<hackerman stuff>';
 exports.level = 1000;
 exports.perms = [];
 exports.cooldown = 0;
-exports.pipeable = false;
+exports.dmable = false;
 
 exports.run = async message => {
     if (!message.args.length) throw ['args', 1];

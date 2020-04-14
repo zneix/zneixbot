@@ -3,7 +3,7 @@ exports.usage = ''; //usage syntax
 exports.level = 0; //required global level for running the command (used by high-level restricted commands)
 exports.perms = []; //guild-based permissions
 exports.cooldown = 3000; //cooldown for the command
-exports.pipeable = false; //whether the command is able to be piped to another command or not
+exports.dmable = true; //whether the command is able to be piped to another command or not
 
 exports.run = async message => {
     const formmatter = require('../src/utils/formatter');

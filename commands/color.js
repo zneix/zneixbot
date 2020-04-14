@@ -3,7 +3,7 @@ exports.usage = '<color>';
 exports.level = 0;
 exports.perms = [];
 exports.cooldown = 5000;
-exports.pipeable = false;
+exports.dmable = true;
 
 exports.run = async message => {
     if (!message.args.length) return resolve(null, 'random');
@@ -49,7 +49,7 @@ exports.run = async message => {
                 color.number = parseInt(value);
                 break;
         }
-        let colorapi = await fetch('https://www.thecolorapi.com/id?hex='+color.hex).then(res => res.json());
+        let colorapi = await fetch(`https://www.thecolorapi.com/id?hex=${color.hex}`).then(res => res.json());
         let embed = {
             color: color.number >= 16777215 ? color.number-1 : color.number,
             timestamp: message.createdAt,

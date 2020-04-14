@@ -3,7 +3,7 @@ exports.usage = '<@mention | user ID> [reason]';
 exports.level = 0;
 exports.perms = ['KICK_MEMBERS'];
 exports.cooldown = 3000;
-exports.pipeable = true;
+exports.dmable = false;
 
 exports.run = async message => {
     if (!message.args.length) throw ['args', 1];

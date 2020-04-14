@@ -3,7 +3,7 @@ exports.usage = '<command>';
 exports.level = 500;
 exports.perms = [];
 exports.cooldown = 0;
-exports.pipeable = false;
+exports.dmable = false;
 
 exports.run = async message => {
     let cmdName = message.args[1].toLowerCase();

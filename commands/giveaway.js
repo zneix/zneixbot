@@ -4,7 +4,7 @@ exports.usage = '<channelID | #channel> <time> <number of winners (must be 1-20)
 exports.level = 0;
 exports.perms = ['MANAGE_CHANNELS'];
 exports.cooldown = 10000;
-exports.pipeable = false;
+exports.dmable = false;
 
 exports.run = async message => {
     if (message.args.length < 3) throw ['args', 3];

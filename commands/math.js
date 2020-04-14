@@ -3,7 +3,7 @@ exports.usage = '<math expression>';
 exports.level = 0;
 exports.perms = [];
 exports.cooldown = 5000;
-exports.pipeable = false;
+exports.dmable = true;
 
 exports.run = async message => {
     const fetch = require('node-fetch');

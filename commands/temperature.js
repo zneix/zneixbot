@@ -3,7 +3,7 @@ exports.usage = `[amount of degrees] <C | F>\n56 F\n20 C`;
 exports.level = 0;
 exports.perms = [];
 exports.cooldown = 3000;
-exports.pipeabke = false;
+exports.dmable = true;
 
 exports.run = async message => {
     if (!message.args.length) throw ['args', 1];
@@ -27,7 +27,7 @@ exports.run = async message => {
     if (!wanted()) throw ['normal', 'Temperature must be either C or F'];
     let base = message.args[0].toLowerCase() == 'c' ? 'f' : 'c';
     message.channel.send({embed:{
-        color: message.member.displayColor,
+        color: message.member ? message.member.displayColor : 0x23c482,
         timestamp: message.createdAt,
         footer: {
             text: message.author.tag,

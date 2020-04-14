@@ -3,7 +3,7 @@ exports.usage = '<user ID>';
 exports.level = 0;
 exports.perms = ['BAN_MEMBERS'];
 exports.cooldown = 3000;
-exports.pipeable = false;
+exports.dmable = false;
 
 exports.run = async message => {
     if (!message.args.length) throw ['args', 1];

@@ -3,7 +3,7 @@ exports.usage = '[channel ID | #channel] <message>';
 exports.level = 300;
 exports.perms = [];
 exports.cooldown = 7000;
-exports.pipeable = false;
+exports.dmable = false;
 
 exports.run = async message => {
     if (!message.args.length) throw ['normal', 'You need to provide a message (and optionally a destination channel by it\'s ID or channel mention).'];

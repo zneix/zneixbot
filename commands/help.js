@@ -4,7 +4,7 @@ exports.usage = '\n<command name>';
 exports.level = 0;
 exports.perms = [];
 exports.cooldown = 3000;
-exports.pipeable = false;
+exports.dmable = false;
 
 exports.run = async message => {
     let cmdUtil = require('../src/utils/loader');

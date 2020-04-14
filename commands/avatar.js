@@ -3,10 +3,9 @@ exports.usage = '[user ID | @mention]';
 exports.level = 0;
 exports.perms = [];
 exports.cooldown = 5000;
-exports.pipeable = false;
+exports.dmable = true;
 
 exports.run = async message => {
-    const {getDiscordUser} = require('../src/utils/apicalls');
     if (!message.args.length) return await link(message.author);
     let mentionedUser = message.mentions.users.first();
     if (!mentionedUser){
@@ -14,6 +13,7 @@ exports.run = async message => {
         if (validUser) return await link(validUser);
         else {
             if (!/\d{17,}/.test(message.args[0])) return link(message.author, true); //saving bandwith for obvious non-snowflake values
+            const {getDiscordUser} = require('../src/utils/apicalls');
             let puser = await getDiscordUser(message.args[0]); //puser - Partial User (just a few basic informations)
             if (!puser) return link(message.author, true); //escape on wrong ID
             //successfull user fetch, preparing message author data on result object and sending it to result function

@@ -3,7 +3,7 @@ exports.usage = '[user ID | @mention]';
 exports.level = 0;
 exports.perms = [];
 exports.cooldown = 5000;
-exports.pipeable = false;
+exports.dmable = true;
 
 exports.run = async message => {
     const formatter = require('../src/utils/formatter');
@@ -31,7 +31,7 @@ exports.run = async message => {
         }
     }
     async function result(user, boolApi){
-        let member = message.guild.members.cache.get(user.id);
+        let member = message.guild ? message.guild.members.cache.get(user.id) : null;
         let embed = {
             color: 0x2f3136,
             timestamp: message.createdAt,

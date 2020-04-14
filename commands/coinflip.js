@@ -3,7 +3,7 @@ exports.usage = '[message]';
 exports.level = 0;
 exports.perms = [];
 exports.cooldown = 3000;
-exports.pipeable = false;
+exports.dmable = true;
 
 exports.run = async message => {
     // According to Murray & Teare (1993), the probability of an American silver nickel landing on its edge is around 1 in 6000 tosses

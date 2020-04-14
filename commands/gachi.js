@@ -3,7 +3,7 @@ exports.usage = '';
 exports.level = 0;
 exports.perms = [];
 exports.cooldown = 7000;
-exports.pipeable = false;
+exports.dmable = false;
 
 exports.run = async message => {
     const fetch = require('node-fetch');

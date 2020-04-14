@@ -3,7 +3,7 @@ exports.usage = '[question]';
 exports.level = 0;
 exports.perms = [];
 exports.cooldown = 3000;
-exports.pipeable = false;
+exports.dmable = false;
 
 exports.run = async message => {
     let responses = require('fs').readFileSync('./src/assets/8ball.txt').toString().split('\n');

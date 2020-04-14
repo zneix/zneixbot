@@ -3,7 +3,7 @@ exports.usage = '';
 exports.level = 0;
 exports.perms = [];
 exports.cooldown = 3000;
-exports.pipeable = false;
+exports.dmable = true;
 
 exports.run = async message => {
     let perms = 1409674343; //permission bitfield

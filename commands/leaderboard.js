@@ -3,7 +3,7 @@ exports.usage = '';
 exports.level = 0;
 exports.perms = [];
 exports.cooldown = 30000;
-exports.level = 0;
+exports.dmable = false;
 
 exports.run = async message => {
     //comment that code later (and maybe add a cooldown? ;d)

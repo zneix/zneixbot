@@ -9,7 +9,7 @@ exports.usage = '[amount] <first currency> <wanted currency>\nEUR PLN\n10 EUR PL
 exports.level = 0;
 exports.perms = [];
 exports.cooldown = 5000;
-exports.pipeable = false;
+exports.dmable = true;
 
 exports.run = async message => {
     if (message.args.length < 2) throw ['args', 2];
@@ -40,7 +40,7 @@ exports.run = async message => {
     let fetch = require('node-fetch');
     let apidata = await fetch(`https://api.exchangeratesapi.io/latest?base=${wanted()}`).then(d => d.json());
     let embed = {
-        color: message.member.displayColor,
+        color: message.member ? message.member.displayColor : 0x23c482,
         timestamp: message.createdAt,
         footer: {
             text: message.author.tag,

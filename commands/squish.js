@@ -6,7 +6,7 @@ exports.usage = `<:Kappa:561931926794141768>`
 exports.level = 0;
 exports.perms = [];
 exports.cooldown = 7000;
-exports.pipeable = false;
+exports.dmable = true;
 
 exports.run = async message => {
     const canvas = require('canvas');

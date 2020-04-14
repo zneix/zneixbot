@@ -1,22 +1,23 @@
 module.exports = async message => {
-    if (message.mentions.has(message.guild.me)) message.react(client.emoteHandler.guild('asset', 'peepoPinged')); //funny thing to react on mention
-    if (message.author.bot) return;
-    if (message.channel.type == 'dm'){
-        //handle some commands later
-        return;
-    }
-    if (message.mentions.everyone && (message.channel.permissionsFor(message.guild.id).missing(['SEND_MESSAGES', 'VIEW_CHANNEL']).length == 0)) message.reply(`you don't ping everyone ${client.emoteHandler.find('DansGame')}`); //sending DansGame message, but only in channels, where everyone can freely type and read
+    if (message.author.bot) return; //ignoring bots
     try {
         //getting server settings
-        if (!client.go[message.guild.id]){
-            client.go[message.guild.id] = new Object;
-            // client.go[message.guild.id].tr = new Set; // that'll be implemented only for guilds with leveling enabled (in leveling module manager) to save some memory
-            let config = (await client.db.utils.find('guilds', {guildid: message.guild.id}))[0];
-            if (!config) config = await client.db.utils.newGuildConfig(message.guild.id);
-            client.go[message.guild.id].config = config;
+        if (message.guild){
+            //funny thing to react on mention, catching to prevent logging stupid fucking mistakes, man
+            if (message.mentions.has(message.guild.me)) message.react(client.emoteHandler.guild('asset', 'peepoPinged')).catch(e => {return;});
+            //sending DansGame message, but only in channels, where everyone can freely type and read, disabled for now
+            // if (message.mentions.everyone && (message.channel.permissionsFor(message.guild.id).missing(['SEND_MESSAGES', 'VIEW_CHANNEL']).length == 0)) message.reply(`you don't ping everyone ${client.emoteHandler.find('DansGame')}`);
+            if (!client.go[message.guild.id]){
+                client.go[message.guild.id] = new Object;
+                // client.go[message.guild.id].tr = new Set; // that'll be implemented only for guilds with leveling enabled (in leveling module manager) to save some memory
+                let config = (await client.db.utils.find('guilds', {guildid: message.guild.id}))[0];
+                if (!config) config = await client.db.utils.newGuildConfig(message.guild.id);
+                client.go[message.guild.id].config = config;
+            }
+            let config = client.go[message.guild.id].config;
+            message.prefix = config.customprefix == null ? client.config.prefix : config.customprefix;
         }
-        let config = client.go[message.guild.id].config;
-        message.prefix = config.customprefix === null ? client.config.prefix : config.customprefix;
+        if (!message.prefix) message.prefix = client.config.prefix; //making sure message.prefix is defined, used in DM channels
         if (message.content == client.user.toString() || message.content == `<@!${client.user.id}>`) message.channel.send(`Hey ${message.author}, my prefix is \`${message.prefix}\``, {embed:{color:Math.floor(Math.random()*16777215),description:'[Support Server](https://discordapp.com/invite/cF555AV)'}});
 
         if (message.content.toLowerCase().startsWith(message.prefix)){
@@ -29,7 +30,8 @@ module.exports = async message => {
             let cmd = getCommand(commandName);
             if (!cmd) return; //simple return, when command isn't found
             //checking if user can actually call the command
-            if (!client.perms.isAllowed(cmd, message.channel, message.member)) return;
+            if (!cmd.dmable && message.channel.type == 'dm') return require('../src/utils/errors').command(message, ['normal', 'This command can\'t be used in DM channels!']);
+            if (message.channel.type != 'dm') if (!client.perms.isAllowed(cmd, message.channel, message.member)) return;
             try {
                 cmd.run(message).then(function(){
                     //command count incrementation
@@ -38,14 +40,14 @@ module.exports = async message => {
                     client.logger.command(message, cmd, cmd.level);
                     //handling cooldowns with an exception for immune users
                     if (client.perms.getUserLvl(message.author.id) >= client.perms.levels['skipCooldowns']) return;
-                    client.cooldowns[cmd.name].add(`${message.guild.id}_${message.member.id}`);
-                    setTimeout(function(){ client.cooldowns[cmd.name].delete(`${message.guild.id}_${message.member.id}`); }, cmd.cooldown);
+                    client.cooldowns[cmd.name].add(`${message.guild ? message.guild.id : message.channel.id}_${message.member.id}`);
+                    setTimeout(function(){ client.cooldowns[cmd.name].delete(`${message.guild ? message.guild.id : message.channel.id}_${message.member.id}`); }, cmd.cooldown);
                 }).catch(async err => { require('../src/utils/errors').command(message, err); });
             }
             catch (errorino){require('../src/utils/errors').message(message, errorino);}
         }
         //message handling
-        require('../src/modules/leveling')(message);
+        if (message.channel.type != 'dm') require('../src/modules/leveling')(message);
     }
     catch (err){
         console.log('Insane message event error!!!!! Stack below:');

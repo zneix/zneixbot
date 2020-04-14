@@ -3,7 +3,7 @@ exports.usage = '<module name> <further settings>';
 exports.level = 100;
 exports.perms = ['ADMINISTRATOR', 'MANAGE_GUILD'];
 exports.cooldown = 3000;
-exports.pipeable = false;
+exports.dmable = false;
 
 exports.run = async message => {
     let data = client.go[message.guild.id].config;

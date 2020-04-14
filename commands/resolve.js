@@ -3,7 +3,7 @@ exports.usage = `<IP | hostname>`;
 exports.level = 0;
 exports.perms = [];
 exports.cooldown = 7500;
-exports.pipeable = false;
+exports.dmable = true;
 
 exports.run = async message => {
     if (!message.args.length) throw ['args', 1];

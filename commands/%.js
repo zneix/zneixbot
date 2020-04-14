@@ -3,7 +3,7 @@ exports.usage = '[message]';
 exports.level = 0;
 exports.perms = [];
 exports.cooldown = 3000;
-exports.pipeable = false;
+exports.dmable = true;
 
 exports.run = async message => {
     let random = Math.floor(Math.random()*10001)/100;

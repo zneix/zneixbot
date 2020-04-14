@@ -3,7 +3,7 @@ exports.usage = '<discord emote>';
 exports.level = 0;
 exports.perms = [];
 exports.cooldown = 5000;
-exports.pipeable = false;
+exports.dmable = true;
 
 exports.run = async message => {
     let res = /<(a?):([a-z0-9-_]+):(\d+)>/i.exec(message.args[0]);

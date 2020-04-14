@@ -6,7 +6,7 @@ exports.usage = '<suggestion>';
 exports.level = 0;
 exports.perms = [];
 exports.cooldown = 10000;
-exports.pipeable = false;
+exports.dmable = true;
 
 exports.run = async message => {
     if (!message.attachments.size && !message.args.length) throw ['normal', 'You can use this to suggest new stuff, report a bug or message devs.\nInclude your message and bot will let you know once devs have reviewed your request.'];

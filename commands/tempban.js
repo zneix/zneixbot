@@ -4,7 +4,7 @@ exports.usage = '<@mention | user ID> <time> [reason]';
 exports.level = 0;
 exports.perms = ['BAN_MEMBERS'];
 exports.cooldown = 3000;
-exports.pipeable = false;
+exports.dmable = false;
 
 exports.run = async message => {
     if (message.args.length < 2) throw ['args', 2];

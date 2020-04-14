@@ -4,7 +4,7 @@ exports.usage = '<region>';
 exports.level = 0;
 exports.perms = ['MANAGE_GUILD'];
 exports.cooldown = 5000;
-exports.pipeable = false;
+exports.dmable = false;
 
 exports.run = async message => {
     if (!message.args.length) throw ['args', 1];

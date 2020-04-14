@@ -3,7 +3,7 @@ exports.usage = '';
 exports.level = 0;
 exports.perms = [];
 exports.cooldown = 5000;
-exports.pipeable = false;
+exports.dmable = false;
 
 exports.run = async message => {
     let roles = client.go[message.guild.id].config.modules.roles;

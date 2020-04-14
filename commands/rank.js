@@ -3,7 +3,7 @@ exports.usage = '[@mention | userID]';
 exports.level = 0;
 exports.perms = [];
 exports.cooldown = 15000;
-exports.pipeable = false;
+exports.dmable = false;
 
 exports.run = async message => {
     //remember to add some kind of cooldown (and comment code of course)

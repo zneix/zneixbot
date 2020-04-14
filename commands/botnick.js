@@ -3,7 +3,7 @@ exports.usage = '[new nick]';
 exports.level = 500;
 exports.perms = [];
 exports.cooldown = 3000;
-exports.pipeable = false;
+exports.dmable = false;
 
 exports.run = async message => {
     if (!message.guild.me.hasPermission('CHANGE_NICKNAME')) throw ['botperm', 'Change Nickname'];

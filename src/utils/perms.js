@@ -56,7 +56,7 @@ exports.levels = levels;
 exports.isGod = isGod;
 exports.getUserLvl = getUserLvl;
 exports.isAllowed = (cmd, channel, member) => {
-    if (member.client.cooldowns[cmd.name].has(`${member.guild.id}_${member.id}`)) return false;
+    if (client.cooldowns[cmd.name].has(`${member.guild ? member.guild.id : message.channel.id}_${member.id}`)) return false;
     if (cmd.level >= levels['minguildmod'] && cmd.level <= levels['maxguildmod']) return exports.guildLevel(member, cmd.level);
     if (cmd.perms.length) return exports.guildPerm(cmd.perms, channel, member);
     return getUserLvl(member.id) >= cmd.level ? true : false;

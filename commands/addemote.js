@@ -3,7 +3,7 @@ exports.usage = '<:Kappa:630103099578646558>\nhttps://static-cdn.jtvnw.net/emoti
 exports.level = 0;
 exports.perms = ['MANAGE_EMOJIS'];
 exports.cooldown = 5000;
-exports.pipeable = false;
+exports.dmable = false;
 
 exports.run = async message => {
     if (!message.guild.me.hasPermission('MANAGE_EMOJIS')) throw ['botperm', 'Manage Emojis'];

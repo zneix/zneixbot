@@ -1,9 +1,9 @@
-exports.description = 'Cleans specified amount of messages. Must be ';
-exports.usage = '<1 - 500>';
+exports.description = 'Cleans specified amount of messages. Must be between 1 and 300.';
+exports.usage = '<1 - 300>';
 exports.level = 0;
 exports.perms = ['MANAGE_MESSAGES'];
 exports.cooldown = 7500;
-exports.pipeable = false;
+exports.dmable = false;
 
 exports.run = async message => {
     if (!message.args.length) throw ['args', 1];

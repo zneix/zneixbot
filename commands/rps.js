@@ -3,7 +3,7 @@ exports.usage = '<rock | paper | scissors>'
 exports.level = 0;
 exports.perms = [];
 exports.cooldown = 3000;
-exports.pipeable = false;
+exports.dmable = true;
 
 exports.run = async message => {
     if (!message.args.length) throw ['args', 1];

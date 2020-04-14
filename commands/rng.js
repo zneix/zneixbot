@@ -3,7 +3,7 @@ exports.usage = '[first number] [last number]\n1 100\n21 37';
 exports.level = 0;
 exports.perms = [];
 exports.cooldown = 3000;
-exports.pipeable = false;
+exports.dmable = false;
 
 exports.run = async message => {
     let num1 = message.args[0] ? message.args[0].replace(/,/g, ".") : null;
