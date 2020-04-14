@@ -52,15 +52,15 @@ function memberAddRemove(member, bool){
 //each export represents related event, all asynced to eliminate possibility of a mistake
 exports.guildBanAdd = async (guild, user) => {
     let config = client.go[guild.id].config;
-    if (config.modules.logging.enabled && config.modules.logging.joinleave){
-        let logchannel = guild.channels.cache.get(config.modules.logging.joinleave);
+    if (config.modules.logging.enabled && config.modules.logging.banunban){
+        let logchannel = guild.channels.cache.get(config.modules.logging.banunban);
         if (logchannel) return await logchannel.send({embed:banAddRemove(guild, user, true)});
     }
 }
 exports.guildBanRemove = async (guild, user) => {
     let config = client.go[guild.id].config;
-    if (config.modules.logging.enabled && config.modules.logging.joinleave){
-        let logchannel = guild.channels.cache.get(config.modules.logging.joinleave);
+    if (config.modules.logging.enabled && config.modules.logging.banunban){
+        let logchannel = guild.channels.cache.get(config.modules.logging.banunban);
         if (logchannel) return await logchannel.send({embed:banAddRemove(guild, user, false)});
     }
 }
