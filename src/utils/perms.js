@@ -67,19 +67,22 @@ exports.isBanned = (userid) => {
 
 exports.guildLevel = (member, glevel) => {
     if (isGod(member.id) || member.hasPermission('ADMINISTRATOR')) return true; //gods and guild admins have full rights in guild level tree (obviously)
+    let allowed = false;
     client.go[member.guild.id].config.perms.filter(p => parseInt(p.level) >= glevel).forEach(perm => { //filter makes it, so only perms on sufficient levels
         switch (perm.type){
             case 'user':
-                if (member.roles.cache.has(perm.id)) return true;
+                console.log(member.id, perm.id)
+                if (member.id == perm.id) allowed = true;
                 break;
             case 'role':
-                if (member.id == perm.id) return true;
+                if (member.roles.cache.has(perm.id)) allowed = true;
                 break;
         }
     });
+    return allowed;
 }
 exports.guildPerm = (gperms, channel, member) => {
-    if (!isGod(member.id) && (!getUserLvl(member.id) >= levels['admin'])){
+    if (!isGod(member.id) && (!getUserLvl(member.id) < levels['admin'])){
         if (!member.permissionsIn(channel).toArray().some(x => gperms.includes(x))) return false;
     }
     else {

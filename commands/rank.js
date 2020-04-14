@@ -14,9 +14,9 @@ exports.run = async message => {
     }
     else {
         if (message.mentions.members.size){
-            if (message.args[0].includes(message.mentions.members.first().id)){
-                let userLvl = await client.db.lvl.findUser(message.guild.id, message.mentions.members.first().id);
-                if (!userLvl) userLvl = await client.db.lvl.newUser(message.guild.id, message.mentions.members.first().id);
+            if (message.args[0].includes(message.mentions.members.firstKey())){
+                let userLvl = await client.db.lvl.findUser(message.guild.id, message.mentions.members.firstKey());
+                if (!userLvl) userLvl = await client.db.lvl.newUser(message.guild.id, message.mentions.members.firstKey());
                 return require('../src/embeds/rankCheck')(message, userLvl);
             }
             else throw ['normal', 'Given ID is not present in database or invalid'];

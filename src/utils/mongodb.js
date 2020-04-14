@@ -81,7 +81,7 @@ mclient.utils.newGuildConfig = async function(theid){
 		customprefix: null,
 		perms: [
 			/*
-			something like this could be inserted in here by config command, type property is a string - can be only 'role' (role-baed perm) or 'user' (user-based perm)
+			something like this could be inserted in here by config command, 'type' property is a string - can be only 'role' (role-baed perm) or 'user' (user-based perm)
 			level should be only between perms.levels.minguildmod and perms.levels.maxguildmod
 			level 100 can represent a server moderator
 			level 200 can represent a server admin (server owner always has level of value perms.levels.maxguildmod)
@@ -89,9 +89,9 @@ mclient.utils.newGuildConfig = async function(theid){
 			*/
 
 			// {
-			// 	id: '288028423031357441',
-			// 	type: 'user',
-			// 	level: 100
+			// 	id: '288028423031357441', //string
+			// 	type: 'user', //string
+			// 	level: 100 //number
 			// }
 		],
 		modules: {
