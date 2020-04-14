@@ -1,4 +1,4 @@
-exports.description = 'Prints a lennyface';
+exports.description = 'Prints a lennyface.';
 exports.usage = '';
 exports.level = 0;
 exports.perms = [];

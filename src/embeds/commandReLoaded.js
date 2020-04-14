@@ -21,7 +21,7 @@ module.exports = (message, boolReloaded, cmd) => {
     const aliases = getAliases(cmd.name);
     if (aliases) embed.fields.push({
         name: 'Aliases',
-        value: aliases.join('\n')
+        value: aliases.join(' | ')
     });
     message.channel.send({embed:embed});
 }

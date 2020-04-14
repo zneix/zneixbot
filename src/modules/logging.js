@@ -124,7 +124,7 @@ exports.messageDeleteBulk = async messages => {
                 color: 0x2b2321,
                 timestamp: date,
                 footer: {
-                    text: 'xd',
+                    text: `${messages.size} deleted messages`,
                     icon_url: ''
                 },
                 author: {

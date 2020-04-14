@@ -7,7 +7,6 @@ exports.dmable = true;
 
 exports.run = async message => {
     const formatter = require('../src/utils/formatter');
-    const {getDiscordUser} = require('../src/utils/apicalls');
     if (!message.args.length) return result(message.author);
     let mentionedUser = message.mentions.users.first();
     if (mentionedUser) return result(mentionedUser); //mention
@@ -16,6 +15,7 @@ exports.run = async message => {
         if (validUser) return result(validUser); //userID
         else {
             if (!/\d{17,}/.test(message.args[0])) return result(message.author); //saving bandwith for obvious non-snowflake values
+            const {getDiscordUser} = require('../src/utils/apicalls');
             let puser = await getDiscordUser(message.args[0]);
             if (!puser) return result(message.author); //escape on wrong ID
             //successfull user fetch, preparing message author data on result object and sending it to result function
@@ -111,17 +111,10 @@ exports.run = async message => {
             };
             let modPerms = Object.getOwnPropertyNames(modPermsObj);
             if (member.permissions.toArray().some(x => modPerms.includes(x))){
-                let memberPerms = modPerms.filter(x => member.permissions.toArray().includes(x));
-                let permsFormat = function(){
-                    let locarr = [];
-                    for (let i = 0; i < memberPerms.length; i++){
-                        locarr.push(modPermsObj[memberPerms[i]]);
-                    }
-                    return locarr;
-                }
+                let memberPerms = modPerms.filter(x => member.permissions.toArray().includes(x)).map(mPerm => modPermsObj[mPerm]);
                 embed.fields.push({
                     name: 'Moderator Permissions',
-                    value: permsFormat().join(', '),
+                    value: memberPerms.includes('**Administrator**') ? '**Administrator**' : memberPerms.join(', '),
                     inline: false
                 });
             }

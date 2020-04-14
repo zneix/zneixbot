@@ -33,9 +33,9 @@ exports.run = async message => {
             if (!client.users.cache.get(message.args[0]).avatarURL()) throw ['normal', 'Target user doesn\'t have an avatar.'];
             url = client.users.cache.get(message.args[0]).avatarURL({format:'png', dynamic:true});
         }
-        else if (message.mentions.members.first()){
-            if (!message.mentions.members.first().user.avatarURL()) throw ['normal', 'Target user doesn\'t have an avatar.'];
-            url = message.mentions.members.first().user.avatarURL({format:'png', dynamic:true});
+        else if (message.mentions.users.first()){
+            if (!message.mentions.users.first().avatarURL()) throw ['normal', 'Target user doesn\'t have an avatar.'];
+            url = message.mentions.users.first().avatarURL({format:'png', dynamic:true});
         }
     
         //url

@@ -10,7 +10,7 @@ exports.run = async message => {
     let cmdUtil = require('../src/utils/loader');
     let embed, cmd;
     if (message.args.length) cmd = cmdUtil.getCommand(message.args[0].toLowerCase());
-    if (!message.args.length || !cmd || !client.perms.isAllowed(cmd, message.channel, message.member)){
+    if (!message.args.length || !cmd){
         //${cmdUtil.aliases[key]?`  aliases:  \`${cmdUtil.aliases[key].join('\`, \`')}\``:''} //alias support (temporarily disabled ;_;)
         embed = { //send general help with command list
             color: parseInt('0x99ff66'),
@@ -60,6 +60,7 @@ exports.run = async message => {
     }
     //send dynamic help
     else {
+        if (!client.perms.isAllowed(cmd, message.channel, message.member)) return message.channel.send(`You're not allowed to use this command ${client.emoteHandler.guild('asset', 'Jebaited')}`);
         embed = {
             color: 0x99ff66,
             author: {
@@ -77,7 +78,7 @@ exports.run = async message => {
         //appending aliases if those are present
         if (cmdUtil.getAliases(cmd.name)) embed.fields.push({
             name: '**Aliases:**',
-            value: cmdUtil.getAliases(cmd.name).join('\n')
+            value: cmdUtil.getAliases(cmd.name).join(' | ')
         });
     }
     if (message.args.length && !cmd) message.channel.send(`Provided command isn't loaded or you're not allowed to use it ${client.emoteHandler.guild('asset', 'Jebaited')}`);

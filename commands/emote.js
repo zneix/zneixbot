@@ -11,16 +11,16 @@ exports.run = async message => {
     if (res){
         let id = res[3];
         let url = `https://cdn.discordapp.com/emojis/${id}.${res[1] ? 'gif' : 'png'}`;
-        message.channel.send(`<${url}>`, {file:url});
+        message.channel.send(`<${url}>`, {files:[url]});
+        return;
     }
     //TODO: Finish this later ;)
     else if (/^\d+$/.test(message.args[0])){
         let r = await require('node-fetch')(`https://cdn.discordapp.com/emojis/${message.args[0]}`);
-        console.log(r.status)
         if (r.status == 200){
             message.channel.send(`Emote link: https://cdn.discordapp.com/emojis/${message.args[0]}.png\nAnimated emote link: https://cdn.discordapp.com/emojis/${message.args[0]}.gif`);
             return;
         }
     }
-    throw ['normal', `That's not an emote or ID you provided is invalid ${client.emoteHandler.find('NaM')}`];
+    throw ['normal', `ID you provided is invalid ${client.emoteHandler.find('NaM')}`];
 }

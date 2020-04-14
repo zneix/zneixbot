@@ -15,9 +15,9 @@ exports.run = async message => {
     if (message.args.length < 2) throw ['args', 2];
     let {round} = require('../src/utils/formatter');
     let num = 1;
-    message.args[0] = message.args[0].replace(/,/g, "."); //handling float values like 19,5 by simple replacement to 19.5, so that node handles that
+    message.args[0] = message.args[0].replace(/,/g, '.'); //handling float values like 19,5 by simple replacement to 19.5, so that node considers that as a valid number
     if (!isNaN(message.args[0])) num = message.args.shift();
-    aliascodes = {} //adding few extra names, that are supported as defined currencies
+    aliascodes = new Object; //adding few extra names, that are supported as defined currencies
     require('fs').readFileSync('./src/assets/currencyaliases.txt').toString().split('\n').forEach(line => {
         let prop = line.split(':');
         aliascodes[prop[0].trim()] = prop[1].trim();
@@ -28,11 +28,12 @@ exports.run = async message => {
         return false;
     }
     function base(){
+        if (!message.args[1]) throw ['normal', 'Provide second currency as well!'];
         let secCurr; //handling old word 'to' in between currencies, alongside newly added '=' and '=='
         if (['to', '=', '=='].includes(message.args[1].toLowerCase())) secCurr = message.args[2];
         else secCurr = message.args[1];
         if (!secCurr) return false;
-        if (codes.some(x => x === secCurr.toUpperCase())) return secCurr.toUpperCase();
+        if (codes.some(x => x == secCurr.toUpperCase())) return secCurr.toUpperCase();
         if (Object.getOwnPropertyNames(aliascodes).includes(secCurr.toLowerCase())) return aliascodes[secCurr.toLowerCase()];
         return false;
     }
