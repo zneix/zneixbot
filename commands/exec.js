@@ -27,6 +27,6 @@ exports.run = async message => {
         let filter = (reaction, user) => reaction.emoji.name == '❌' && client.perms.isGod(user.id);
         let collector = msg.createReactionCollector(filter, {time:10000});
         collector.on('collect', () => msg.delete());
-        collector.on('end', () => !msg.deleted ? msg.reactions.cache.get('❌').remove() : null);
+        collector.on('end', () => !msg.deleted ? msg.reactions.cache.get('❌').users.remove() : null);
     }
 }

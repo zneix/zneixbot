@@ -18,6 +18,9 @@ exports.run = async message => {
     }
     let expression = message.args.join(' ');
     Object.keys(edgeCases).forEach(edge => expression = expression.replace(RegExp(edge, 'g'), edgeCases[edge]));
-    let resp = await fetch(`https://api.ivr.fi/math?expr=${expression.split('').map(c => `%${c.charCodeAt(0).toString(16)}`).join('')}`).then(r => r.json());
+    let resp = await fetch(`https://api.ivr.fi/math?expr=${expression.split('').map(c => `%${c.charCodeAt(0).toString(16)}`).join('')}`, {
+        method: 'GET',
+        headers: { 'User-Agent': 'zneixbot project: https://github.com/zneix/zneixbot' }
+    }).then(r => r.json());
     message.channel.send(`\`${expression}\` = ${resp.response}`);
 }

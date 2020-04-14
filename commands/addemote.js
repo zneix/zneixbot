@@ -76,7 +76,7 @@ exports.run = async message => {
                 }
             });
             Rcollector.on('end', () => {
-                if (msg) msg.reactions.cache.get('❌').remove();
+                if (msg) msg.reactions.cache.get('❌').users.remove();
                 Mcollector.stop(); //also emitting end for message handler
             });
         });

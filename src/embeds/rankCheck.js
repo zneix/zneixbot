@@ -1,5 +1,4 @@
 module.exports = async (message, userLvl) => {
-    console.log(userLvl)
     //boolReq is for getting required xp for next level
     function reqXP(lvl){
         let sum = 0;
