@@ -1,27 +1,28 @@
 exports.command = async function(message, err){
     if (Array.isArray(err)){
         let reply = `${client.emoteHandler.guild('dev', 'peepoSadDank')} 👉 `;
+        //expected / handled errors
         switch (err[0]){
             case 'botperm':
-                reply = `I need \`${err[1]}\` permissions to perform that action`;
+                reply += `I need \`${err[1]}\` permissions to perform that action`;
                 break;
             case 'normal':
-                reply = err[1];
+                reply += err[1];
                 break;
             case 'args':
-                reply = `This command requires at least **${err[1]}** arguments to run`;
+                reply += `This command requires at least **${err[1]}** arguments to run`;
                 break;
             case 'fetch':
-                reply = `Failed to fetch link info: ${err[1].replace('TypeError: ', '')}`;
+                reply += `Failed to fetch link info: ${err[1].replace('TypeError: ', '')}`;
                 break;
             case 'canvas':
-                reply = `Canvas error: ${err[1].replace(/^Error: /, '')}`;
+                reply += `Canvas error: ${err[1].replace(/^Error: /, '')}`;
                 break;
             case 'discordapi':
-                reply = `Discord API threw an error: ${err[1].replace('DiscordAPIError: ', '')}`;
+                reply += `Discord API threw an error: ${err[1].replace('DiscordAPIError: ', '')}`;
                 break;
             default:
-                reply = err.toString();
+                reply += err.toString();
                 break;
         }
         message.channel.send(reply);
@@ -38,6 +39,8 @@ exports.command = async function(message, err){
             date: message.createdAt,
             userid: message.author.id
         }]);
+        console.error(`A wild Error #${nextid} appeared!`);
+        console.log(err);
         message.reply(`An error occured, ID: ${nextid}`);
     }
 }

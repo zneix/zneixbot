@@ -1,39 +1,42 @@
 const enmap = require('enmap');
 const fs = require('fs');
 let aliases = {
-    "%": ["percent", "procent"],
-    "8ball": ["ask"],
-    "about": ["info", "botinfo"],
-    "addemote": ["addemoji", "createemote", "createemoji"],
-    "avatar": ["awatar", "pfp"],
-    "coinflip": ["cf"],
-    "color": ["kolor"],
-    "config": ["cfg"],
-    "currency": ["curr", "money"],
-    "emote": ["emoji", "showemote"],
-    "help": ["h", "commands", "pomoc", "komendy"],
-    "isbanned": ["isban", "checkban"],
-    "lenny": ["lennyface"],
-    "leaderboard": ["levels", "lvls"],
-    "math": ["calc", "calculate"],
-    "ping": ["uptime"],
-    "role": ["roles"],
-    "rps": ["rockpaperscissors"],
-    "server": ["serverinfo"],
-    "snowflake": ["sf", "discordid"],
-    "suggest": ["feedback", "msgdev"],
-    "temperature": ["temp"],
-    "user": ["userinfo", "lookup", "whois"],
-    "kick": ["yeet"],
-    "purge": ["clean", "clear", "prune"],
-    "rank": ["level", "lvl"],
-    "region": ["serverregion"],
-    "resolve": ["dns"],
-    "unban": ["pardon"],
-    "echo": ["say"],
-    "botnick": ["botname"],
-    "eval": ["debug", "sudo"],
-    "wednesday": ["wed"]
+    '%': ['percent', 'procent'],
+    '8ball': ['ask'],
+    'about': ['info', 'botinfo'],
+    'addemote': ['addemoji', 'createemote', 'createemoji'],
+    'avatar': ['awatar', 'pfp'],
+    'botnick': ['botname'],
+    'coinflip': ['cf'],
+    'color': ['kolor'],
+    'config': ['cfg'],
+    'currency': ['curr', 'money'],
+    'echo': ['say'],
+    'emote': ['emoji', 'showemote'],
+    'eval': ['debug', 'sudo'],
+    'exec': ['shell', 'sh'],
+    'help': ['h', 'commands', 'pomoc', 'komendy'],
+    'isbanned': ['isban', 'checkban'],
+    'lenny': ['lennyface'],
+    'leaderboard': ['levels', 'lvls'],
+    'math': ['calc', 'calculate'],
+    'ping': ['uptime'],
+    'role': ['roles'],
+    'rps': ['rockpaperscissors'],
+    'server': ['serverinfo'],
+    'snowflake': ['sf', 'discordid'],
+    'suggest': ['feedback', 'msgdev'],
+    'tempban': ['timeban', 'tban'],
+    'temperature': ['temp'],
+    'user': ['userinfo', 'lookup', 'whois'],
+    'kick': ['yeet'],
+    'purge': ['clean', 'clear', 'prune'],
+    'rank': ['level', 'lvl'],
+    'region': ['serverregion'],
+    'resolve': ['dns'],
+    'unban': ['pardon'],
+    'wednesday': ['wed'],
+    'yp': ['yearprogress']
 }
 exports.getCommand = function(name){
     let cmd = client.commands.get(name);
@@ -56,7 +59,7 @@ exports.commands = function(){
             let props = require(`../../commands/${file}`);
             let name = file.split('.')[0];
             props.name = name; //asserting name of the command to it's object
-            client.cooldowns[name] = new Set; //initializing a set for each command
+            client.cooldowns[name] = new Set; //initializing a cooldown set for each command
             commands.set(name, props);
         });
     });

@@ -66,7 +66,7 @@ exports.run = async message => {
                 name: `${cmd.name} [${cmd.cooldown ? `${cmd.cooldown/1000}s`: 'no'} cooldown]`,
                 icon_url: client.user.avatarURL({format:'png', dynamic:true})
             }, 
-            description: cmd.description.replace(/{PREFIX}/, message.prefix),
+            description: cmd.description.replace(/{PREFIX}/g, message.prefix),
             fields: [
                 {
                     name: '**Usage:**',

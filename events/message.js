@@ -40,9 +40,7 @@ module.exports = async message => {
                     if (client.perms.getUserLvl(message.author.id) >= client.perms.levels['skipCooldowns']) return;
                     client.cooldowns[cmd.name].add(`${message.guild.id}_${message.member.id}`);
                     setTimeout(function(){ client.cooldowns[cmd.name].delete(`${message.guild.id}_${message.member.id}`); }, cmd.cooldown);
-                }).catch(async err => {
-                    require('../src/utils/errors').command(message, err);
-                });
+                }).catch(async err => { require('../src/utils/errors').command(message, err); });
             }
             catch (errorino){require('../src/utils/errors').message(message, errorino);}
         }
