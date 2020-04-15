@@ -1,3 +1,4 @@
-module.exports = member => {
+module.exports = async member => {
+    await require('../src/utils/loader').getGuildConfig(member.guild);
     require('../src/modules/logging').guildMemberRemove(member);
 }

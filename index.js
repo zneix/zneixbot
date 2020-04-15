@@ -25,7 +25,7 @@ client.cc = 0; //CommandCount - number of commands used since last reboot
     client.db = await mongo.client.connect().catch(err => {console.error(err);process.emit('SIGINT');});
     client.levels = await client.db.utils.permlevels(); //getting levels of priviledged users from database
     load.events(); //pre-loading events
-    await client.login(require('./src/json/auth').token).catch(err => {console.error(err);process.emit('SIGINT');}); //logging in before initializing agenda
     //SIGINT and process.exit defs for graceful shutdowns
     load.gracefulExits();
+    await client.login(require('./src/json/auth').token).catch(err => {console.error(err);process.emit('SIGINT');}); //logging in before initializing agenda
 })();

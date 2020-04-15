@@ -49,6 +49,15 @@ exports.getCommand = function(name){
 exports.getAliases = function(cmdname){
     return aliases[cmdname] ? aliases[cmdname] : null;
 }
+exports.getGuildConfig = async function(guild){
+    if (!guild.available) return console.log(`{util-guilds-unavailable} ${guild.id || unknown}`);
+    if (client.go[guild.id]) return; //guild config is already there
+    client.go[guild.id] = new Object;
+    // client.go[guild.id].tr = new Set; // that's being set implemented for guilds with leveling enabled in leveling module manager
+    let config = (await client.db.utils.find('guilds', {guildid: guild.id}))[0];
+    if (!config) config = await client.db.utils.newGuildConfig(guild.id);
+    client.go[guild.id].config = config;
+}
 exports.commands = function(){
     let commands = new enmap();
     client.cooldowns = new Object; //object, that's going to store all the cooldowns for now

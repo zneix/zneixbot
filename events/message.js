@@ -2,18 +2,13 @@ module.exports = async message => {
     if (message.author.bot) return; //ignoring bots
     try {
         //getting server settings
+        let {getCommand, getGuildConfig} = require('../src/utils/loader');
         if (message.guild){
             //funny thing to react on mention, catching to prevent logging stupid fucking mistakes, man
             if (message.mentions.has(message.guild.me)) message.react(client.emoteHandler.guild('asset', 'peepoPinged')).catch(e => {return;});
             //sending DansGame message, but only in channels, where everyone can freely type and read, disabled for now
             // if (message.mentions.everyone && (message.channel.permissionsFor(message.guild.id).missing(['SEND_MESSAGES', 'VIEW_CHANNEL']).length == 0)) message.reply(`you don't ping everyone ${client.emoteHandler.find('DansGame')}`);
-            if (!client.go[message.guild.id]){
-                client.go[message.guild.id] = new Object;
-                // client.go[message.guild.id].tr = new Set; // that'll be implemented only for guilds with leveling enabled (in leveling module manager) to save some memory
-                let config = (await client.db.utils.find('guilds', {guildid: message.guild.id}))[0];
-                if (!config) config = await client.db.utils.newGuildConfig(message.guild.id);
-                client.go[message.guild.id].config = config;
-            }
+            await getGuildConfig(message.guild);
             let config = client.go[message.guild.id].config;
             message.prefix = config.customprefix == null ? client.config.prefix : config.customprefix;
         }
@@ -22,7 +17,6 @@ module.exports = async message => {
 
         if (message.content.toLowerCase().startsWith(message.prefix)){
             //command handling
-            let {getCommand} = require('../src/utils/loader');
             if (client.perms.isBanned(message.author.id)) return; //check for bot ban, regular return for now
             message.args = message.content.slice(message.prefix.length).trim().split(/\s+/gm);
             if (!message.args.length) return; //quick escape in weird cases (e.g. someone types only prefix, no command)
