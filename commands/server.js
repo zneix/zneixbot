@@ -26,7 +26,7 @@ exports.run = async message => {
         fields: [
             {
                 name: 'Time created',
-                value: `${dateFormat(message.guild.createdAt)}\n\`${msToHuman(Date.now()-message.guild.createdTimestamp)} ago\``,
+                value: `${dateFormat(message.guild.createdAt)}\n\`${msToHuman(Date.now() - message.guild.createdTimestamp, 3)} ago\``,
                 inline: true
             },
             {

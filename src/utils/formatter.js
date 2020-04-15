@@ -18,7 +18,7 @@ exports.round = function(n, k){
 //date and time operations
 exports.dateFormat = function(date){ return `${exports.leadZero(date.getDate())}/${exports.leadZero(date.getMonth()+1)}/${exports.leadZero(date.getFullYear())}`; }
 exports.hourFormat = function(date){ return `${exports.leadZero(date.getHours())}:${exports.leadZero(date.getMinutes())}:${exports.leadZero(date.getSeconds())}`; }
-exports.msToHuman = function(n){
+exports.msToHuman = function(n, ln){
     n = parseInt(n);
     let str = [];
     if (n >= 1000 * 60 * 60 * 24 * 365) cut(1000 * 60 * 60 * 24 * 365, 'y');
@@ -33,7 +33,7 @@ exports.msToHuman = function(n){
         str.push(Math.floor(n / v)+c);
         n = n % v;
     }
-    return str.join(' ');
+    return str.slice(0, ln || 420).join(' ');
 }
 exports.humanToSec = function(timeStr){
     //parsing human-readable-like strings to amount of seconds

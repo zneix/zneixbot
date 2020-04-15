@@ -17,7 +17,7 @@ function banAddRemove(guild, user, bool){
         fields: [
             {
                 name: 'Account Created:',
-                value: `**${formatter.dateFormat(user.createdAt)}, ${formatter.hourFormat(user.createdAt)}** (\`${formatter.msToHuman(date.getTime() - user.createdTimestamp)}\` ago)`
+                value: `**${formatter.dateFormat(user.createdAt)}, ${formatter.hourFormat(user.createdAt)}** (\`${formatter.msToHuman(date.getTime() - user.createdTimestamp, 3)}\` ago)`
             }
         ]
     }
@@ -42,7 +42,7 @@ function memberAddRemove(member, bool){
         fields: [
             {
                 name: 'Account Created:',
-                value: `**${formatter.dateFormat(member.user.createdAt)}, ${formatter.hourFormat(member.user.createdAt)}** (\`${formatter.msToHuman(date.getTime() - member.user.createdTimestamp)}\` ago)`
+                value: `**${formatter.dateFormat(member.user.createdAt)}, ${formatter.hourFormat(member.user.createdAt)}** (\`${formatter.msToHuman(date.getTime() - member.user.createdTimestamp, 3)}\` ago)`
             }
         ]
     }
@@ -92,7 +92,7 @@ exports.messageDelete = async message => {
                     icon_url: message.author ? message.author.avatarURL({format:'png', dynamic:true}) : null
                 },
                 author: {
-                    name: `Message Deleted${message.author ? ` (after ${formatter.msToHuman(date.getTime() - message.createdTimestamp)})` : ''}`,
+                    name: `Message Deleted${message.author ? ` (after ${formatter.msToHuman(date.getTime() - message.createdTimestamp, 3)})` : ''}`,
                     icon_url: message.author ? message.author.avatarURL({format:'png', dynamic:true}) : null
                 },
                 description: `${message.author ? `${message.author} (${message.author.tag})` : 'unknown#0000'} in ${message.channel}`,
@@ -128,7 +128,7 @@ exports.messageDeleteBulk = async messages => {
                     icon_url: ''
                 },
                 author: {
-                    name: `${messages.size} Messages Deleted (avg message age: ${formatter.msToHuman(date.getTime() - Math.floor(messages.map(msg => msg.createdTimestamp).reduce((a, b) => a+b, 0) / messages.size ))})`,
+                    name: `${messages.size} Messages Deleted (avg message age: ${formatter.msToHuman(date.getTime() - Math.floor(messages.map(msg => msg.createdTimestamp).reduce((a, b) => a+b, 0) / messages.size ), 3)})`,
                 },
                 description: messages.map(message => `${message.attachments.size ? `${message.attachments.size} 📎` : ''} [${message.author.tag}]: ${message.content || 'null'}`).join('\n').slice(0, 1023), //slicing, to prevent overflows
             }
@@ -150,7 +150,7 @@ exports.messageUpdate = async (oldMessage, newMessage) => {
                     icon_url: newMessage.author.avatarURL({format:'png', dynamic:true})
                 },
                 author: {
-                    name: `Message Edited (after ${formatter.msToHuman(newMessage.editedTimestamp - (oldMessage.channel ? oldMessage.createdTimestamp : Date.parse(oldMessage.timestamp)) )})`,
+                    name: `Message Edited (after ${formatter.msToHuman(newMessage.editedTimestamp - (oldMessage.channel ? oldMessage.createdTimestamp : Date.parse(oldMessage.timestamp)), 3)})`,
                     icon_url: newMessage.author.avatarURL({format:'png', dynamic:true})
                 },
                 description: `User: ${newMessage.author} (${newMessage.author.tag})\nChannel: ${newMessage.channel} (${newMessage.channel.name})\n[**link**](${newMessage.url})`,

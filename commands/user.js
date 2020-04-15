@@ -56,7 +56,7 @@ exports.run = async message => {
                 },
                 {
                     name: "Created at",
-                    value: `${formatter.dateFormat(user.createdAt)}, ${formatter.hourFormat(user.createdAt)}\n\`${formatter.msToHuman(message.createdAt-user.createdTimestamp)} ago\``,
+                    value: `${formatter.dateFormat(user.createdAt)}, ${formatter.hourFormat(user.createdAt)}\n\`${formatter.msToHuman(message.createdAt - user.createdTimestamp, 3)} ago\``,
                     inline: true
                 }
             ]
@@ -68,7 +68,7 @@ exports.run = async message => {
             let joinPos = [...message.guild.members.cache.sort((a, b) => a.joinedAt - b.joinedAt).keys()].indexOf(member.user.id)+1;
             embed.fields.push({
                 name: 'Joined at',
-                value: `${formatter.dateFormat(member.joinedAt)}, ${formatter.hourFormat(member.joinedAt)}\n\`${formatter.msToHuman(message.createdAt-member.joinedTimestamp)} ago\`\n(**${joinPos}${formatter.numSuffix(joinPos)}** to join)`,
+                value: `${formatter.dateFormat(member.joinedAt)}, ${formatter.hourFormat(member.joinedAt)}\n\`${formatter.msToHuman(message.createdAt - member.joinedTimestamp, 3)} ago\`\n(**${joinPos}${formatter.numSuffix(joinPos)}** to join)`,
                 inline: true
             });
             let roles = member.roles.cache.filter(r => r.id != message.guild.id).map(r => r.toString()); //roles thingy
@@ -91,7 +91,7 @@ exports.run = async message => {
             if (spotify){
                 embed.fields.push({
                     name: 'Spotify',
-                    value: `${spotify.details} by ${spotify.state} (${formatter.msToHuman(Date.now() - spotify.timestamps.start)} / ${formatter.msToHuman(spotify.timestamps.end - spotify.timestamps.start)})`,
+                    value: `${spotify.details} by ${spotify.state} (${formatter.msToHuman(Date.now() - spotify.timestamps.start, 2)} / ${formatter.msToHuman(spotify.timestamps.end - spotify.timestamps.start, 2)})`,
                     inline: true
                 });
             }

@@ -22,7 +22,7 @@ exports.run = async message => {
             },
             {
                 name: 'Uptime',
-                value: `​**${formmatter.msToHuman(client.uptime)}** since \`​${formmatter.dateFormat(client.readyAt)}, ${formmatter.hourFormat(client.readyAt)}\`​\nCommands used: ${client.cc}`
+                value: `​**${formmatter.msToHuman(client.uptime, 3)}** since \`​${formmatter.dateFormat(client.readyAt)}, ${formmatter.hourFormat(client.readyAt)}\`​\nCommands used: ${client.cc}`
             }
         ]
     }

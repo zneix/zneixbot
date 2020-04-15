@@ -36,7 +36,7 @@ exports.run = async message => {
     let confirmMsg = await message.channel.send(`You're about to start a giveaway:\n`
     +`\nIn channel: ${channel}`
     +`\nNumber of winners: **${message.args[2]}**`
-    +`\nGiveaway is going to last for: **${msToHuman(timeSec * 1000)}** (will end approximately at \`${dateFormat(endDateConf)}, ${hourFormat(endDateConf)}\`)`
+    +`\nGiveaway is going to last for: **${msToHuman(timeSec * 1000, 4)}** (will end approximately at \`${dateFormat(endDateConf)}, ${hourFormat(endDateConf)}\`)`
     +`\nGiveaway note: **${userMsg ? userMsg : 'None.'}**`
     +`\n\nReact with ${client.emoteHandler.guild('asset', 'tickyes')} to confirm and start the giveaway`
     +`\nReact with ${client.emoteHandler.guild('asset', 'tickno')} (or wait 30s) to cancel`
@@ -75,7 +75,7 @@ exports.run = async message => {
                 },
                 description: userMsg ? `**${userMsg}**` : '*No Subject...*'
                 +`\nWinner(s): **${message.args[2]}**`
-                +`\nEnds in: **${msToHuman(timeSec * 1000)}** \`${dateFormat(endDate)}, ${hourFormat(endDate)}\``
+                +`\nEnds in: **${msToHuman(timeSec * 1000, 4)}** \`${dateFormat(endDate)}, ${hourFormat(endDate)}\``
                 +`\n\n**React with 🎉 to enter!**`
             }
             let giveawayMsg = await channel.send({embed: embed});

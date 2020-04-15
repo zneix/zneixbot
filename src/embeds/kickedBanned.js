@@ -14,7 +14,7 @@ module.exports = (message, userid, reason, boolBanned) => {
     if (typeof boolBanned == 'object'){
         //tempban was executed
         const {msToHuman} = require('../utils/formatter');
-        embed.description += `\nTemporarily banned for ${msToHuman(boolBanned.time * 1000)}, ID: ${boolBanned.id}`;
+        embed.description += `\nTemporarily banned for ${msToHuman(boolBanned.time * 1000, 4)}, ID: ${boolBanned.id}`;
     }
     message.channel.send({embed:embed});
 }

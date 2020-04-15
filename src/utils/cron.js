@@ -100,7 +100,7 @@ exports.jobs = {
         reason - reason of temporary ban
         modtag - user.tag of moderator that executed the action
         */
-        client.guilds.cache.get(params.guildid).members.unban(params.userid, `${params.reason ? `${params.reason} || ` : ''}executed after: ${formatter.msToHuman(time * 1000)}`);
+        client.guilds.cache.get(params.guildid).members.unban(params.userid, `${params.reason ? `${params.reason} || ` : ''}executed after: ${formatter.msToHuman(time * 1000, 4)}`);
     },
     giveaway: async (time, jobid, params) => {
         /* params for the command
@@ -148,7 +148,7 @@ exports.jobs = {
                 name: params.giveawayInfo.userMsg || 'A giveaway'
             },
             description:
-            `Giveaway lasted for: **${formatter.msToHuman(time * 1000)}**`
+            `Giveaway lasted for: **${formatter.msToHuman(time * 1000, 4)}**`
             +`\nWinner${winners.length == 1 ? ': ' : '(s):\n'}${winners.join('\n')}`
             +`\nWin chance: **${winners.length ? `${formatter.round(winners.length * 100 / pool.length, 2)}` : '0'}%**`
         }

@@ -24,7 +24,7 @@ exports.run = async message => {
             icon_url: message.author.avatarURL({format:'png', 'dynamic':true})
         },
         description: `
-Running commit: **#${runningNumber+1} [${runningCommit[0]}](https://github.com/zneix/zneixbot/commit/${runningCommit[0]})${Boolean(branchInfo.match(/Your branch is up to date/)) ? ' [Latest]' : ''}** \`${msToHuman(message.createdAt - parseInt(runningCommit[1])*1000)} ago\`
+Running commit: **#${runningNumber+1} [${runningCommit[0]}](https://github.com/zneix/zneixbot/commit/${runningCommit[0]})${Boolean(branchInfo.match(/Your branch is up to date/)) ? ' [Latest]' : ''}** \`${msToHuman(message.createdAt - parseInt(runningCommit[1])*1000, 3)} ago\`
 Code branch: **${branchInfo.match(/On branch (.+)/)[1]}**
 Commands loaded: **${client.commands.size}**
 Developer: **${client.users.cache.get('288028423031357441').tag}**

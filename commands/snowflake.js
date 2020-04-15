@@ -17,7 +17,7 @@ exports.run = async message => {
             icon_url: message.author.avatarURL
         },
         timestamp: message.createdAt,
-        description: `Date (UTC): **${dateFormat(new Date(sf.timestamp))}, ${hourFormat(new Date(sf.timestamp))}** (${sf.timestamp}) \`${msToHuman(message.createdTimestamp - sf.timestamp)} ago\``
+        description: `Date (UTC): **${dateFormat(new Date(sf.timestamp))}, ${hourFormat(new Date(sf.timestamp))}** (${sf.timestamp}) \`${msToHuman(message.createdTimestamp - sf.timestamp, 4)} ago\``
         +`\nWorker ID: ${sf.worker}`
         +`\nProcess ID: ${sf.process}`
         +`\nIncrement: ${sf.increment}`
