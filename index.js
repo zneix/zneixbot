@@ -6,7 +6,7 @@ let load = require('./src/utils/loader');
 //client deps
 global.client = new Discord.Client({disableEveryone:true}); //appending client namespace to global object
 client.config = require('./src/json/config');
-client.version = JSON.parse(require('fs').readFileSync('package.json').toString()).version;
+client.version = require('./package.json').version;
 client.commands = load.commands(client); //global command object
 client.emoteHandler = require('./src/utils/emotes'); //utility for finding, sanitizing and detecting emotes in strings
 client.perms = require('./src/utils/perms'); //utility for working with permission restrictions and levels

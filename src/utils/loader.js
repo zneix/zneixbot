@@ -50,7 +50,7 @@ exports.getAliases = function(cmdname){
     return aliases[cmdname] ? aliases[cmdname] : null;
 }
 exports.getGuildConfig = async function(guild){
-    if (!guild.available) return console.log(`{util-guilds-unavailable} ${guild.id || unknown}`);
+    if (!guild.available) return console.log(`{util-guilds-unavailable} ${guild.id || 'unknown'}`);
     if (client.go[guild.id]) return; //guild config is already there
     client.go[guild.id] = new Object;
     // client.go[guild.id].tr = new Set; // that's being set implemented for guilds with leveling enabled in leveling module manager
