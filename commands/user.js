@@ -47,7 +47,7 @@ exports.run = async message => {
                 url: boolApi ? user.avatarURL : user.avatarURL({format:'png', 'dynamic':true})
             },
             //messy workaround below to support handling 'foreign users'
-            description: `${user.bot ? client.emoteHandler.guild('dbots', 'botTag') : ''}<@${user.id}> ${user.presence ? `${user.presence.status} ${client.emoteHandler.guild('dbots', `${user.presence.status}2`).toString()}` : ''}`,
+            description: `${user.bot ? client.emoteHandler.guild('dbots', 'botTag') : ''}<@${user.id}> ${user.presence ? `${user.presence.status} ${client.emoteHandler.guild('dbots', `${user.presence.status.replace('idle', 'away')}2`).toString()}` : ''}`,
             fields: [
                 {
                     name: 'User ID',
@@ -72,10 +72,10 @@ exports.run = async message => {
                 inline: true
             });
             let roles = member.roles.cache.filter(r => r.id != message.guild.id).map(r => r.toString()); //roles thingy
-            if (roles){
+            if (roles.length){
                 embed.fields.push({
                     name: `Roles [${roles.length}]`,
-                    value: roles.join(' ').length < 1023 ? roles.join(' ') : roles.join(' ').substr(0, 1012) + '\n[truncated]',
+                    value: (roles.join(' ').length < 1023) ? roles.join(' ') : (roles.join(' ').substr(0, 1012) + '\n[truncated]'),
                     inline: false
                 });
             }
