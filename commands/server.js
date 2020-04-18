@@ -25,7 +25,7 @@ exports.run = async message => {
         },
         fields: [
             {
-                name: 'Time created',
+                name: 'Server Age',
                 value: `${dateFormat(message.guild.createdAt)}\n\`${msToHuman(Date.now() - message.guild.createdTimestamp, 3)} ago\``,
                 inline: true
             },
@@ -40,7 +40,7 @@ exports.run = async message => {
                 inline: false
             },
             {
-                name: 'Members',
+                name: 'Members (Online/Offline)',
                 value: `${message.guild.members.cache.filter(m => m.user.presence.status != 'offline').size}/${message.guild.members.cache.size} (${message.guild.members.cache.filter(m => m.user.bot).size} bots)`,
                 inline: true
             },

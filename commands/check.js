@@ -31,7 +31,7 @@ exports.run = async message => {
                 +`\n\`Timestamp:\` ${fetchedError.timestamp} (${formatter.msToHuman(new Date().getTime() - fetchedError.timestamp, 4)} ago)`
                 +`\n\`User ID:\` ${fetchedError.userid}`,
             }});
-            message.channel.send('Error stack was send to you in a private message, check it out');
+            if (message.channel.type != 'dm') message.channel.send('Error stack was send to you in a private message, check it out');
             break;
         case 'suggestion':
             let fetchedSuggestion = (await client.db.utils.find('suggestions', {id: parseInt(message.args[1])}))[0];
