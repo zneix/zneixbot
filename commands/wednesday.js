@@ -6,7 +6,7 @@ exports.cooldown = 3000;
 exports.dmable = false;
 
 exports.run = async message => {
-    let time = message.createdAt.getUTCDay()+2;
+    let time = message.createdAt.getUTCDay()+1;
     let Pepega;
     switch(time){
         case 1: Pepega = `Two more days, my dude ${client.emoteHandler.find('OkayChamp')}`;break;
@@ -21,6 +21,6 @@ exports.run = async message => {
         case 6:
         case 0: Pepega = `It is Weekend my dude ${client.emoteHandler.find('EZ')}`;break;
     }
-    if (!Pepega) Pepega = 'It is not Wednesday, my dude '+client.emoteHandler.find('FeelsBadMan'); //just in case something would go wrong
+    if (!Pepega) Pepega = `It is not Wednesday, my dude ${client.emoteHandler.find('FeelsBadMan')}`; //just in case something would go wrong
     message.reply(Pepega);
 }
