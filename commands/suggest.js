@@ -25,30 +25,35 @@ exports.run = async message => {
                 tag: message.author.tag
             },
             text: text,
-            status: 'new', //can be: new, dismissed, approved, completed, spam (not-a-suggestion)
-            notes: '',
-            updates: []
+            addedTimestamp: message.createdTimestamp,
+            status: 'new', //can be: new, dismissed, approved, completed, spam (not-a-suggestion), unlikely, postponed, duplicate,
+            quarrantined: false, //suggestions with this flag being true are hidden from public
+            updates: [
+                /*
+                over here, the objects will be posted, once stuff updates
+                newStatus: String, //once update is made, status property is being updated and new status is being logged here
+                note: String, //text message regarding suggestion update from developer
+                timestamp: Number //just a timestamp of when the update was made
+                */
+            ]
         }]).catch(err => {message.channel.send(`Something went wrong, contact zneix#4433 (suggestion error ID ${sid})`); throw err})
         .then(() => {
             message.channel.send(`Suggestion saved, I will let you know once devs review it. (ID ${sid})`);
             let feedback = client.channels.cache.get(client.config.channels.feedback);
-            if (feedback){
-                let embed = {
-                    color: 0x79fcb2,
-                    timestamp: message.createdAt,
-                    footer: {
-                        text: message.author.tag,
-                        icon_url: message.author.avatarURL({format:'png', 'dynamic':true})
-                    },
-                    author: {
-                        name: `New Suggestion! ID: ${sid}`,
-                        url: message.url
-                    },
-                    description: `\`Author:\` ${message.author} ${message.author.tag} (${message.author.id})`
-                    +`\n\`Text:\` ${text}`,
-                }
-                feedback.send({embed:embed});
-            }
+            if (feedback) feedback.send({embed:{
+                color: 0x79fcb2,
+                timestamp: message.createdAt,
+                footer: {
+                    text: message.author.tag,
+                    icon_url: message.author.avatarURL({format:'png', 'dynamic':true})
+                },
+                author: {
+                    name: `New Suggestion! ID: ${sid}`,
+                    url: message.url
+                },
+                description: `\`Author:\` ${message.author} ${message.author.tag} (${message.author.id})`
+                +`\n\`Text:\` ${text}`
+            }});
         });
     }
 }
