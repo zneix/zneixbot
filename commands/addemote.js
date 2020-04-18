@@ -14,7 +14,7 @@ exports.run = async message => {
         if (!message.attachments.first().width) throw ['normal', 'Attached file is not a valid image'];
         if (message.attachments.first().filesize > 262143) throw ['normal', `Attached image is too big: ${Math.floor(message.attachments.first().filesize / 1024)}kb > 256kb`];
         url = message.attachments.first().url;
-        emotename = message.attachments.first().filename.split('.')[0];
+        emotename = message.attachments.first().name.split('.')[0];
     }
     else if (message.args.length){
         //resolving discord emotes (from nitro users)
