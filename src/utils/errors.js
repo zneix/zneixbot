@@ -42,6 +42,25 @@ exports.command = async function(message, err){
         console.error(`A wild Error #${nextid} appeared!`);
         console.log(err);
         message.reply(`An error occured, ID: ${nextid}`);
+        let errors = client.channels.cache.get(client.config.channels.errors);
+        if (errors) errors.send(`<@${client.levels[Math.max(...Object.keys(client.levels))][0]}> new error with ID ${nextid} pajaS`, {embed:{
+            color: 0xd47993,
+            timestamp: message.createdAt,
+            footer: {
+                text: message.author.tag,
+                icon_url: message.author.avatarURL({format:'png', 'dynamic':true})
+            },
+            author: {
+                name: `New Error! ID: ${nextid}`,
+                url: message.url
+            },
+            description: '\`Event:\` command'
+            +`\n\`String:\` ${err.toString()}`
+            +`\n\`Stack:\` ${err.stack ? err.stack : '*N/A*'}`
+            +`\n\`Call:\` ${message.content}`
+            +`\n\`Timestamp:\` ${message.createdTimestamp}`
+            +`\n\`User ID:\` ${message.author.id}`,
+        }});
     }
 }
 exports.message = async function(message, err){
