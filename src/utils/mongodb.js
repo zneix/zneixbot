@@ -161,8 +161,13 @@ mclient.on('topologyClosed', function(event){
 	console.log('[mongodb:event] Server topology has CLOSED!');
 });
 
-//adds a database disconnecting before process terminates
+//database disconnect before process terminates
 mclient.SIGINT = async function(){
 	await mclient.close().then(() => console.log('[mongodb] Closed upon SIGINT!'));
-}
+};
+
+//appending information about database columns. while sanitizing credentials
+['authdb', 'host', 'username', 'password'].forEach(el => {ops[el] = 'xd'});
+
+mclient.ops = ops;
 exports.client = mclient;
