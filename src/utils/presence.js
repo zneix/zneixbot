@@ -1,8 +1,8 @@
-module.exports = () => {
-    client.user.setPresence({
+module.exports = async () => {
+    await client.user.setPresence({
         status: 'dnd',
         activity: {
-            name: `I was updated recently! Check ${client.config.prefix}changelog`,
+            name: `${client.config.prefix}help | ${client.users.cache.size} users online`,
             // url: '',
             type: 'PLAYING'
         }

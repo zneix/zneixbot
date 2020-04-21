@@ -7,7 +7,7 @@ exports.dmable = false;
 
 exports.run = async message => {
     if (!message.args.length) throw ['args', 1];
-    let regex = /((https?:\/\/)?(www\.)?(discord\.gg|discordapp\.com\/invite)\/)?([a-z0-9]+)/i; //https://regex101.com/r/wzJlIC/1
+    let regex = /((https?:\/\/)?(www\.)?(discord\.gg|discordapp\.com\/invite)\/)?([a-z0-9-]+)/i; //https://regex101.com/r/wzJlIC/1
     let inviteInfo = message.args[0].match(regex);
     if (!inviteInfo[5]) throw ['normal', 'Invalid invite was provided!']; //5th capturing group stores invite code info
     let invite = await require('../src/utils/apicalls').getDiscordInvite(inviteInfo[5]);

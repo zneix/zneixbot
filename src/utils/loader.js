@@ -37,7 +37,7 @@ let aliases = {
     'resolve': ['dns'],
     'unban': ['pardon'],
     'wednesday': ['wed'],
-    'yp': ['yearprogress']
+    'yearprogress': ['yp']
 }
 exports.getCommand = function(name){
     let cmd = client.commands.get(name);
@@ -90,6 +90,7 @@ exports.events = function(){
 exports.gracefulExits = async function(agenda){
     process.on('SIGINT', async code => {
         console.log('!!! SIGINT DETECTED !!!');
+        client.cron.stopCrons();
         await client.db.SIGINT();
         process.exit();
     });

@@ -9,6 +9,8 @@ module.exports = async () => {
         }
     }]);
     client.logger.ready();
-    //start the non-agenda once client is ready
-    client.cron.load().then(count => console.log(`[cron] Scheduled ${count} job(s) at startup`));
+    //start the crons and scheduled jobs once client is ready
+    client.cron.startCrons();
+    console.log('[cron] Loaded all crons!');
+    client.cron.loadScheduledJobs().then(count => console.log(`[cron] Scheduled ${count} job(s) at startup`));
 }

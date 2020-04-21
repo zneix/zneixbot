@@ -2,7 +2,7 @@ const formatter = require('./formatter');
 const lt = require('long-timeout'); //makes it possible to have a timeout or interval that is longer than 24.8 days (2^31-1 ms)
 
 //load jobs on bot startup
-exports.load = async function(){
+exports.loadScheduledJobs = async function(){
     let jobsToRun = await client.db.utils.find('crons', {runAtTimestampMs: {$ne: null}});
     jobsToRun.forEach(job => {
         let totalTimeMs = job.runAtTimestampMs - job.insertedAtTimestampMs; //approx time of for how long the job was scheduled
@@ -36,6 +36,33 @@ exports.load = async function(){
         }, job.runAtTimestampMs - Date.now());
     });
     return jobsToRun.length;
+}
+
+const cronjob = require('cron').CronJob;
+
+exports.startCrons = function(){
+    Object.keys(exports.crons).forEach(cron => {
+        exports.crons[cron].start();
+    });
+}
+
+exports.stopCrons = function(){
+    Object.keys(exports.crons).forEach(cron => {
+        exports.crons[cron].stop();
+    });
+}
+
+exports.crons = {
+    changestatus: new cronjob('0 */15 * * * *', async function(){
+        //changing discord client's presence every 15 minutes
+        await require('./presence')()
+        .catch(err => {
+            console.error(`Error while updating presence!\n${err}`);
+        })
+        .then(() => {
+            console.log('[cron] Updated client presence');
+        });
+    })
 }
 
 //possibly end all the jobs on graceful shutdown
