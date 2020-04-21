@@ -6,7 +6,7 @@ exports.cooldown = 0;
 exports.dmable = false;
 
 exports.run = async message => {
-    let cmdName = message.args[1].toLowerCase();
+    let cmdName = message.args[0].toLowerCase();
     //checking if command already exists
     if (client.commands.has(cmdName)) throw ['normal', `Command \`${cmdName}\` is already loaded! Try **${message.prefix}reload ${cmdName}**`];
     if (!require('fs').existsSync(require.resolve(`./${cmdName}.js`))) throw ['normal', `File \`${cmdName}.js\` does not exist in command folder!`];

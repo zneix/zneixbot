@@ -34,8 +34,8 @@ module.exports = async message => {
                     client.logger.command(message, cmd, cmd.level);
                     //handling cooldowns with an exception for immune users
                     if (client.perms.getUserLvl(message.author.id) >= client.perms.levels['skipCooldowns']) return;
-                    client.cooldowns[cmd.name].add(`${message.guild ? message.guild.id : message.channel.id}_${message.member.id}`);
-                    setTimeout(function(){ client.cooldowns[cmd.name].delete(`${message.guild ? message.guild.id : message.channel.id}_${message.member.id}`); }, cmd.cooldown);
+                    client.cooldowns[cmd.name].add(`${message.guild ? message.guild.id : message.channel.id}_${message.author.id}`);
+                    setTimeout(function(){ client.cooldowns[cmd.name].delete(`${message.guild ? message.guild.id : message.channel.id}_${message.author.id}`); }, cmd.cooldown);
                 }).catch(async err => { require('../src/utils/errors').command(message, err); });
             }
             catch (errorino){require('../src/utils/errors').message(message, errorino);}
