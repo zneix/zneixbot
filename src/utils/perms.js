@@ -59,12 +59,11 @@ exports.isAllowed = (cmd, channel, member) => {
     if (client.cooldowns[cmd.name].has(`${member.guild ? member.guild.id : message.channel.id}_${member.id}`)) return false;
     if (cmd.level >= levels['minguildmod'] && cmd.level <= levels['maxguildmod']) return exports.guildLevel(member, cmd.level);
     if (cmd.perms.length) return exports.guildPerm(cmd.perms, channel, member);
-    return getUserLvl(member.id) >= cmd.level ? true : false;
+    return Boolean(getUserLvl(member.id) >= cmd.level);
 }
 exports.isBanned = (userid) => {
     return !(getUserLvl(userid) >= levels['user']); // -1 is a banned user
 }
-
 exports.guildLevel = (member, glevel) => {
     if (isGod(member.id) || member.hasPermission('ADMINISTRATOR')) return true; //gods and guild admins have full rights in guild level tree (obviously)
     let allowed = false;
@@ -88,7 +87,7 @@ exports.guildPerm = (gperms, channel, member) => {
     else {
         let permGrant, ovrGrant;
         gperms.forEach(perm => {
-            if (member.hasPermission(perm)) permGrant = true;
+            if (member.permissionsIn(channel).toArray().includes(perm)) permGrant = true;
             if (adminOverrides.includes(perm)) ovrGrant = true;
         });
         if ((!permGrant && !ovrGrant) && !isGod(member.id)) return false;
