@@ -26,14 +26,13 @@ let adminOverrides = [
     'USE_VAD', //(use voice activity detection)
     'CHANGE_NICKNAME',
     'MANAGE_NICKNAMES', //(change other members' nicknames)
-    'MANAGE_ROLES',
+    // 'MANAGE_ROLES',
     'MANAGE_WEBHOOKS',
     'MANAGE_EMOJIS'
 ];
 let levels = {
     god: 1000, //god can do literally whatever he wants, all the restrictions are ignored
     admin: 500, //admin level allows to ignore some guild permission-based restrictions
-    mod: 300, //mods can execute some whitelisted commands
 
     maxguildmod: 200, //upper cap of the guild moderator permissions
     minguildmod: 100, //moderator of the current server (most likely, defined by role / user ID by admins)

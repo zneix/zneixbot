@@ -2,7 +2,7 @@ exports.description = 'Posts your level progress. You can mention another user o
 exports.usage = '[@mention | userID]';
 exports.level = 0;
 exports.perms = [];
-exports.cooldown = 15000;
+exports.cooldown = 20000;
 exports.dmable = false;
 
 exports.run = async message => {

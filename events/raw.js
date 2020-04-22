@@ -1,4 +1,5 @@
 module.exports = async event => {
+/*
     let handledEvents = {
         MESSAGE_UPDATE: 'messageUpdate',
         // MESSAGE_DELETE: 'messageDelete'
@@ -12,6 +13,7 @@ module.exports = async event => {
         let newMessage = await channel.messages.fetch(data.id);
         client.emit(handledEvents[event.t], data, newMessage);
     }
+*/
     // if (event.t === 'MESSAGE_DELETE'){
     //     let channel = client.channels.get(data.channel_id);
     //     if (!channel) return; //getting rid of DMs(?)

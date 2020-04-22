@@ -36,13 +36,6 @@ exports.run = async message => {
                 value: guildModList
             });
         }
-        // append mod commands
-        if (client.perms.getUserLvl(message.author.id) >= client.perms.levels.mod){
-            embed.fields.push({
-                name: `${client.emoteHandler.guild('asset', 'supermod')} Bot Moderator commands`,
-                value: client.commands.filter(cmd => cmd.level >= client.perms.levels.mod && cmd.level < client.perms.levels.admin).map((object, key, map) => `\`${key}\``).join(' | ')
-            });
-        }
         // append admin commands
         if (client.perms.getUserLvl(message.author.id) >= client.perms.levels.admin){
             embed.fields.push({

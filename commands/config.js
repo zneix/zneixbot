@@ -24,8 +24,6 @@ exports.run = async message => {
         description:
         '`prefix` - changes or restores bot\'s prefix'
         +'\n`leveling` - manages leveling system'
-        +'\n`roles` - manages system of automatic role assignment via command'
-        +'\n`logging` - manages logging system'
         +'\n`mod` - manages bot moderator roles and users',
         fields: [
             {
@@ -33,8 +31,6 @@ exports.run = async message => {
                 value:
                 `prefix - ${data.customprefix ? `**${data.customprefix}**` : `${message.prefix} (default)`}`
                 +`\nleveling - ${data.modules.leveling.enabled ? '**enabled**' : 'disabled'}, ${Object.keys(data.modules.leveling.rewards).length} rewards; level-ups: ${data.modules.leveling.announcetype}`
-                +`\nroles - ${data.modules.roles.enabled ? '**enabled**' : 'disabled'}, ${Object.keys(data.modules.roles.units).length} configured role(s)`
-                +`\nlogging - ${data.modules.logging.enabled ? '**enabled**' : 'disabled'}, join/leave: ${data.modules.logging.joinleave ? `<#${data.modules.logging.joinleave}>` : 'none'}, ban/unban: ${data.modules.logging.banunban ? `<#${data.modules.logging.banunban}>` : 'none'}, message: ${data.modules.logging.message ? `<#${data.modules.logging.message}>` : 'none'}`
                 +`\nmod - ${data.perms.length ? `**${data.perms.filter(p => p.type == 'role').length}** roles, **${data.perms.filter(p => p.type == 'user').length}** users` : 'Not configured.'}`
             }
         ]
@@ -44,8 +40,6 @@ exports.run = async message => {
         switch(message.args[0].toLowerCase()){
             case 'prefix': await modulePrefix(); break;
             case 'leveling': await moduleLeveling(); break;
-            case 'roles': await moduleRoles(); break;
-            case 'logging': await moduleLogging(); break;
             case 'mod': await moduleModrole(); break;
         }
         async function modulePrefix(){
@@ -224,7 +218,7 @@ exports.run = async message => {
                     break;
                 case 'rewards':
                     embed.description = '`add <level> <ID | @Mention>` - adds target reward'
-                    +'\n`remove <level> <ID | @Mention>` - removes target reward'
+                    +'\n`remove <level> <ID | @Mention | all>` - removes target reward'
                     +'\n`reset` - removes all the rewards';
                     embed.fields[0].name = 'Currently configured rewards';
                     let roleRewards = data.modules.leveling.rewards;
@@ -238,34 +232,51 @@ exports.run = async message => {
                             if (!message.args[3] || !message.args[4]) throw ['normal', 'Specify both level and role ID or @Mention!'];
                             if (!Number.isInteger(parseInt(message.args[3])) || message.args[3] < 0 || message.args[3] > 200) throw ['normal', 'Level must be a number between 1 and 200!'];
                             if (message.args[3] > 200) throw ['normal', 'Level rewards can not exceed level 200!'];
-                            if (!message.guild.roles.cache.has(message.args[4])){
-                                if (message.mentions.roles.size && message.args[4].includes(message.mentions.roles.firstKey())){
-                                    roleRewards[message.args[3]] = message.mentions.roles.firstKey();
-                                    await updateRole(message.mentions.roles.firstKey(), {added: true, lvl: message.args[3]});
-                                    break;
-                                }
-                                throw ['normal', 'Specified role ID or @Mention is invalid!'];
+                            //adding new roles by role mention
+                            if (message.mentions.roles.size && message.args[4].includes(message.mentions.roles.firstKey())){
+                                if (roleRewards[message.args[3]].includes(message.mentions.roles.firstKey())){
+                                    throw ['normal', `That role is already a reward for level ${message.mentions.roles.firstKey()}`]; }
+                                if (!roleRewards[message.args[3]]) roleRewards[message.args[3]] = [];
+                                roleRewards[message.args[3]].push(message.mentions.roles.firstKey());
+                                await updateRole(message.mentions.roles.firstKey(), {added: true, lvl: message.args[3]});
+                                break;
                             }
-                            roleRewards[message.args[3]] = message.args[4];
-                            await updateRole(message.args[4], {added: true, lvl: message.args[3]});
-                            break;
+                            //adding new roles by role ID
+                            if (message.guild.roles.cache.has(message.args[4])){
+                                if (roleRewards[message.args[3]].includes(message.args[4])) throw ['normal', `That role is already a reward for level ${message.args[3]}`];
+                                if (!roleRewards[message.args[3]]) roleRewards[message.args[3]] = [];
+                                roleRewards[message.args[3]].push(message.args[4]);
+                                await updateRole(message.args[4], {added: true, lvl: message.args[3]});
+                                break;
+                            }
+                            throw ['normal', 'Specified role ID or @Mention is invalid!'];
                         case 'remove':
                             embed.fields = null;
                             if (!message.guild.me.hasPermission('MANAGE_ROLES')) throw ['botperm', 'Manage Roles'];
                             if (!message.args[3] || !message.args[4]) throw ['normal', 'Specify both level and role ID or @Mention!!'];
                             if (!Number.isInteger(parseInt(message.args[3])) || message.args[3] < 0 || message.args[3] > 200) throw ['normal', 'Level must be a number between 1 and 200!'];
                             if (message.args[3] > 200) throw ['normal', 'Level rewards can not exceed level 200!'];
-                            if (!message.guild.roles.cache.has(message.args[4])){
-                                if (message.mentions.roles.size && message.args[4].includes(message.mentions.roles.firstKey())){
-                                    delete roleRewards[message.args[3]];
-                                    await updateRole(message.mentions.roles.firstKey(), {added: false, lvl: message.args[3]});
-                                    break;
-                                }
-                                throw ['normal', 'Specified role ID or @Mention is invalid!'];
+                            //removing all
+                            if (message.args[4].toLowerCase() == 'all'){
+                                // roleRewards[message.args[3]].forEach(roleID => { roleCheck(roleID); }); //disabled checks for now
+                                roleRewards[message.args[3]] = [];
+                                await updateConfig(`Successfully removed all role rewards for level **${message.args[3]}**`, null);
                             }
-                            delete roleRewards[message.args[3]];
-                            await updateRole(message.args[4], {added: false, lvl: message.args[3]});
-                            break;
+                            //removing specific by role mention
+                            if (roleRewards[message.args[3]].includes(message.mentions.roles.firstKey())){
+                                let index = roleRewards[message.args[3]].indexOf(message.mentions.roles.firstKey());
+                                if (index > -1) roleRewards[message.args[3]].splice(index, 1);
+                                await updateRole(message.mentions.roles.firstKey(), {added: false, lvl: message.args[3]});
+                                break;
+                            }
+                            //removing specific by role ID
+                            if (roleRewards[message.args[3]].includes(message.args[4])){
+                                let index = roleRewards[message.args[3]].indexOf(message.args[4]);
+                                if (index > -1) roleRewards[message.args[3]].splice(index, 1);
+                                await updateRole(message.args[4], {added: false, lvl: message.args[3]});
+                                break;
+                            }
+                            throw ['normal', 'Specified role ID or @Mention is invalid!'];
                         case 'reset':
                         case 'clear':
                             embed.fields = null;
@@ -273,188 +284,6 @@ exports.run = async message => {
                             await updateConfig(`Cleared all role rewards`, null);
                             break;
                         }
-                    break;
-                default:
-                    break;
-            }
-        }
-        async function moduleRoles(){
-            embed.description = '`enable / disable` - toggles whole module'
-            +'\n`add <name> <roleID | @Role>` - adds a new role to module'
-            +'\n`remove <name>` - removes existing role from module'
-            +'\n`clear` - removes all roles from the module';
-            embed.fields[0].name = 'Currently configured roles';
-            embed.fields[0].value = `Module is **${data.modules.roles.enabled ? 'enabled' : 'disabled'}**\n${Object.keys(data.modules.roles.units).map(roleName => `${roleName}: <@&${data.modules.roles.units[roleName]}>`).join('\n')}`;
-            // if (Object.keys(data.modules.roles.units).length){
-            //     for (let i = 0; i < Object.keys(data.modules.roles.units).length; i++){
-            //         currRoles = currRoles.concat(`${Object.keys(data.modules.roles.units)[i]}: <@&${data.modules.roles.units[Object.keys(data.modules.roles.units)[i]]}>\n`);
-            //     }
-            // }
-            // else currRoles = 'No configured roles.';
-            // currRoles = ('Module is '+(data.modules.roles.enabled?'**enabled**':'disabled'))+'\n'+currRoles;
-            // embed.fields[0].value = currRoles;
-            if (message.args[1]) switch(message.args[1].toLowerCase()){
-                case 'enable':
-                case 'true':
-                    data.modules.roles.enabled = true;
-                    await updateConfig(`Roles module is now **enabled**`, null);
-                    break;
-                case 'disable':
-                case 'false':
-                    data.modules.roles.enabled = false;
-                    await updateConfig(`Roles module is now **disabled**`, null);
-                    break;
-                case 'add':
-                    if (!message.guild.me.hasPermission('MANAGE_ROLES')) throw ['botperm', 'Manage Roles'];
-                    if (!message.args[2] || !message.args[3]) throw ['normal', 'Specify both alias and role ID or @Mention'];
-                    if (!message.guild.roles.cache.has(message.args[3])){
-                        if (message.mentions.roles.size && message.args[3].includes(message.mentions.roles.firstKey())){
-                            data.modules.roles.units[message.args[2]] = message.mentions.roles.firstKey();
-                            roleCheck(message.mentions.roles.firstKey());
-                            await updateConfig(`Successfully added role ${message.mentions.roles.first()} to autoassignment module with name \`${message.args[2]}\``, null);
-                            break;
-                        }
-                        throw ['normal', 'Specified role ID or @Mention is invalid!'];
-                    }
-                    data.modules.roles.units[message.args[2]] = message.args[3];
-                    roleCheck(message.args[3]);
-                    await updateConfig(`Successfully added role <@&${message.args[3]}> to autoassignment module with name \`${message.args[2]}\``, null);
-                    break;
-                case 'remove':
-                    if (!message.args[2]) throw ['normal', `Specify the role alias to delete! Check available aliases with \`${message.prefix}config roles\``];
-                    if (!data.modules.roles.units[message.args[2]]) throw ['normal', 'Specified alias is invalid or it doesn\'t exist!'];
-                    delete data.modules.roles.units[message.args[2]];
-                    await updateConfig(`Removed role associated with name \`${message.args[2]}\` from autoassignment module`, null);
-                    break;
-                case 'clear':
-                    data.modules.roles.units = {};
-                    await updateConfig(`All roles has been excluded from autoassigning`, null);
-                    break;
-                default:
-                    break;
-            }
-        }
-        async function moduleLogging(){
-            embed.description = '`enable / disable` - toggles whole module'
-            +'\n`joinleave` - sets new log channel for join/leave events'
-            +'\n`banunban` - sets new log channel for user bans/unbans events'
-            +'\n`message` - sets new log channel for message edits/deletions events';
-            embed.fields[0].name = 'Currently configured log channels';
-            embed.fields[0].value = (data.modules.logging.enabled ? '**Enabled**' : '**Disabled**');
-            +`\nJoin / Leave log channel: ${data.modules.logging.joinleave ? `<#${data.modules.logging.joinleave}> (${data.modules.logging.joinleave})` : ' None'}`
-            +`\nBan/Unban log channel: ${data.modules.logging.banunban ? `<#${data.modules.logging.banunban}> (${data.modules.logging.banunban})` : ' None'}`
-            +`\nMessage log channel: ${data.modules.logging.message ? `<#${data.modules.logging.message}> (${data.modules.logging.message})` : ' None'}`;
-            if (message.args[1]) switch(message.args[1].toLowerCase()){
-                case 'enable':
-                case 'true':
-                    data.modules.logging.enabled = true;
-                    await updateConfig('Logging module is now **enabled**', null);
-                    break;
-                case 'disable':
-                case 'false':
-                    data.modules.logging.enabled = false;
-                    await updateConfig('Logging module is now **disabled**', null);
-                    break;
-                case 'joinleave':
-                    embed.description = '`set <channelID | #Channel>` - sets new Join/leave channel'
-                    +'\n`clear` - stops logging Join/leave events';
-                    embed.fields[0].name = 'Current setting';
-                    embed.fields[0].value = data.modules.logging.joinleave ? `<#${data.modules.logging.joinleave}>` : 'Not configured.';
-                    if (message.args[2]) switch(message.args[2].toLowerCase()){
-                        case 'set':
-                            if (!message.args[3]) throw ['normal', 'Specify join/leave log channel (via its ID or #Channel)'];
-                            if (!message.guild.channels.cache.get(message.args[3])){
-                                if (message.mentions.channels.size){
-                                    if (message.guild.channels.cache.has(message.mentions.channels.firstKey())){
-                                        if (message.mentions.channels.first().type != 'text') throw ['normal', 'This is not a text channel!'];
-                                        data.modules.logging.joinleave = message.mentions.channels.firstKey();
-                                        await updateConfig(`<#${message.mentions.channels.firstKey()}> is now Join/Leave log channel`, null);
-                                        break;
-                                    }
-                                }
-                                else throw ['normal', 'Mentioned channel is not in this server!'];
-                            }
-                            else {
-                                if (message.guild.channels.cache.get(message.args[3]).type != 'text') throw ['normal', 'This is not a text channel!'];
-                                data.modules.logging.joinleave = message.args[3];
-                                await updateConfig(`<#${message.args[3]}> is now Join/Leave log channel`, null);
-                            }
-                            break;
-                        case 'clear':
-                        case 'reset':
-                        case 'delete':
-                            data.modules.logging.joinleave = null;
-                            await updateConfig(`Stopped logging Join/Leave events`, null);
-                            break;
-                    }
-                    break;
-                case 'banunban':
-                    embed.description = '`set <channelID | #Channel>` - sets new Ban/Unban channel'
-                    +'\n`clear` - stops logging Ban/Unban events'
-                    embed.fields[0].name = 'Current setting';
-                    embed.fields[0].value = data.modules.logging.banunban ? `<#${data.modules.logging.banunban}>` : 'Not configured.';
-                    if (message.args[2]) switch(message.args[2].toLowerCase()){
-                        case 'set':
-                            if (!message.args[3]) throw ['normal', 'Specify ban/unban log channel (via its ID or #Channel)'];
-                            if (!message.guild.channels.cache.get(message.args[3])){
-                                //Channel Mention
-                                if (message.mentions.channels.size){
-                                    if (message.guild.channels.cache.has(message.mentions.channels.firstKey())){
-                                        if (message.mentions.channels.first().type != 'text') throw ['normal', 'This is not a text channel!'];
-                                        data.modules.logging.banunban = message.mentions.channels.firstKey();
-                                        await updateConfig(`<#${message.mentions.channels.firstKey()}> is now Ban/Unban log channel`, null);
-                                        break;
-                                    }
-                                }
-                                else throw ['normal', 'Mentioned channel is not in this server!'];
-                            }
-                            else {
-                                //ID
-                                if (message.guild.channels.cache.get(message.args[3]).type != 'text') throw ['normal', 'This is not a text channel!'];
-                                data.modules.logging.banunban = message.args[3];
-                                await updateConfig(`<#${message.args[3]}> is now Ban/Unban log channel`, null);
-                            }
-                            break;
-                        case 'clear':
-                        case 'reset':
-                        case 'delete':
-                            data.modules.logging.banunban = null;
-                            await updateConfig('Stopped logging Ban/Unban events', null);
-                            break;
-                    }
-                    break;
-                case 'message':
-                    embed.description = '`set <channelID | #Channel>` - sets new Message channel'
-                    +'\n`clear` - stops logging Message events';
-                    embed.fields[0].name = 'Current setting';
-                    embed.fields[0].value = data.modules.logging.message ? `<#${data.modules.logging.message}>` : 'Not configured.';
-                    if (message.args[2]) switch(message.args[2].toLowerCase()){
-                        case 'set':
-                            if (!message.args[3]) throw ['normal', 'Specify join/leave log channel (via its ID or #Channel)'];
-                            if (!message.guild.channels.cache.get(message.args[3])){
-                                if (message.mentions.channels.size){
-                                    if (message.guild.channels.cache.has(message.mentions.channels.firstKey())){
-                                        if (message.mentions.channels.first().type != 'text') throw ['normal', 'This is not a text channel!'];
-                                        data.modules.logging.message = message.mentions.channels.firstKey();
-                                        await updateConfig(`<#${message.mentions.channels.firstKey()}> is now Message log channel`, null);
-                                        break;
-                                    }
-                                }
-                                else throw ['normal', 'Mentioned channel is not in this server!'];
-                            }
-                            else {
-                                if (message.guild.channels.cache.get(message.args[3]).type != 'text') throw ['normal', 'This is not a text channel!'];
-                                data.modules.logging.message = message.args[3];
-                                await updateConfig(`<#${message.args[3]}> is now Message log channel`, null);
-                            }
-                            break;
-                        case 'clear':
-                        case 'reset':
-                        case 'delete':
-                            data.modules.logging.message = null;
-                            await updateConfig(`Stopped logging Message events`, null);
-                            break;
-                    }
                     break;
             }
         }
@@ -541,14 +370,14 @@ exports.run = async message => {
             }
         }
     }
-    function roleCheck(role){
-        if (message.guild.roles.cache.get(role).position >= message.guild.me.roles.highest.position) throw ['normal', 'I can\'t add this role to other users. Change my permissions and try again!'];
-        if (message.guild.roles.cache.get(role).managed) throw ['normal', 'This is a Discord integration role, it can\'t be managed!'];
-        if (role == message.guild.id) throw ['normal', 'This is a default server role, you dummy. Pick another'];
+    function roleCheck(roleID){
+        if (message.guild.roles.cache.get(roleID).position >= message.guild.me.roles.highest.position) throw ['normal', 'I can\'t add this/those role to other users. Change my permissions and try again!'];
+        if (message.guild.roles.cache.get(roleID).managed) throw ['normal', 'This is a Discord integration role, it can\'t be managed!'];
+        if (roleID == message.guild.id) throw ['normal', 'This is a default server role, you dummy. Pick another'];
     }
     async function updateRole(roleID, reward){
         roleCheck(roleID);
-        if (!reward) data.modrole = roleID;
+        // if (!reward) data.modrole = roleID; //irrelevant after 2.0 release
         await updateConfig(reward ? `Successfully ${reward.added ? 'added' : 'removed'} reward <@&${roleID}> (${roleID}) for level ${reward.lvl}`:`Successfully updated moderator role to <@&${roleID}> (${roleID})`);
     }
     async function updateConfig(msg, fields){

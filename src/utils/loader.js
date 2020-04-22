@@ -1,43 +1,15 @@
 const enmap = require('enmap');
 const fs = require('fs');
 let aliases = {
-    '%': ['percent', 'procent'],
-    '8ball': ['ask'],
-    'about': ['info', 'botinfo'],
-    'addemote': ['addemoji', 'createemote', 'createemoji'],
-    'avatar': ['awatar', 'pfp'],
-    'botnick': ['botname'],
-    'coinflip': ['cf'],
-    'color': ['kolor'],
     'config': ['cfg'],
-    'currency': ['curr', 'money'],
     'echo': ['say'],
-    'emote': ['emoji', 'showemote'],
     'eval': ['debug', 'sudo'],
     'exec': ['shell', 'sh'],
-    'help': ['h', 'commands', 'pomoc', 'komendy'],
-    'invitecheck': ['invcheck', 'invlookup', 'invitelookup'],
-    'isbanned': ['isban', 'checkban', 'checkban'],
-    'lenny': ['lennyface'],
+    'help': ['h', 'commands'],
     'leaderboard': ['levels', 'lvls'],
-    'math': ['calc', 'calculate'],
     'ping': ['uptime'],
-    'role': ['roles'],
-    'rps': ['rockpaperscissors'],
-    'server': ['serverinfo'],
-    'snowflake': ['sf', 'discordid'],
     'suggest': ['feedback', 'msgdev'],
-    'tempban': ['timeban', 'tban'],
-    'temperature': ['temp'],
-    'user': ['userinfo', 'lookup', 'whois'],
-    'kick': ['yeet'],
-    'purge': ['clean', 'clear'],
-    'rank': ['level', 'lvl'],
-    'region': ['serverregion'],
-    'resolve': ['dns'],
-    'unban': ['pardon'],
-    'wednesday': ['wed'],
-    'yp': ['yearprogress']
+    'rank': ['level', 'lvl']
 }
 exports.getCommand = function(name){
     let cmd = client.commands.get(name);
@@ -89,7 +61,7 @@ exports.events = function(){
 }
 exports.gracefulExits = async function(agenda){
     process.on('SIGINT', async code => {
-        console.log('!!! SIGINT DETECTED !!!');
+        console.log('!!! SIGINT !!!');
         await client.db.SIGINT();
         process.exit();
     });

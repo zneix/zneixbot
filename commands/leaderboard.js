@@ -2,7 +2,7 @@ exports.description = 'Displays lightweight leaderboard in a beautiful embed. Ex
 exports.usage = '';
 exports.level = 0;
 exports.perms = [];
-exports.cooldown = 30000;
+exports.cooldown = 450000;
 exports.dmable = false;
 
 exports.run = async message => {

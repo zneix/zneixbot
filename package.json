@@ -10,13 +10,9 @@
         "url": "https://github.com/zneix/zneixbot"
     },
     "dependencies": {
-        "canvas": "^2.6.1",
-        "child_process": "^1.0.2",
         "discord.js": "^12.1.1",
         "enmap": "^5.2.4",
         "fs": "0.0.1-security",
-        "long-timeout": "^0.1.1",
-        "mongodb": "^3.5.6",
-        "node-fetch": "^2.6.0"
+        "mongodb": "^3.5.6"
     }
 }
