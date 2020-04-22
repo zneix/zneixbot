@@ -1,9 +1,9 @@
 exports.description = 'Lists all commands available for you to use in current channel.'
-+`\nUse: **{PREFIX}help <command name>** to get information about specific commands and their usage.`;
++`\nUse **{PREFIX}help <command name>** to get information about specific commands, their usage and cooldowns.`;
 exports.usage = '\n<command name>';
 exports.level = 0;
 exports.perms = [];
-exports.cooldown = 3000;
+exports.cooldown = 5000;
 exports.dmable = false;
 
 exports.run = async message => {
@@ -18,7 +18,7 @@ exports.run = async message => {
                 name: `${client.user.tag}, ver ${client.version}`,
                 icon_url: client.user.avatarURL({format:'png', dynamic:true})
             },
-            description: exports.description.replace(/{PREFIX}/, message.prefix),
+            description: exports.description.replace(/.+\n/, '').replace(/{PREFIX}/, message.prefix),
             fields: [
                 {
                     name: `${client.emoteHandler.guild('asset', 'subscriber')} User commands`,

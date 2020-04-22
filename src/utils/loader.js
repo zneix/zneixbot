@@ -59,7 +59,7 @@ exports.events = function(){
         });
     });
 }
-exports.gracefulExits = async function(agenda){
+exports.gracefulExits = async function(){
     process.on('SIGINT', async code => {
         console.log('!!! SIGINT !!!');
         await client.db.SIGINT();

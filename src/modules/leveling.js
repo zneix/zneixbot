@@ -45,7 +45,7 @@ module.exports = async message => {
                 break;
         }
         //handling leveled role grant if such role exists in guild's config
-        let rewardRoles = config.stackedrewards
+        let rewardRoles = config.stackrewards
             ? (function(){
                 let arr = [];
                 Object.keys(config.rewards).filter(rew => rew <= userLvl['lvl']).map(rewSetKey => config.rewards[rewSetKey]).forEach(rewSet => {
@@ -54,16 +54,15 @@ module.exports = async message => {
                 return arr;
             })()
             : config.rewards[userLvl['lvl']];
-        console.log(rewardRoles);
-        console.log(rewardRoles.filter(roleID => message.member.roles.cache.has(roleID)));
-        rewardRoles.filter(roleID => message.member.roles.cache.has(roleID)).forEach(roleID => {
+
+        if (!message.guild.me.hasPermission('MANAGE_ROLES')) return console.log(`[leveling:roleadd] Missing perms in ${message.guild.id}`);
+        rewardRoles.filter(roleID => !message.member.roles.cache.has(roleID)).forEach(roleID => {
             let rewardRole = message.guild.roles.cache.get(roleID);
-            if (message.guild.me.hasPermission('MANAGE_ROLES') && (rewardRole ? (rewardRole.position < message.guild.me.roles.highest.position) : false)){
+            if (rewardRole ? (rewardRole.position < message.guild.me.roles.highest.position) : false){
                 console.log(`Adding role ${roleID} to ${message.author.tag}`);
-                message.member.addRole(rewardRole);
+                message.member.roles.add(rewardRole);
             }
         });
-        console.log('Done with adding roles!');
     }
     //regular xp add
     userLvl['xp'] += random;
