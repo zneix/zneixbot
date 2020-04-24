@@ -59,7 +59,7 @@ exports.run = async message => {
             return data[index]
                 ? `**${index+1}.** ${message.guild.member(data[index]['userid'])
                     ? `${message.guild.member(data[index]['userid'])} (${message.guild.member(data[index]['userid']).user.tag})`
-                    : `User Left (${data[index]['userid']})`}\nLvl: **${data[index]['lvl']}** Exp: **${data[index]['xp'] - (data[index]['lvl'] ? reqXP(data[index]['lvl']) : 0)}/${(reqXP(data[index]['lvl'] + 1))}** (tot. ${data[index]['xp']})\n\n`
+                    : `User Left (${data[index]['userid']})`}\nLvl: **${data[index]['lvl']}** Exp: **${data[index]['xp'] - (data[index]['lvl'] ? reqXP(data[index]['lvl']) : 0)}/${reqXP(data[index]['lvl'] + 1) - reqXP(data[index]['lvl'])}** (tot. ${data[index]['xp']})\n\n`
                 : '';
             }
         function buildDesc(page){

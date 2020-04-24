@@ -28,7 +28,7 @@ module.exports = async (message, userLvl) => {
             },
             {
                 name: 'Experience',
-                value: `${userLvl['xp'] - (userLvl['lvl'] ? reqXP(userLvl['lvl']) : 0)}/${reqXP(userLvl['lvl'] + 1)} (total: ${userLvl['xp']})`,
+                value: `${userLvl['xp'] - (userLvl['lvl'] ? reqXP(userLvl['lvl']) : 0)}/${reqXP(userLvl['lvl'] + 1) - reqXP(userLvl['lvl'])} (total: ${userLvl['xp']})`,
                 inline: true
             }
         ]
