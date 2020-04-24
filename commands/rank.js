@@ -1,4 +1,4 @@
-exports.description = 'Posts your level progress. You can mention another user or provide userID to check their progress instead.';
+exports.description = 'Posts your level progress. You can mention another user or provide their userID to check their progress instead. Checking ranks by usernames are not available yet!';
 exports.usage = '[@mention | userID]';
 exports.level = 0;
 exports.perms = [];
@@ -13,18 +13,22 @@ exports.run = async message => {
         require('../src/embeds/rankCheck')(message, userLvl);
     }
     else {
-        if (message.mentions.members.size){
-            if (message.args[0].includes(message.mentions.members.firstKey())){
-                let userLvl = await client.db.lvl.findUser(message.guild.id, message.mentions.members.firstKey());
-                if (!userLvl) userLvl = await client.db.lvl.newUser(message.guild.id, message.mentions.members.firstKey());
-                return require('../src/embeds/rankCheck')(message, userLvl);
-            }
-            else throw ['normal', 'Given ID is not present in database or invalid'];
+        if (message.args[0].includes(message.mentions.users.firstKey())){
+            //excluding bots
+            if (message.mentions.users.first().bot) throw ['normal', 'Bots are excluded from gaining experience!'];
+            let userLvl = await client.db.lvl.findUser(message.guild.id, message.mentions.users.firstKey());
+            if (!userLvl) userLvl = await client.db.lvl.newUser(message.guild.id, message.mentions.users.firstKey());
+            return require('../src/embeds/rankCheck')(message, userLvl);
         }
         let userLvl = await client.db.lvl.findUser(message.guild.id, message.args[0]);
         if (!userLvl){
-            if (message.guild.member(message.args[0])) userLvl = await client.db.lvl.newUser(message.guild.id, message.args[0]);
-            else throw ['normal', 'Your ID is not present in database or invalid.'];
+            //trying to get server member if database entry wasn't found
+            if (message.guild.member(message.args[0])){
+                //excluding bots
+                if (message.guild.member(message.args[0]).user.bot) throw ['normal', 'Bots are excluded from gaining experience!'];
+                userLvl = await client.db.lvl.newUser(message.guild.id, message.args[0]);
+            }
+            else throw ['normal', 'Given user ID is not present in database or invalid!'];
         }
         require('../src/embeds/rankCheck')(message, userLvl);
     }
