@@ -7,14 +7,16 @@ exports.dmable = true;
 
 exports.run = async message => {
     if (!message.args.length) throw ['args', 1];
-    if (!/\d{17,}/.test(message.args[0])) throw ['normal', 'Invalid snowflake was provided, more info here: <https://discordapp.com/developers/docs/reference#snowflakes>'];
+    //parsing channel/user mentions
+    let argSf = /\d{17,}/.exec(message.args[0])[0];
+    if (!argSf) throw ['normal', 'Invalid snowflake was provided, more info here: <https://discordapp.com/developers/docs/reference#snowflakes>'];
     let {snowflake, dateFormat, hourFormat, msToHuman} = require('../src/utils/formatter');
-    let sf = snowflake(message.args[0]);
+    let sf = snowflake(argSf);
     message.channel.send({embed:{
         color: 0x2f3136,
         footer: {
-            text: message.author.tag,
-            icon_url: message.author.avatarURL
+            text: `${message.author.tag} | ${argSf}`,
+            icon_url: message.author.avatarURL({ormat:'png', dynamic:true})
         },
         timestamp: message.createdAt,
         description: `Date (UTC): **${dateFormat(new Date(sf.timestamp))}, ${hourFormat(new Date(sf.timestamp))}** (${sf.timestamp}) \`${msToHuman(message.createdTimestamp - sf.timestamp, 4)} ago\``
