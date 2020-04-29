@@ -340,10 +340,10 @@ exports.run = async message => {
             +'\n`banunban` - sets new log channel for user bans/unbans events'
             +'\n`message` - sets new log channel for message edits/deletions events';
             embed.fields[0].name = 'Currently configured log channels';
-            embed.fields[0].value = (data.modules.logging.enabled ? '**Enabled**' : '**Disabled**');
-            +`\nJoin / Leave log channel: ${data.modules.logging.joinleave ? `<#${data.modules.logging.joinleave}> (${data.modules.logging.joinleave})` : ' None'}`
-            +`\nBan/Unban log channel: ${data.modules.logging.banunban ? `<#${data.modules.logging.banunban}> (${data.modules.logging.banunban})` : ' None'}`
-            +`\nMessage log channel: ${data.modules.logging.message ? `<#${data.modules.logging.message}> (${data.modules.logging.message})` : ' None'}`;
+            embed.fields[0].value = `Module status: **${data.modules.logging.enabled ? 'Enabled' : 'Disabled'}**`
+            +`\nJoin / Leave: ${data.modules.logging.joinleave ? `<#${data.modules.logging.joinleave}> (${data.modules.logging.joinleave})` : ' None'}`
+            +`\nBan/Unban: ${data.modules.logging.banunban ? `<#${data.modules.logging.banunban}> (${data.modules.logging.banunban})` : ' None'}`
+            +`\nMessage: ${data.modules.logging.message ? `<#${data.modules.logging.message}> (${data.modules.logging.message})` : ' None'}`;
             if (message.args[1]) switch(message.args[1].toLowerCase()){
                 case 'enable':
                 case 'true':

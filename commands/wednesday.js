@@ -6,7 +6,7 @@ exports.cooldown = 3000;
 exports.dmable = false;
 
 exports.run = async message => {
-    let time = message.createdAt.getUTCDay()+1;
+    let time = message.createdAt.getUTCDay();
     let Pepega;
     switch(time){
         case 1: Pepega = `Two more days, my dude ${client.emoteHandler.find('OkayChamp')}`;break;
