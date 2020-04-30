@@ -56,7 +56,7 @@ exports.run = async message => {
                     {
                         name: `Updates [${fetchedSuggestion.updates.length}]`,
                         value: fetchedSuggestion.updates.length
-                            ? fetchedSuggestion.updates.map(u => `${u.newStatus} (${formatter.msToHuman(new Date().getTime() - u.timestamp, 2)} ago)${u.note ? `, ${u.note}` : ''}`).join('\n')
+                            ? fetchedSuggestion.updates.map(u => `**${u.newStatus}** \`${formatter.msToHuman(new Date().getTime() - u.timestamp, 2)} ago\`\n${u.note || '*No notes...*'}`).join('\n\n')
                             : 'None so far.'
                     }
                 ]
