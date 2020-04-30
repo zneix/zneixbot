@@ -79,7 +79,8 @@ exports.run = async message => {
                         text: `Reviewed by ${message.author.tag}`,
                         icon_url: message.author.avatarURL({format:'png', dynamic:true})
                     },
-                    description: updateObj.note
+                    description: `\`Text:\` ${fetchedSuggestion.text}`
+                    + (updateObj.note ? `\n\n\`Note:\` ${updateObj.note}` : '')
                 }}).then(() => DMError = null);
             }
             catch (err){ DMError = err.toString().replace('DiscordAPIError:', 'API Error:') }
