@@ -96,12 +96,13 @@ exports.messageDelete = async message => {
                     icon_url: message.author ? message.author.avatarURL({format:'png', dynamic:true}) : null
                 },
                 description: `${message.author ? `${message.author} (${message.author.tag})` : 'unknown#0000'} in ${message.channel}`,
-                fields: [
-                    {
-                        name: 'Deleted Message',
-                        value: message.author ? (message.content || 'null') : 'unknown, message wasn\'t cached before it was deleted'
-                    }
-                ]
+                fields: []
+            }
+            if (message.content){
+                embed.fields.push({
+                    name: 'Deleted Message',
+                    value: message.content
+                });
             }
             if (message.attachments ? message.attachments.size : false){
                 embed.fields.push({
@@ -130,7 +131,7 @@ exports.messageDeleteBulk = async messages => {
                 author: {
                     name: `${messages.size} Messages Deleted (avg message age: ${formatter.msToHuman(date.getTime() - Math.floor(messages.map(msg => msg.createdTimestamp).reduce((a, b) => a+b, 0) / messages.size ), 3)})`,
                 },
-                description: messages.map(message => `${message.attachments.size ? `${message.attachments.size} 📎` : ''} [${message.author.tag}]: ${message.content || 'null'}`).join('\n').slice(0, 1023), //slicing, to prevent overflows
+                description: messages.map(message => `${message.attachments.size ? `${message.attachments.size} 📎` : ''} [${message.author.tag}]: ${message.content || '*N/A*'}`).join('\n').slice(0, 1023), //slicing, to prevent overflows
             }
             console.log(`[messageDeleteBulk] ${messages.size} messages deleted in #${logchannel.name} (${logchannel.id})`);
             return await logchannel.send({embed:embed});
@@ -154,17 +155,19 @@ exports.messageUpdate = async (oldMessage, newMessage) => {
                     icon_url: newMessage.author.avatarURL({format:'png', dynamic:true})
                 },
                 description: `User: ${newMessage.author} (${newMessage.author.tag})\nChannel: ${newMessage.channel} (${newMessage.channel.name})\n[**link**](${newMessage.url})`,
-                fields: [
-                    {
-                        name: 'Previous Message',
-                        value: oldMessage.channel ? (oldMessage.content || 'null') : 'unknown, message wasn\'t cached before it was edited'
-                    },
-                    {
-                        name: 'New Message',
-                        value: newMessage.content || 'null'
-                    }
-        
-                ]
+                fields: []
+            }
+            if (oldMessage.content){
+                embed.fields.push({
+                    name: 'Previous Message',
+                    value: oldMessage.content
+                });
+            }
+            if (newMessage.content){
+                embed.fields.push({
+                    name: 'New Message',
+                    value: newMessage.content
+                });
             }
             if (newMessage.attachments ? newMessage.attachments.size : false){
                 embed.fields.push({
