@@ -338,12 +338,16 @@ exports.run = async message => {
             embed.description = '`enable / disable` - toggles whole module'
             +'\n`joinleave` - sets new log channel for join/leave events'
             +'\n`banunban` - sets new log channel for user bans/unbans events'
-            +'\n`message` - sets new log channel for message edits/deletions events';
+            +'\n`message` - sets new log channel for message edits/deletions events'
+            +'\n`name` - sets new log channel for username/nickname changes'
+            +'\n`avatar` - sets new log channel for avatar updates';
             embed.fields[0].name = 'Currently configured log channels';
             embed.fields[0].value = `Module status: **${data.modules.logging.enabled ? 'Enabled' : 'Disabled'}**`
             +`\nJoin / Leave: ${data.modules.logging.joinleave ? `<#${data.modules.logging.joinleave}> (${data.modules.logging.joinleave})` : ' None'}`
             +`\nBan/Unban: ${data.modules.logging.banunban ? `<#${data.modules.logging.banunban}> (${data.modules.logging.banunban})` : ' None'}`
-            +`\nMessage: ${data.modules.logging.message ? `<#${data.modules.logging.message}> (${data.modules.logging.message})` : ' None'}`;
+            +`\nMessage: ${data.modules.logging.message ? `<#${data.modules.logging.message}> (${data.modules.logging.message})` : ' None'}`
+            +`\nName: ${data.modules.logging.name ? `<#${data.modules.logging.name}> (${data.modules.logging.name})` : ' None'}`
+            +`\nAvatar: ${data.modules.logging.avatar ? `<#${data.modules.logging.avatar}> (${data.modules.logging.avatar})` : ' None'}`;
             if (message.args[1]) switch(message.args[1].toLowerCase()){
                 case 'enable':
                 case 'true':
@@ -430,7 +434,7 @@ exports.run = async message => {
                     embed.fields[0].value = data.modules.logging.message ? `<#${data.modules.logging.message}>` : 'Not configured.';
                     if (message.args[2]) switch(message.args[2].toLowerCase()){
                         case 'set':
-                            if (!message.args[3]) throw ['normal', 'Specify join/leave log channel (via its ID or #Channel)'];
+                            if (!message.args[3]) throw ['normal', 'Specify message log channel (via its ID or #Channel)'];
                             if (!message.guild.channels.cache.get(message.args[3])){
                                 if (message.mentions.channels.size){
                                     if (message.guild.channels.cache.has(message.mentions.channels.firstKey())){
@@ -453,6 +457,39 @@ exports.run = async message => {
                         case 'delete':
                             data.modules.logging.message = null;
                             await updateConfig(`Stopped logging Message events`, null);
+                            break;
+                    }
+                    break;
+                case 'name':
+                    embed.description = '`set <channelID | #Channel>` - sets new Username/Nickname log channel'
+                    +'\n`clear` - stops logging Username/Nickname changes';
+                    embed.fields[0].name = 'Current setting';
+                    embed.fields[0].value = data.modules.logging.name ? `<#${data.modules.logging.name}>` : 'Not configured.';
+                    if (message.args[2]) switch(message.args[2].toLowerCase()){
+                        case 'set':
+                            if (!message.args[3]) throw ['normal', 'Specify Username/Nickname log channel (via its ID or #Channel)'];
+                            if (!message.guild.channels.cache.get(message.args[3])){
+                                if (message.mentions.channels.size){
+                                    if (message.guild.channels.cache.has(message.mentions.channels.firstKey())){
+                                        if (message.mentions.channels.first().type != 'text') throw ['normal', 'This is not a text channel!'];
+                                        data.modules.logging.name = message.mentions.channels.firstKey();
+                                        await updateConfig(`<#${message.mentions.channels.firstKey()}> is now Username/Nickname log channel`, null);
+                                        break;
+                                    }
+                                }
+                                else throw ['normal', 'Mentioned channel is not in this server!'];
+                            }
+                            else {
+                                if (message.guild.channels.cache.get(message.args[3]).type != 'text') throw ['normal', 'This is not a text channel!'];
+                                data.modules.logging.name = message.args[3];
+                                await updateConfig(`<#${message.args[3]}> is now Username/Nickname log channel`, null);
+                            }
+                            break;
+                        case 'clear':
+                        case 'reset':
+                        case 'delete':
+                            data.modules.logging.name = null;
+                            await updateConfig(`Stopped logging Username/Nickname changes`, null);
                             break;
                     }
                     break;

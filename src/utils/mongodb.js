@@ -109,7 +109,9 @@ mclient.utils.newGuildConfig = async function(theid){
 			logging: {
 				enabled: false,
 				joinleave: null,
-				message: null
+				message: null,
+				banunban: null,
+				name: null
 			}
 		}
 	}

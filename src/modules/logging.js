@@ -92,7 +92,7 @@ exports.messageDelete = async message => {
                     icon_url: message.author ? message.author.avatarURL({format:'png', dynamic:true}) : null
                 },
                 author: {
-                    name: `Message Deleted${message.author ? ` (after ${formatter.msToHuman(date.getTime() - message.createdTimestamp, 3)})` : ''}`,
+                    name: `Message Deleted${message.author ? ` (msg age ${formatter.msToHuman(date.getTime() - message.createdTimestamp, 3)})` : ''}`,
                     icon_url: message.author ? message.author.avatarURL({format:'png', dynamic:true}) : null
                 },
                 description: `${message.author ? `${message.author} (${message.author.tag})` : 'unknown#0000'} in ${message.channel}`,
@@ -151,7 +151,7 @@ exports.messageUpdate = async (oldMessage, newMessage) => {
                     icon_url: newMessage.author.avatarURL({format:'png', dynamic:true})
                 },
                 author: {
-                    name: `Message Edited (after ${formatter.msToHuman(newMessage.editedTimestamp - (oldMessage.channel ? oldMessage.createdTimestamp : Date.parse(oldMessage.timestamp)), 3)})`,
+                    name: `Message Edited (msg age ${formatter.msToHuman(newMessage.editedTimestamp - (oldMessage.channel ? oldMessage.createdTimestamp : Date.parse(oldMessage.timestamp)), 3)})`,
                     icon_url: newMessage.author.avatarURL({format:'png', dynamic:true})
                 },
                 description: `User: ${newMessage.author} (${newMessage.author.tag})\nChannel: ${newMessage.channel} (${newMessage.channel.name})\n[**link**](${newMessage.url})`,
@@ -177,6 +177,57 @@ exports.messageUpdate = async (oldMessage, newMessage) => {
             }
             console.log(`[messageUpdate] message ${newMessage.id} in #${newMessage.channel.name} (${newMessage.channel.id})`);
             return await logchannel.send({embed:embed});
+        }
+    }
+}
+exports.usernameUpdate = async (oldUser, newUser) => {
+    //fetching the user in case it's not in cache (?)
+    if (!client.users.cache.get(newUser.id)) await client.users.fetch(newUser.id);
+    Object.keys(client.go).filter(guildID => client.go[guildID].config.modules.logging.enabled && client.go[guildID].config.modules.logging.name).forEach(async guildID => {
+        //logging updates only for available guilds
+        let guild = client.guilds.cache.get(guildID);
+        if (!guild.available) return console.log(`[!userUpdate:username] ${oldUser.tag} => ${newUser.tag} ; GUILD UNAVAILABLE! ${guildID}`);
+        //checking if user is a member of the server
+        if (!guild.member(newUser.id)) return;
+        let logchannel = guild.channels.cache.get(client.go[guildID].config.modules.logging.name);
+        if (logchannel){
+            console.log(`[userUpdate:username] ${oldUser.tag} => ${newUser.tag} ; logging to guild ${guildID}`);
+            return await logchannel.send({embed:{
+                color: 0x6df3b8,
+                timestamp: new Date(),
+                footer: {
+                    text: `${newUser.tag} | ${newUser.id}`,
+                    icon_url: `https://cdn.discordapp.com/avatars/${newUser.id}/${newUser.avatar}`
+                },
+                author: {
+                    name: `${oldUser.username == newUser.username ? 'Discriminator' : 'Username'} changed`
+                },
+                description: `Old: ${oldUser.tag}\nNew: ${newUser.tag}`
+            }});
+        }
+    });
+}
+exports.nicknameUpdate = async (oldMember, newMember) => {
+    let config = client.go[newMember.guild.id].config;
+    if (config.modules.logging.enabled && config.modules.logging.name){
+        let logchannel = newMember.guild.channels.cache.get(config.modules.logging.name);
+        if (logchannel){
+            console.log(`[guildMemberUpdate:nickname] ${oldMember.nickname} => ${newMember.nickname} in ${newMember.guild.id}`);
+            let nickState = 'changed'; // string => string
+            if (!oldMember.nickname) nickState = 'set'; // null => string
+            if (!newMember.nickname) nickState = 'removed'; //string => null
+            logchannel.send({embed:{
+                color: 0xa3e0ca,
+                timestamp: new Date(),
+                footer: {
+                    text: newMember.user.tag,
+                    icon_url: newMember.user.avatarURL({format:'png', dynamic:true})
+                },
+                author: {
+                    name: `Nickname ${nickState}`
+                },
+                description: `${oldMember.nickname ? `Old: ${oldMember.nickname}` : ''}\n${newMember.nickname ? `New: ${newMember.nickname}` : ''}`.trim() || '*No data... That shouldn\'t happen, contact dev pls*'
+            }});
         }
     }
 }
