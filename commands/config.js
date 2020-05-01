@@ -470,13 +470,13 @@ exports.run = async message => {
             }
             else {
                 //there are some permission entries specified
-                if (data.perms.filter(perm => perm.type == 'role')){
+                if (data.perms.filter(perm => perm.type == 'role').length){
                     embed.fields.push({
                         name: 'Moderator Roles',
                         value: data.perms.filter(perm => perm.type == 'role').map(perm => `<@&${perm.id}>`).join(' ')
                     });
                 }
-                if (data.perms.filter(perm => perm.type == 'user')){
+                if (data.perms.filter(perm => perm.type == 'user').length){
                     embed.fields.push({
                         name: 'Moderator Users',
                         value: data.perms.filter(perm => perm.type == 'user').map(perm => `<@${perm.id}>`).join(' ')
