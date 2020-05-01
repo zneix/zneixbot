@@ -463,20 +463,24 @@ exports.run = async message => {
             embed.description = '`set <@Mention | @Role | userID | roleID>` - sets specified role / user as a moderator (can be done with ID or @Mention)'
             +'\n`remove <@Mention | @Role | userID | roleID>` - removes specified role / user as a moderator (can be done with ID or @Mention)'
             +'\n`reset` - removes all moderator users and roles from configuration';
+            embed.fields = [];
             if (!data.perms.length){
                 //no permission entries
                 embed.description += '\n\nThere are no moderator users or roles.';
-                embed.fields = [];
             }
             else {
                 //there are some permission entries specified
                 if (data.perms.filter(perm => perm.type == 'role')){
-                    embed.fields[0].name = 'Moderator Roles';
-                    embed.fields[0].value = data.perms.filter(perm => perm.type == 'role').map(roleid => `<@&${roleid}>`).join(' ');
+                    embed.fields.push({
+                        name: 'Moderator Roles',
+                        value: data.perms.filter(perm => perm.type == 'role').map(perm => `<@&${perm.id}>`).join(' ')
+                    });
                 }
                 if (data.perms.filter(perm => perm.type == 'user')){
-                    embed.fields[0].name = 'Moderator Users';
-                    embed.fields[0].value = data.perms.filter(perm => perm.type == 'user').map(userid => `<@${userid}>`).join(' ');
+                    embed.fields.push({
+                        name: 'Moderator Users',
+                        value: data.perms.filter(perm => perm.type == 'user').map(perm => `<@${perm.id}>`).join(' ')
+                    });
                 }
             }
             if (message.args[1]){
@@ -508,7 +512,7 @@ exports.run = async message => {
                 async function permRoleCheck(roleID, boolSet){
                     if (message.guild.roles.cache.get(roleID).managed) throw ['normal', 'This is a Discord integration role, it can\'t be managed!'];
                     if (roleID == message.guild.id) throw ['normal', 'This is a default server role, you dummy. Pick another'];
-                    if ((message.guild.owner.id != message.author.id) && (message.member.roles.highest.position <= message.guild.roles.cache.get(roleID))) {
+                    if ((message.guild.owner.id != message.author.id) && (message.member.roles.highest.position <= message.guild.roles.cache.get(roleID).position)) {
                         throw ['normal', `You need a higher role to ${boolSet ? 'add' : 'remove'} this role as a server moderator!`]; }
                     if (boolSet){ if (!data.perms.map(p => p.id).includes(roleID)) data.perms.push({
                         id: roleID,
