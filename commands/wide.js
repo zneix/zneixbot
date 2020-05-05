@@ -1,4 +1,4 @@
-exports.description = '\"Squishes\" provided attached image / emote / URL / server member\'s avatar (Outputs only in PNG format for now).';
+exports.description = 'Turns provided attached image / emote / URL / server member\'s avatar into two wide images (Outputs only in PNG format for now).';
 exports.usage = `<:Kappa:561931926794141768>`
 +`\nhttps://static-cdn.jtvnw.net/emoticons/v1/114836/3.0`
 +`\n<@506606171906637855>`
@@ -47,17 +47,25 @@ exports.run = async message => {
     }
 
     //squishing
-    await msg.edit('Squishing image...');
+    await msg.edit('Transforming image...');
     try {
         let img = await canvas.loadImage(url);
-        let sq = canvas.createCanvas(img.width, img.height);
-        let ctx = sq.getContext('2d');
-        ctx.drawImage(img, 0, Math.floor((sq.height - Math.floor(img.height / 3)) / 2), sq.width, Math.floor(img.height / 3));
-        // ctx.drawImage(img, 0, 0, sq.width, sq.height);
-        await message.channel.send('Squished image', {files: [{
-            attachment: sq.toBuffer(),
-            name: 'squished.png'
-        }] });
+        let sq1 = canvas.createCanvas(img.width, img.height);
+        let sq2 = canvas.createCanvas(img.width, img.height);
+        let ctx1 = sq1.getContext('2d');
+        let ctx2 = sq2.getContext('2d');
+        ctx1.drawImage(img, 0, 0, sq1.width * 2, img.height);
+        ctx2.drawImage(img, -(img.width), 0, sq2.width * 2, img.height);
+        await message.channel.send('Wide Images', {files: [
+            {
+                attachment: sq1.toBuffer(),
+                name: 'wide1.png'
+            },
+            {
+                attachment: sq2.toBuffer(),
+                name: 'wide2.png'
+            }
+        ]});
         msg.delete();
     }
     catch (err){throw ['canvas', err.toString()];}

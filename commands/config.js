@@ -340,14 +340,14 @@ exports.run = async message => {
             +'\n`banunban` - sets new log channel for user bans/unbans events'
             +'\n`message` - sets new log channel for message edits/deletions events'
             +'\n`name` - sets new log channel for username/nickname changes'
-            +'\n`avatar` - sets new log channel for avatar updates';
+            // +'\n`avatar` - sets new log channel for avatar updates';
             embed.fields[0].name = 'Currently configured log channels';
             embed.fields[0].value = `Module status: **${data.modules.logging.enabled ? 'Enabled' : 'Disabled'}**`
             +`\nJoin / Leave: ${data.modules.logging.joinleave ? `<#${data.modules.logging.joinleave}> (${data.modules.logging.joinleave})` : ' None'}`
             +`\nBan/Unban: ${data.modules.logging.banunban ? `<#${data.modules.logging.banunban}> (${data.modules.logging.banunban})` : ' None'}`
             +`\nMessage: ${data.modules.logging.message ? `<#${data.modules.logging.message}> (${data.modules.logging.message})` : ' None'}`
             +`\nName: ${data.modules.logging.name ? `<#${data.modules.logging.name}> (${data.modules.logging.name})` : ' None'}`
-            +`\nAvatar: ${data.modules.logging.avatar ? `<#${data.modules.logging.avatar}> (${data.modules.logging.avatar})` : ' None'}`;
+            // +`\nAvatar: ${data.modules.logging.avatar ? `<#${data.modules.logging.avatar}> (${data.modules.logging.avatar})` : ' None'}`;
             if (message.args[1]) switch(message.args[1].toLowerCase()){
                 case 'enable':
                 case 'true':

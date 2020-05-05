@@ -8,14 +8,14 @@ exports.dmable = true;
 exports.run = async message => {
     if (!message.args.length) throw ['args', 1];
     //parsing channel/user mentions
-    let argSf = /\d{17,}/.exec(message.args[0])[0];
+    let argSf = /\d{17,}/.exec(message.args[0]);
     if (!argSf) throw ['normal', 'Invalid snowflake was provided, more info here: <https://discordapp.com/developers/docs/reference#snowflakes>'];
     let {snowflake, dateFormat, hourFormat, msToHuman} = require('../src/utils/formatter');
-    let sf = snowflake(argSf);
+    let sf = snowflake(argSf[0]);
     message.channel.send({embed:{
         color: 0x2f3136,
         footer: {
-            text: `${message.author.tag} | ${argSf}`,
+            text: `${message.author.tag} | ${argSf[0]}`,
             icon_url: message.author.avatarURL({ormat:'png', dynamic:true})
         },
         timestamp: message.createdAt,
