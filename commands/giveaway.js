@@ -37,7 +37,7 @@ exports.run = async message => {
     +`\nIn channel: ${channel}`
     +`\nNumber of winners: **${message.args[2]}**`
     +`\nGiveaway is going to last for: **${msToHuman(timeSec * 1000, 4)}** (will end approximately at \`${dateFormat(endDateConf)}, ${hourFormat(endDateConf)}\`)`
-    +`\nGiveaway note: **${userMsg ? userMsg : 'None.'}**`
+    +`\nGiveaway subject: **${userMsg ? userMsg : 'None.'}**`
     +`\n\nReact with ${client.emoteHandler.guild('asset', 'tickyes')} to confirm and start the giveaway`
     +`\nReact with ${client.emoteHandler.guild('asset', 'tickno')} (or wait 30s) to cancel`
     );
@@ -63,7 +63,7 @@ exports.run = async message => {
         else {
             //declaring a new variable, because time starts ticking now
             let endDate = new Date(Date.now() + (timeSec * 1000));
-            let embed = {
+            let giveawayMsg = await channel.send({embed: {
                 color: 0x25fe4a,
                 timestamp: endDate,
                 footer: {
@@ -73,12 +73,11 @@ exports.run = async message => {
                 author: {
                     name: `🎉 New Giveaway has started!`
                 },
-                description: userMsg ? `**${userMsg}**` : '*No Subject...*'
+                description: (userMsg ? `**${userMsg}**` : '*No Subject...*')
                 +`\nWinner(s): **${message.args[2]}**`
                 +`\nEnds in: **${msToHuman(timeSec * 1000, 4)}** \`${dateFormat(endDate)}, ${hourFormat(endDate)}\``
                 +`\n\n**React with 🎉 to enter!**`
-            }
-            let giveawayMsg = await channel.send({embed: embed});
+            }});
             //scheduling the job first would be better, but over here, giveawayMsg has to be defined before it's possible to schedule a job
             let jobid = await client.cron.schedule('giveaway', timeSec, {
                 channelid: message.channel.id,

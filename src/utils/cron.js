@@ -140,11 +140,11 @@ exports.jobs = {
         }
         */
         //clearances
-        let channel = client.channels.cache.get(params.channelid);
-        if (!channel) return; //client.channels.cache.get(params.orig[0]).send(`Giveaway Error (ID ${params.dest[1]})! Channel was deleted or I lack permissons to see it!`);
-        let message = channel.messages.cache.get(params.giveawayMsgid) || await channel.messages.fetch(params.giveawayMsgid);
-        if (!message) return channel.send(`Error while resolving giveaway (ID ${jobid})! Giveaway message has been deleted or I don't have permissons to see it!`);
+        let destChannel = client.channels.cache.get(params.destChannelid);
+        if (!destChannel) return; //client.channels.cache.get(params.orig[0]).send(`Giveaway Error (ID ${params.dest[1]})! Channel was deleted or I lack permissons to see it!`);
+        let message = destChannel.messages.cache.get(params.giveawayMsgid) || await destChannel.messages.fetch(params.giveawayMsgid).catch(err => {client.channels.cache.get(params.channelid).send(`Error while resolving giveaway (ID ${jobid})! \`${err}\``);null;});
 
+        if (!message) return; //client.channels.cache.get(params.channelid).send(`Error while resolving giveaway (ID ${jobid})! Giveaway message has been deleted or I don't have permissons to see it!`);
         //fetching in case bot rebooted before giveaway ended and bot doesn't have all reactions cached, has to be improved later
         if (message.reactions.cache.get('🎉').users.cache.size != message.reactions.cache.get('🎉').count){
             await message.reactions.cache.get('🎉').users.fetch(); //.then(f => Math.max([...f.keys()]) ); //finish better fetching all reactions
@@ -156,7 +156,24 @@ exports.jobs = {
         if (index > -1) pool.splice(index, 1);
 
         //escaping on empty giveaways...
-        if (!pool.length) return channel.send(`Couldn't determine giveaway winners (ID ${jobid})\n${message.url}`);
+        if (!pool.length){
+            await message.edit('🎉 Giveaway has finished!', {embed: {
+                color: 0x2f3136,
+                timestamp: new Date(),
+                footer: {
+                    text: `Hosted by ${message.author.tag} | Ended At`,
+                    icon_url: message.author.avatarURL({format:'png', 'dynamic':true})
+                },
+                author: {
+                    name: params.giveawayInfo.subject || 'A giveaway'
+                },
+                description:
+                `Giveaway lasted for: **${formatter.msToHuman(time * 1000, 4)}**`
+                +`\nWinners: 0`
+            }});
+            destChannel.send(`Couldn't determine giveaway winners (ID ${jobid})\n${message.url}`);
+            return;
+        }
 
         //select random winner(s)
         let winners = function(){
@@ -164,7 +181,7 @@ exports.jobs = {
             for (let i = 0; i < Math.min(params.giveawayInfo.winners, pool.length); i++) winnerArray.push(pool.filter(x => !winnerArray.includes(x))[Math.floor(Math.random() * pool.length)]);
             return winnerArray.map(id => `<@${id}>`);
         }();
-        let embed = {
+        await message.edit('🎉 Giveaway has finished!', {embed: {
             color: 0x2f3136,
             timestamp: new Date(),
             footer: {
@@ -172,14 +189,13 @@ exports.jobs = {
                 icon_url: message.author.avatarURL({format:'png', 'dynamic':true})
             },
             author: {
-                name: params.giveawayInfo.userMsg || 'A giveaway'
+                name: params.giveawayInfo.subject || 'A giveaway'
             },
             description:
             `Giveaway lasted for: **${formatter.msToHuman(time * 1000, 4)}**`
             +`\nWinner${winners.length == 1 ? ': ' : '(s):\n'}${winners.join('\n')}`
             +`\nWin chance: **${winners.length ? `${formatter.round(winners.length * 100 / pool.length, 2)}` : '0'}%**`
-        }
-        await message.edit('🎉 Giveaway has finished!', {embed: embed});
-        if (winners.length) channel.send(`Conratulations to ${winners.join(', ')}\nThey won the giveaway${params.giveawayInfo.userMsg?`, **${params.giveawayInfo.userMsg}**`:''}!\n${message.url}`);
+        }});
+        if (winners.length) destChannel.send(`Conratulations to ${winners.join(', ')}\nThey won the giveaway${params.giveawayInfo.subject ? `, **${params.giveawayInfo.subject}**` : ''}!\n${message.url}`);
     }
 }
