@@ -1,4 +1,4 @@
-exports.description = 'Calculates your math expression. This command is rather poor, see mathjs documentation for better understanding.';
+exports.description = 'Calculates your math expression. See mathjs documentation for better understanding .';
 exports.usage = '<math expression>';
 exports.level = 0;
 exports.perms = [];
@@ -19,9 +19,14 @@ exports.run = async message => {
     }
     let expression = message.args.join(' ');
     Object.keys(edgeCases).forEach(edge => expression = expression.replace(RegExp(edge, 'g'), edgeCases[edge]));
-    let resp = await fetch(`https://api.ivr.fi/math?expr=${expression.split('').map(c => `%${c.charCodeAt(0).toString(16)}`).join('')}`, {
-        method: 'GET',
-        headers: { 'User-Agent': 'zneixbot project: https://github.com/zneix/zneixbot' }
-    }).then(r => r.json());
-    message.channel.send(`\`${expression}\` = ${resp.response}`);
+    const mathjs = require('mathjs');
+    let resp = '';
+    try {
+        resp = mathjs.evaluate(expression);
+    }
+    catch (err){
+        resp = err.toString();
+    }
+    if (resp == Infinity) resp = resp.toString().replace(/^(-?)Infinity$/, `$1Infinity, either your input was too dank or calculation result is too high.`);
+    message.channel.send(`\`${expression}\` = ${resp}`);
 }

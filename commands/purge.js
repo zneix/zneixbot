@@ -2,7 +2,7 @@ exports.description = 'Cleans specified amount of messages. Must be between 1 an
 exports.usage = '<1 - 100>';
 exports.level = 0;
 exports.perms = ['MANAGE_MESSAGES'];
-exports.cooldown = 7500;
+exports.cooldown = 4500;
 exports.dmable = false;
 
 exports.run = async message => {

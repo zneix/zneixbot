@@ -2,7 +2,7 @@ exports.description = 'Displays various information about user - @mention them o
 exports.usage = '[user ID | @mention]';
 exports.level = 0;
 exports.perms = [];
-exports.cooldown = 5000;
+exports.cooldown = 4000;
 exports.dmable = true;
 
 exports.run = async message => {
