@@ -46,7 +46,7 @@ zneixbot is a variety Discord bot with slight moderation / utility features and 
 Yes, I do. All changes are being posted on [support server](https://discordapp.com/invite/cF555AV), this repository and `changelog` command. Check it sometimes to stay updated!
 
 #### How do I add bot to my server?
-Just click on [this link](https://discordapp.com/api/oauth2/authorize?client_id=587334198600400897&permissions=1409674343&scope=bot) and make sure you have required permissions (Managing Server)
+Just click on [this link](https://discordapp.com/api/oauth2/authorize?client_id=506606171906637855&permissions=1409674343&scope=bot) and make sure you have required permissions to add the bot (Managing Server)
 
 #### Bot didn't respond it's very slow, why?
 That happens, sometimes due to API issues and Discord outages, but it's also an issue with my server being small, so be patient please. Bot also goes down for short periods of time due to maintenace - join [support server](https://discordapp.com/invite/cF555AV) to stay updated or use `changelog` command
