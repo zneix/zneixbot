@@ -97,6 +97,7 @@ mclient.utils.newGuildConfig = async function(theid){
 		modules: {
 			leveling: {
 				enabled: false,
+				stackrewards: true,
 				announcetype: 'embed',
 				blacklist: [],
 				blocked: [],
