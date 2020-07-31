@@ -277,16 +277,19 @@ exports.run = async message => {
                                 if (!roleRewards[message.args[3]]) roleRewards[message.args[3]] = [];
                                 if (roleRewards[message.args[3]].includes(message.mentions.roles.firstKey())){
                                     throw ['normal', `That role is already a reward for level ${message.mentions.roles.firstKey()}`]; }
-                                await updateRole(message.mentions.roles.firstKey(), {added: true, lvl: message.args[3]});
+                                roleCheck(message.mentions.roles.firstKey());
                                 roleRewards[message.args[3]].push(message.mentions.roles.firstKey());
+                                await updateConfig(`Successfully added reward <@&${message.mentions.roles.firstKey()}> (${message.mentions.roles.firstKey()}) for level ${message.args[3]}`);
                                 break;
                             }
                             //adding new roles by role ID
                             if (message.guild.roles.cache.has(message.args[4])){
                                 if (!roleRewards[message.args[3]]) roleRewards[message.args[3]] = [];
                                 if (roleRewards[message.args[3]].includes(message.args[4])) throw ['normal', `That role is already a reward for level ${message.args[3]}`];
-                                await updateRole(message.args[4], {added: true, lvl: message.args[3]});
+                                // await updateConfig(`Successfully ${reward.added ? 'added' : 'removed'} reward <@&${roleID}> (${roleID}) for level ${reward.lvl}`);
+                                roleCheck(message.args[4]);
                                 roleRewards[message.args[3]].push(message.args[4]);
+                                await updateConfig(`Successfully added reward <@&${message.args[4]}> (${message.args[4]}) for level ${message.args[3]}`);
                                 break;
                             }
                             throw ['normal', 'Specified role ID or @Mention is invalid!'];
@@ -296,27 +299,29 @@ exports.run = async message => {
                             if (!message.args[3] || !message.args[4]) throw ['normal', 'Specify both level and role ID or @Mention!!'];
                             if (!Number.isInteger(parseInt(message.args[3])) || message.args[3] < 0 || message.args[3] > 200) throw ['normal', 'Level must be a number between 1 and 200!'];
                             if (message.args[3] > 200) throw ['normal', 'Level rewards can not exceed level 200!'];
-                            //removing all
-                            if (message.args[4].toLowerCase() == 'all'){
-                                // roleRewards[message.args[3]].forEach(roleID => { roleCheck(roleID); }); //disabled checks for now
-                                roleRewards[message.args[3]] = [];
-                                await updateConfig(`Successfully removed all role rewards for level **${message.args[3]}**`, null);
-                            }
                             //removing specific by role mention
                             if (roleRewards[message.args[3]] ? roleRewards[message.args[3]].includes(message.mentions.roles.firstKey()) : false){
                                 let index = roleRewards[message.args[3]].indexOf(message.mentions.roles.firstKey());
                                 if (index > -1) roleRewards[message.args[3]].splice(index, 1);
-                                await updateRole(message.mentions.roles.firstKey(), {added: false, lvl: message.args[3]});
+                                roleCheck(message.mentions.roles.firstKey());
+                                await updateConfig(`Successfully removed reward <@&${message.mentions.roles.firstKey()}> (${message.mentions.roles.firstKey()}) for level ${message.args[3]}`);
                                 break;
                             }
                             //removing specific by role ID
                             if (roleRewards[message.args[3]] ? roleRewards[message.args[3]].includes(message.args[4]) : false){
                                 let index = roleRewards[message.args[3]].indexOf(message.args[4]);
                                 if (index > -1) roleRewards[message.args[3]].splice(index, 1);
-                                await updateRole(message.args[4], {added: false, lvl: message.args[3]});
+                                roleCheck(message.args[4]);
+                                await updateConfig(`Successfully removed reward <@&${message.args[4]}> (${message.args[4]}) for level ${message.args[3]}`);
                                 break;
                             }
-                            throw ['normal', 'Specified role ID or @Mention is invalid!'];
+                            //removing all
+                            if (message.args[4].toLowerCase() == 'all'){
+                                // roleRewards[message.args[3]].forEach(roleID => { roleCheck(roleID); }); //disabled checks for now, since it's not needed if we purge everything anyway
+                                roleRewards[message.args[3]] = [];
+                                await updateConfig(`Successfully removed all role rewards for level **${message.args[3]}**`, null);
+                            }
+                            else throw ['normal', 'Specified role ID or @Mention is invalid!'];
                         case 'reset':
                         case 'clear':
                             roleRewards = {};
@@ -635,11 +640,11 @@ exports.run = async message => {
         if (message.guild.roles.cache.get(roleID).managed) throw ['normal', 'This is a Discord integration role, it can\'t be managed!'];
         if (roleID == message.guild.id) throw ['normal', 'This is a default server role, you dummy. Pick another'];
     }
-    async function updateRole(roleID, reward){
-        roleCheck(roleID);
-        // if (!reward) data.modrole = roleID;
-        await updateConfig(reward ? `Successfully ${reward.added ? 'added' : 'removed'} reward <@&${roleID}> (${roleID}) for level ${reward.lvl}` : `Successfully updated moderator role to <@&${roleID}> (${roleID})`);
-    }
+    // async function updateRole(roleID, reward){
+    //     roleCheck(roleID);
+    //     // if (!reward) data.modrole = roleID;
+    //     await updateConfig(`Successfully ${reward.added ? 'added' : 'removed'} reward <@&${roleID}> (${roleID}) for level ${reward.lvl}`);
+    // }
     async function updateConfig(msg, fields){
         await client.db.utils.replaceOne('guilds', {guildid: message.guild.id}, data);
         embed.color = colors.success;
