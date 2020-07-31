@@ -43,6 +43,9 @@ module.exports = async message => {
             case 'dm':
                 require('../embeds/levelUp')(message, message.author, userLvl['lvl']);
                 break;
+            case 'channel':
+                require('../embeds/levelUp')(message, message.guild.channels.cache.get(config.channel), userLvl['lvl']);
+                break;
             case 'none':
                 break;
         }
