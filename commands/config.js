@@ -76,6 +76,7 @@ exports.run = async message => {
         async function moduleLeveling(){
             embed.description = '`enable / disable` - toggles whole module'
             +'\n`type` - type of announcing level-up: embed, react, dm, none'
+            +'\n`stackrewards <true | false>` - assign all previous rewards to users on levelup'
             +'\n`blacklist` - manages channel blacklist'
             +'\n`block` - manages list of users excluded from leveling'
             +'\n`rewards` - manages role rewards';
@@ -95,6 +96,28 @@ exports.run = async message => {
                 case 'false':
                     data.modules.leveling.enabled = false;
                     await updateConfig(`Leveling system is now **disabled**`, null);
+                    break;
+                case 'stackrewards':
+                    embed.description = '`enable` - enables stacked rewards'
+                    +'\n`disable` - disables stacked rewards'
+                    embed.fields[0].value = `When enabled, users will get all role rewards for previous levels and current one upon leveling up\nCurrent setting: **${data.modules.leveling.stackrewards ? 'Enabled' : 'Disabled'}**`;
+                    if (message.args[2]) switch(message.args[2].toLowerCase()){
+                        case 'true':
+                        case 'yes':
+                        case 'enable':
+                        case 'enabled':
+                            data.modules.leveling.stackrewards = true;
+                            await updateConfig('Stacking rewards is now **enabled**!', null);
+                            break;
+                        case 'false':
+                        case 'no':
+                        case 'disable':
+                        case 'disabled':
+                            data.modules.leveling.stackrewards = false;
+                            await updateConfig('Stacking rewards is now **disabled**!', null);
+                            break;
+                        default: throw ['normal', 'You have to either choose "enable" or "disable" for that option!'];
+                    }
                     break;
                 case 'type':
                         embed.description = '`embed` - shows level-up embed messages in current channel'
@@ -229,7 +252,18 @@ exports.run = async message => {
                     embed.fields[0].name = 'Currently configured rewards';
                     let roleRewards = data.modules.leveling.rewards;
                     let rewardLevels = Object.keys(roleRewards);
-                    embed.fields[0].value = rewardLevels.map(rewLvl => `Level ${rewLvl}: <@&${roleRewards[rewLvl]}> (${roleRewards[rewLvl]})`).join('\n') || 'There are no rewards configured.';
+                    // embed.fields[0].value = rewardLevels.map(rewLvl => `Level ${rewLvl}: <@&${roleRewards[rewLvl]}> (${roleRewards[rewLvl]})`).join('\n') || 'There are no rewards configured.';
+                    embed.fields = [];
+                    rewardLevels.filter(rewardLevel => roleRewards[rewardLevel].length).forEach(rewardLevel => {
+                        embed.fields.push({
+                            name: `Level ${rewardLevel}`,
+                            value: roleRewards[rewardLevel].map(reward => `<@&${reward}> (${reward})`).join('\n')
+                        });
+                    });
+                    if (!embed.fields.length) embed.fields.push({
+                        name: 'Current configuration',
+                        value: 'There are no rewards configured.'
+                    });
                     //further configuration
                     if (message.args[2]) switch(message.args[2].toLowerCase()){
                         case 'add':
@@ -238,43 +272,62 @@ exports.run = async message => {
                             if (!message.args[3] || !message.args[4]) throw ['normal', 'Specify both level and role ID or @Mention!'];
                             if (!Number.isInteger(parseInt(message.args[3])) || message.args[3] < 0 || message.args[3] > 200) throw ['normal', 'Level must be a number between 1 and 200!'];
                             if (message.args[3] > 200) throw ['normal', 'Level rewards can not exceed level 200!'];
-                            if (!message.guild.roles.cache.has(message.args[4])){
-                                if (message.mentions.roles.size && message.args[4].includes(message.mentions.roles.firstKey())){
-                                    roleRewards[message.args[3]] = message.mentions.roles.firstKey();
-                                    await updateRole(message.mentions.roles.firstKey(), {added: true, lvl: message.args[3]});
-                                    break;
-                                }
-                                throw ['normal', 'Specified role ID or @Mention is invalid!'];
+                            //adding new roles by role mention
+                            if (message.mentions.roles.size && message.args[4].includes(message.mentions.roles.firstKey())){
+                                if (!roleRewards[message.args[3]]) roleRewards[message.args[3]] = [];
+                                if (roleRewards[message.args[3]].includes(message.mentions.roles.firstKey())){
+                                    throw ['normal', `That role is already a reward for level ${message.mentions.roles.firstKey()}`]; }
+                                roleCheck(message.mentions.roles.firstKey());
+                                roleRewards[message.args[3]].push(message.mentions.roles.firstKey());
+                                await updateConfig(`Successfully added reward <@&${message.mentions.roles.firstKey()}> (${message.mentions.roles.firstKey()}) for level ${message.args[3]}`);
+                                break;
                             }
-                            roleRewards[message.args[3]] = message.args[4];
-                            await updateRole(message.args[4], {added: true, lvl: message.args[3]});
-                            break;
+                            //adding new roles by role ID
+                            if (message.guild.roles.cache.has(message.args[4])){
+                                if (!roleRewards[message.args[3]]) roleRewards[message.args[3]] = [];
+                                if (roleRewards[message.args[3]].includes(message.args[4])) throw ['normal', `That role is already a reward for level ${message.args[3]}`];
+                                // await updateConfig(`Successfully ${reward.added ? 'added' : 'removed'} reward <@&${roleID}> (${roleID}) for level ${reward.lvl}`);
+                                roleCheck(message.args[4]);
+                                roleRewards[message.args[3]].push(message.args[4]);
+                                await updateConfig(`Successfully added reward <@&${message.args[4]}> (${message.args[4]}) for level ${message.args[3]}`);
+                                break;
+                            }
+                            throw ['normal', 'Specified role ID or @Mention is invalid!'];
                         case 'remove':
                             embed.fields = null;
                             if (!message.guild.me.hasPermission('MANAGE_ROLES')) throw ['botperm', 'Manage Roles'];
                             if (!message.args[3] || !message.args[4]) throw ['normal', 'Specify both level and role ID or @Mention!!'];
                             if (!Number.isInteger(parseInt(message.args[3])) || message.args[3] < 0 || message.args[3] > 200) throw ['normal', 'Level must be a number between 1 and 200!'];
                             if (message.args[3] > 200) throw ['normal', 'Level rewards can not exceed level 200!'];
-                            if (!message.guild.roles.cache.has(message.args[4])){
-                                if (message.mentions.roles.size && message.args[4].includes(message.mentions.roles.firstKey())){
-                                    delete roleRewards[message.args[3]];
-                                    await updateRole(message.mentions.roles.firstKey(), {added: false, lvl: message.args[3]});
-                                    break;
-                                }
-                                throw ['normal', 'Specified role ID or @Mention is invalid!'];
+                            //removing specific by role mention
+                            if (roleRewards[message.args[3]] ? roleRewards[message.args[3]].includes(message.mentions.roles.firstKey()) : false){
+                                let index = roleRewards[message.args[3]].indexOf(message.mentions.roles.firstKey());
+                                if (index > -1) roleRewards[message.args[3]].splice(index, 1);
+                                roleCheck(message.mentions.roles.firstKey());
+                                await updateConfig(`Successfully removed reward <@&${message.mentions.roles.firstKey()}> (${message.mentions.roles.firstKey()}) for level ${message.args[3]}`);
+                                break;
                             }
-                            delete roleRewards[message.args[3]];
-                            await updateRole(message.args[4], {added: false, lvl: message.args[3]});
-                            break;
+                            //removing specific by role ID
+                            if (roleRewards[message.args[3]] ? roleRewards[message.args[3]].includes(message.args[4]) : false){
+                                let index = roleRewards[message.args[3]].indexOf(message.args[4]);
+                                if (index > -1) roleRewards[message.args[3]].splice(index, 1);
+                                roleCheck(message.args[4]);
+                                await updateConfig(`Successfully removed reward <@&${message.args[4]}> (${message.args[4]}) for level ${message.args[3]}`);
+                                break;
+                            }
+                            //removing all
+                            if (message.args[4].toLowerCase() == 'all'){
+                                // roleRewards[message.args[3]].forEach(roleID => { roleCheck(roleID); }); //disabled checks for now, since it's not needed if we purge everything anyway
+                                roleRewards[message.args[3]] = [];
+                                await updateConfig(`Successfully removed all role rewards for level **${message.args[3]}**`, null);
+                            }
+                            else throw ['normal', 'Specified role ID or @Mention is invalid!'];
                         case 'reset':
                         case 'clear':
-                            embed.fields = null;
                             roleRewards = {};
                             await updateConfig(`Cleared all role rewards`, null);
                             break;
                         }
-                    break;
-                default:
                     break;
             }
         }
@@ -564,8 +617,8 @@ exports.run = async message => {
                 }
                 async function permMemberCheck(memberID, boolSet){
                     let member = message.guild.member(memberID);
-                    console.log(message.guild.owner.id, message.author.id)
-                    console.log(message.guild.owner.id != message.author.id)
+                    console.log(message.guild.owner.id, message.author.id);
+                    console.log(message.guild.owner.id != message.author.id);
                     if ((message.guild.owner.id != message.author.id) && (!client.perms.sufficientRole(message.member, member))) {
                         throw [`You need a higher role than this user to ${boolSet ? 'add' : 'remove'} them as server moderator!`]; }
                     if (boolSet){ if (!data.perms.map(p => p.id).includes(memberID)) data.perms.push({
@@ -582,16 +635,16 @@ exports.run = async message => {
             }
         }
     }
-    function roleCheck(role){
-        if (message.guild.roles.cache.get(role).position >= message.guild.me.roles.highest.position) throw ['normal', 'I can\'t add this role to other users. Change my permissions and try again!'];
-        if (message.guild.roles.cache.get(role).managed) throw ['normal', 'This is a Discord integration role, it can\'t be managed!'];
-        if (role == message.guild.id) throw ['normal', 'This is a default server role, you dummy. Pick another'];
+    function roleCheck(roleID){
+        if (message.guild.roles.cache.get(roleID).position >= message.guild.me.roles.highest.position) throw ['normal', 'I can\'t add this role to other users. Change my permissions and try again!'];
+        if (message.guild.roles.cache.get(roleID).managed) throw ['normal', 'This is a Discord integration role, it can\'t be managed!'];
+        if (roleID == message.guild.id) throw ['normal', 'This is a default server role, you dummy. Pick another'];
     }
-    async function updateRole(roleID, reward){
-        roleCheck(roleID);
-        if (!reward) data.modrole = roleID;
-        await updateConfig(reward ? `Successfully ${reward.added ? 'added' : 'removed'} reward <@&${roleID}> (${roleID}) for level ${reward.lvl}`:`Successfully updated moderator role to <@&${roleID}> (${roleID})`);
-    }
+    // async function updateRole(roleID, reward){
+    //     roleCheck(roleID);
+    //     // if (!reward) data.modrole = roleID;
+    //     await updateConfig(`Successfully ${reward.added ? 'added' : 'removed'} reward <@&${roleID}> (${roleID}) for level ${reward.lvl}`);
+    // }
     async function updateConfig(msg, fields){
         await client.db.utils.replaceOne('guilds', {guildid: message.guild.id}, data);
         embed.color = colors.success;

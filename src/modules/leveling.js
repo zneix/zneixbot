@@ -24,8 +24,10 @@ module.exports = async message => {
     // let sum = 5 * Math.pow(userLvl['lvl'] + 1, 2) + 50 * (userLvl['lvl'] + 1) + 100;
     let sum = 0;
     for (let i = 0; i < userLvl['lvl'] + 1; i++) sum += 5 * Math.pow(i, 2) + 50 * i + 100;
+    //adding xp
+    userLvl['xp'] += random;
     //handling level ups
-    if ((userLvl['xp'] + random) >= sum){
+    if (userLvl['xp'] >= sum){
         userLvl['lvl']++;
         await client.db.lvl.updateUser(message.guild.id, message.author.id, { $set: {xp: userLvl['xp'], lvl: userLvl['lvl']} });
         //level up annoucment
@@ -45,12 +47,24 @@ module.exports = async message => {
                 break;
         }
         //handling leveled role grant if such role exists in guild's config
-        if (config.rewards[userLvl['lvl']]){
-            let rewardRole = message.guild.roles.cache.get(config.rewards[userLvl['lvl']]);
-            if (message.guild.me.hasPermission('MANAGE_ROLES') && (rewardRole ? (rewardRole.position < message.guild.me.roles.highest.position) : false)) message.member.addRole(rewardRole);
+        let rewardRoles = config.stackrewards
+            ? (function(){
+                let arr = [];
+                Object.keys(config.rewards).filter(rew => rew <= userLvl['lvl']).map(rewSetKey => config.rewards[rewSetKey]).forEach(rewSet => {
+                    arr.push(...rewSet);
+                });
+                return arr;
+            })()
+            : config.rewards[userLvl['lvl']];
+
+        if (!message.guild.me.hasPermission('MANAGE_ROLES')) return console.log(`[leveling:roleadd] Missing perms in ${message.guild.id}`);
+        rewardRoles.filter(roleID => !message.member.roles.cache.has(roleID)).forEach(roleID => {
+            let rewardRole = message.guild.roles.cache.get(roleID);
+            if (rewardRole ? (rewardRole.position < message.guild.me.roles.highest.position) : false){
+                console.log(`Adding role ${roleID} to ${message.author.tag}`);
+                message.member.roles.add(rewardRole);
         }
+        });
     }
-    //regular xp add
-    userLvl['xp'] += random;
-    await client.db.lvl.updateUser(message.guild.id, message.author.id, { $set: {xp: userLvl['xp']} });
+    else await client.db.lvl.updateUser(message.guild.id, message.author.id, { $set: {xp: userLvl['xp']} });
 }
