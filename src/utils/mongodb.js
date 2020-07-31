@@ -99,6 +99,7 @@ mclient.utils.newGuildConfig = async function(theid){
 				enabled: false,
 				stackrewards: true,
 				announcetype: 'embed',
+				channel: null,
 				blacklist: [],
 				blocked: [],
 				rewards: {}

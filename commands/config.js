@@ -123,6 +123,7 @@ exports.run = async message => {
                         embed.description = '`embed` - shows level-up embed messages in current channel'
                         +'\n`react` - type of announcing level-up: embed, react, dm, none'
                         +'\n`dm` - sends level-up message directly to the user'
+                        +'\n`channel <channelID | #channel>` - sends level-up messages to specified channel in the server'
                         +'\n`none` - completely disables announcing level-ups'
                         embed.fields[0].value = `This option changes default bot's behavoir when someone levels up\nCurrent setting: \`${data.modules.leveling.announcetype}\``;
                         if (message.args[2]) switch(message.args[2].toLowerCase()){
@@ -138,6 +139,26 @@ exports.run = async message => {
                                 data.modules.leveling.announcetype = 'dm';
                                 await updateConfig(`Changed type of level up announcements to **direct messages**`, null);
                                 break;
+                            case 'channel':
+                                if (!message.args[3]) throw ['normal', 'You need to specify channel in which bot will announce level ups!'];
+                                if (message.mentions.channels.size){
+                                    //success from mention
+                                    if (message.guild.channels.cache.has(message.mentions.channels.firstKey())){
+                                        //channel actually exists in the current server
+                                        data.modules.leveling.channel = message.mentions.channels.firstKey();
+                                        data.modules.leveling.announcetype = 'channel';
+                                        await updateConfig(`Level up announcements will now be posted in <#${message.mentions.channels.firstKey()}>!`, null);
+                                        break;
+                                    }
+                                }
+                                else if (message.guild.channels.cache.filter(ch => ch.type == 'text').get(message.args[3])){
+                                    //success from ID
+                                    data.modules.leveling.channel = message.args[3];
+                                    data.modules.leveling.announcetype = 'channel';
+                                    await updateConfig(`Level up announcements will now be posted in <#${message.args[3]}>!`, null);
+                                    break;
+                                }
+                                break;
                             case 'none':
                                 data.modules.leveling.announcetype = 'none';
                                 await updateConfig(`**Disabled** level up announcements completely`, null);
@@ -145,8 +166,8 @@ exports.run = async message => {
                         }
                     break;
                 case 'blacklist':
-                    embed.description = '`add <ID | #Channel>` - adds target channel to blacklist'
-                    +'\n`remove <ID | #Channel>` - removes target channel from blacklist'
+                    embed.description = '`add <ID | #channel>` - adds target channel to blacklist'
+                    +'\n`remove <ID | #channel>` - removes target channel from blacklist'
                     +'\n`clear` - clears blacklist restriction';
                     let blacklist = [];
                     data.modules.leveling.blacklist.forEach(chid => blacklist.push(`<#${chid}>`));
@@ -413,13 +434,13 @@ exports.run = async message => {
                     await updateConfig('Logging module is now **disabled**', null);
                     break;
                 case 'joinleave':
-                    embed.description = '`set <channelID | #Channel>` - sets new Join/leave channel'
+                    embed.description = '`set <channelID | #channel>` - sets new Join/leave channel'
                     +'\n`clear` - stops logging Join/leave events';
                     embed.fields[0].name = 'Current setting';
                     embed.fields[0].value = data.modules.logging.joinleave ? `<#${data.modules.logging.joinleave}>` : 'Not configured.';
                     if (message.args[2]) switch(message.args[2].toLowerCase()){
                         case 'set':
-                            if (!message.args[3]) throw ['normal', 'Specify join/leave log channel (via its ID or #Channel)'];
+                            if (!message.args[3]) throw ['normal', 'Specify join/leave log channel (via its ID or #channel)'];
                             if (!message.guild.channels.cache.get(message.args[3])){
                                 if (message.mentions.channels.size){
                                     if (message.guild.channels.cache.has(message.mentions.channels.firstKey())){
@@ -446,13 +467,13 @@ exports.run = async message => {
                     }
                     break;
                 case 'banunban':
-                    embed.description = '`set <channelID | #Channel>` - sets new Ban/Unban channel'
+                    embed.description = '`set <channelID | #channel>` - sets new Ban/Unban channel'
                     +'\n`clear` - stops logging Ban/Unban events'
                     embed.fields[0].name = 'Current setting';
                     embed.fields[0].value = data.modules.logging.banunban ? `<#${data.modules.logging.banunban}>` : 'Not configured.';
                     if (message.args[2]) switch(message.args[2].toLowerCase()){
                         case 'set':
-                            if (!message.args[3]) throw ['normal', 'Specify ban/unban log channel (via its ID or #Channel)'];
+                            if (!message.args[3]) throw ['normal', 'Specify ban/unban log channel (via its ID or #channel)'];
                             if (!message.guild.channels.cache.get(message.args[3])){
                                 //Channel Mention
                                 if (message.mentions.channels.size){
@@ -481,13 +502,13 @@ exports.run = async message => {
                     }
                     break;
                 case 'message':
-                    embed.description = '`set <channelID | #Channel>` - sets new Message channel'
+                    embed.description = '`set <channelID | #channel>` - sets new Message channel'
                     +'\n`clear` - stops logging Message events';
                     embed.fields[0].name = 'Current setting';
                     embed.fields[0].value = data.modules.logging.message ? `<#${data.modules.logging.message}>` : 'Not configured.';
                     if (message.args[2]) switch(message.args[2].toLowerCase()){
                         case 'set':
-                            if (!message.args[3]) throw ['normal', 'Specify message log channel (via its ID or #Channel)'];
+                            if (!message.args[3]) throw ['normal', 'Specify message log channel (via its ID or #channel)'];
                             if (!message.guild.channels.cache.get(message.args[3])){
                                 if (message.mentions.channels.size){
                                     if (message.guild.channels.cache.has(message.mentions.channels.firstKey())){
@@ -514,13 +535,13 @@ exports.run = async message => {
                     }
                     break;
                 case 'name':
-                    embed.description = '`set <channelID | #Channel>` - sets new Username/Nickname log channel'
+                    embed.description = '`set <channelID | #channel>` - sets new Username/Nickname log channel'
                     +'\n`clear` - stops logging Username/Nickname changes';
                     embed.fields[0].name = 'Current setting';
                     embed.fields[0].value = data.modules.logging.name ? `<#${data.modules.logging.name}>` : 'Not configured.';
                     if (message.args[2]) switch(message.args[2].toLowerCase()){
                         case 'set':
-                            if (!message.args[3]) throw ['normal', 'Specify Username/Nickname log channel (via its ID or #Channel)'];
+                            if (!message.args[3]) throw ['normal', 'Specify Username/Nickname log channel (via its ID or #channel)'];
                             if (!message.guild.channels.cache.get(message.args[3])){
                                 if (message.mentions.channels.size){
                                     if (message.guild.channels.cache.has(message.mentions.channels.firstKey())){
