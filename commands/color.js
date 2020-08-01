@@ -37,7 +37,7 @@ exports.run = async message => {
             case "rgb":
                 color.hex = value.map(val => leadTwoHex(parseInt(val).toString(16))).join('');
                 color.rgb = `rgb(${value.join(', ')})`;
-                color.number = parseInt(hex, 16);
+                color.number = parseInt(color.hex, 16);
                 break;
             case "random":
                 color.random = Math.floor(Math.random()*16777214);
