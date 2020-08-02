@@ -220,7 +220,7 @@ exports.nicknameUpdate = async (oldMember, newMember) => {
                 color: 0xa3e0ca,
                 timestamp: new Date(),
                 footer: {
-                    text: newMember.user.tag,
+                    text: `${newMember.user.tag} | ${newMember.user.id}`,
                     icon_url: newMember.user.avatarURL({format:'png', dynamic:true})
                 },
                 author: {

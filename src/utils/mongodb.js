@@ -111,8 +111,9 @@ mclient.utils.newGuildConfig = async function(theid){
 			logging: {
 				enabled: false,
 				joinleave: null,
-				message: null,
 				banunban: null,
+				message: null,
+				mediamirror: null, //a channel in which all attachments will be reuploaded (already right away after message event)
 				name: null
 			}
 		}

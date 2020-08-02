@@ -158,6 +158,7 @@ exports.run = async message => {
                                     await updateConfig(`Level up announcements will now be posted in <#${message.args[3]}>!`, null);
                                     break;
                                 }
+                                throw ['normal', 'You didn\'t mention any channel and/or provided wrong channel ID!'];
                                 break;
                             case 'none':
                                 data.modules.leveling.announcetype = 'none';
@@ -413,6 +414,7 @@ exports.run = async message => {
             +'\n`joinleave` - sets new log channel for join/leave events'
             +'\n`banunban` - sets new log channel for user bans/unbans events'
             +'\n`message` - sets new log channel for message edits/deletions events'
+            +'\n`mediamirror` - sets a channel in which bot will reupload message attachments'
             +'\n`name` - sets new log channel for username/nickname changes'
             // +'\n`avatar` - sets new log channel for avatar updates';
             embed.fields[0].name = 'Currently configured log channels';
@@ -420,6 +422,7 @@ exports.run = async message => {
             +`\nJoin / Leave: ${data.modules.logging.joinleave ? `<#${data.modules.logging.joinleave}> (${data.modules.logging.joinleave})` : ' None'}`
             +`\nBan/Unban: ${data.modules.logging.banunban ? `<#${data.modules.logging.banunban}> (${data.modules.logging.banunban})` : ' None'}`
             +`\nMessage: ${data.modules.logging.message ? `<#${data.modules.logging.message}> (${data.modules.logging.message})` : ' None'}`
+            +`\nMedia Mirror: ${data.modules.logging.mediamirror ? `<#${data.modules.logging.mediamirror}> (${data.modules.logging.mediamirror})` : ' None'}`
             +`\nName: ${data.modules.logging.name ? `<#${data.modules.logging.name}> (${data.modules.logging.name})` : ' None'}`
             // +`\nAvatar: ${data.modules.logging.avatar ? `<#${data.modules.logging.avatar}> (${data.modules.logging.avatar})` : ' None'}`;
             if (message.args[1]) switch(message.args[1].toLowerCase()){
@@ -531,6 +534,39 @@ exports.run = async message => {
                         case 'delete':
                             data.modules.logging.message = null;
                             await updateConfig(`Stopped logging Message events`, null);
+                            break;
+                    }
+                    break;
+                case 'mediamirror':
+                    embed.description = '`set <channelID | #channel>` - sets new Media Mirror channel'
+                    +'\n`clear` - stops reuploading message attachments';
+                    embed.fields[0].name = 'Current setting';
+                    embed.fields[0].value = data.modules.logging.mediamirror ? `<#${data.modules.logging.mediamirror}>` : 'Not configured.';
+                    if (message.args[2]) switch(message.args[2].toLowerCase()){
+                        case 'set':
+                            if (!message.args[3]) throw ['normal', 'Specify media mirror channel (via its ID or #channel)'];
+                            if (message.mentions.channels.size){
+                                //success from mention
+                                if (message.guild.channels.cache.has(message.mentions.channels.firstKey())){
+                                    //channel actually exists in the current server
+                                    data.modules.logging.mediamirror = message.mentions.channels.firstKey();
+                                    await updateConfig(`<#${message.mentions.channels.firstKey()}> is now Media Mirror channel. Message attachments will be reuploaded there`, null);
+                                    break;
+                                }
+                            }
+                            else if (message.guild.channels.cache.filter(ch => ch.type == 'text').get(message.args[3])){
+                                //success from ID
+                                data.modules.logging.mediamirror = message.args[3];
+                                await updateConfig(`<#${message.args[3]}> is now Media Mirror channel. Message attachments will be reuploaded there`, null);
+                                break;
+                            }
+                            throw ['normal', 'You didn\'t mention any channel and/or provided wrong channel ID!'];
+                            break;
+                        case 'clear':
+                        case 'reset':
+                        case 'delete':
+                            data.modules.logging.mediamirror = null;
+                            await updateConfig(`Stopped reuploading message attachments`, null);
                             break;
                     }
                     break;
