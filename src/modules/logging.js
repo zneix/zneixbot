@@ -105,9 +105,15 @@ exports.messageDelete = async message => {
                 });
             }
             if (message.attachments ? message.attachments.size : false){
+                let attachmentsString = message.attachments.map(file => `(${formatter.bytesToUnits(file.size)}${file.height ? `, ${file.height}x${file.width}` : ''}) ${file.name}`).join('\n');
+                if (config.modules.logging.mediamirror){
+                    let mirrorData = (await client.db.utils.find('mirroredmedia', {messageid: message.id}))[0];
+                    if (mirrorData) attachmentsString = `[jump to media mirror](${mirrorData.mirrorMessageURL})\n` + attachmentsString;
+                    else attachmentsString = `no media mirror available\n` + attachmentsString;
+                }
                 embed.fields.push({
                     name: 'File Attachments',
-                    value: message.attachments.map(file => `(${formatter.bytesToUnits(file.size)}${file.height ? `, ${file.height}x${file.width}` : ''}) ${file.name}`).join('\n')
+                    value: attachmentsString
                 });
             }
             console.log(`[messageDelete] ${message.id} in #${message.channel.name} (${message.channel.id})`);
