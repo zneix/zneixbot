@@ -105,12 +105,18 @@ exports.messageDelete = async message => {
                 });
             }
             if (message.attachments ? message.attachments.size : false){
+                let attachmentsString = message.attachments.map(file => `(${formatter.bytesToUnits(file.size)}${file.height ? `, ${file.height}x${file.width}` : ''}) ${file.name}`).join('\n');
+                if (config.modules.logging.mediamirror){
+                    let mirrorData = (await client.db.utils.find('mirroredmedia', {messageid: message.id}))[0];
+                    if (mirrorData) attachmentsString = `[jump to media mirror](${mirrorData.mirrorMessageURL})\n` + attachmentsString;
+                    else attachmentsString = `no media mirror available\n` + attachmentsString;
+                }
                 embed.fields.push({
                     name: 'File Attachments',
-                    value: message.attachments.map(file => `(${formatter.bytesToUnits(file.size)}${file.height ? `, ${file.height}x${file.width}` : ''}) ${file.name}`).join('\n')
+                    value: attachmentsString
                 });
             }
-            console.log(`[messageDelete] message ${message.id} in #${message.channel.name} (${message.channel.id})`);
+            console.log(`[messageDelete] ${message.id} in #${message.channel.name} (${message.channel.id})`);
             return await logchannel.send({embed:embed});
         }
     }
@@ -133,7 +139,7 @@ exports.messageDeleteBulk = async messages => {
                 },
                 description: messages.map(message => `${message.attachments.size ? `${message.attachments.size} 📎` : ''} [${message.author.tag}]: ${message.content || '*N/A*'}`).join('\n').slice(0, 1023), //slicing, to prevent overflows
             }
-            console.log(`[messageDeleteBulk] ${messages.size} messages deleted in #${logchannel.name} (${logchannel.id})`);
+            console.log(`[messageDeleteBulk] ${messages.size} messages in #${logchannel.name} (${logchannel.id})`);
             return await logchannel.send({embed:embed});
         }
     }
@@ -220,7 +226,7 @@ exports.nicknameUpdate = async (oldMember, newMember) => {
                 color: 0xa3e0ca,
                 timestamp: new Date(),
                 footer: {
-                    text: newMember.user.tag,
+                    text: `${newMember.user.tag} | ${newMember.user.id}`,
                     icon_url: newMember.user.avatarURL({format:'png', dynamic:true})
                 },
                 author: {
