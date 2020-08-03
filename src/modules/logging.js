@@ -110,7 +110,7 @@ exports.messageDelete = async message => {
                     value: message.attachments.map(file => `(${formatter.bytesToUnits(file.size)}${file.height ? `, ${file.height}x${file.width}` : ''}) ${file.name}`).join('\n')
                 });
             }
-            console.log(`[messageDelete] message ${message.id} in #${message.channel.name} (${message.channel.id})`);
+            console.log(`[messageDelete] ${message.id} in #${message.channel.name} (${message.channel.id})`);
             return await logchannel.send({embed:embed});
         }
     }
@@ -133,7 +133,7 @@ exports.messageDeleteBulk = async messages => {
                 },
                 description: messages.map(message => `${message.attachments.size ? `${message.attachments.size} 📎` : ''} [${message.author.tag}]: ${message.content || '*N/A*'}`).join('\n').slice(0, 1023), //slicing, to prevent overflows
             }
-            console.log(`[messageDeleteBulk] ${messages.size} messages deleted in #${logchannel.name} (${logchannel.id})`);
+            console.log(`[messageDeleteBulk] ${messages.size} messages in #${logchannel.name} (${logchannel.id})`);
             return await logchannel.send({embed:embed});
         }
     }

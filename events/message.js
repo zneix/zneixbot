@@ -38,10 +38,15 @@ module.exports = async message => {
                     setTimeout(function(){ client.cooldowns[cmd.name].delete(`${message.guild ? message.guild.id : message.channel.id}_${message.author.id}`); }, cmd.cooldown);
                 }).catch(async err => { require('../src/utils/errors').command(message, err); });
             }
-            catch (errorino){require('../src/utils/errors').message(message, errorino);}
+            catch (errorino){ require('../src/utils/errors').message(message, errorino); }
         }
         //message handling
-        if (message.channel.type != 'dm') require('../src/modules/leveling')(message);
+        if (message.channel.type != 'dm'){
+            //leveling handler
+            require('../src/modules/leveling')(message);
+            //media mirroring for logging purposes
+            require('../src/modules/mediamirroring')(message);
+        }
     }
     catch (err){
         console.log('Insane message event error!!!!! Stack below:');
