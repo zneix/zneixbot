@@ -52,7 +52,7 @@ exports.run = async message => {
         }
     }
     async function suggestion(){
-        const statuses = ['new', 'dismissed', 'approved', 'completed', 'spam', 'unlikely', 'postponed', 'duplicate'];
+        const statuses = ['new', 'dismissed', 'denied', 'approved', 'completed', 'spam', 'not-a-suggestion', 'unlikely', 'postponed', 'duplicate'];
         if (message.args.length < 2) throw ['normal', `Provide suggestion ID and status!\nList of statuses: ${statuses.join(', ')}`];
         let fetchedSuggestion = (await client.db.utils.find('suggestions', {id: parseInt(message.args[0])}))[0];
         if (!fetchedSuggestion) throw ['normal', 'Suggestion with this ID doesn\'t exist!'];
