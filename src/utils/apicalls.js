@@ -2,11 +2,11 @@ const fetch = require('node-fetch');
 const baseDiscord = 'https://discordapp.com/api';
 const agent = 'zneixbot project: https://github.com/zneix/zneixbot';
 const formatter = require('./formatter');
+//custom query getting partial user profile, used by commands like user.js, avatar.js, etc...
 exports.getDiscordUser = async function(id){
-    //custom query getting partial user profile, used by commands like user.js, avatar.js, etc...
     let response = await fetch(`${baseDiscord}/users/${id}`, {
         method: 'GET',
-        headers: { Authorization: `Bot ${client.token}`, 'User-Agent': agent }
+        headers: { 'User-Agent': agent, Authorization: `Bot ${client.token}` }
     }).then(c => c.json());
     if (!response.id) return null; //escape on wrong user (all valid users should have their ID field returned)
 
@@ -16,10 +16,15 @@ exports.getDiscordUser = async function(id){
     response.createdTimestamp = formatter.snowflake(response.id).timestamp;
     response.createdAt = new Date(response.createdTimestamp);
 
+    //avatarURL with properties: dynamic, max res
+    response.avatarURL = function({ size } = {}){
+        return `https://cdn.discordapp.com/avatars/${response.id}/${response.avatar}.${/^a_/.test(response.avatar) ? 'gif' : 'png'}${size ? `?size=${size}` : ''}`;
+    }
+
     return response;
 }
+//custom query for getting statistics about a single guild invite
 exports.getDiscordInvite = async function(code){
-    //custom query for getting statistics about a single guild invite
     let response = await fetch(`${baseDiscord}/invites/${code}?with_counts=true`, {
         method: 'GET',
         headers: { 'User-Agent': agent }
