@@ -162,7 +162,7 @@ exports.jobs = {
                 timestamp: new Date(),
                 footer: {
                     text: `Hosted by ${message.author.tag} | Ended At`,
-                    icon_url: message.author.avatarURL({format:'png', 'dynamic':true})
+                    icon_url: message.author.avatarURL({format: 'png', dynamic: true, size: 4096})
                 },
                 author: {
                     name: params.giveawayInfo.subject || 'A giveaway'
@@ -186,7 +186,7 @@ exports.jobs = {
             timestamp: new Date(),
             footer: {
                 text: `Hosted by ${message.author.tag} | Ended At`,
-                icon_url: message.author.avatarURL({format:'png', 'dynamic':true})
+                icon_url: message.author.avatarURL({format: 'png', dynamic: true, size: 4096})
             },
             author: {
                 name: params.giveawayInfo.subject || 'A giveaway'

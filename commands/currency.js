@@ -45,7 +45,7 @@ exports.run = async message => {
         timestamp: message.createdAt,
         footer: {
             text: message.author.tag,
-            icon_url: message.author.avatarURL({format:'png', 'dynamic':true})
+            icon_url: message.author.avatarURL({format: 'png', dynamic: true, size: 4096})
         },
         description: `**${num}** ${objcodes[wanted()]} (${wanted()}) = **${round(num * apidata.rates[base()], 4)}** ${objcodes[base()]} (${base()})`
     }

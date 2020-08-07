@@ -25,7 +25,7 @@ exports.run = async message => {
         timestamp: message.createdAt,
         footer: {
             text: message.author.tag,
-            icon_url: message.author.avatarURL({format:'png', 'dynamic':true})
+            icon_url: message.author.avatarURL({format: 'png', dynamic: true, size: 4096})
         },
         description: `
 Running commit: **#${runningNumber+1} [${runningCommit[0]}](https://github.com/zneix/zneixbot/commit/${runningCommit[0]})${Boolean(branchInfo.match(/Your branch is up to date/)) ? ' [Latest]' : ''}** \`${msToHuman(message.createdAt - parseInt(runningCommit[1])*1000, 3)} ago\`

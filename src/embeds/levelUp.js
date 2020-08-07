@@ -4,7 +4,7 @@ module.exports = (message, channel, lvl) => {
         timestamp: message.createdAt,
         footer: {
             text: message.author.tag,
-            icon_url: message.author.avatarURL({format:'png', dynamic:true})
+            icon_url: message.author.avatarURL({format: 'png', dynamic: true, size: 4096})
         },
         author: {
             name: 'Level up!'

@@ -19,7 +19,7 @@ exports.run = async message => {
                 timestamp: new Date(fetchedError.timestamp),
                 footer: {
                     text: message.author.tag,
-                    icon_url: message.author.avatarURL({format:'png', 'dynamic':true})
+                    icon_url: message.author.avatarURL({format: 'png', dynamic: true, size: 4096})
                 },
                 author: {
                     name: `Error, ID: ${fetchedError.id}`
@@ -44,7 +44,7 @@ exports.run = async message => {
                 timestamp: fetchedSuggestion.addedTimestamp,
                 footer: {
                     text: 'Suggestion created at:',
-                    icon_url: message.author.avatarURL({format:'png', dynamic:true})
+                    icon_url: message.author.avatarURL({format: 'png', dynamic: true, size: 4096})
                 },
                 author: {
                     name: `Suggestion, ID ${fetchedSuggestion.id}`

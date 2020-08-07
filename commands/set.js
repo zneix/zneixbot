@@ -77,7 +77,7 @@ exports.run = async message => {
                     timestamp: message.createdAt,
                     footer: {
                         text: `Reviewed by ${message.author.tag}`,
-                        icon_url: message.author.avatarURL({format:'png', dynamic:true})
+                        icon_url: message.author.avatarURL({format: 'png', dynamic: true, size: 4096})
                     },
                     description: `\`Text:\` ${fetchedSuggestion.text}`
                     + (updateObj.note ? `\n\n\`Note:\` ${updateObj.note}` : '')

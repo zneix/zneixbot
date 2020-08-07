@@ -6,7 +6,7 @@ exports.cooldown = 7000;
 exports.dmable = false;
 
 exports.run = async message => {
-    const {dateFormat, msToHuman} = require('../src/utils/formatter');
+    const {dateFormat, hourFormat, msToHuman} = require('../src/utils/formatter');
     //fetching members for correct membercount
     await require('../src/utils/cache').fetchGuildMembers(message.guild);
     message.channel.send({embed:{
@@ -14,19 +14,19 @@ exports.run = async message => {
         timestamp: message.createdAt,
         footer: {
             text: message.author.tag,
-            icon_url: message.author.avatarURL({format:'png', dynamic:true})
+            icon_url: message.author.avatarURL({format: 'png', dynamic: true, size: 4096})
         },
         author: {
             name: message.guild.name,
-            icon_url: message.guild.iconURL({format:'png', dynamic:true})
+            icon_url: message.guild.iconURL({format: 'png', dynamic: true, size: 4096})
         },
         thumbnail: {
-            url: message.guild.iconURL({format:'png', dynamic:true})
+            url: message.guild.iconURL({format: 'png', dynamic: true, size: 4096})
         },
         fields: [
             {
                 name: 'Server Age',
-                value: `${dateFormat(message.guild.createdAt)}\n\`${msToHuman(Date.now() - message.guild.createdTimestamp, 3)} ago\``,
+                value: `${dateFormat(message.guild.createdAt)}, ${hourFormat(message.guild.createdAt)}\n\`${msToHuman(Date.now() - message.guild.createdTimestamp, 3)} ago\``,
                 inline: true
             },
             {

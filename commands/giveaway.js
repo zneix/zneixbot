@@ -68,7 +68,7 @@ exports.run = async message => {
                 timestamp: endDate,
                 footer: {
                     text: `Hosted by ${message.author.tag}`,
-                    icon_url: message.author.avatarURL({format:'png', dynamic:true})
+                    icon_url: message.author.avatarURL({format: 'png', dynamic: true, size: 4096})
                 },
                 author: {
                     name: `🎉 New Giveaway has started!`

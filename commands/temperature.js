@@ -21,7 +21,7 @@ exports.run = async message => {
         if (!message.args.length) throw ['normal', 'Temperature must be either C or F'];
     }
     function wanted(){
-        if (codes.some(x => x === message.args[0].toLowerCase())) return message.args[0].toLowerCase();
+        if (codes.some(x => x == message.args[0].toLowerCase())) return message.args[0].toLowerCase();
         return false;
     }
     if (!wanted()) throw ['normal', 'Temperature must be either C or F'];
@@ -31,7 +31,7 @@ exports.run = async message => {
         timestamp: message.createdAt,
         footer: {
             text: message.author.tag,
-            icon_url: message.author.avatarURL({format:'png', dynamic:true})
+            icon_url: message.author.avatarURL({format: 'png', dynamic: true, size: 4096})
         },
         description: `**${num} ${wanted().toUpperCase()}** = **${round((base == 'c' ? FtoC(num) : CtoF(num)), 2)} ${base.toUpperCase()}**`
     }});

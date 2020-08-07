@@ -16,7 +16,7 @@ exports.run = async message => {
         color: 0x2f3136,
         footer: {
             text: `${message.author.tag} | ${argSf[0]}`,
-            icon_url: message.author.avatarURL({ormat:'png', dynamic:true})
+            icon_url: message.author.avatarURL({format: 'png', dynamic: true, size: 4096})
         },
         timestamp: message.createdAt,
         description: `Date (UTC): **${dateFormat(new Date(sf.timestamp))}, ${hourFormat(new Date(sf.timestamp))}** (${sf.timestamp}) \`${msToHuman(message.createdTimestamp - sf.timestamp, 4)} ago\``

@@ -10,7 +10,7 @@ module.exports = async (message, userLvl) => {
         timestamp: message.createdAt,
         footer: {
             text: message.guild.member(userLvl.userid) ? message.guild.member(userLvl.userid).user.tag : message.author.tag,
-            icon_url: message.guild.member(userLvl.userid) ? message.guild.member(userLvl.userid).user.avatarURL({format:'png', dynamic:true}) : message.author.avatarURL({format:'png', dynamic:true})
+            icon_url: message.guild.member(userLvl.userid) ? message.guild.member(userLvl.userid).user.avatarURL({format: 'png', dynamic: true, size: 4096}) : message.author.avatarURL({format: 'png', dynamic: true, size: 4096})
         },
         author: {
             name: `Level progress of ${message.guild.member(userLvl.userid) ? message.guild.member(userLvl.userid).user.tag : `${userLvl.userid} (user left)`}`

@@ -1,15 +1,15 @@
-module.exports = (message, role, boolAdded) => {
+module.exports = (message, role, added) => {
     message.channel.send({embed:{
-        color: boolAdded ? 0x00ff00 : 0xff0000,
+        color: added ? 0x00ff00 : 0xff0000,
         timestamp: message.createdAt,
         footer: {
             text: message.author.tag,
-            icon_url: message.author.avatarURL
+            icon_url: message.author.avatarURL({format: 'png', dynamic: true, size: 4096})
         },
         author: {
-            name: `Role ${boolAdded ? 'granted' : 'revoked'}!`
+            name: `Role ${added ? 'granted' : 'revoked'}!`
         },
-        description: `${boolAdded ? 'Added' : 'Revoked'} role ${role} ${boolAdded ? 'to' : 'from'} ${message.author}.`
+        description: `${added ? 'Added' : 'Revoked'} role ${role} ${added ? 'to' : 'from'} ${message.author}.`
     }});
-    console.log(`(role-${boolAdded?'add':'rem'}) role: '${role.name}', user: ${message.author.tag}, guild: '${message.guild.name}'`);
+    console.log(`(role-${added ? 'add' : 'rem'}) role: '${role.name}', user: ${message.author.tag}, guild: '${message.guild.name}'`);
 }

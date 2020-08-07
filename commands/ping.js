@@ -3,7 +3,7 @@ exports.usage = ''; //usage syntax
 exports.level = 0; //required global level for running the command (used by high-level restricted commands)
 exports.perms = []; //guild-based permissions
 exports.cooldown = 3000; //cooldown for the command
-exports.dmable = true; //whether the command is able to be piped to another command or not
+exports.dmable = true; //whether the command can be used in  or not
 
 exports.run = async message => {
     const formmatter = require('../src/utils/formatter');
@@ -13,7 +13,7 @@ exports.run = async message => {
         timestamp: message.createdAt,
         footer: {
             text: message.author.tag,
-            icon_url: message.author.avatarURL({format:'png', 'dynamic':true})
+            icon_url: message.author.avatarURL({format: 'png', dynamic: true, size: 4096})
         },
         fields: [
             {
@@ -26,5 +26,5 @@ exports.run = async message => {
             }
         ]
     }
-    m.edit({embed:ping});
+    m.edit('Pinged!', {embed:ping});
 }

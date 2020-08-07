@@ -23,7 +23,7 @@ exports.run = async message => {
             timestamp: message.createdAt,
             footer: {
                 text: message.author.tag,
-                icon_url: message.author.avatarURL
+                icon_url: message.author.avatarURL({format: 'png', dynamic: true, size: 4096})
             },
             author: {
                 name: `This user is not banned in ${message.guild.name}`

@@ -4,14 +4,14 @@ function banAddRemove(guild, user, bool){
     let embed = {
         color: bool ? 0x122334 : 0xfeeddc, // Ban || Unban
         timestamp: date,
-        thumbnail: user.avatarURL({format:'png', dynamic:true}),
+        thumbnail: user.avatarURL({format: 'png', dynamic: true, size: 4096}),
         footer: {
             text: user.id,
-            icon_url: user.avatarURL({format:'png', dynamic:true})
+            icon_url: user.avatarURL({format: 'png', dynamic: true, size: 4096})
         },
         author: {
             name: `Member ${bool ? 'Banned' : 'Unbanned'}`,
-            icon_url: user.avatarURL({format:'png', dynamic:true})
+            icon_url: user.avatarURL({format: 'png', dynamic: true, size: 4096})
         },
         description: `${user} ${user.tag}`,
         fields: [
@@ -29,14 +29,14 @@ function memberAddRemove(member, bool){
     let embed = {
         color: bool ? 0x00ff1f : 0xff001f, // Join || Leave
         timestamp: date,
-        thumbnail: member.user.avatarURL({format:'png', dynamic:true}),
+        thumbnail: member.user.avatarURL({format: 'png', dynamic: true, size: 4096}),
         footer: {
             text: member.user.id,
-            icon_url: member.user.avatarURL({format:'png', dynamic:true})
+            icon_url: member.user.avatarURL({format: 'png', dynamic: true, size: 4096})
         },
         author: {
             name: `Member ${bool ? 'Joined' : 'Left'}`,
-            icon_url: member.user.avatarURL({format:'png', dynamic:true})
+            icon_url: member.user.avatarURL({format: 'png', dynamic: true, size: 4096})
         },
         description: `${member.user} ${member.user.tag}`,
         fields: [
@@ -89,11 +89,11 @@ exports.messageDelete = async message => {
                 timestamp: date,
                 footer: {
                     text: `${message.author ? `${message.author.id} | ` : ''} ${message.id}`,
-                    icon_url: message.author ? message.author.avatarURL({format:'png', dynamic:true}) : null
+                    icon_url: message.author ? message.author.avatarURL({format: 'png', dynamic: true, size: 4096}) : null
                 },
                 author: {
                     name: `Message Deleted${message.author ? ` (msg age ${formatter.msToHuman(date.getTime() - message.createdTimestamp, 3)})` : ''}`,
-                    icon_url: message.author ? message.author.avatarURL({format:'png', dynamic:true}) : null
+                    icon_url: message.author ? message.author.avatarURL({format: 'png', dynamic: true, size: 4096}) : null
                 },
                 description: `${message.author ? `${message.author} (${message.author.tag})` : 'unknown#0000'} in ${message.channel}`,
                 fields: []
@@ -154,11 +154,11 @@ exports.messageUpdate = async (oldMessage, newMessage) => {
                 timestamp: new Date(),
                 footer: {
                     text: `${newMessage.author.id} | ${newMessage.id}`,
-                    icon_url: newMessage.author.avatarURL({format:'png', dynamic:true})
+                    icon_url: newMessage.author.avatarURL({format: 'png', dynamic: true, size: 4096})
                 },
                 author: {
                     name: `Message Edited (msg age ${formatter.msToHuman(newMessage.editedTimestamp - (oldMessage.channel ? oldMessage.createdTimestamp : Date.parse(oldMessage.timestamp)), 3)})`,
-                    icon_url: newMessage.author.avatarURL({format:'png', dynamic:true})
+                    icon_url: newMessage.author.avatarURL({format: 'png', dynamic: true, size: 4096})
                 },
                 description: `User: ${newMessage.author} (${newMessage.author.tag})\nChannel: ${newMessage.channel} (${newMessage.channel.name})\n[**link**](${newMessage.url})`,
                 fields: []
@@ -227,7 +227,7 @@ exports.nicknameUpdate = async (oldMember, newMember) => {
                 timestamp: new Date(),
                 footer: {
                     text: `${newMember.user.tag} | ${newMember.user.id}`,
-                    icon_url: newMember.user.avatarURL({format:'png', dynamic:true})
+                    icon_url: newMember.user.avatarURL({format: 'png', dynamic: true, size: 4096})
                 },
                 author: {
                     name: `Nickname ${nickState}`

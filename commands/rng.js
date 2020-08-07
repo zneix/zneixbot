@@ -12,7 +12,7 @@ exports.run = async message => {
     else if (isNaN(message.args[1])) roll(1, num1);
     else roll(num1, num2);
     function roll(first, last){
-        let random = Math.floor((parseInt(first)) + (Math.random()*(last-first+1)));
+        let random = Math.floor(parseInt(first) + (Math.random() * (last - first + 1)));
         message.channel.send(`Random number between **${first}** and **${last}**: \`${first == last ? first : random}\``);
     }
 }

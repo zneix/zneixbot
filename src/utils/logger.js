@@ -10,7 +10,7 @@ exports.ready = function(){
         timestamp: client.readyAt,
         footer: {
             text: client.user.tag,
-            icon_url: client.user.avatarURL({format:'png', 'dynamic':true})
+            icon_url: client.user.avatarURL({format: 'png', dynamic: true, size: 4096})
         },
         author: {
             name: 'Logged in to WebSocket'
@@ -36,7 +36,7 @@ exports.command = function(message, cmd, level){
         timestamp: message.createdAt,
         footer: {
             text: message.author.tag,
-            icon_url: message.author.avatarURL({format:'png', 'dynamic':true})
+            icon_url: message.author.avatarURL({format: 'png', dynamic: true, size: 4096})
         },
         author: {
             name: 'Command called'

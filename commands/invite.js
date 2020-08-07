@@ -12,7 +12,7 @@ exports.run = async message => {
         timestamp: message.createdAt,
         footer: {
             text: message.author.tag,
-            icon_url: message.author.avatarURL({format:'png', dynamic:true})
+            icon_url: message.author.avatarURL({format: 'png', dynamic: true, size: 4096})
         },
         description: `${client.emoteHandler.guild('asset', 'MrDestructoid')} [Invite zneixbot to your server](https://discordapp.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=${perms}&scope=bot)`
         +`\n${client.emoteHandler.guild('asset', 'discordlogo')} [Support Server Invite](https://discordapp.com/invite/cF555AV)`

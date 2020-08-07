@@ -16,7 +16,7 @@ exports.run = async message => {
             color: parseInt('0x99ff66'),
             author: {
                 name: `${client.user.tag}, ver ${client.version}`,
-                icon_url: client.user.avatarURL({format:'png', dynamic:true})
+                icon_url: client.user.avatarURL({format: 'png', dynamic: true, size: 4096})
             },
             description: exports.description.replace(/{PREFIX}/, message.prefix),
             fields: [
@@ -64,8 +64,8 @@ exports.run = async message => {
         embed = {
             color: 0x99ff66,
             author: {
-                name: `${cmd.name} [${cmd.cooldown ? `${cmd.cooldown/1000}s`: 'no'} cooldown]`,
-                icon_url: client.user.avatarURL({format:'png', dynamic:true})
+                name: `${cmd.name} [${cmd.cooldown ? `${cmd.cooldown / 1000}s`: 'no'} cooldown]`,
+                icon_url: client.user.avatarURL({format: 'png', dynamic: true, size: 4096})
             }, 
             description: cmd.description.replace(/{PREFIX}/g, message.prefix),
             fields: [

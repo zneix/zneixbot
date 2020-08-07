@@ -48,7 +48,7 @@ exports.command = async function(message, err){
             timestamp: message.createdAt,
             footer: {
                 text: message.author.tag,
-                icon_url: message.author.avatarURL({format:'png', 'dynamic':true})
+                icon_url: message.author.avatarURL({format: 'png', dynamic: true, size: 4096})
             },
             author: {
                 name: `New Error! ID: ${nextid}`,
@@ -85,7 +85,7 @@ exports.message = async function(message, err){
         color: 0xff5050,
         author: {
                 name: `${message.guild ? `${message.guild.name} — ` : ''}${message.channel.name}\nError #${nextid}`,
-                icon_url: message.author.avatarURL({format:'png', 'dynamic':true})
+                icon_url: message.author.avatarURL({format: 'png', dynamic: true, size: 4096})
             },
             description: `event: **message**\nreference timestamp: ${message.createdTimestamp}\nuser: ${message.author.id} (${message.author.tag})\ncall: **${message.content}**`,
             fields: [

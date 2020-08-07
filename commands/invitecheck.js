@@ -14,7 +14,7 @@ exports.run = async message => {
     if (!invite) throw ['normal', 'Provided invite doesn\'t exist!'];
     // let bannerURL = `https://cdn.discordapp.com/banners/${invite.guild.id}/${invite.guild.banner}.png`; //maybe try to utilize those in the future
     // let splashURL = `https://cdn.discordapp.com/splashes/${invite.guild.id}/${invite.guild.splash}.png`;
-    let guildIcon = `https://cdn.discordapp.com/icons/${invite.guild.id}/${invite.guild.icon}.${invite.guild.icon.startsWith('a_') ? 'gif' : 'png'}`;
+    let guildIcon = `https://cdn.discordapp.com/icons/${invite.guild.id}/${invite.guild.icon}.${/^a_/.test(invite.guild.icon) ? 'gif' : 'png'}`;
     const verificationLevels = {
         0: 'None',
         1: 'Low',

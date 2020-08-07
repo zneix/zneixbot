@@ -7,8 +7,8 @@ exports.dmable = false;
 
 exports.run = async message => {
     if (!message.guild.iconURL()) throw ['normal', 'This server doesn\'t have an icon'];
-    let dynamicIcon = message.guild.iconURL({format:'png', dynamic:true});
-    message.channel.send(`<${dynamicIcon}>${dynamicIcon != message.guild.iconURL({format:'png'}) ? `\nNon-animated: <${message.guild.iconURL({format:'png'})}>` : ''}`, {embed:{
+    let dynamicIcon = message.guild.iconURL({format: 'png', dynamic: true, size: 4096});
+    message.channel.send(`<${dynamicIcon}>${/^a_/.test(message.guild.icon) ? `\nNon-animated: <${message.guild.iconURL({format: 'png', dynamic: false, size: 4096})}>` : ''}`, {embed:{
         color: 0x9c6bcc,
         timestamp: message.createdAt,
         footer: {
