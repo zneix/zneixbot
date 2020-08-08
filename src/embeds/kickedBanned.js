@@ -7,9 +7,9 @@ module.exports = (message, userid, reason, boolBanned) => {
             icon_url: message.author.avatarURL({format: 'png', dynamic: true, size: 4096})
         },
         author: {
-            name: boolBanned == 'banerror' ? `User is already banned in ${message.guild.name}!` : `Successfully ${boolBanned?"Banned":"Kicked"}`
+            name: boolBanned == 'banerror' ? `User is already banned in ${message.guild.name}!` : `Successfully ${boolBanned ? 'Banned' : 'Kicked'}`
         },
-        description: `<@${userid}> ${reason == 'No reason given.' ? 'without a reason.' : `with reason: \`${reason}\``}`
+        description: `<@${userid}> ${reason ? `with reason: \`${reason}\`` : 'without a reason.'}`
     }
     if (typeof boolBanned == 'object'){
         //tempban was executed
