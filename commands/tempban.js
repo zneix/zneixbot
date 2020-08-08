@@ -15,7 +15,7 @@ exports.run = async message => {
 
     if (!message.guild.me.hasPermission('BAN_MEMBERS')) throw ['botperm', 'Ban Members'];
     let user = await require('../src/utils/cache').getUserFromMessage(message, {useQuery: false, withinGuild: false});
-    if (!user) throw ['normal', 'No user found! @Mention someone, use user ID or exact user tag (like zneix#4433).'];
+    if (!user) throw ['normal', 'No user found! @Mention someone or use user ID.'];
 
     //reason
     let reason = `Responsible moderator: ${message.author.tag}`;

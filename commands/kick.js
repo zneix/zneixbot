@@ -9,7 +9,7 @@ exports.run = async message => {
     if (!message.args.length) throw ['args', 1];
     if (!message.guild.me.hasPermission('KICK_MEMBERS')) throw ['botperm', 'Kick Members'];
     let user = await require('../src/utils/cache').getUserFromMessage(message, {useQuery: false, withinGuild: true});
-    if (!user) throw ['normal', 'No user found! @Mention someone, use user ID or exact user tag (like zneix#4433).'];
+    if (!user) throw ['normal', 'No user found! @Mention someone or use user ID.'];
 
     let member = message.guild.member(user);
     //clearances
