@@ -5,10 +5,10 @@ exports.leadZero = function(n){ return n < 10 ? '0'+n : n.toString(); }
 exports.numSuffix = function(n){
     if ([11, 12, 13].includes(n%100)) return 'th';
     else switch(n%10){
-        case 1:return 'st';
-        case 2:return 'nd';
-        case 3:return 'rd';
-        default:return 'th';
+        case 1: return 'st';
+        case 2: return 'nd';
+        case 3: return 'rd';
+        default: return 'th';
     }
 }
 exports.round = function(n, k){

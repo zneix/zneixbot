@@ -63,7 +63,7 @@ exports.run = async message => {
             embed.color = member.displayColor >= 16777215 ? member.displayColor-- : member.displayColor;
             embed.fields.push({
                 name: 'Color',
-                value: `#${'0'.repeat(6 - parseInt(embed.color).toString(16).length)}${parseInt(embed.color).toString(16)}`,
+                value: `#${parseInt(embed.color).toString(16).padStart(6, '0')}`,
                 inline: true
             });
         }
@@ -94,7 +94,7 @@ exports.run = async message => {
             let memberPerms = modPerms.filter(x => member.permissions.toArray().includes(x)).map(mPerm => modPermsObj[mPerm]);
             embed.fields.push({
                 name: 'Moderator Permissions',
-                value: memberPerms.includes('**Administrator**') ? '**Administrator**' : memberPerms.join(', '),
+                value: memberPerms.includes('**Administrator**') ? '**Administrator** (all permissions)' : memberPerms.join(', '),
                 inline: false
             });
         }

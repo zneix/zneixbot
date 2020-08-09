@@ -11,7 +11,8 @@ exports.getUserFromMessage = async function(message, { useQuery, withinGuild } =
     let mentionedUser = message.mentions.users.first();
     if (mentionedUser) return mentionedUser;
     //userID of someone, who's sharing a server with the bot
-    if (client.users.cache.get(message.args[0])) return client.users.cache.get(message.args[0]);
+    let userFromID = client.users.cache.get(message.args[0]);
+    if (userFromID) return userFromID;
     //getting user via exact user.tag (e.g. zneix#4433)
     //decided to put that under query, since that uses strings from user input, which may not be 100% correct at all times
     if (useQuery){
@@ -34,5 +35,28 @@ exports.getUserFromMessage = async function(message, { useQuery, withinGuild } =
         if (partialUser) return partialUser;
     }
     //nothing relevant found
+    return null;
+}
+exports.getRoleFromMessage = function(message, { useQuery } = {}){
+    //role @mention
+    let mentionedRole = message.mentions.roles.first();
+    if (mentionedRole) return mentionedRole;
+    //roleID
+    let roleFromID = message.guild.roles.cache.get(message.args[0]);
+    if (roleFromID) return roleFromID;
+    if (useQuery){
+        //fuzzy search if previous methods didn't work (also filtering out default server role)
+        const Fuse = require('fuse.js');
+        let fuse = new Fuse(message.guild.roles.cache.filter(r => r.position != 0).map(r => {
+            return {
+                name: r.name,
+                id: r.id
+            }
+        }), {
+            keys: ['name']
+        });
+        let res = fuse.search(message.args.join(' '));
+        if (res[0]) return message.guild.roles.cache.get(res[0].item.id);
+    }
     return null;
 }
