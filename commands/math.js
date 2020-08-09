@@ -7,7 +7,6 @@ exports.dmable = true;
 
 exports.run = async message => {
     if (!message.args.length) throw ['args', 1];
-    const fetch = require('node-fetch');
     let edgeCases = {
         'π': 'pi',
         '¹': '^1',

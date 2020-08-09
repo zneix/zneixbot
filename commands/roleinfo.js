@@ -66,7 +66,7 @@ exports.run = async message => {
         const {createCanvas} = require('canvas');
         let canvas = createCanvas(60, 60);
         let ctx = canvas.getContext('2d');
-        ctx.fillStyle = role.hexColor; console.log(`#${role.hexColor}`, ctx.fillStyle);
+        ctx.fillStyle = role.hexColor;
         ctx.fillRect(0, 0, 60, 60);
         //append immage to message.attachments in messageOptions object
         messageOptions.files.push({

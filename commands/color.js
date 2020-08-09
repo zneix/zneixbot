@@ -19,11 +19,10 @@ exports.run = async message => {
         rgbData.forEach(e => {if (e > 255) throw ['normal', error]});
         return resolve(rgbData, 'rgb');
     }
-    if (message.args[0] === 'random') return resolve(null, 'random');
+    if (message.args[0] == 'random') return resolve(null, 'random');
     throw ['normal', error];
 
     async function resolve(value, inputType){
-        const {leadTwoHex, leadHex} = require('../src/utils/formatter');
         const fetch = require('node-fetch');
         let color = {};
         switch(inputType){
@@ -35,7 +34,7 @@ exports.run = async message => {
                 color.number = parseInt('0x'+value);
                 break;
             case "rgb":
-                color.hex = value.map(val => leadTwoHex(parseInt(val).toString(16))).join('');
+                color.hex = value.map(val => parseInt(val).toString(16).padStart(2, '0')).join('');
                 color.rgb = `rgb(${value.join(', ')})`;
                 color.number = parseInt(color.hex, 16);
                 break;
@@ -44,7 +43,7 @@ exports.run = async message => {
                 value = color.random;
             case "number":
                 let hex = parseInt(value).toString(16);
-                color.hex = leadHex(hex);
+                color.hex = hex.padStart(6, '0');
                 color.rgb = `rgb(${hex.match(/../g).map(e => parseInt(e, 16)).join(', ')})`;
                 color.number = parseInt(value);
                 break;
@@ -61,7 +60,7 @@ exports.run = async message => {
                 name: `Information about ${color.random ? 'random color' : (inputType == 'rgb' ? message.args.join(' ') : message.args[0])}`
             },
             thumbnail: {
-                url: `http://singlecolorimage.com/get/${color.hex}/60x60`
+                url: 'attachment://color.png'
             },
             description:
                 `Hex: **#${color.hex}**\n`+
@@ -69,6 +68,16 @@ exports.run = async message => {
                 `Numeric value: **${color.number}**\n`+
                 `CSS Name: **${colorapi.name.value}**`
         };
-        message.channel.send({embed:embed});
+        const {createCanvas} = require('canvas');
+        let canvas = createCanvas(60, 60);
+        let ctx = canvas.getContext('2d');
+        ctx.fillStyle = `#${color.hex}`;
+        ctx.fillRect(0, 0, 60, 60);
+        message.channel.send({embed: embed, files: [
+            {
+                name: 'color.png',
+                attachment: canvas.toBuffer()
+            }
+        ]});
     }
 }
