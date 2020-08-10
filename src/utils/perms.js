@@ -91,11 +91,8 @@ exports.isGod = isGod;
 exports.getUserLvl = getUserLvl;
 exports.isAllowed = (cmd, channel, member) => {
     if (client.cooldowns[cmd.name].has(`${member.guild ? member.guild.id : message.channel.id}_${member.id}`)) return false; //user on cooldown = not allowed
-    console.log('1');
     if (cmd.level >= levels['minguildmod'] && cmd.level <= levels['maxguildmod']) return exports.isGuildAllowed(member, cmd.level); //command.level = 100-200
-    console.log('2');
     if (cmd.perms.length) return exports.guildPerm(cmd.perms, channel, member); //command requires guild permissions
-    console.log('3');
     return Boolean(getUserLvl(member.id) >= cmd.level); //global permission level
 }
 exports.isBanned = (userid) => {
@@ -125,7 +122,7 @@ exports.guildPerm = (gperms, channel, member) => {
     //gods are gods
     if (isGod(member.id)) return true;
     //bot admins
-    if (getUserLvl(member.id) < levels['admin']){
+    if (getUserLvl(member.id) >= levels['admin']){
         let permGrant, ovrGrant;
         gperms.forEach(perm => {
             if (member.permissionsIn(channel).toArray().includes(perm)) permGrant = true;
@@ -135,7 +132,6 @@ exports.guildPerm = (gperms, channel, member) => {
     }
     //guild mods' overrides
     if (exports.isGuildAllowed(member, levels['minguildmod'])){
-        console.log('ayy lmao');
         if (guildModOverrides.some(x => gperms.includes(x))) return true;
     }
     //guild members with right permissions
