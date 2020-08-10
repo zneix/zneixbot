@@ -674,8 +674,6 @@ exports.run = async message => {
                 }
                 async function permMemberCheck(memberID, boolSet){
                     let member = message.guild.member(memberID);
-                    console.log(message.guild.owner.id, message.author.id);
-                    console.log(message.guild.owner.id != message.author.id);
                     if ((message.guild.owner.id != message.author.id) && (!client.perms.sufficientRole(message.member, member))) {
                         throw [`You need a higher role than this user to ${boolSet ? 'add' : 'remove'} them as server moderator!`]; }
                     if (boolSet){ if (!data.perms.map(p => p.id).includes(memberID)) data.perms.push({
