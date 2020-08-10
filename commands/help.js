@@ -28,7 +28,7 @@ exports.run = async message => {
         }
         //showing extra commands
         //append guild mod commands
-        let guildModList = client.commands.filter(cmd => (cmd.perms.length && client.perms.guildPerm(cmd.perms, message.channel, message.member)) || (cmd.level >= client.perms.levels.minguildmod && cmd.level <= client.perms.levels.maxguildmod && client.perms.guildLevel(message.member, cmd.level))).map((object, key, map) => `\`${key}\``).join(' | ');
+        let guildModList = client.commands.filter(cmd => (cmd.perms.length && client.perms.guildPerm(cmd.perms, message.channel, message.member)) || (cmd.level >= client.perms.levels.minguildmod && cmd.level <= client.perms.levels.maxguildmod && client.perms.getGuildLevel(message.member, cmd.level))).map((object, key, map) => `\`${key}\``).join(' | ');
         //${cmdUtil.aliases[key]?` aliases:  \`${cmdUtil.aliases[key].join('\`, \`')}\``:''} //alias support for guild-based commands
         if (guildModList.length){
             embed.fields.push({
