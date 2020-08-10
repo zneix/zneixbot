@@ -30,7 +30,6 @@ exports.getUserFromMessage = async function(message, { useQuery, withinGuild } =
     //calling Discord API
     //saving API calls for obvious non-snowflake values
     if (/\d{17,}/.test(message.args[0]) && !withinGuild){
-        console.log(withinGuild);
         const partialUser = await require('./apicalls').getDiscordUser(message.args[0]);
         if (partialUser) return partialUser;
     }

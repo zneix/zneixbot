@@ -1,9 +1,9 @@
 exports.description = 'Start a new giveaway in specified channel for 20 winners max.'
 +'\nTime should be specified without spaces, like `10m` or `5h30m`.\nSupports y, w, d, h, m, s';
 exports.usage = '<channelID | #channel> <time> <number of winners (must be 1-20)> [giveaway subject]';
-exports.level = 0;
-exports.perms = ['MANAGE_CHANNELS'];
-exports.cooldown = 10000;
+exports.level = 100;
+exports.perms = ['ADMINISTRATOR', 'MANAGE_GUILD'];
+exports.cooldown = 7000;
 exports.dmable = false;
 
 exports.run = async message => {

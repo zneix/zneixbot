@@ -80,6 +80,5 @@ exports.run = async message => {
             inline: false
         });
     }
-    console.log(role);
     message.channel.send(messageOptions);
 }
