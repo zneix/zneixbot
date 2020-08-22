@@ -7,6 +7,7 @@ let obj = {
         authdb: "",
         maindb: "",
         lvldb: "",
+        invitedb: "",
         permcol: "",
         incrcol: ""
     },

@@ -41,7 +41,7 @@ exports.run = async message => {
     }
     if (message.args.length){
         embed.author.name = `${message.args[0].toLowerCase()} configuration, available options below`;
-        switch(message.args[0].toLowerCase()){
+        switch (message.args[0].toLowerCase()){
             case 'prefix': await modulePrefix(); break;
             case 'leveling': await moduleLeveling(); break;
             case 'roles': await moduleRoles(); break;
@@ -57,7 +57,7 @@ exports.run = async message => {
                     value: "After forgetting bot's prefix, just @Mention it in chat and it will respond to you with it's prefix for this server"
                 }
             ];
-            if (message.args[1]) switch(message.args[1].toLowerCase()){
+            if (message.args[1]) switch (message.args[1].toLowerCase()){
                 case 'set':
                     if (!message.args[2]) throw ['normal', 'You must specify new prefix!'];
                     data.customprefix = message.args[2].toLowerCase();
@@ -86,7 +86,7 @@ exports.run = async message => {
                     value: 'use one of above options to get more help' //finish note
                 }
             ];
-            if (message.args[1]) switch(message.args[1].toLowerCase()){
+            if (message.args[1]) switch (message.args[1].toLowerCase()){
                 case 'enable':
                 case 'true':
                     data.modules.leveling.enabled = true;
@@ -101,7 +101,7 @@ exports.run = async message => {
                     embed.description = '`enable` - enables stacked rewards'
                     +'\n`disable` - disables stacked rewards'
                     embed.fields[0].value = `When enabled, users will get all role rewards for previous levels and current one upon leveling up\nCurrent setting: **${data.modules.leveling.stackrewards ? 'Enabled' : 'Disabled'}**`;
-                    if (message.args[2]) switch(message.args[2].toLowerCase()){
+                    if (message.args[2]) switch (message.args[2].toLowerCase()){
                         case 'true':
                         case 'yes':
                         case 'enable':
@@ -126,7 +126,7 @@ exports.run = async message => {
                         +'\n`channel <channelID | #channel>` - sends level-up messages to specified channel in the server'
                         +'\n`none` - completely disables announcing level-ups'
                         embed.fields[0].value = `This option changes default bot's behavoir when someone levels up\nCurrent setting: \`${data.modules.leveling.announcetype}\``;
-                        if (message.args[2]) switch(message.args[2].toLowerCase()){
+                        if (message.args[2]) switch (message.args[2].toLowerCase()){
                             case 'embed':
                                 data.modules.leveling.announcetype = 'embed';
                                 await updateConfig(`Changed type of level up announcements to **embed messages**`, null);
@@ -174,7 +174,7 @@ exports.run = async message => {
                     data.modules.leveling.blacklist.forEach(chid => blacklist.push(`<#${chid}>`));
                     embed.fields[0].name = `Current list of channels that are excluded from gaining xp in them [${data.modules.leveling.blacklist.length}]`;
                     embed.fields[0].value = blacklist.length?blacklist.join('\n'):'There are no blacklisted channels.';
-                    if (message.args[2]) switch(message.args[2].toLowerCase()){
+                    if (message.args[2]) switch (message.args[2].toLowerCase()){
                         case 'add':
                             if (!message.args[3]) throw ['normal', 'To blacklist a channel, #Mention it or specify it\'s ID!'];
                             if (message.mentions.channels.size){
@@ -287,7 +287,7 @@ exports.run = async message => {
                         value: 'There are no rewards configured.'
                     });
                     //further configuration
-                    if (message.args[2]) switch(message.args[2].toLowerCase()){
+                    if (message.args[2]) switch (message.args[2].toLowerCase()){
                         case 'add':
                             embed.fields = null;
                             if (!message.guild.me.hasPermission('MANAGE_ROLES')) throw ['botperm', 'Manage Roles'];
@@ -368,7 +368,7 @@ exports.run = async message => {
             // else currRoles = 'No configured roles.';
             // currRoles = ('Module is '+(data.modules.roles.enabled?'**enabled**':'disabled'))+'\n'+currRoles;
             // embed.fields[0].value = currRoles;
-            if (message.args[1]) switch(message.args[1].toLowerCase()){
+            if (message.args[1]) switch (message.args[1].toLowerCase()){
                 case 'enable':
                 case 'true':
                     data.modules.roles.enabled = true;
@@ -411,21 +411,23 @@ exports.run = async message => {
         }
         async function moduleLogging(){
             embed.description = '`enable / disable` - toggles whole module'
+            +'\n`invite` - sets new log channel for tracking invites that users use to join'
             +'\n`joinleave` - sets new log channel for join/leave events'
             +'\n`banunban` - sets new log channel for user bans/unbans events'
             +'\n`message` - sets new log channel for message edits/deletions events'
             +'\n`mediamirror` - sets a channel in which bot will reupload message attachments'
-            +'\n`name` - sets new log channel for username/nickname changes'
+            +'\n`name` - sets new log channel for username/nickname changes';
             // +'\n`avatar` - sets new log channel for avatar updates';
             embed.fields[0].name = 'Currently configured log channels';
             embed.fields[0].value = `Module status: **${data.modules.logging.enabled ? 'Enabled' : 'Disabled'}**`
+            +`\nInvite Tracking: ${data.modules.logging.invite ? `<#${data.modules.logging.invite}> (${data.modules.logging.invite})` : ' None'}`
             +`\nJoin / Leave: ${data.modules.logging.joinleave ? `<#${data.modules.logging.joinleave}> (${data.modules.logging.joinleave})` : ' None'}`
             +`\nBan/Unban: ${data.modules.logging.banunban ? `<#${data.modules.logging.banunban}> (${data.modules.logging.banunban})` : ' None'}`
             +`\nMessage: ${data.modules.logging.message ? `<#${data.modules.logging.message}> (${data.modules.logging.message})` : ' None'}`
             +`\nMedia Mirror: ${data.modules.logging.mediamirror ? `<#${data.modules.logging.mediamirror}> (${data.modules.logging.mediamirror})` : ' None'}`
             +`\nName: ${data.modules.logging.name ? `<#${data.modules.logging.name}> (${data.modules.logging.name})` : ' None'}`
             // +`\nAvatar: ${data.modules.logging.avatar ? `<#${data.modules.logging.avatar}> (${data.modules.logging.avatar})` : ' None'}`;
-            if (message.args[1]) switch(message.args[1].toLowerCase()){
+            if (message.args[1]) switch (message.args[1].toLowerCase()){
                 case 'enable':
                 case 'true':
                     data.modules.logging.enabled = true;
@@ -436,12 +438,53 @@ exports.run = async message => {
                     data.modules.logging.enabled = false;
                     await updateConfig('Logging module is now **disabled**', null);
                     break;
+                case 'invite':
+                    embed.description = '`set <channelID | #channel>` - sets new Invite Tracking channel'
+                    +'\n`clear` - stops tracking invites';
+                    embed.fields[0].name = 'Current setting';
+                    embed.fields[0].value = data.modules.logging.invite ? `<#${data.modules.logging.invite}>` : 'Not configured.';
+                    if (message.args[2]) switch (message.args[2].toLowerCase()){
+                        case 'set':
+                            if (!message.args[3]) throw ['normal', 'Specify invite tracking channel (via its ID or #channel)'];
+                            if (message.mentions.channels.size){
+                                //success from mention
+                                if (message.guild.channels.cache.has(message.mentions.channels.firstKey())){
+                                    //channel actually exists in the current server
+                                    //check for required perms
+                                    if (!message.guild.me.hasPermission('MANAGE_GUILD')) throw ['botperm', 'Manage Server'];
+                                    //either start new tracking (by inserting all invites to db into a new collection) or resume existing ones
+                                    await client.db.utils.syncTrackedInvites(message.guild.id);
+                                    data.modules.logging.invite = message.mentions.channels.firstKey();
+                                    await updateConfig(`<#${message.mentions.channels.firstKey()}> is now Invite Tracking channel.`, null);
+                                    break;
+                                }
+                            }
+                            else if (message.guild.channels.cache.filter(ch => ch.type == 'text').get(message.args[3])){
+                                //success from ID
+                                //check for required perms
+                                if (!message.guild.me.hasPermission('MANAGE_GUILD')) throw ['botperm', 'Manage Server'];
+                                //either start new tracking (by inserting all invites to db into a new collection) or resume existing ones
+                                await client.db.utils.syncTrackedInvites(message.guild.id);
+                                data.modules.logging.invite = message.args[3];
+                                await updateConfig(`<#${message.args[3]}> is now Invite Tracking channel.`, null);
+                                break;
+                            }
+                            throw ['normal', 'You didn\'t mention any channel and/or provided wrong channel ID!'];
+                            break;
+                        case 'clear':
+                        case 'reset':
+                        case 'delete':
+                            data.modules.logging.invite = null;
+                            await updateConfig(`Stopped tracking invites`, null);
+                            break;
+                    }
+                    break;
                 case 'joinleave':
                     embed.description = '`set <channelID | #channel>` - sets new Join/leave channel'
                     +'\n`clear` - stops logging Join/leave events';
                     embed.fields[0].name = 'Current setting';
                     embed.fields[0].value = data.modules.logging.joinleave ? `<#${data.modules.logging.joinleave}>` : 'Not configured.';
-                    if (message.args[2]) switch(message.args[2].toLowerCase()){
+                    if (message.args[2]) switch (message.args[2].toLowerCase()){
                         case 'set':
                             if (!message.args[3]) throw ['normal', 'Specify join/leave log channel (via its ID or #channel)'];
                             if (!message.guild.channels.cache.get(message.args[3])){
@@ -474,7 +517,7 @@ exports.run = async message => {
                     +'\n`clear` - stops logging Ban/Unban events'
                     embed.fields[0].name = 'Current setting';
                     embed.fields[0].value = data.modules.logging.banunban ? `<#${data.modules.logging.banunban}>` : 'Not configured.';
-                    if (message.args[2]) switch(message.args[2].toLowerCase()){
+                    if (message.args[2]) switch (message.args[2].toLowerCase()){
                         case 'set':
                             if (!message.args[3]) throw ['normal', 'Specify ban/unban log channel (via its ID or #channel)'];
                             if (!message.guild.channels.cache.get(message.args[3])){
@@ -509,7 +552,7 @@ exports.run = async message => {
                     +'\n`clear` - stops logging Message events';
                     embed.fields[0].name = 'Current setting';
                     embed.fields[0].value = data.modules.logging.message ? `<#${data.modules.logging.message}>` : 'Not configured.';
-                    if (message.args[2]) switch(message.args[2].toLowerCase()){
+                    if (message.args[2]) switch (message.args[2].toLowerCase()){
                         case 'set':
                             if (!message.args[3]) throw ['normal', 'Specify message log channel (via its ID or #channel)'];
                             if (!message.guild.channels.cache.get(message.args[3])){
@@ -542,7 +585,7 @@ exports.run = async message => {
                     +'\n`clear` - stops reuploading message attachments';
                     embed.fields[0].name = 'Current setting';
                     embed.fields[0].value = data.modules.logging.mediamirror ? `<#${data.modules.logging.mediamirror}>` : 'Not configured.';
-                    if (message.args[2]) switch(message.args[2].toLowerCase()){
+                    if (message.args[2]) switch (message.args[2].toLowerCase()){
                         case 'set':
                             if (!message.args[3]) throw ['normal', 'Specify media mirror channel (via its ID or #channel)'];
                             if (message.mentions.channels.size){
@@ -575,7 +618,7 @@ exports.run = async message => {
                     +'\n`clear` - stops logging Username/Nickname changes';
                     embed.fields[0].name = 'Current setting';
                     embed.fields[0].value = data.modules.logging.name ? `<#${data.modules.logging.name}>` : 'Not configured.';
-                    if (message.args[2]) switch(message.args[2].toLowerCase()){
+                    if (message.args[2]) switch (message.args[2].toLowerCase()){
                         case 'set':
                             if (!message.args[3]) throw ['normal', 'Specify Username/Nickname log channel (via its ID or #channel)'];
                             if (!message.guild.channels.cache.get(message.args[3])){
@@ -631,7 +674,7 @@ exports.run = async message => {
                 }
             }
             if (message.args[1]){
-                switch(message.args[1].toLowerCase()){
+                switch (message.args[1].toLowerCase()){
                     case 'set':
                     case 'add': return await permSetRemove(true);
                     case 'delete':

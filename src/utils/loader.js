@@ -53,11 +53,14 @@ exports.getAliases = function(cmdname){
 exports.getGuildConfig = async function(guild){
     if (!guild.available) return console.log(`{util-guilds-unavailable} ${guild.id || 'unknown'}`);
     if (client.go[guild.id]) return; //guild config is already there
+    //initialize this guild
     client.go[guild.id] = new Object;
-    // client.go[guild.id].tr = new Set; // that's being set implemented for guilds with leveling enabled in leveling module manager
+    //bind config
     let config = (await client.db.utils.find('guilds', {guildid: guild.id}))[0];
     if (!config) config = await client.db.utils.newGuildConfig(guild.id);
     client.go[guild.id].config = config;
+    //bind invite data for guilds with logging.invite
+    if (config.modules.logging.invite && !client.go[guild.id].invites) await client.db.utils.syncTrackedInvites(guild.id);
 }
 exports.commands = function(){
     let commands = new enmap();

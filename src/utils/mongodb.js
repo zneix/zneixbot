@@ -1,6 +1,6 @@
 const mongodb = require('mongodb');
 let ops = require('../json/auth').db;
-let uri = `mongodb://${ops.host}/${ops.maindb}`
+let uri = `mongodb://${ops.host}/${ops.maindb}`;
 let mclient = new mongodb.MongoClient(uri, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
@@ -110,6 +110,7 @@ mclient.utils.newGuildConfig = async function(theid){
 			},
 			logging: {
 				enabled: false,
+				invite: null,
 				joinleave: null,
 				banunban: null,
 				message: null,
@@ -120,6 +121,84 @@ mclient.utils.newGuildConfig = async function(theid){
 	}
 	return (await mclient.db().collection('guilds').insertOne(template)).ops[0];
 }
+//fetching, inserting new and updating existing invites for invite logging module
+mclient.utils.syncTrackedInvites = async function(guildid){
+	if (!mclient.isConnected()) await connect();
+	//query all invites already existing in database
+	// let existingInvites = await mclient.db(ops.invitedb).collection(guildid).find({}).toArray();
+	const Collection = require('discord.js').Collection;
+	let existingInvites = new Collection((await mclient.db(ops.invitedb).collection(guildid).find({}).toArray()).map(i => [i.code, i]));
+	let existingCodes = [...existingInvites.keys()];
+	console.log('existingInvites');
+	console.log(existingInvites);
+	console.log('existingCodes');
+	console.log(existingCodes);
+	let guild = client.guilds.cache.get(guildid);
+	let invites = new Collection((await guild.fetchInvites()).map(i => [i.code, {
+		inviterid: i.inviter.id,
+		code: i.code,
+		uses: i.uses,
+		deleted: false
+	}]));
+	console.log('invites');
+	console.log(invites);
+	// let invitesArrayToInsert = [...invites.keys()].filter(invCode => !existingCodes.includes(invCode)).map(invCode => invites.get(invCode));
+	let invitesArrayToInsert = [...invites.filter(inv => !existingCodes.includes(inv.code)).values()];
+
+	//append vanity URL but only if the guild has that feature
+	let vanityData = new Object;
+	if (guild.features.includes('VANITY_URL')){
+		vanityData = await guild.fetchVanityData();
+		invites.set(vanityData.code, {
+			inviterid: null,
+			code: vanityData.code,
+			uses: vanityData.uses,
+			deleted: false
+		});
+		if (!existingCodes.includes(vanityData.code)) invitesArrayToInsert.push(invites.get(vanityData.code));
+	}
+
+	//insert new ones (by excluding all existing ones), but only if there's anything to insert
+	console.log('invitesArrayToInsert');
+	console.log(invitesArrayToInsert);
+	if (invitesArrayToInsert.length) mclient.db(ops.invitedb).collection(guildid).insertMany(invitesArrayToInsert);
+
+	//flag invites that are in db (but not exist anymore) as deleted
+	let deletedCodes = existingCodes.filter(code => !invites.has(code) && code != vanityData.code);
+	console.log('deletedCodes');
+	console.log(deletedCodes);
+	if (deletedCodes.length) await mclient.db(ops.invitedb).collection(guildid).updateMany({code: { $in: deletedCodes }, deleted: false}, { $set: {deleted: true} });
+
+	//update uses count for invites already existing in database
+	let invitesToUpdate = invites
+		.filter(inv => existingInvites.has(inv.code))
+		.filter(inv => inv.uses != existingInvites.get(inv.code).uses);
+	console.log('invitesToUpdate');
+	console.log(invitesToUpdate);
+	// if (invitesToUpdate.length) await mclient.db(ops.invitedb).collection(guildid).updateMany({code: { $in: invitesToUpdate }}, { $set: {uses: 0} });
+	console.log('updates!');
+	await Promise.all(invitesToUpdate.map(invite => {
+		mclient.db(ops.invitedb).collection(guildid).findOneAndUpdate({code: invite.code}, { $set: {uses: invite.uses} });
+		console.log(invite);
+	}));
+	console.log('updates are done!!!');
+
+	//binding small collection of invites to global cache object
+	client.go[guild.id].invites = invites;
+	return invites;
+}
+//inserting new invites on inviteCreate event
+mclient.utils.trackNewInvite = async function(invite){
+	if (!mclient.isConnected()) await connect();
+	mclient.db(ops.invitedb).collection(invite.guild.id).insertOne({
+		inviterid: invite.inviter.id,
+		code: invite.code,
+		uses: invite.uses,
+		deleted: false
+	});
+}
+//updating invite data on guildMemberAdd event
+mclient.utils.updateInvites = async function(invite){}
 
 //mongodb leveling module utils
 mclient.lvl = new Object;
@@ -152,7 +231,7 @@ mclient.lvl.getRanking = async function(guildid, userid){
 	if (!mclient.isConnected()) await connect();
 	let all = await mclient.db(ops.lvldb).collection(guildid).countDocuments();
 	let userArr = (await mclient.db(ops.lvldb).collection(guildid).find().sort('xp', -1).toArray()).map(x => x.userid);
-	return `${userArr.indexOf(userid)+1}/${all}`;
+	return `${userArr.indexOf(userid) + 1}/${all}`;
 }
 
 //mongodb-related listeners for topology and failed heartbeats information

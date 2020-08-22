@@ -1,4 +1,4 @@
-let objcodes = {}
+let objcodes = new Object;
 require('fs').readFileSync('./src/assets/currencies.txt').toString().split('\n').forEach(line => {
     let prop = line.split(':');
     objcodes[prop[0].trim()] = prop[1].trim();
@@ -23,7 +23,7 @@ exports.run = async message => {
         aliascodes[prop[0].trim()] = prop[1].trim();
     });
     function wanted(){
-        if (codes.some(x => x === message.args[0].toUpperCase())) return message.args[0].toUpperCase();
+        if (codes.some(x => x == message.args[0].toUpperCase())) return message.args[0].toUpperCase();
         if (Object.getOwnPropertyNames(aliascodes).includes(message.args[0].toLowerCase())) return aliascodes[message.args[0].toLowerCase()];
         return false;
     }

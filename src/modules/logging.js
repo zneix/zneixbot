@@ -70,6 +70,55 @@ exports.guildMemberAdd = async member => {
         let logchannel = member.guild.channels.cache.get(config.modules.logging.joinleave);
         if (logchannel) return await logchannel.send({embed:memberAddRemove(member, true)});
     }
+    //invite tracking
+    if (config.modules.logging.invite){
+        let invchannel = member.guild.channels.cache.get(config.modules.logging.invite);
+        if (invchannel){
+            //make sure to not error out because of insufficient permissions
+            //TODO: maybe add logging error message for guild mods when bot has no perms
+            if (!member.guild.me.hasPermission('MANAGE_GUILD')) return;
+            let invites = await member.guild.fetchInvites();
+            let changedInvites = invites.filter(inv => inv.uses > client.go[member.guild.id].invites.get(inv.code).uses);
+            console.log('changedInvites');
+            console.log(changedInvites); //debug
+
+            //analyze vanity URL data, but only if guild has it and when no other invites have changed
+            let vanityData = new Object;
+            if (member.guild.features.includes('VANITY_URL') && !changedInvites.size){
+                vanityData = await member.guild.fetchVanityData();
+                let existingVanityInvite = client.go[member.guild.id].invites.get(vanityData.code);
+                if (vanityData.uses > existingVanityInvite.uses) changedInvites.set(vanityData.code, {
+                    // inviterid: null,
+                    code: vanityData.code,
+                    uses: vanityData.uses,
+                    deleted: false
+                });
+            }
+            
+            let joinInformation = `I don't know how ${member.user} joined the server`;
+            //updating database when there's at least one change invite that differs
+            //I don't think there'll ever be an event of >1 invite changed, but even if, first change should be taken into account
+            //I guess just calling generic sync function works, since it filters everything and updates only what's needed
+            if (changedInvites.size){
+                await client.db.utils.syncTrackedInvites(member.guild.id);
+                // let usedInvite = changedInvites.first().uses;
+                let usedInvite = client.go[member.guild.id].invites.get(changedInvites.first().code);
+                console.log('usedInvite'); //debug
+                console.log(usedInvite); //debug
+                joinInformation = `${member.user} used \`${usedInvite.code}\` - ${usedInvite.uses} invite uses`;
+                if (usedInvite.inviterid){
+                    let user = client.users.cache.get(usedInvite.inviterid);
+                    if (!user) user = await require('../utils/apicalls').getDiscordUser(usedInvite.inviterid);
+                    joinInformation += `\nInviter: ${user.tag} (${user.id})`;
+                }
+                else joinInformation += `\nThat seems to be vanity URL`;
+            }
+
+            //send output to log channel
+            // invchannel.send(joinInformation);
+            console.log(joinInformation);
+        }
+    }
 }
 exports.guildMemberRemove = async member => {
     let config = client.go[member.guild.id].config;
