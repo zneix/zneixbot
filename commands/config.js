@@ -450,23 +450,13 @@ exports.run = async message => {
                                 //success from mention
                                 if (message.guild.channels.cache.has(message.mentions.channels.firstKey())){
                                     //channel actually exists in the current server
-                                    //check for required perms
-                                    if (!message.guild.me.hasPermission('MANAGE_GUILD')) throw ['botperm', 'Manage Server'];
-                                    //either start new tracking (by inserting all invites to db into a new collection) or resume existing ones
-                                    await client.db.utils.syncTrackedInvites(message.guild.id);
-                                    data.modules.logging.invite = message.mentions.channels.firstKey();
-                                    await updateConfig(`<#${message.mentions.channels.firstKey()}> is now Invite Tracking channel.`, null);
+                                    await trackInvites(message.mentions.channels.firstKey());
                                     break;
                                 }
                             }
                             else if (message.guild.channels.cache.filter(ch => ch.type == 'text').get(message.args[3])){
                                 //success from ID
-                                //check for required perms
-                                if (!message.guild.me.hasPermission('MANAGE_GUILD')) throw ['botperm', 'Manage Server'];
-                                //either start new tracking (by inserting all invites to db into a new collection) or resume existing ones
-                                await client.db.utils.syncTrackedInvites(message.guild.id);
-                                data.modules.logging.invite = message.args[3];
-                                await updateConfig(`<#${message.args[3]}> is now Invite Tracking channel.`, null);
+                                await trackInvites(message.args[3]);
                                 break;
                             }
                             throw ['normal', 'You didn\'t mention any channel and/or provided wrong channel ID!'];
@@ -749,6 +739,14 @@ exports.run = async message => {
         embed.author.name = 'Success!';
         embed.description = msg;
         if (fields || fields == null) embed.fields = fields;
+    }
+    async function trackInvites(channelID){
+        //check for required perms
+        if (!message.guild.me.hasPermission('MANAGE_GUILD')) throw ['botperm', 'Manage Server'];
+        //either start new tracking (by inserting all invites to db into a new collection) or resume existing ones
+        await client.db.utils.syncTrackedInvites(message.guild.id);
+        data.modules.logging.invite = channelID;
+        await updateConfig(`<#${channelID}> is now Invite Tracking channel.`, null);
     }
     message.channel.send({embed:embed});
 }

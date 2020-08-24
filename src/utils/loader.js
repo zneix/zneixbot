@@ -60,7 +60,7 @@ exports.getGuildConfig = async function(guild){
     if (!config) config = await client.db.utils.newGuildConfig(guild.id);
     client.go[guild.id].config = config;
     //bind invite data for guilds with logging.invite
-    if (config.modules.logging.invite && !client.go[guild.id].invites) await client.db.utils.syncTrackedInvites(guild.id);
+    if (config.modules.logging.invite && !client.go[guild.id].invites && guild.me.hasPermission('MANAGE_GUILD')) await client.db.utils.syncTrackedInvites(guild.id);
 }
 exports.commands = function(){
     let commands = new enmap();

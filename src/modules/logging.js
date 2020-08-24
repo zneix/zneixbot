@@ -76,11 +76,11 @@ exports.guildMemberAdd = async member => {
         if (invchannel){
             //make sure to not error out because of insufficient permissions
             //TODO: maybe add logging error message for guild mods when bot has no perms
-            if (!member.guild.me.hasPermission('MANAGE_GUILD')) return;
+            if (!member.guild.me.hasPermission('MANAGE_GUILD')){
+                return invchannel.send(`I need \`Manage Server\` permission to analyze invites\nYou can disable this feature with \`${client.go[member.guild.id].config.customprefix || client.config.prefix}config logging invite reset\``);
+            }
             let invites = await member.guild.fetchInvites();
             let changedInvites = invites.filter(inv => inv.uses > client.go[member.guild.id].invites.get(inv.code).uses);
-            console.log('changedInvites');
-            console.log(changedInvites); //debug
 
             //analyze vanity URL data, but only if guild has it and when no other invites have changed
             let vanityData = new Object;
@@ -94,17 +94,19 @@ exports.guildMemberAdd = async member => {
                     deleted: false
                 });
             }
-            
+
+            //defaulting message to error, changing when there's actual info
             let joinInformation = `I don't know how ${member.user} joined the server`;
+
             //updating database when there's at least one change invite that differs
             //I don't think there'll ever be an event of >1 invite changed, but even if, first change should be taken into account
-            //I guess just calling generic sync function works, since it filters everything and updates only what's needed
             if (changedInvites.size){
-                await client.db.utils.syncTrackedInvites(member.guild.id);
-                // let usedInvite = changedInvites.first().uses;
-                let usedInvite = client.go[member.guild.id].invites.get(changedInvites.first().code);
-                console.log('usedInvite'); //debug
-                console.log(usedInvite); //debug
+                //updating invite in database and global cache
+                let usedInvite = changedInvites.first();
+                usedInvite = (await client.db.db(client.db.ops.invitedb).collection(member.guild.id).findOneAndUpdate({code: usedInvite.code}, { $set: {uses: usedInvite.uses} }, {returnOriginal: false})).value;
+                client.go[member.guild.id].invites.set(usedInvite.code, usedInvite);
+
+                //preparing end-user message
                 joinInformation = `${member.user} used \`${usedInvite.code}\` - ${usedInvite.uses} invite uses`;
                 if (usedInvite.inviterid){
                     let user = client.users.cache.get(usedInvite.inviterid);
@@ -115,8 +117,7 @@ exports.guildMemberAdd = async member => {
             }
 
             //send output to log channel
-            // invchannel.send(joinInformation);
-            console.log(joinInformation);
+            invchannel.send(joinInformation);
         }
     }
 }
