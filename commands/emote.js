@@ -10,15 +10,15 @@ exports.run = async message => {
     //res[0] - whole string; res[1] - is animated; res[2] - name; res[3] - id
     if (res){
         let id = res[3];
-        let url = `https://cdn.discordapp.com/emojis/${id}.${res[1] ? 'gif' : 'png'}`;
+        let url = `${client.options.http.cdn}/emojis/${id}.${res[1] ? 'gif' : 'png'}`;
         message.channel.send(`<${url}>`, {files:[url]});
         return;
     }
     //TODO: Finish this later ;)
     else if (/^\d+$/.test(message.args[0])){
-        let r = await require('node-fetch')(`https://cdn.discordapp.com/emojis/${message.args[0]}`);
+        let r = await require('node-fetch')(`${client.options.http.cdn}/emojis/${message.args[0]}`);
         if (r.status == 200){
-            message.channel.send(`Emote link: https://cdn.discordapp.com/emojis/${message.args[0]}.png\nAnimated emote link: https://cdn.discordapp.com/emojis/${message.args[0]}.gif`);
+            message.channel.send(`Emote link: ${client.options.http.cdn}/emojis/${message.args[0]}.png\nAnimated emote link: ${client.options.http.cdn}/emojis/${message.args[0]}.gif`);
             return;
         }
     }

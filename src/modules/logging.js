@@ -252,7 +252,7 @@ exports.usernameUpdate = async (oldUser, newUser) => {
                 timestamp: new Date(),
                 footer: {
                     text: `${newUser.tag} | ${newUser.id}`,
-                    icon_url: `https://cdn.discordapp.com/avatars/${newUser.id}/${newUser.avatar}`
+                    icon_url: `${client.options.http.cdn}/avatars/${newUser.id}/${newUser.avatar}`
                 },
                 author: {
                     name: `${oldUser.username == newUser.username ? 'Discriminator' : 'Username'} changed`

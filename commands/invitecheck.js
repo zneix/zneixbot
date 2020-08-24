@@ -28,7 +28,7 @@ exports.run = async message => {
         timestamp: message.createdAt,
         footer: {
             text: '',
-            icon_url: `https://cdn.discordapp.com/icons/288029287892910100/f9b216700062ead562d36419458c1930.png`
+            icon_url: `${client.options.http.cdn}/icons/288029287892910100/f9b216700062ead562d36419458c1930.png`
         },
         thumbnail: {
             url: guildIcon

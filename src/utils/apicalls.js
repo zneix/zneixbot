@@ -18,7 +18,7 @@ exports.getDiscordUser = async function(id){
 
     //avatarURL with properties: dynamic, max res
     response.avatarURL = function({ size } = {}){
-        return `https://cdn.discordapp.com/avatars/${response.id}/${response.avatar}.${/^a_/.test(response.avatar) ? 'gif' : 'png'}${size ? `?size=${size}` : ''}`;
+        return `${client.options.http.cdn}/avatars/${response.id}/${response.avatar}.${/^a_/.test(response.avatar) ? 'gif' : 'png'}${size ? `?size=${size}` : ''}`;
     }
 
     return response;
