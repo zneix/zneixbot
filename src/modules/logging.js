@@ -75,7 +75,6 @@ exports.guildMemberAdd = async member => {
         let invchannel = member.guild.channels.cache.get(config.modules.logging.invite);
         if (invchannel){
             //make sure to not error out because of insufficient permissions
-            //TODO: maybe add logging error message for guild mods when bot has no perms
             if (!member.guild.me.hasPermission('MANAGE_GUILD')){
                 return invchannel.send(`I need \`Manage Server\` permission to analyze invites\nYou can disable this feature with \`${client.go[member.guild.id].config.customprefix || client.config.prefix}config logging invite reset\``);
             }
@@ -98,8 +97,8 @@ exports.guildMemberAdd = async member => {
             //defaulting message to error, changing when there's actual info
             let joinInformation = `I don't know how ${member.user} joined the server`;
 
-            //updating database when there's at least one change invite that differs
-            //I don't think there'll ever be an event of >1 invite changed, but even if, first change should be taken into account
+            //taking any actions when there's at least one change invite that differs
+            //I don't think there'll ever be an event of >1 invite changed, but even if, first change will be taken into account
             if (changedInvites.size){
                 //updating invite in database and global cache
                 let usedInvite = changedInvites.first();
@@ -116,7 +115,7 @@ exports.guildMemberAdd = async member => {
                 else joinInformation += `\nThat seems to be vanity URL`;
             }
 
-            //send output to log channel
+            //send output to end-users log channel
             invchannel.send(joinInformation);
         }
     }

@@ -450,17 +450,16 @@ exports.run = async message => {
                                 //success from mention
                                 if (message.guild.channels.cache.has(message.mentions.channels.firstKey())){
                                     //channel actually exists in the current server
-                                    await trackInvites(message.mentions.channels.firstKey());
+                                    await initInviteTracking(message.mentions.channels.firstKey());
                                     break;
                                 }
                             }
                             else if (message.guild.channels.cache.filter(ch => ch.type == 'text').get(message.args[3])){
                                 //success from ID
-                                await trackInvites(message.args[3]);
+                                await initInviteTracking(message.args[3]);
                                 break;
                             }
                             throw ['normal', 'You didn\'t mention any channel and/or provided wrong channel ID!'];
-                            break;
                         case 'clear':
                         case 'reset':
                         case 'delete':
@@ -740,7 +739,7 @@ exports.run = async message => {
         embed.description = msg;
         if (fields || fields == null) embed.fields = fields;
     }
-    async function trackInvites(channelID){
+    async function initInviteTracking(channelID){
         //check for required perms
         if (!message.guild.me.hasPermission('MANAGE_GUILD')) throw ['botperm', 'Manage Server'];
         //either start new tracking (by inserting all invites to db into a new collection) or resume existing ones

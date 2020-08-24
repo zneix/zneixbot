@@ -13,10 +13,12 @@ client.cron = require('./src/utils/cron');
 client.logger = require('./src/utils/logger');
 
 client.go = new Object;
-/* property above is GuildsObject - it's supposed to have few props:
-config - guild's config fetched from database)
-tr (TalkedRecently, Set) - cooldown Set used by leveling system
-fetchedMemebers (boolean) - whenever fetching members has been made for this guild since bot has started
+/*
+GuildsObject / global cache: it's supposed to have few props:
+config (JSON Object) - guild's config fetched from database
+tr (TalkedRecently) (Set) - cooldown Set used by leveling system
+fetchedMembers (boolean) - whenever already fetched members for this guild since ready event
+invites (Discord.Collection) - a Map of guild's invites
 */
 client.cc = 0; //CommandCount - number of commands used since last reboot
 
