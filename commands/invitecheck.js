@@ -7,20 +7,19 @@ exports.dmable = false;
 
 exports.run = async message => {
     if (!message.args.length) throw ['args', 1];
-    let regex = /((https?:\/\/)?(www\.)?(discord\.gg|discordapp\.com\/invite)\/)?([a-z0-9-]+)/i; //https://regex101.com/r/wzJlIC/1
-    let inviteInfo = message.args[0].match(regex);
-    if (!inviteInfo[5]) throw ['normal', 'Invalid invite was provided!']; //5th capturing group stores invite code info
-    let invite = await require('../src/utils/apicalls').getDiscordInvite(inviteInfo[5]);
+    //UserManager in discord.js v12 now checks invites with regex for us
+    //old regex (with either discordapp.com and discord.com): https://regex101.com/r/wzJlIC/1
+    let invite = await client.fetchInvite(message.args[0]).catch(err => { throw ['discordapi', err.toString()]; });
     if (!invite) throw ['normal', 'Provided invite doesn\'t exist!'];
-    // let bannerURL = `https://cdn.discordapp.com/banners/${invite.guild.id}/${invite.guild.banner}.png`; //maybe try to utilize those in the future
-    // let splashURL = `https://cdn.discordapp.com/splashes/${invite.guild.id}/${invite.guild.splash}.png`;
-    let guildIcon = `https://cdn.discordapp.com/icons/${invite.guild.id}/${invite.guild.icon}.${/^a_/.test(invite.guild.icon) ? 'gif' : 'png'}`;
+    // let bannerURL = `${client.options.http.cdn}/banners/${invite.guild.id}/${invite.guild.banner}.png`; //maybe try to utilize those in the future
+    // let splashURL = `${client.options.http.cdn}/splashes/${invite.guild.id}/${invite.guild.splash}.png`;
+    let guildIcon = `${client.options.http.cdn}/icons/${invite.guild.id}/${invite.guild.icon}.${/^a_/.test(invite.guild.icon) ? 'gif' : 'png'}`;
     const verificationLevels = {
-        0: 'None',
-        1: 'Low',
-        2: 'Medium',
-        3: '(╯°□°)╯︵┻━┻',
-        4: '┻━┻ ﾐヽ(ಠ益ಠ)ノ彡┻━┻',
+        'NONE': 'None',
+        'LOW': 'Low',
+        'MEDIUM': 'Medium',
+        'HIGH': '(╯°□°)╯︵┻━┻',
+        'VERY_HIGH': '┻━┻ ﾐヽ(ಠ益ಠ)ノ彡┻━┻',
     }
     const {dateFormat, hourFormat, msToHuman} = require('../src/utils/formatter');
     let embed = {
@@ -52,13 +51,13 @@ exports.run = async message => {
             },
             {
                 name: 'Member Count',
-                value: `${client.emoteHandler.guild('dbots', 'online2')} ${invite.approximate_presence_count} **online**`
-                +`\n${client.emoteHandler.guild('dbots', 'offline2')} ${invite.approximate_member_count} **total**`,
+                value: `${client.emoteHandler.guild('dbots', 'online2')} ${invite.presenceCount} **online**`
+                +`\n${client.emoteHandler.guild('dbots', 'offline2')} ${invite.memberCount} **total**`,
                 inline: true
             },
             {
                 name: 'Verification Level',
-                value: verificationLevels[invite.guild.verification_level],
+                value: verificationLevels[invite.guild.verificationLevel],
                 inline: true
             }
         ]

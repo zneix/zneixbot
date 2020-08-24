@@ -23,29 +23,3 @@ exports.getDiscordUser = async function(id){
 
     return response;
 }
-//custom query for getting statistics about a single guild invite
-exports.getDiscordInvite = async function(code){
-    let response = await fetch(`${baseDiscord}/invites/${code}?with_counts=true`, {
-        method: 'GET',
-        headers: { 'User-Agent': agent }
-    }).then(c => c.json());
-    if (!response.guild) return null;
-
-    //fixing some properties for guild object
-    response.guild.createdTimestamp = formatter.snowflake(response.guild.id).timestamp;
-    response.guild.createdAt = new Date(response.guild.createdTimestamp);
-
-    //fixing some properties for channel object
-    response.channel.createdTimestamp = formatter.snowflake(response.channel.id).timestamp;
-    response.channel.createdAt = new Date(response.channel.createdTimestamp);
-
-    //fixing some properties for inviter object, just like in getDiscordUser
-    if (response.inviter){
-        if (!response.inviter.bot) response.inviter.bot = false;
-        response.inviter.tag = `${response.inviter.username}#${response.inviter.discriminator}`;
-        response.inviter.createdTimestamp = formatter.snowflake(response.inviter.id).timestamp;
-        response.inviter.createdAt = new Date(response.inviter.createdTimestamp);
-    }
-
-    return response;
-}
