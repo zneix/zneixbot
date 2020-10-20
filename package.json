@@ -13,7 +13,7 @@
         "canvas": "^2.6.1",
         "child_process": "^1.0.2",
         "cron": "^1.8.2",
-        "discord.js": "^12.3.1",
+        "discord.js": "^12.4.0",
         "enmap": "^5.7.1",
         "fs": "0.0.1-security",
         "fuse.js": "^6.4.1",
