@@ -144,7 +144,7 @@ exports.messageDelete = async message => {
                     name: `Message Deleted${message.author ? ` (msg age ${formatter.msToHuman(date.getTime() - message.createdTimestamp, 3)})` : ''}`,
                     icon_url: message.author ? message.author.avatarURL({format: 'png', dynamic: true, size: 4096}) : null
                 },
-                description: `${message.author ? `${message.author} (${message.author.tag})` : 'unknown#0000'} in ${message.channel}`,
+                description: `${message.author ? `${message.author} (${message.author.tag})` : 'unknown#0000'} in ${message.channel} (${message.channel.name})`,
                 fields: []
             }
             if (message.content){
