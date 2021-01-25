@@ -1,4 +1,4 @@
-let obj = {
+const obj = {
     token: "",
     db: {
         host: "",

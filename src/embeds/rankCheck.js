@@ -5,7 +5,7 @@ module.exports = async (message, userLvl) => {
         for (let i = 0; i < lvl; i++) sum += 5 * Math.pow(i, 2) + 50 * i + 100;
         return sum;
     }
-    let embed = {
+    const embed = {
         color: 0xe7f135,
         timestamp: message.createdAt,
         footer: {

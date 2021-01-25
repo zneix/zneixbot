@@ -1,7 +1,7 @@
 //libs and utils
 const Discord = require('discord.js');
-let mongo = require('./src/utils/mongodb');
-let load = require('./src/utils/loader');
+const mongo = require('./src/utils/mongodb');
+const load = require('./src/utils/loader');
 
 //client deps
 global.client = new Discord.Client({disableEveryone:true}); //appending client namespace to global object
@@ -22,7 +22,7 @@ invites (Discord.Collection) - a Map of guild's invites
 */
 client.cc = 0; //CommandCount - number of commands used since last reboot
 
-(async function(){
+(async () => {
     client.db = await mongo.client.connect().catch(err => {console.error(err);process.emit('SIGINT');});
     client.levels = await client.db.utils.permlevels(); //getting levels of priviledged users from database
     client.commands = load.commands(); //global command object

@@ -1,6 +1,6 @@
 const enmap = require('enmap');
 const fs = require('fs');
-let aliases = {
+const aliases = {
     '%': ['percent', 'procent'],
     '8ball': ['ask'],
     'about': ['info', 'botinfo'],
@@ -39,7 +39,7 @@ let aliases = {
     'wednesday': ['wed'],
     'yearprogress': ['yp']
 }
-exports.getCommand = function(name){
+exports.getCommand = name => {
     let cmd = client.commands.get(name);
     if (cmd) return cmd;
     Object.keys(aliases).forEach(alias => {
@@ -47,10 +47,10 @@ exports.getCommand = function(name){
     });
     return cmd;
 }
-exports.getAliases = function(cmdname){
+exports.getAliases = cmdname => {
     return aliases[cmdname] ? aliases[cmdname] : null;
 }
-exports.getGuildConfig = async function(guild){
+exports.getGuildConfig = async guild => {
     if (!guild.available) return console.log(`{util-guilds-unavailable} ${guild.id || 'unknown'}`);
     if (client.go[guild.id]) return; //guild config is already there
     //initialize this guild
@@ -62,8 +62,8 @@ exports.getGuildConfig = async function(guild){
     //bind invite data for guilds with logging.invite
     if (config.modules.logging.invite && !client.go[guild.id].invites && guild.me.hasPermission('MANAGE_GUILD')) await client.db.utils.syncTrackedInvites(guild.id);
 }
-exports.commands = function(){
-    let commands = new enmap();
+exports.commands = () => {
+    const commands = new enmap();
     client.cooldowns = new Object; //object, that's going to store all the cooldowns for now
     fs.readdir('./commands', (err, files) => {
         if (err) return console.error(err);
@@ -78,19 +78,19 @@ exports.commands = function(){
     });
     return commands;
 }
-exports.events = function(){
+exports.events = () => {
     fs.readdir('./events', (err, files) => {
         if (err) return console.error(err);
         files.forEach(file => {
             if (!file.endsWith('.js')) return;
-            let event = require(`../../events/${file}`);
-            let name = file.split('.')[0];
+            const event = require(`../../events/${file}`);
+            const name = file.split('.')[0];
             client.on(name, event);
             delete require.cache[require.resolve(`../../events/${file}`)];
         });
     });
 }
-exports.gracefulExits = async function(agenda){
+exports.gracefulExits = async agenda => {
     process.on('SIGINT', async code => {
         console.log('!!! SIGINT DETECTED !!!');
         client.cron.stopCrons();

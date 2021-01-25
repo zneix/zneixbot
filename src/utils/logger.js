@@ -3,7 +3,7 @@ function logEmbed(embed){
     if (logs && !logs.permissionsFor(client.user).missing(['SEND_MESSAGES', 'VIEW_CHANNEL', 'EMBED_LINKS']).length) logs.send({embed:embed});
     else console.log("[!logger] logs channel not found or I'm missing perms!"); //code executed as an error message
 }
-exports.ready = function(){
+exports.ready = () => {
     console.log(`{ready} Connected as: '${client.user.tag}'`);
     logEmbed({
         color: 0xf97304,
@@ -29,7 +29,7 @@ exports.ready = function(){
         ]
     });
 }
-exports.command = function(message, cmd, level){
+exports.command = (message, cmd, level) => {
     console.log(`(cmd; ${level}) ${cmd.name} ${message.author.tag}`);
     logEmbed({
         color: 0x0008ff,

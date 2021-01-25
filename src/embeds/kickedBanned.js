@@ -1,5 +1,5 @@
 module.exports = (message, userid, reason, boolBanned) => {
-    let embed = {
+    const embed = {
         color: boolBanned == 'banerror' ? 0xe7c607 : (boolBanned ? 0xdd3c12 : 0x443ca1), //already-banned (banned | kicked) colour
         timestamp: message.createdAt,
         footer: {

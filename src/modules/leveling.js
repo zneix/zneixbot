@@ -11,16 +11,16 @@ module.exports = async message => {
     if (client.go[message.guild.id].tr.has(message.author.id)) return;
 
     //cooldown add and schedule of its removal after interval below
-    let cooldownMs = 60000; //cooldown value in miliseconds
+    const cooldownMs = 60000; //cooldown value in miliseconds
     client.go[message.guild.id].tr.add(message.author.id);
     setTimeout(function(){client.go[message.guild.id].tr.delete(message.author.id)}, cooldownMs);
 
     //fetching (or adding new) user profile from database
-    let userLvl = await client.db.lvl.findUser(message.guild.id, message.author.id);
+    const userLvl = await client.db.lvl.findUser(message.guild.id, message.author.id);
     if (!userLvl) userLvl = await client.db.lvl.newUser(message.guild.id, message.author.id);
 
     //couting functions, 15-25 xp rng and summary xp required to hit next level
-    let random = Math.floor(15 + Math.random() * 11);
+    const random = Math.floor(15 + Math.random() * 11);
     // let sum = 5 * Math.pow(userLvl['lvl'] + 1, 2) + 50 * (userLvl['lvl'] + 1) + 100;
     let sum = 0;
     for (let i = 0; i < userLvl['lvl'] + 1; i++) sum += 5 * Math.pow(i, 2) + 50 * i + 100;
@@ -36,7 +36,7 @@ module.exports = async message => {
                 require('../embeds/levelUp')(message, message.channel, userLvl['lvl']);
                 break;
             case 'react':
-                let intEmotes = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣'];
+                const intEmotes = ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣'];
                 await message.react('🎉');
                 for (let i = 0; i < userLvl['lvl'].toString().length; i++) await message.react(intEmotes[userLvl['lvl'].toString().slice(i, i+1)]);
                 break;
@@ -50,8 +50,8 @@ module.exports = async message => {
                 break;
         }
         //handling leveled role grant if such role exists in guild's config
-        let rewardRoles = config.stackrewards
-            ? (function(){
+        const rewardRoles = config.stackrewards
+            ? (() => {
                 let arr = [];
                 Object.keys(config.rewards).filter(rew => rew <= userLvl['lvl']).map(rewSetKey => config.rewards[rewSetKey]).forEach(rewSet => {
                     arr.push(...rewSet);
@@ -62,7 +62,7 @@ module.exports = async message => {
 
         if (!message.guild.me.hasPermission('MANAGE_ROLES')) return console.log(`[leveling:roleadd] Missing perms in ${message.guild.id}`);
         rewardRoles.filter(roleID => !message.member.roles.cache.has(roleID)).forEach(roleID => {
-            let rewardRole = message.guild.roles.cache.get(roleID);
+            const rewardRole = message.guild.roles.cache.get(roleID);
             if (rewardRole ? (rewardRole.position < message.guild.me.roles.highest.position) : false){
                 console.log(`Adding role ${roleID} to ${message.author.tag}`);
                 message.member.roles.add(rewardRole);

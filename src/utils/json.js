@@ -1,4 +1,4 @@
-let fs = require('fs');
+const fs = require('fs');
 exports.exists = function(path){
     return fs.existsSync(path);
 }

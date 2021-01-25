@@ -3,7 +3,7 @@ exports.find = (name) => {
     return emote ? emote : `\`:${name}:\``;
 }
 exports.guild = (alias, name) => {
-    let guild = client.guilds.cache.get(client.config.guilds[alias]);
+    const guild = client.guilds.cache.get(client.config.guilds[alias]);
     let emote;
     if (guild) emote = guild.emojis.cache.find(e => e.name == name);
     return emote ? emote : `\`:${name}:\``;

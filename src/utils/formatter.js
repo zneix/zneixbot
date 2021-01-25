@@ -1,6 +1,6 @@
 //numeric operations
-exports.leadZero = function(n){ return n < 10 ? '0'+n : n.toString(); }
-exports.numSuffix = function(n){
+exports.leadZero = n => { return n < 10 ? '0'+n : n.toString(); }
+exports.numSuffix = n => {
     if ([11, 12, 13].includes(n%100)) return 'th';
     else switch(n%10){
         case 1: return 'st';
@@ -9,16 +9,16 @@ exports.numSuffix = function(n){
         default: return 'th';
     }
 }
-exports.round = function(n, k){
-    let factor = 10**k;
+exports.round = (n, k) => {
+    const factor = 10**k;
     return Math.round(n*factor)/factor;
 }
 //date and time operations
-exports.dateFormat = function(date){ return `${exports.leadZero(date.getDate())}/${exports.leadZero(date.getMonth()+1)}/${exports.leadZero(date.getFullYear())}`; }
-exports.hourFormat = function(date){ return `${exports.leadZero(date.getHours())}:${exports.leadZero(date.getMinutes())}:${exports.leadZero(date.getSeconds())}`; }
-exports.msToHuman = function(n, ln){
+exports.dateFormat = date =>{ return `${exports.leadZero(date.getDate())}/${exports.leadZero(date.getMonth()+1)}/${exports.leadZero(date.getFullYear())}`; }
+exports.hourFormat = date => { return `${exports.leadZero(date.getHours())}:${exports.leadZero(date.getMinutes())}:${exports.leadZero(date.getSeconds())}`; }
+exports.msToHuman = (n, ln) =>{
     n = parseInt(n);
-    let str = [];
+    const str = [];
     if (n >= 1000 * 60 * 60 * 24 * 365) cut(1000 * 60 * 60 * 24 * 365, 'y');
     // if (n >= 1000 * 60 * 60 * 24 * 30) cut(1000 * 60 * 60 * 24 * 30, 'mo'); //decided to not use that for now, because months have different amounts of days
     if (n >= 1000 * 60 * 60 * 24) cut(1000 * 60 * 60 * 24, 'd');

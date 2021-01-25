@@ -3,9 +3,9 @@ const lt = require('long-timeout'); //makes it possible to have a timeout or int
 
 //load jobs on bot startup
 exports.loadScheduledJobs = async function(){
-    let jobsToRun = await client.db.utils.find('crons', {runAtTimestampMs: {$ne: null}});
+    const jobsToRun = await client.db.utils.find('crons', {runAtTimestampMs: {$ne: null}});
     jobsToRun.forEach(job => {
-        let totalTimeMs = job.runAtTimestampMs - job.insertedAtTimestampMs; //approx time of for how long the job was scheduled
+        const totalTimeMs = job.runAtTimestampMs - job.insertedAtTimestampMs; //approx time of for how long the job was scheduled
         console.log(`Scheduling job, ID: ${job.id}`);
         lt.setTimeout(function(){
             console.log(`...running scheduled cronjob, ID: ${job.id}`);
@@ -71,7 +71,7 @@ exports.crons = {
 //job document template
 //schedule a job - insert things to database
 exports.schedule = async function(name, timeInSeconds, params){
-    let jobid = await client.db.utils.getAutoincrement('crons');
+    const jobid = await client.db.utils.getAutoincrement('crons');
     await client.db.utils.insert('crons', [{
         id: jobid,
         name: name,
@@ -140,9 +140,9 @@ exports.jobs = {
         }
         */
         //clearances
-        let destChannel = client.channels.cache.get(params.destChannelid);
+        const destChannel = client.channels.cache.get(params.destChannelid);
         if (!destChannel) return; //client.channels.cache.get(params.orig[0]).send(`Giveaway Error (ID ${params.dest[1]})! Channel was deleted or I lack permissons to see it!`);
-        let message = destChannel.messages.cache.get(params.giveawayMsgid) || await destChannel.messages.fetch(params.giveawayMsgid).catch(err => {client.channels.cache.get(params.channelid).send(`Error while resolving giveaway (ID ${jobid})! \`${err}\``);null;});
+        const message = destChannel.messages.cache.get(params.giveawayMsgid) || await destChannel.messages.fetch(params.giveawayMsgid).catch(err => {client.channels.cache.get(params.channelid).send(`Error while resolving giveaway (ID ${jobid})! \`${err}\``);null;});
 
         if (!message) return; //client.channels.cache.get(params.channelid).send(`Error while resolving giveaway (ID ${jobid})! Giveaway message has been deleted or I don't have permissons to see it!`);
         //fetching in case bot rebooted before giveaway ended and bot doesn't have all reactions cached, has to be improved later
@@ -150,9 +150,9 @@ exports.jobs = {
             await message.reactions.cache.get('🎉').users.fetch(); //.then(f => Math.max([...f.keys()]) ); //finish better fetching all reactions
         }
         //get pool of all users that reacted to giveaway message
-        let pool = [...message.reactions.cache.get('🎉').users.cache.keys()];
+        const pool = [...message.reactions.cache.get('🎉').users.cache.keys()];
         //remove bot's reaction
-        let index = pool.indexOf(client.user.id);
+        const index = pool.indexOf(client.user.id);
         if (index > -1) pool.splice(index, 1);
 
         //escaping on empty giveaways...
@@ -176,8 +176,8 @@ exports.jobs = {
         }
 
         //select random winner(s)
-        let winners = function(){
-            let winnerArray = [];
+        const winners = function(){
+            const winnerArray = [];
             for (let i = 0; i < Math.min(params.giveawayInfo.winners, pool.length); i++) winnerArray.push(pool.filter(x => !winnerArray.includes(x))[Math.floor(Math.random() * pool.length)]);
             return winnerArray.map(id => `<@${id}>`);
         }();

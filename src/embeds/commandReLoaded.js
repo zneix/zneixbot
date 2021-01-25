@@ -1,6 +1,6 @@
 module.exports = (message, boolReloaded, cmd) => {
     const {getAliases} = require('../utils/loader');
-    let embed = {
+    const embed = {
         color: 0x99ff66,
         timestamp: message.createdAt,
         footer: {

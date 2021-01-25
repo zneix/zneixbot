@@ -1,4 +1,4 @@
-let adminOverrides = [
+const adminOverrides = [
     // 'ADMINISTRATOR', //(implicitly has all permissions, and bypasses all channel overwrites)
     'CREATE_INSTANT_INVITE', //(create invitations to the guild)
     // 'KICK_MEMBERS',
@@ -31,7 +31,7 @@ let adminOverrides = [
     'MANAGE_WEBHOOKS',
     'MANAGE_EMOJIS'
 ];
-let guildModOverrides = [
+const guildModOverrides = [
     // 'ADMINISTRATOR',
     'CREATE_INSTANT_INVITE',
     'KICK_MEMBERS',
@@ -64,7 +64,7 @@ let guildModOverrides = [
     'MANAGE_WEBHOOKS',
     'MANAGE_EMOJIS'
 ];
-let levels = {
+const levels = {
     god: 1000, //god can do literally whatever he wants, all the restrictions are ignored
     admin: 500, //admin level allows to ignore some guild permission-based restrictions
     mod: 300, //mods can execute some whitelisted commands
@@ -75,10 +75,10 @@ let levels = {
     user: 0, //everyone below regular user level is consideted as banned
     skipCooldowns: 400 //everyone above skipCooldowns skips every cooldown
 }
-function isGod(userid){
+function isGod(userid) {
     return getUserLvl(userid) >= levels['god']; //gods are defined above level 1000
 }
-function getUserLvl(userid){
+function getUserLvl(userid) {
     let levels = Object.keys(client.levels).map(k => parseInt(k)).sort();
     let userLevel = 0; //default level of a user
     for (let i = 0; i < levels.length; i++){
@@ -95,13 +95,13 @@ exports.isAllowed = (cmd, channel, member) => {
     if (cmd.perms.length) return exports.guildPerm(cmd.perms, channel, member); //command requires guild permissions
     return Boolean(getUserLvl(member.id) >= cmd.level); //global permission level
 }
-exports.isBanned = (userid) => {
+exports.isBanned = userid => {
     return !(getUserLvl(userid) >= levels['user']); // -1 is a banned user
 }
 exports.isGuildAllowed = (member, glevel) => {
     return exports.getGuildLevel(member) >= glevel;
 }
-exports.getGuildLevel = (member) => {
+exports.getGuildLevel = member => {
     //gods and guild admins have full rights in guild level tree (obviously)
     if (isGod(member.id) || member.hasPermission('ADMINISTRATOR') || member.hasPermission('MANAGE_GUILD')) return levels['maxguildmod'];
     //going through every permission definition in current guild

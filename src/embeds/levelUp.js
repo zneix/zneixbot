@@ -1,5 +1,5 @@
 module.exports = (message, channel, lvl) => {
-    let embed = {
+    const embed = {
         color: 0x8ed938,
         timestamp: message.createdAt,
         footer: {

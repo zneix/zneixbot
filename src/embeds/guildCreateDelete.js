@@ -1,6 +1,6 @@
 module.exports = async (guild, destination, boolCreated) => {
-    let formatter = require('../utils/formatter');
-    let embed = {
+    const formatter = require('../utils/formatter');
+    const embed = {
         color: boolCreated ? 0x0dc61a : 0xd71a42,
         timestamp: new Date(),
         footer: {
@@ -34,4 +34,4 @@ module.exports = async (guild, destination, boolCreated) => {
     console.log(`${boolCreated ? '{guildCreate} joined' : '{guildDelete} left'} guild '${guild.name}' | ${guild.id}`);
     if (!destination) return console.log(`{!${boolCreated ? 'guildCreated' : 'guildDeleted'}} guilds logs channel not found!`);
     destination.send({embed:embed});
-} 
+}

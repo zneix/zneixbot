@@ -1,7 +1,7 @@
 let formatter = require('../utils/formatter');
 function banAddRemove(guild, user, bool){
-    let date = new Date();
-    let embed = {
+    const date = new Date();
+    const embed = {
         color: bool ? 0x122334 : 0xfeeddc, // Ban || Unban
         timestamp: date,
         thumbnail: user.avatarURL({format: 'png', dynamic: true, size: 4096}),
@@ -25,8 +25,8 @@ function banAddRemove(guild, user, bool){
     return embed;
 }
 function memberAddRemove(member, bool){
-    let date = new Date();
-    let embed = {
+    const date = new Date();
+    const embed = {
         color: bool ? 0x00ff1f : 0xff001f, // Join || Leave
         timestamp: date,
         thumbnail: member.user.avatarURL({format: 'png', dynamic: true, size: 4096}),
