@@ -66,7 +66,7 @@ mclient.utils.getAutoincrement = async function(collectionName){
 mclient.utils.permlevels = async function(){
 	if (!mclient.isConnected()) await connect();
 	let obj = new Object;
-    let perms = (await mclient.db().collection(ops.permcol).find({}, {projection: {_id: null}}).sort('level', -1).toArray());
+    let perms = (await mclient.db().collection(ops.permcol).find({}, {unset: "_id"}).sort('level', -1).toArray());
     let levels = perms.map(perm => perm.level).filter((value, index, self) => self.indexOf(value) === index);
     levels.forEach(lvl => obj[lvl.toString()] = []);
     perms.forEach(perm => obj[perm.level].push(perm.userid));
