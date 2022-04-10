@@ -16,7 +16,7 @@
         "discord.js": "^12.4.1",
         "enmap": "^5.8.0",
         "fs": "0.0.1-security",
-        "fuse.js": "^6.4.3",
+        "fuse.js": "^6.5.3",
         "long-timeout": "^0.1.1",
         "mathjs": "^8.1.1",
         "mongodb": "^3.6.2",
